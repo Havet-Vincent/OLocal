@@ -1,5 +1,5 @@
 {
-  "name": "react-modele",
+  "name": "o-local",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --open --config config/webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js",
