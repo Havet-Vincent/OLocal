@@ -2,6 +2,9 @@
 
 ### Install Project dependencies :
 ```sh
+cd React/
+```
+```sh
 yarn 
 ```
 
