@@ -89,7 +89,7 @@ class User
     private $city;
 
     /**
-     * @ORM\Column(type="integer", nullable=true, unique=true)
+     * @ORM\Column(type="bigint", nullable=true, unique=true)
      */
     private $siret;
 
@@ -114,7 +114,7 @@ class User
     private $folderPicture;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", length=30, nullable=true)
      */
     private $phone;
 
@@ -381,12 +381,12 @@ class User
         return $this;
     }
 
-    public function getPhone(): ?int
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function setPhone(?int $phone): self
+    public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
 

@@ -24,7 +24,7 @@ class LocalSupplier
     private $name;
 
     /**
-     * @ORM\Column(type="integer", unique=true)
+     * @ORM\Column(type="bigint", unique=true)
      */
     private $siret;
 
