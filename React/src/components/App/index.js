@@ -1,6 +1,6 @@
 // == Import npm
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import BackgroundImg from '../../assets/img/landscape_background.png';
 
@@ -8,11 +8,28 @@ import BackgroundImg from '../../assets/img/landscape_background.png';
 import Header from '../Header';
 import './app.scss';
 
-const useStyles = makeStyles((theme) => ({
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#1EA4E9',
+    },
+    secondary: {
+      main: '#44C868',
+    },
+    // secondary: {
+    //   light: '',
+    //   main: '',
+    //   dark: '',
+    //   contrastText: '',
+    // },
+  },
+});
+
+const useStyles = makeStyles(() => ({
   container: {
-    width: '100%',
+    maxWidth: '100%',
     minHeight: '100vh',
-    background: `url(${BackgroundImg})`, 
+    background: `url(${BackgroundImg})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'top center',
@@ -23,11 +40,13 @@ const useStyles = makeStyles((theme) => ({
 const App = () => {
   const classes = useStyles();
   return (
-    <div className="app">
-      <Container className={classes.container}>
-        <Header />
-      </Container>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="app">
+        <Container fixed className={classes.container}>
+          <Header />
+        </Container>
+      </div>
+    </ThemeProvider>
   );
 };
 
