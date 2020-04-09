@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,6 +32,22 @@ class Region
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\LocalSupplier", mappedBy="region")
+     */
+    private $localSuppliers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="region")
+     */
+    private $users;
+
+    public function __construct()
+    {
+        $this->localSuppliers = new ArrayCollection();
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -68,6 +86,68 @@ class Region
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LocalSupplier[]
+     */
+    public function getLocalSuppliers(): Collection
+    {
+        return $this->localSuppliers;
+    }
+
+    public function addLocalSupplier(LocalSupplier $localSupplier): self
+    {
+        if (!$this->localSuppliers->contains($localSupplier)) {
+            $this->localSuppliers[] = $localSupplier;
+            $localSupplier->setRegion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLocalSupplier(LocalSupplier $localSupplier): self
+    {
+        if ($this->localSuppliers->contains($localSupplier)) {
+            $this->localSuppliers->removeElement($localSupplier);
+            // set the owning side to null (unless already changed)
+            if ($localSupplier->getRegion() === $this) {
+                $localSupplier->setRegion(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setRegion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getRegion() === $this) {
+                $user->setRegion(null);
+            }
+        }
 
         return $this;
     }
