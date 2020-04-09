@@ -1,64 +1,24 @@
 // == Import npm
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+
+// == Import material UI components
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Icon from '@material-ui/core/Icon';
 
-// == Import
+// == Import assets & styles
 import Logo from '../../assets/img/logo.png';
-import './header.scss';
-
-const useStyles = makeStyles(() => ({
-  root: {
-    flexGrow: 1,
-  },
-  navbar: {
-    backgroundColor: 'rgba(247, 249, 250, .8)',
-  },
-  title: {
-    flexGrow: 1,
-  },
-  logo: {
-    width: '120px',
-    height: 'auto',
-  },
-  signupButton: {
-    fontSize: '.8em',
-    border: '2px solid',
-    fontWeight: '700',
-    marginLeft: '10px',
-    '&:hover': {
-      color: '#F7F9FA',
-      backgroundColor: '#44C868',
-      border: '2px solid #44C868',
-    },
-  },
-  signinButton: {
-    fontSize: '.8em',
-    border: '2px solid',
-    fontWeight: '700',
-    marginLeft: '10px',
-    '&:hover': {
-      color: '#F7F9FA',
-      backgroundColor: '#1EA4E9',
-      border: '2px solid #1EA4E9',
-    },
-    profileIcon: {
-      height: '3em',
-    },
-  },
-}));
+import headerStyles from './headerStyles';
 
 // == Composant
 const Header = () => {
-  const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
+  const classes = headerStyles();
+
+  const [auth, setAuth] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -75,7 +35,7 @@ const Header = () => {
   };
 
   return (
-    <div className={classes.root}>
+    <>
       <AppBar className={classes.navbar}>
         <Toolbar>
           <div className={classes.title}>
@@ -96,9 +56,7 @@ const Header = () => {
                 onClick={handleMenu}
                 color="secondary"
                 fontSize="large"
-              >
-                <AccountCircle />
-              </AccountBoxIcon>
+              />
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
@@ -121,7 +79,7 @@ const Header = () => {
           )}
         </Toolbar>
       </AppBar>
-    </div>
+    </>
   );
 };
 
