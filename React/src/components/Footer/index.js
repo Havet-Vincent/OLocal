@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     width: '100%',
     color: 'black',
-    backgroundColor: 'rgba(247, 249, 250, .8)',
+    backgroundColor: 'rgba(247, 249, 250, .6)',
   },
 
   toolBar: {
