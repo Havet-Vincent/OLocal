@@ -8,13 +8,36 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class MainController extends AbstractController
 {
     /**
-     * @Route("/", name="main")
+     * @Route("/", name="home_page")
      */
     public function index()
     {
-        return $this->render('main/index.html.twig', [
-            'controller_name' => 'MainController',
-        ]);
+        return $this->json([]);
+    }
+
+     /**
+     * @Route("/site-map", name="map_page")
+     */
+    public function mapShow()
+    {
+        return $this->json([]);
+    }
+
+
+     /**
+     * @Route("/legal-mentions", name="legal_mentions_page")
+     */
+    public function mentionsShow()
+    {
+        return $this->json([]);
+    }
+
+     /**
+     * @Route("/contact", name="contact_page")
+     */
+    public function contactShow()
+    {
+        return $this->json([]);
     }
     
 }
