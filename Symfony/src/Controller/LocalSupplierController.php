@@ -8,12 +8,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class LocalSupplierController extends AbstractController
 {
     /**
-     * @Route("/local/supplier", name="local_supplier")
+     * @Route("/localsupplier/detail", name="localsupplier_detail")
      */
-    public function index()
+    public function detail()
     {
-        return $this->render('local_supplier/index.html.twig', [
-            'controller_name' => 'LocalSupplierController',
-        ]);
+        return $this->json([]);
     }
 }
