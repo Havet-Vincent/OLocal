@@ -33,7 +33,6 @@ or
 bin/console d:m:m
 ```
 
-## INCOMING SOON~
 ### Fixtures creation :
 ```sh
 bin/console doctrine:fixtures:load
