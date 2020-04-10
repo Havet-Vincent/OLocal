@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RegionRepository")
@@ -15,11 +16,13 @@ class Region
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("regions_get")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("regions_get")
      */
     private $name;
 
@@ -35,11 +38,13 @@ class Region
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\LocalSupplier", mappedBy="region")
+     * @Groups("regions_get")
      */
     private $localSuppliers;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="region")
+     * @Groups("regions_get")
      */
     private $users;
 
