@@ -96,7 +96,7 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups("regions_get")
+     * 
      */
     private $companyName;
 

@@ -16,7 +16,7 @@ class Region
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("regions_get")
+     * 
      */
     private $id;
 
@@ -38,13 +38,13 @@ class Region
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\LocalSupplier", mappedBy="region")
-     * @Groups("regions_get")
+     * 
      */
     private $localSuppliers;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="region")
-     * @Groups("regions_get")
+     * 
      */
     private $users;
 
