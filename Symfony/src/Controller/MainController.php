@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use App\Repository\RegionRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MainController extends AbstractController
 {
@@ -17,14 +16,5 @@ class MainController extends AbstractController
             'controller_name' => 'MainController',
         ]);
     }
-
-    /**
-     * @Route("/regions", name="get_regions")
-     */
-    public function getRegions(RegionRepository $regionRepository)
-    {
-        $regions=$regionRepository->findAll();
-        dump ($regions);
-        return $this->json($regions, 200, [], ['groups' => 'regions_get']);
-    }
+    
 }

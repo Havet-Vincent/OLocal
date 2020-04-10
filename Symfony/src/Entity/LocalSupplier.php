@@ -21,7 +21,7 @@ class LocalSupplier
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("regions_get")
+     * 
      */
     private $name;
 
