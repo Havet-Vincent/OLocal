@@ -9,6 +9,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
+ * 
  */
 class Category
 {
@@ -22,6 +23,7 @@ class Category
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("categories_get")
+     * 
      */
     private $name;
 
@@ -37,6 +39,8 @@ class Category
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="category")
+     * @Groups("get_products")
+     * 
      */
     private $products;
 

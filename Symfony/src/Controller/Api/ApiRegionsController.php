@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ApiRegionsController extends AbstractController
 {
     /**
-     * @Route("/api/regions", name="get_regions")
+     * @Route("/api/regions", name="get_regions", methods={"GET"})
      */
     public function getRegions(RegionRepository $regionRepository)
     {

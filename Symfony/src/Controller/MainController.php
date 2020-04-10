@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class MainController extends AbstractController
 {
     /**
-     * @Route("/", name="home_page")
+     * @Route("/", name="home_page", methods={"GET"})
      */
     public function index()
     {
@@ -16,7 +16,7 @@ class MainController extends AbstractController
     }
 
      /**
-     * @Route("/site-map", name="map_page")
+     * @Route("/site-map", name="map_page", methods={"GET"})
      */
     public function mapShow()
     {
@@ -25,7 +25,7 @@ class MainController extends AbstractController
 
 
      /**
-     * @Route("/legal-mentions", name="legal_mentions_page")
+     * @Route("/legal-mentions", name="legal_mentions_page", methods={"GET"} )
      */
     public function mentionsShow()
     {
@@ -33,7 +33,7 @@ class MainController extends AbstractController
     }
 
      /**
-     * @Route("/contact", name="contact_page")
+     * @Route("/contact", name="contact_page", methods={"GET"})
      */
     public function contactShow()
     {
