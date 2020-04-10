@@ -1,49 +1,25 @@
 // == Import npm
 import React from 'react';
-import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
+
+// == Import components
 import Container from '@material-ui/core/Container';
-import BackgroundImg from '../../assets/img/landscape_background.png';
-
-// == Import
 import Header from '../Header';
-import './app.scss';
+import Footer from '../Footer';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#1EA4E9',
-    },
-    secondary: {
-      main: '#44C868',
-    },
-    // secondary: {
-    //   light: '',
-    //   main: '',
-    //   dark: '',
-    //   contrastText: '',
-    // },
-  },
-});
-
-const useStyles = makeStyles(() => ({
-  container: {
-    maxWidth: '100%',
-    minHeight: '100vh',
-    background: `url(${BackgroundImg})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'top center',
-  },
-}));
+// == Import assets & styles
+import appTheme from './appTheme';
+import appStyles from './appStyles';
 
 // == Composant
 const App = () => {
-  const classes = useStyles();
+  const classes = appStyles();
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={appTheme}>
       <div className="app">
         <Container fixed className={classes.container}>
           <Header />
+          <Footer />
         </Container>
       </div>
     </ThemeProvider>
