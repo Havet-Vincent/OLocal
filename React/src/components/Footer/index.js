@@ -1,44 +1,16 @@
 // == Import npm
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+
 import {
   AppBar, Toolbar, Typography, Link,
 } from '@material-ui/core';
 
-// == Import
-const useStyles = makeStyles((theme) => ({
-
-  appBar: {
-    top: 'auto',
-    bottom: 0,
-    width: '100%',
-    color: 'black',
-    backgroundColor: 'rgba(247, 249, 250, .6)',
-  },
-
-  toolBar: {
-    justifyContent: 'center',
-  },
-
-  root: {
-    '& > * + *': {
-      marginLeft: theme.spacing(4),
-    },
-  },
-
-  footerLink: {
-    color: 'black',
-    '&:hover': {
-      color: '#f0f',
-    },
-  },
-
-}));
-
+// == Import styles
+import footerStyles from './footerStyles';
 
 // == Composant
 const Footer = () => {
-  const classes = useStyles();
+  const classes = footerStyles();
   const preventDefault = (event) => event.preventDefault();
   return (
     <div>
