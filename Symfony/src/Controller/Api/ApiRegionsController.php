@@ -2,7 +2,7 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\LocalSupplier;
+use Symfony\Bundle\FrameworkBundle\Client;
 use App\Entity\Region;
 use App\Repository\LocalSupplierRepository;
 use App\Repository\RegionRepository;
