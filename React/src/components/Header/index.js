@@ -1,5 +1,6 @@
 // == Import npm
 import React from 'react';
+import { Route, Link as RouterLink } from 'react-router-dom';
 
 // == Import material UI components
 import { Link, AppBar, Toolbar } from '@material-ui/core';
@@ -29,10 +30,10 @@ const Header = () => {
 
   return (
     <>
-      <AppBar className={classes.navbar} color='transparent'>
+      <AppBar position="fixed" className={classes.navbar} color='transparent'>
         <Toolbar>
           <div className={classes.title}>
-            <Link href="/">
+            <Link component={RouterLink} to="/">
               <img className={classes.logo} src={Logo} alt="O'local Logo" />
             </Link>
           </div>
@@ -53,6 +54,7 @@ const Header = () => {
           )}
         </Toolbar>
       </AppBar>
+      <Toolbar />
     </>
   );
 };

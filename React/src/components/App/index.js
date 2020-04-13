@@ -5,6 +5,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 // == Import components
 import Container from '@material-ui/core/Container';
 import Header from '../Header';
+import Pages from '../Pages';
 import Footer from '../Footer';
 
 // == Import assets & styles
@@ -18,6 +19,7 @@ const App = () => {
     <ThemeProvider theme={appTheme}>
       <Container className={classes.wrapper}>
         <Header />
+        <Pages />
         <Footer />
       </Container>
     </ThemeProvider>
