@@ -16,6 +16,7 @@ class Product
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("get_products")
      * @Groups("user_get")
      */
     private $id;

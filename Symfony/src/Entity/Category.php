@@ -17,6 +17,7 @@ class Category
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("categories_get")
      * @Groups("user_get")
      */
     private $id;
