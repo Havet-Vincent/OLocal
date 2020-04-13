@@ -16,11 +16,13 @@ class LocalSupplier
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("user_get")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("user_get")
      * @Groups("local_by_region_get")
      */
     private $name;
@@ -60,9 +62,15 @@ class LocalSupplier
      */
     private $products;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Catalog", mappedBy="localSupplier", orphanRemoval=true, cascade={"persist"})
+     */
+    private $catalogs;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->catalogs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +183,37 @@ class LocalSupplier
     {
         if ($this->products->contains($product)) {
             $this->products->removeElement($product);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Catalog[]
+     */
+    public function getCatalogs(): Collection
+    {
+        return $this->catalogs;
+    }
+
+    public function addCatalog(Catalog $catalog): self
+    {
+        if (!$this->catalogs->contains($catalog)) {
+            $this->catalogs[] = $catalog;
+            $catalog->setLocalSupplier($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCatalog(Catalog $catalog): self
+    {
+        if ($this->catalogs->contains($catalog)) {
+            $this->catalogs->removeElement($catalog);
+            // set the owning side to null (unless already changed)
+            if ($catalog->getLocalSupplier() === $this) {
+                $catalog->setLocalSupplier(null);
+            }
         }
 
         return $this;

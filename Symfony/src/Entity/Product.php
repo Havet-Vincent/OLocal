@@ -16,11 +16,13 @@ class Product
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("user_get")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("user_get")
      * @Groups("get_products")
      */
     private $name;
@@ -37,7 +39,7 @@ class Product
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="products")
-     * 
+     * @Groups("user_get")
      */
     private $category;
 
@@ -51,10 +53,16 @@ class Product
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Catalog", mappedBy="product", orphanRemoval=true, cascade={"persist"})
+     */
+    private $catalogs;
+
     public function __construct()
     {
         $this->localSuppliers = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->catalogs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -159,6 +167,37 @@ class Product
     {
         if ($this->users->contains($user)) {
             $this->users->removeElement($user);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Catalog[]
+     */
+    public function getCatalogs(): Collection
+    {
+        return $this->catalogs;
+    }
+
+    public function addCatalog(Catalog $catalog): self
+    {
+        if (!$this->catalogs->contains($catalog)) {
+            $this->catalogs[] = $catalog;
+            $catalog->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCatalog(Catalog $catalog): self
+    {
+        if ($this->catalogs->contains($catalog)) {
+            $this->catalogs->removeElement($catalog);
+            // set the owning side to null (unless already changed)
+            if ($catalog->getProduct() === $this) {
+                $catalog->setProduct(null);
+            }
         }
 
         return $this;
