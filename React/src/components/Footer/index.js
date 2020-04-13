@@ -4,7 +4,7 @@ import { Route, Link as RouterLink } from 'react-router-dom';
 
 // == Import components
 import {
-  AppBar, Toolbar, Typography, Link,
+  Container, Toolbar, Typography, Link,
 } from '@material-ui/core';
 
 // == Import styles
@@ -15,8 +15,8 @@ const Footer = () => {
   const classes = footerStyles();
   return (
     <div>
-      <AppBar position="fixed" color="transparent" className={classes.appBar}>
-        <Toolbar className={classes.toolBar}>
+      <Container fixed className={classes.footerWrapper}>
+        <Toolbar className={classes.footerContent}>
           <Typography className={classes.root}>
             <Route>
               <Link component={RouterLink} to="/plan-du-site" className={classes.footerLink}>
@@ -35,7 +35,7 @@ const Footer = () => {
             </Route>
           </Typography>
         </Toolbar>
-      </AppBar>
+      </Container>
     </div>
   );
 };

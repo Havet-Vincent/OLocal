@@ -20,8 +20,8 @@ const App = () => {
       <Container className={classes.wrapper}>
         <Header />
         <Pages />
-        <Footer />
       </Container>
+      <Footer />
     </ThemeProvider>
   );
 };
