@@ -23,6 +23,7 @@ class LocalSupplier
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("user_get")
+     * @Groups("local_by_region_get")
      */
     private $name;
 

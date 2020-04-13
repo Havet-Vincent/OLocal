@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */
@@ -24,6 +23,7 @@ class Product
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("user_get")
+     * @Groups("get_products")
      */
     private $name;
 
