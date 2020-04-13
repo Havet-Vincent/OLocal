@@ -1,5 +1,8 @@
 // == Import npm
 import React from 'react';
+
+import { Route, Link as RouterLink } from 'react-router-dom';
+
 import { makeStyles } from '@material-ui/core/styles';
 import {
   AppBar, Toolbar, Typography, Link,
@@ -29,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   footerLink: {
     color: 'black',
     '&:hover': {
-      color: '#f0f',
+      color: '#26a69a',
     },
   },
 
@@ -39,21 +42,26 @@ const useStyles = makeStyles((theme) => ({
 // == Composant
 const Footer = () => {
   const classes = useStyles();
-  const preventDefault = (event) => event.preventDefault();
   return (
     <div>
       <AppBar position="fixed" color="transparent" className={classes.appBar}>
         <Toolbar className={classes.toolBar}>
           <Typography className={classes.root}>
-            <Link className={classes.footerLink} href="#" onClick={preventDefault}>
-              Plan du site
-            </Link>
-            <Link className={classes.footerLink} href="#" onClick={preventDefault}>
-              Mentions Légales
-            </Link>
-            <Link className={classes.footerLink} href="#" onClick={preventDefault}>
-              Contact
-            </Link>
+            <Route>
+              <Link component={RouterLink} to="/plan du site" className={classes.footerLink}>
+                Plan du site
+              </Link>
+            </Route>
+            <Route>
+              <Link component={RouterLink} to="/mentions-légales" className={classes.footerLink}>
+                Mentions Légales
+              </Link>
+            </Route>
+            <Route>
+              <Link component={RouterLink} to="/contact" className={classes.footerLink}>
+                Contact
+              </Link>
+            </Route>
           </Typography>
         </Toolbar>
       </AppBar>
