@@ -64,6 +64,7 @@ class Product
         $this->localSuppliers = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->catalogs = new ArrayCollection();
+        $this->createdAt = new \DateTime;
     }
 
     public function getId(): ?int
