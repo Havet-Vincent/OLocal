@@ -16,12 +16,10 @@ const App = () => {
   const classes = appStyles();
   return (
     <ThemeProvider theme={appTheme}>
-      <div className="app">
-        <Container fixed className={classes.container}>
-          <Header />
-          <Footer />
-        </Container>
-      </div>
+      <Container className={classes.wrapper}>
+        <Header />
+        <Footer />
+      </Container>
     </ThemeProvider>
   );
 };
