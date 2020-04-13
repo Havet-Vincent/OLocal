@@ -54,9 +54,12 @@ class ApiProductsController extends AbstractController
 
         // on verifie sir le produit n'exite pas déjà en base 
 
-        $productName=$data->product;
-        dump($productName);
+        $productName=$data->product->name;
+        if ($productName=$productRepository->findBy(['name'=>$productName])){
 
+            return $this->json('existe déjà', 409);
+        }
+       
         // 3. On va récupérer la catégorie du JSON
         $categoryId = $data->category;
         $category = $categoryRepository->find($categoryId);
