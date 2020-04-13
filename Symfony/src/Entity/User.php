@@ -16,21 +16,25 @@ class User
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("user_get")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups("user_get")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("user_get")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("user_get")
      */
     private $lastname;
 
@@ -46,67 +50,79 @@ class User
 
     /**
      * @ORM\Column(type="json", nullable=true)
+     * @Groups("user_get")
      */
     private $role = [];
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups("user_get")
      */
     private $isActive;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("user_get")
      */
     private $additionalAddress;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Groups("user_get")
      */
     private $repeatIndex;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups("user_get")
      */
     private $wayNumber;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Groups("user_get")
      */
     private $wayType;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("user_get")
      */
     private $wayName;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups("user_get")
      */
     private $postalCode;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("user_get")
      */
     private $city;
 
     /**
      * @ORM\Column(type="bigint", nullable=true, unique=true)
+     * @Groups("user_get")
      */
     private $siret;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * 
+     * @Groups("user_get")
      */
     private $companyName;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("user_get")
      */
     private $companyDescription;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("user_get")
      */
     private $logoPicture;
 
@@ -117,11 +133,13 @@ class User
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
+     * @Groups("user_get")
      */
     private $phone;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("user_get")
      */
     private $website;
 
@@ -137,17 +155,26 @@ class User
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Product", mappedBy="users")
+     * @Groups("user_get")
      */
     private $products;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Region", inversedBy="users")
+     * @Groups("user_get")
      */
     private $region;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Catalog", mappedBy="user", orphanRemoval=true, cascade={"persist"})
+     * @Groups("user_get")
+     */
+    private $catalogs;
 
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->catalogs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -467,6 +494,37 @@ class User
     public function setRegion(?Region $region): self
     {
         $this->region = $region;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Catalog[]
+     */
+    public function getCatalogs(): Collection
+    {
+        return $this->catalogs;
+    }
+
+    public function addCatalog(Catalog $catalog): self
+    {
+        if (!$this->catalogs->contains($catalog)) {
+            $this->catalogs[] = $catalog;
+            $catalog->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCatalog(Catalog $catalog): self
+    {
+        if ($this->catalogs->contains($catalog)) {
+            $this->catalogs->removeElement($catalog);
+            // set the owning side to null (unless already changed)
+            if ($catalog->getUser() === $this) {
+                $catalog->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -10,10 +10,12 @@ use App\Entity\Category;
 use App\Entity\LocalSupplier;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\DataFixtures\Provider\OlocalProvider;
+use App\Entity\Catalog;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
+
     public function load(ObjectManager $manager)
     {   
         $faker= Factory::create('fr_FR');
@@ -198,24 +200,9 @@ class AppFixtures extends Fixture
         $category->setCreatedAt(new \DateTime());
         $categoriesList[] = $category;
         $manager->persist($category);   
-        
-
-        // we create 200 products
-        $productsList = [];
-        for ($i = 0; $i < 200; $i++) {
-            $product = new Product();
-            $product->setName($faker->word());
-            $product->setCreatedAt(new \DateTime());
-
-            $randomCategory = $categoriesList[array_rand($categoriesList)];
-            $product->setCategory($randomCategory);
-
-            $productsList[] = $product;
-            $manager->persist($product);
-        }
-
 
         // we create 200 local suppliers
+        $localList = [];
         for ($i = 0; $i < 200; $i++) {
             $localSupplier = new LocalSupplier();
             $localSupplier->setName($faker->unique()->company());
@@ -227,15 +214,12 @@ class AppFixtures extends Fixture
             $randomRegion = $regionsList[array_rand($regionsList)];
             $localSupplier->setRegion($randomRegion);
 
-            for ($p = 0; $p < mt_rand(1, 5); $p++) {
-                $randomProduct = $productsList[array_rand($productsList)];
-                $localSupplier->addProduct($randomProduct);
-            }
-
+            $localList[] = $localSupplier;
             $manager->persist($localSupplier);
         }
 
-        // we create 50 users (shopkeepers)               
+        // we create 50 users (shopkeepers)    
+        $usersList = [];           
         for ($i = 0; $i < 50; $i++) {
             $user= new User();
             $user->setEmail($faker->unique()->email());
@@ -255,8 +239,7 @@ class AppFixtures extends Fixture
             $user->setSiret($faker->numberBetween(10000000000000, 99999999999999));
             $user->setCompanyName($faker->unique()->company());
             $user->setCompanyDescription($faker->realText($maxNbChars = 400, $indexSize = 2));
-            //TODO : IMAGES A TROUVER
-            // $user->setLogoPicture($faker->optional()->image('/public/uploads/'.$i));
+            $user->setLogoPicture('/public/uploads/frontoffice'.mt_rand(1, 30).'.jpg');
             $user->setPhone($faker->serviceNumber());
             $user->setWebsite($faker->url());
             $user->setCreatedAt(new \DateTime());
@@ -264,11 +247,31 @@ class AppFixtures extends Fixture
             $randomRegion = $regionsList[array_rand($regionsList)];
             $user->setRegion($randomRegion);
 
-            for ($p = 0; $p < mt_rand(1, 10); $p++) {
-                $randomProduct = $productsList[array_rand($productsList)];
-                $user->addProduct($randomProduct);
-            }
+                // we create between 3 and 10 products
+                $productsList = [];
+                for ($p = 0; $p < mt_rand(3, 10); $p++) {
+                    $product = new Product();
+                    $product->setName($faker->word());
+                    $product->setCreatedAt(new \DateTime());
 
+                    $randomCategory = $categoriesList[array_rand($categoriesList)];
+                    $product->setCategory($randomCategory);
+
+                    
+                    $catalogProduct = new Catalog;
+                    $catalogProduct->setUser($user);
+                    $catalogProduct->setProduct($product);
+                    $randomLocal = $localList[array_rand($localList)];
+                    $catalogProduct->setLocalSupplier($randomLocal);
+
+                    $product->addCatalog($catalogProduct); 
+                    
+
+                    $productsList[] = $product;
+                    $manager->persist($catalogProduct);
+                }
+
+            $usersList[] = $user;
             $manager->persist($user);
         }
 
