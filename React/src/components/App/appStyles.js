@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import BackgroundImg from '../../assets/img/landscape_background.png';
 
 const appStyles = makeStyles(() => ({
-  container: {
+  wrapper: {
     maxWidth: '100%',
     minHeight: '100vh',
     background: `url(${BackgroundImg})`,

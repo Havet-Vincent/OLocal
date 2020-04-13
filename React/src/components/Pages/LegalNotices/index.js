@@ -1,8 +1,8 @@
 // == Import npm
 import React from 'react';
 
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
+// == Import components
+import { Container, Typography } from '@material-ui/core';
 
 // == Import assets & styles
 import legalNoticesStyles from './legalNoticesStyles';

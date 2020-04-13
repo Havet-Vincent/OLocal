@@ -1,84 +1,60 @@
 // == Import npm
 import React from 'react';
+import { Route, Link as RouterLink } from 'react-router-dom';
 
 // == Import material UI components
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import Icon from '@material-ui/core/Icon';
+import { Link, AppBar, Toolbar } from '@material-ui/core';
+import NavMenu from './NavMenu';
+import AuthMenu from './AuthMenu';
+import SignUpForm from './SignUpForm';
+import SignInForm from './SignInForm';
 
 // == Import assets & styles
-import Logo from '../../assets/img/logo.png';
+import Logo from '../../assets/img/logo.svg';
 import headerStyles from './headerStyles';
 
 // == Composant
 const Header = () => {
   const classes = headerStyles();
 
+  // temp state
   const [auth, setAuth] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
 
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
+  // state 
+  const [signUp, setSignUp] = React.useState(false);
+  const [signIn, setSignIn] = React.useState(false);
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
+  const setLogout = () => {
+    setAuth(false);
   };
 
   return (
     <>
-      <AppBar className={classes.navbar}>
+      <AppBar position="fixed" className={classes.navbar} color='transparent'>
         <Toolbar>
           <div className={classes.title}>
-            <img className={classes.logo} src={Logo} alt="olocal logo" />
+            <Link component={RouterLink} to="/">
+              <img className={classes.logo} src={Logo} alt="O'local Logo" />
+            </Link>
           </div>
           {!auth && (
-            <>
-              <Button size="small" color="primary" variant="outlined" endIcon={<Icon>edit</Icon>} className={classes.signinButton} href="#!">S'inscrire</Button>
-              <Button size="small" color="secondary" variant="outlined" endIcon={<Icon>lock</Icon>} className={classes.signupButton}>Se connecter</Button>
-            </>
+            <NavMenu 
+              setSignUp={() => setSignUp(true)} 
+              setSignIn={() => setSignIn(true)} 
+            />
+          )}
+          {signUp && (
+            <SignUpForm setSignUp={() => setSignUp(false)} />
+          )}
+          {signIn && (
+            <SignInForm setSignIn={() => setSignIn(false)} />
           )}
           {auth && (
-            <div>
-              <AccountBoxIcon
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="secondary"
-                fontSize="large"
-              />
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Mon profil</MenuItem>
-                <MenuItem onClick={handleClose}>Se déconnecter</MenuItem>
-              </Menu>
-            </div>
+            <AuthMenu setLogout={setLogout} />
           )}
         </Toolbar>
       </AppBar>
+      <Toolbar />
     </>
   );
 };
