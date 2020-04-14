@@ -17,6 +17,7 @@ class User
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @Groups("user_get")
+     * @Groups("results_get")
      */
     private $id;
 
@@ -93,12 +94,14 @@ class User
     /**
      * @ORM\Column(type="integer", nullable=true)
      * @Groups("user_get")
+     * @Groups("results_get")
      */
     private $postalCode;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups("user_get")
+     * @Groups("results_get")
      */
     private $city;
 
@@ -111,18 +114,21 @@ class User
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups("user_get")
+     * @Groups("results_get")
      */
     private $companyName;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      * @Groups("user_get")
+     * @Groups("results_get")
      */
     private $companyDescription;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups("user_get")
+     * @Groups("results_get")
      */
     private $logoPicture;
 
