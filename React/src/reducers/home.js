@@ -1,4 +1,4 @@
-import { SAVE_REGIONS_DATA } from '../actions/home';
+import { SAVE_REGIONS_DATA, SAVE_CATEGORIES_DATA } from '../actions/home';
 
 const initialState = {
   regions: [],
@@ -14,6 +14,11 @@ const homeReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         regions: action.regions,
+      };
+
+      case SAVE_CATEGORIES_DATA:
+      return {
+        ...state,
         categories: action.categories,
       };
 

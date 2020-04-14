@@ -10,7 +10,7 @@ export const getRegionsData = () => ({
 });
 
 export const saveRegionsData = (regions) => ({
-  type: SAVE_RECIPES,
+  type: SAVE_REGIONS_DATA,
   regions,
 });
 
