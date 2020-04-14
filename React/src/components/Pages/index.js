@@ -8,7 +8,7 @@ https://reacttraining.com/react-router/web/api/Switch
 */
 
 // == Import components
-import Home from 'src/components/Pages/Home';
+import Home from 'src/containers/Home';
 import LegalNotices from 'src/components/Pages/LegalNotices';
 
 const Pages = () => (

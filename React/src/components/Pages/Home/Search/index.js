@@ -1,5 +1,6 @@
 // == Import npm
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // == Import components
 import {
@@ -17,12 +18,12 @@ import {
 import searchStyles from './searchStyles';
 
 // == Composant
-const Search = () => {
+const Search = ({ categories, regions }) => {
   const classes = searchStyles();
 
   // set onChange input value
-  const [region, setRegion] = React.useState('');
-  const [category, setCategory] = React.useState('');
+  // const [region, setRegion] = React.useState('');
+  // const [category, setCategory] = React.useState('');
 
   const handleChangeRegion = (event) => {
     // console.log(event.target.name);
@@ -39,66 +40,6 @@ const Search = () => {
     // submitLogin();
     console.log(region, category);
   };
-
-  // data Regions
-  const regions = [
-    {
-      id: 1,
-      name: 'Ile de France',
-    },
-    {
-      id: 2,
-      name: 'Grand Est',
-    },
-    {
-      id: 3,
-      name: 'Bourgogne Franche Comté',
-    },
-    {
-      id: 4,
-      name: 'Corse',
-    },
-    {
-      id: 5,
-      name: 'Ile de France',
-    },
-    {
-      id: 6,
-      name: 'Grand Est',
-    },
-    {
-      id: 7,
-      name: 'Bourgogne Franche Comté',
-    },
-    {
-      id: 8,
-      name: 'Corse',
-    },
-  ];
-
-  // data Categories
-  const categories = [
-    {
-      id: 1,
-      name: 'Fruits',
-    },
-    {
-      id: 2,
-      name: 'Legumes',
-    },
-    {
-      id: 3,
-      name: 'Produits Beauté',
-    },
-    {
-      id: 4,
-      name: 'Chaussures',
-    },
-    {
-      id: 5,
-      name: 'Produits entretien',
-    },
-  ];
 
   const MenuProps = {
     PaperProps: {
@@ -123,7 +64,7 @@ const Search = () => {
             label="Région"
             labelId="search-region"
             id="search-region"
-            value={region}
+            value={regions}
             onChange={handleChangeRegion}
             MenuProps={MenuProps}
           >
@@ -139,7 +80,7 @@ const Search = () => {
             label="Catégorie de produits"
             labelId="search-category"
             id="search-category"
-            value={category}
+            value={categories}
             onChange={handleChangeCategory}
             MenuProps={MenuProps}
           >
@@ -152,6 +93,21 @@ const Search = () => {
       </form>
     </Container>
   );
+};
+
+Search.propTypes = {
+  categories: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+  regions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
 };
 
 // == Export

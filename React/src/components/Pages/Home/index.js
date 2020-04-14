@@ -1,18 +1,24 @@
 // == Import npm
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // == Import components
 // == Import components
 import { Grid, Paper } from '@material-ui/core';
-import Search from './Search';
+import Search from 'src/containers/Home/Search';
 import About from './About';
 
 // == Import assets & styles
 import homeStyles from './homeStyles';
 
 // == Composant
-const Home = () => {
+const Home = ({ getRegionsData, getCategoriesData }) => {
   const classes = homeStyles();
+
+  useEffect(() => {
+    getRegionsData();
+    getCategoriesData();
+  }, []);
+
   return (
     <>
       <Grid container className={classes.searchWrapper}>
