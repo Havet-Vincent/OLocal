@@ -17,6 +17,7 @@ class Region
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @Groups("user_get")
+     * @Groups("regions_get")
      */
     private $id;
 
