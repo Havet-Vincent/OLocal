@@ -18,27 +18,28 @@ import {
 import searchStyles from './searchStyles';
 
 // == Composant
-const Search = ({ categories, regions }) => {
+const Search = ({
+  categories,
+  regions,
+  categoryField,
+  regionField,
+  setRegionField,
+  setCategoryField,
+  handleSearchHomeSubmit,
+}) => {
   const classes = searchStyles();
 
-  // set onChange input value
-  // const [region, setRegion] = React.useState('');
-  // const [category, setCategory] = React.useState('');
-
   const handleChangeRegion = (event) => {
-    // console.log(event.target.name);
-    setRegion(event.target.value);
+    setRegionField(event.target.value);
   };
 
   const handleChangeCategory = (event) => {
-    // console.log(event.target.name);
-    setCategory(event.target.value);
+    setCategoryField(event.target.value);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // submitLogin();
-    console.log(region, category);
+    handleSearchHomeSubmit();
   };
 
   const MenuProps = {
@@ -46,7 +47,7 @@ const Search = ({ categories, regions }) => {
       style: {
         // sub-menu size
         maxHeight: 300,
-        maxWidth: 250,
+        maxWidth: 320,
       },
     },
   };
@@ -64,7 +65,7 @@ const Search = ({ categories, regions }) => {
             label="Région"
             labelId="search-region"
             id="search-region"
-            value={regions}
+            value={regionField}
             onChange={handleChangeRegion}
             MenuProps={MenuProps}
           >
@@ -80,7 +81,7 @@ const Search = ({ categories, regions }) => {
             label="Catégorie de produits"
             labelId="search-category"
             id="search-category"
-            value={categories}
+            value={categoryField}
             onChange={handleChangeCategory}
             MenuProps={MenuProps}
           >
@@ -108,6 +109,22 @@ Search.propTypes = {
       name: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
+  categoryField: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  regionField: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  setRegionField: PropTypes.func.isRequired,
+  setCategoryField: PropTypes.func.isRequired,
+  handleSearchHomeSubmit: PropTypes.func.isRequired,
+};
+
+Search.defaultProps = {
+  categoryField: '',
+  regionField: '',
 };
 
 // == Export

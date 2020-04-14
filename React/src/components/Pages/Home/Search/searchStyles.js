@@ -19,7 +19,7 @@ const searchStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(0, 2),
     [theme.breakpoints.down('sm')]: {
-      margin: theme.spacing(2, 0),
+      margin: theme.spacing(1, 0),
     },
   },
   searchForm: {
