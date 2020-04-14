@@ -1,5 +1,6 @@
 // == Import npm
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // == Import components
 import {
@@ -17,95 +18,36 @@ import {
 import searchStyles from './searchStyles';
 
 // == Composant
-const Search = () => {
+const Search = ({
+  categories,
+  regions,
+  categoryField,
+  regionField,
+  setRegionField,
+  setCategoryField,
+  handleSearchHomeSubmit,
+}) => {
   const classes = searchStyles();
 
-  // set onChange input value
-  const [region, setRegion] = React.useState('');
-  const [category, setCategory] = React.useState('');
-
   const handleChangeRegion = (event) => {
-    // console.log(event.target.name);
-    setRegion(event.target.value);
+    setRegionField(event.target.value);
   };
 
   const handleChangeCategory = (event) => {
-    // console.log(event.target.name);
-    setCategory(event.target.value);
+    setCategoryField(event.target.value);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // submitLogin();
-    console.log(region, category);
+    handleSearchHomeSubmit();
   };
-
-  // data Regions
-  const regions = [
-    {
-      id: 1,
-      name: 'Ile de France',
-    },
-    {
-      id: 2,
-      name: 'Grand Est',
-    },
-    {
-      id: 3,
-      name: 'Bourgogne Franche Comté',
-    },
-    {
-      id: 4,
-      name: 'Corse',
-    },
-    {
-      id: 5,
-      name: 'Ile de France',
-    },
-    {
-      id: 6,
-      name: 'Grand Est',
-    },
-    {
-      id: 7,
-      name: 'Bourgogne Franche Comté',
-    },
-    {
-      id: 8,
-      name: 'Corse',
-    },
-  ];
-
-  // data Categories
-  const categories = [
-    {
-      id: 1,
-      name: 'Fruits',
-    },
-    {
-      id: 2,
-      name: 'Legumes',
-    },
-    {
-      id: 3,
-      name: 'Produits Beauté',
-    },
-    {
-      id: 4,
-      name: 'Chaussures',
-    },
-    {
-      id: 5,
-      name: 'Produits entretien',
-    },
-  ];
 
   const MenuProps = {
     PaperProps: {
       style: {
         // sub-menu size
         maxHeight: 300,
-        maxWidth: 250,
+        maxWidth: 320,
       },
     },
   };
@@ -123,7 +65,7 @@ const Search = () => {
             label="Région"
             labelId="search-region"
             id="search-region"
-            value={region}
+            value={regionField}
             onChange={handleChangeRegion}
             MenuProps={MenuProps}
           >
@@ -139,7 +81,7 @@ const Search = () => {
             label="Catégorie de produits"
             labelId="search-category"
             id="search-category"
-            value={category}
+            value={categoryField}
             onChange={handleChangeCategory}
             MenuProps={MenuProps}
           >
@@ -152,6 +94,37 @@ const Search = () => {
       </form>
     </Container>
   );
+};
+
+Search.propTypes = {
+  categories: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+  regions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+  categoryField: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  regionField: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  setRegionField: PropTypes.func.isRequired,
+  setCategoryField: PropTypes.func.isRequired,
+  handleSearchHomeSubmit: PropTypes.func.isRequired,
+};
+
+Search.defaultProps = {
+  categoryField: '',
+  regionField: '',
 };
 
 // == Export

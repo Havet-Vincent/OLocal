@@ -11,11 +11,11 @@ const homeStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   searchContent: {
-    backgroundColor: 'rgba(247, 249, 250, .95)',
+    backgroundColor: 'rgba(247, 249, 250, .85)',
     borderRadius: 10,
-    margin: theme.spacing(25, 0),
+    margin: theme.spacing(35, 0),
     [theme.breakpoints.down('sm')]: {
-      margin: theme.spacing(5, 0),
+      margin: theme.spacing(12, 0),
     },
   },
   aboutWrapper: {
@@ -24,7 +24,11 @@ const homeStyles = makeStyles((theme) => ({
   aboutContent: {
     backgroundColor: 'rgba(159, 204, 62, .85)',
     padding: theme.spacing(4),
-  }
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
 
 export default homeStyles;
