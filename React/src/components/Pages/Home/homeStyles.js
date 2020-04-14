@@ -13,9 +13,9 @@ const homeStyles = makeStyles((theme) => ({
   searchContent: {
     backgroundColor: 'rgba(247, 249, 250, .95)',
     borderRadius: 10,
-    margin: theme.spacing(25, 0),
+    margin: theme.spacing(35, 0),
     [theme.breakpoints.down('sm')]: {
-      margin: theme.spacing(5, 0),
+      margin: theme.spacing(12, 0),
     },
   },
   aboutWrapper: {
