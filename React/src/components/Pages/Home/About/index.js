@@ -5,8 +5,8 @@ import React from 'react';
 import { Container, Typography, Grid, Paper, Card, CardMedia, CardContent } from '@material-ui/core';
 
 // == Import assets & styles
-import NicoleImg from 'src/assets/img/nicole.svg';
-import BernardImg from 'src/assets/img/bernard.svg';
+import NicoleImg from '../../../../assets/img/nicole.svg';
+import BernardImg from '../../../../assets/img/bernard.svg';
 import aboutStyles from './aboutStyles';
 
 // == Composant

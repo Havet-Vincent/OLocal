@@ -14,18 +14,22 @@ import homeStyles from './homeStyles';
 const Home = () => {
   const classes = homeStyles();
   return (
-    <Grid container className={classes.container}>
-      <Grid item xs={12} sm={10} lg={8}>
-        <Paper className={classes.search} elevation={3}>
-          <Search />
-        </Paper>
+    <>
+      <Grid container className={classes.searchWrapper}>
+        <Grid item xs={12} sm={10} lg={8}>
+          <Paper className={classes.searchContent} elevation={3}>
+            <Search />
+          </Paper>
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Paper className={classes.about} elevation={0} square>
-          <About />
-        </Paper>
+      <Grid container className={classes.aboutWrapper}>
+        <Grid item xs={12}>
+          <Paper className={classes.aboutContent} elevation={0} square>
+            <About />
+          </Paper>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 

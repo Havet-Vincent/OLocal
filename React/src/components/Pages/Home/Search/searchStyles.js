@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const searchStyles = makeStyles((theme) => ({
   searchWrapper: {
-    padding: theme.spacing(3, 1, 6, 1),
+    padding: theme.spacing(4, 1, 6, 1),
   },
   searchTitle: {
     color: '#37474f',
