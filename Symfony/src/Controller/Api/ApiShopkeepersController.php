@@ -14,12 +14,11 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 class ApiShopkeepersController extends AbstractController
 {
     /**
-     * @Route("/api/shopkeepers", name="api_shopkeeper_by_region_category", methods={"GET"})
+     * @Route("/api/shopkeepers", name="api_shopkeeper_by_region_category", methods={"POST"})
      */
-    public function getShopkeepersByRegionAndCategory(Request $request, ValidatorInterface $validator, UserRepository $userRepository)
+    public function getShopkeepersByRegionAndCategory(Request $request, UserRepository $userRepository)
     {
         $data = json_decode($request->getContent());
-        //dd($data);
 
         $regionId = $data->region;
         $categoryId = $data->category;
@@ -30,7 +29,7 @@ class ApiShopkeepersController extends AbstractController
 
 
     /**
-     * @Route("/api/shopkeepers/{id<\d+>}", name="api_shopkeeper_by_id", methods={"GET"})
+     * @Route("/api/shopkeepers/{id<\d+>}", name="api_shopkeeper_by_id", methods={"POST"})
      */
     public function getShopkeeperInformations(Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, UserRepository $userRepository)
     {
