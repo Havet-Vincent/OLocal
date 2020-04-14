@@ -101,6 +101,19 @@ class ApiProductsController extends AbstractController
         return $this->json('produit inexistant', 404);
         } 
         
+        //on valide l'entité 
+        $errors = $validator->validate($product);
+        if (count($errors) !== 0) {
+            $jsonErrors = [];
+            foreach ($errors as $error) {
+                $jsonErrors[] = [
+                    'field' => $error->getPropertyPath(),
+                    'message' => $error->getMessage(),
+                ];
+            }
+
+            return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
         $productUpdate = $productRepository->find($product->getId());
         $data = json_decode($request->getContent());
 
@@ -118,19 +131,7 @@ class ApiProductsController extends AbstractController
         $productUpdate->setCategory($category);
         }
         
-        //on valide l'entité 
-        $errors = $validator->validate($product);
-        if (count($errors) !== 0) {
-            $jsonErrors = [];
-            foreach ($errors as $error) {
-                $jsonErrors[] = [
-                    'field' => $error->getPropertyPath(),
-                    'message' => $error->getMessage(),
-                ];
-            }
-
-            return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
+        
 
         
         $em->flush();
