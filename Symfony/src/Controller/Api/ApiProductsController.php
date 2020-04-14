@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controller\Api;
-
 use App\Entity\Catalog;
 use App\Entity\Product;
 use App\Form\ProductType;
@@ -52,7 +51,7 @@ class ApiProductsController extends AbstractController
             return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        // on verifie sir le produit n'exite pas déjà en base 
+        // on verifie si le produit n'exite pas déjà en base 
 
         $productName=$data->product->name;
         if ($productName=$productRepository->findBy(['name'=>$productName])){
@@ -63,7 +62,7 @@ class ApiProductsController extends AbstractController
         // 3. On va récupérer la catégorie du JSON
         $categoryId = $data->category;
         $category = $categoryRepository->find($categoryId);
-        // On l'associe à la question
+        // On l'associe au produit
         $product->setCategory($category);
 
         foreach ($data->users as $userId) {
@@ -87,6 +86,61 @@ class ApiProductsController extends AbstractController
 
         return $this->json('produit ajouté', 201);
     }
+
+
+    /**
+     * @Route("/api/products/{id<\d+>}/edit", name="api_products_edit", methods={"POST"})
+     */
+    public function edit (CategoryRepository $categoryRepository, Request $request, EntityManagerInterface $em, ProductRepository $productRepository, DenormalizerInterface $denormalizer, ValidatorInterface $validator, Product $product=null )
+    {   
+        
+        // on verifie si le produit exite en base 
+
+        if ($product===null) {
+
+        return $this->json('produit inexistant', 404);
+        } 
+        
+        //on valide l'entité 
+        $errors = $validator->validate($product);
+        if (count($errors) !== 0) {
+            $jsonErrors = [];
+            foreach ($errors as $error) {
+                $jsonErrors[] = [
+                    'field' => $error->getPropertyPath(),
+                    'message' => $error->getMessage(),
+                ];
+            }
+
+            return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        $productUpdate = $productRepository->find($product->getId());
+        $data = json_decode($request->getContent());
+
+        $productUpdate->setName($data->name);
+            
+        $productUpdate->setUpdatedAt(new \DateTime);
+
+        // 3. On va récupérer la catégorie du JSON
+        $categoryId = $data->category;
+        // on verifie qu'il est pas nul
+        if (!empty($categoryId)){
+
+        $category = $categoryRepository->find($categoryId);
+        // On l'associe au produit
+        $productUpdate->setCategory($category);
+        }
+        
+        
+
+        
+        $em->flush();
+
+        return $this->json('produit modifié',200);
+       
+
+    }
+     
 
     
 }
