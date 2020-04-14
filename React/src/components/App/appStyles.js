@@ -8,7 +8,11 @@ const appStyles = makeStyles(() => ({
     background: `url(${BackgroundImg})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    backgroundPosition: 'top center',
+    backgroundPosition: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    padding: 0,
   },
 }));
 

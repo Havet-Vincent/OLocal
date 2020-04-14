@@ -3,10 +3,11 @@ import React from 'react';
 
 // == Import components
 import {
+  Container,
+  Typography,
   FormControl,
   Select,
   InputLabel,
-  Input,
   MenuItem,
   Button,
   Icon,
@@ -104,40 +105,42 @@ const Search = () => {
       style: {
         // sub-menu size
         maxHeight: 300,
-        width: 50,
+        maxWidth: 250,
       },
     },
   };
 
   return (
-    <>
-      <p className={classes.searchTitle}>Rechercher un commerçant</p>
+    <Container className={classes.searchWrapper}>
+      <Typography variant="h5" className={classes.searchTitle}>
+        Rechercher un commerçant
+      </Typography>
       <form className={classes.searchForm} onSubmit={handleSubmit}>
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel id="search-region">Région</InputLabel>
           <Select
             className={classes.searchSelect}
-            value={region}
-            label="region"
-            onChange={handleChangeRegion}
+            label="Région"
             labelId="search-region"
-            input={<Input />}
+            id="search-region"
+            value={region}
+            onChange={handleChangeRegion}
             MenuProps={MenuProps}
           >
             {regions.map((item) => (
-              <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
-            ))}
+            <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+          ))}
           </Select>
         </FormControl>
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel id="search-category">Catégorie de produits</InputLabel>
           <Select
             className={classes.searchSelect}
-            value={category}
-            label="category"
-            onChange={handleChangeCategory}
+            label="Catégorie de produits"
             labelId="search-category"
-            input={<Input />}
+            id="search-category"
+            value={category}
+            onChange={handleChangeCategory}
             MenuProps={MenuProps}
           >
             {categories.map((item) => (
@@ -145,9 +148,9 @@ const Search = () => {
             ))}
           </Select>
         </FormControl>
-        <Button type="submit" color="primary" variant="contained" endIcon={<Icon>search</Icon>} className={classes.searchButton}>Rechercher</Button>
+        <Button type="submit" color="primary" variant="contained" size="large" endIcon={<Icon>search</Icon>} className={classes.searchButton}>Rechercher</Button>
       </form>
-    </>
+    </Container>
   );
 };
 

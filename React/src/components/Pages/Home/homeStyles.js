@@ -1,23 +1,24 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 
-const homeStyles = makeStyles(() => ({
-  searchMenu: {
-    width: '100%',
-    backgroundColor: 'rgba(247, 249, 250, .7)',
-    display: 'flex',
-    flexFlow: 'column',
+const homeStyles = makeStyles((theme) => ({
+  container: {
+    flexGrow: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    padding: '3rem 0',
-    margin: '5rem auto',
-    borderRadius: '25px',
-    borderLeft: '4px solid #A0CBE3',
-    borderRight: '4px solid #A0CBE3',
-    ['@media (min-width:620px)']: { // eslint-disable-line no-useless-computed-key
-      width: 'max-content',
-      padding: '3rem 5rem',
+    paddingTop: theme.spacing(6),
+  },
+  search: {
+    backgroundColor: 'rgba(247, 249, 250, .95)',
+    borderRadius: 10,
+    margin: theme.spacing(20, 0),
+    [theme.breakpoints.down('sm')]: {
+      margin: theme.spacing(5, 0),
     },
   },
+  about: {
+    backgroundColor: 'rgba(159, 204, 62, .85)',
+    padding: theme.spacing(4),
+    margin: theme.spacing(10, 0, 0, 0),
+  }
 }));
 
 export default homeStyles;
