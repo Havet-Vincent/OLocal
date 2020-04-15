@@ -4,6 +4,8 @@ import {
 
 const initialState = {
   // API Home Search results Data
+  currentCategory: [],
+  currentRegion: [],
   searchResults: [],
 };
 
@@ -12,6 +14,8 @@ const shopkeepersReducer = (state = initialState, action = {}) => {
     case SAVE_SEARCH_HOME_DATA:
       return {
         ...state,
+        currentCategory: action.category,
+        currentRegion: action.region,
         searchResults: action.results,
       };
 

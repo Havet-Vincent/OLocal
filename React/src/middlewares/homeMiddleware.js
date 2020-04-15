@@ -42,17 +42,18 @@ const homeMiddleware = (store) => (next) => (action) => {
       break;
 
     case GET_SEARCH_HOME_RESULTS: {
+      const { region, category } = store.getState().home;
       axios({
         method: 'post',
         url: `${server.url}:${server.port}/api/shopkeepers`,
         data: {
-          region: store.getState().home.regionField,
-          category: store.getState().home.categoryField
+          region: region.id,
+          category: category.id
         }
       })
         .then((response) => {
           // console.log('success search : ', response.data);
-          store.dispatch(saveSearchHomeData(response.data));
+          store.dispatch(saveSearchHomeData(response.data, region, category));
           store.dispatch(redirect("/liste-commercants"));
         })
         .catch((error) => {

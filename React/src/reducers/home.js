@@ -1,8 +1,8 @@
 import {
   SAVE_REGIONS_DATA,
   SAVE_CATEGORIES_DATA,
-  SET_REGION_FIELD,
-  SET_CATEGORY_FIELD,
+  SET_REGION,
+  SET_CATEGORY,
   REDIRECT,
 } from '../actions/home';
 
@@ -10,10 +10,9 @@ const initialState = {
   // API Data
   regions: [],
   categories: [],
-  // Select Input Field value
-  categoryField: '',
-  regionField: '',
-
+  // User Search Fields
+  category: [],
+  region: [],
   // Display Home Loader
   loadingRegions: true,
   loadingCategories: true,
@@ -38,16 +37,16 @@ const homeReducer = (state = initialState, action = {}) => {
         loadingCategories: false,
       };
 
-    case SET_REGION_FIELD:
+    case SET_REGION:
       return {
         ...state,
-        regionField: action.id,
+        region: action.value,
       };
 
-    case SET_CATEGORY_FIELD:
+    case SET_CATEGORY:
       return {
         ...state,
-        categoryField: action.id,
+        category: action.value,
       };
 
     case REDIRECT:

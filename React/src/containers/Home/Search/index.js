@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import {
-  setRegionField,
-  setCategoryField,
+  setRegion,
+  setCategory,
   handleSearchHomeSubmit,
 } from 'src/actions/home';
 
@@ -15,11 +15,11 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setRegionField: (id) => {
-    dispatch(setRegionField(id));
+  setRegion: (value) => {
+    dispatch(setRegion(value));
   },
-  setCategoryField: (id) => {
-    dispatch(setCategoryField(id));
+  setCategory: (value) => {
+    dispatch(setCategory(value));
   },
   handleSearchHomeSubmit: () => {
     dispatch(handleSearchHomeSubmit());

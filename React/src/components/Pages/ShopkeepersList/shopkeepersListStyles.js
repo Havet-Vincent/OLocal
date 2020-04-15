@@ -14,7 +14,7 @@ const shopkeepersListStyles = makeStyles((theme) => ({
     width: '60%',
     backgroundColor: 'rgba(247, 249, 250, .95)',
     margin: theme.spacing(3, 0),
-    padding: theme.spacing(3),
+    padding: theme.spacing(1, 3),
     [theme.breakpoints.down('lg')]: {
       width: '70%',
     },
@@ -23,20 +23,33 @@ const shopkeepersListStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('sm')]: {
       width: '95%',
-      padding: theme.spacing(2),
+      padding: theme.spacing(1, 2),
     },
+  },
+  shopkeepersListNav: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   shopkeepersListTitle: {
     color: '#37474f',
-    fontSize: '1.6em',
+    fontSize: '1.5em',
     fontWeight: '700',
     textAlign: 'center',
-    paddingBottom: theme.spacing(2),
+    margin: theme.spacing(2, 0),
+    '& > span': {
+      color: theme.palette.secondary.main,
+    }
   },
   shopkeepersListSubtitle: {
     color: theme.palette.primary.main,
     fontWeight: '700',
     fontSize: '.7em',
+    fontStyle: 'italic',
+    paddingTop: theme.spacing(1),
+    '& > span': {
+      color: theme.palette.secondary.main,
+    }
   },
   cardWrapper:{
     display: 'flex',
@@ -50,7 +63,7 @@ const shopkeepersListStyles = makeStyles((theme) => ({
   },
   cardImg: {
     height: 250,
-    width: "25%",
+    width: "30%",
     [theme.breakpoints.down('md')]: {
       width: '40%',
     },
@@ -59,8 +72,8 @@ const shopkeepersListStyles = makeStyles((theme) => ({
     },
   },
   cardContent: {
-    width: '75%',
-    marginLeft: theme.spacing(2),
+    width: '70%',
+    marginLeft: theme.spacing(1.5),
     [theme.breakpoints.down('md')]: {
       width: '60%',
     },
@@ -69,13 +82,24 @@ const shopkeepersListStyles = makeStyles((theme) => ({
     },
   },
   cardTitle: {
+    display: 'flex',
+    alignItems: 'center',
     fontWeight: '700',
     textTransform: 'uppercase',
+    verticalAlign: 'center',
+    margin: 0,
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+    },
   },
   cardSubtitle: {
     textTransform: 'uppercase',
     marginLeft: theme.spacing(2),
     fontWeight: '700',
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: 0,
+    },
   },
   cardDescription: {
     padding: theme.spacing(2, 0),
