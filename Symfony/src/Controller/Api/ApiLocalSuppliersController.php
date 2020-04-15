@@ -43,7 +43,7 @@ class ApiLocalSuppliersController extends AbstractController
          // 1. On récupère le contenu JSON
          $dataRequest = json_decode($request->getContent());
          //dump($data);
-        /* 
+        
         $localSupplier = $denormalizer->denormalize($dataRequest, LocalSupplier::class);
          
         //on valide l'entité 
@@ -59,7 +59,7 @@ class ApiLocalSuppliersController extends AbstractController
  
              return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-        */
+        
 
          // on verifie si le produit n'exite pas déjà en base 
          $siret = $dataRequest->siret;
@@ -68,16 +68,12 @@ class ApiLocalSuppliersController extends AbstractController
          }
         //siret pour tester 85218609700014
         
-
         $regionId = $dataRequest->region;
         $region = $regionRepository->find($regionId);
-        // On l'associe au produit
-      
-
+    
         //$response= new Response;
         $response=$this->apiSirene->getShopkeeperData($siret);
         
- 
         //dd($response);
         $data = json_decode($response->getContent());
         //dd($data);
