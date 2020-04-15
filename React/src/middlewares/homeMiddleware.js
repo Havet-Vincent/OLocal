@@ -1,11 +1,22 @@
 import axios from 'axios';
 
-import { GET_REGIONS_DATA, saveRegionsData, GET_CATEGORIES_DATA, saveCategoriesData, GET_SEARCH_HOME_RESULTS } from 'src/actions/home';
+import {
+  GET_REGIONS_DATA,
+  saveRegionsData,
+  GET_CATEGORIES_DATA,
+  saveCategoriesData,
+  GET_SEARCH_HOME_RESULTS,
+  redirect,
+} from '../actions/home';
+import {saveSearchHomeData} from '../actions/shopkeepers';
+
+// == Import API server config
+const server = require('../api.config.json');
 
 const homeMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
     case GET_REGIONS_DATA:
-      axios.get('http://nicolas-chopin.vpnuser.lan:8001/api/regions')
+      axios.get(`${server.url}:${server.port}/api/regions`)
         .then((response) => {
           // console.log('success regions : ', response.data);
           store.dispatch(saveRegionsData(response.data));
@@ -18,7 +29,7 @@ const homeMiddleware = (store) => (next) => (action) => {
       break;
 
     case GET_CATEGORIES_DATA:
-      axios.get('http://nicolas-chopin.vpnuser.lan:8001/api/categories')
+      axios.get(`${server.url}:${server.port}/api/categories`)
         .then((response) => {
           // console.log('success categories : ', response.data);
           store.dispatch(saveCategoriesData(response.data));
@@ -31,24 +42,24 @@ const homeMiddleware = (store) => (next) => (action) => {
       break;
 
     case GET_SEARCH_HOME_RESULTS: {
-      console.log(`data: {
-        "region": ${store.getState().home.regionField},
-        "category": ${store.getState().home.categoryField}
-      }`);
+      const { region, category } = store.getState().home;
       axios({
         method: 'post',
-        url: 'http://nicolas-chopin.vpnuser.lan:8001/api/shopkeepers',
+        url: `${server.url}:${server.port}/api/shopkeepers`,
         data: {
-          region: store.getState().home.regionField,
-          category: store.getState().home.categoryField
+          region: region.id,
+          category: category.id
         }
       })
         .then((response) => {
-          console.log('success: ', response.data);
-          // store.dispatch(saveUser(response.data.logged, response.data.info));
+          // console.log('success search : ', response.data);
+          store.dispatch(saveSearchHomeData(response.data, region, category));
+          store.dispatch(redirect("/liste-commercants"));
         })
         .catch((error) => {
           console.warn(error);
+        })
+        .finally(() => {
         });
 
       next(action);

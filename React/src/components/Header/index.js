@@ -1,6 +1,6 @@
 // == Import npm
 import React from 'react';
-import { Route, Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 // == Import material UI components
 import { Link, AppBar, Toolbar } from '@material-ui/core';
