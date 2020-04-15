@@ -1,4 +1,4 @@
-import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import BackgroundImg from '../../../assets/img/landscape_background.png';
 
 const homeStyles = makeStyles((theme) => ({

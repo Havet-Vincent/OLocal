@@ -8,6 +8,7 @@ import {
   GET_SEARCH_HOME_RESULTS,
   redirect,
 } from '../actions/home';
+import {saveSearchHomeData} from '../actions/shopkeepers';
 
 const server = require('../api.config.json');
 
@@ -40,10 +41,6 @@ const homeMiddleware = (store) => (next) => (action) => {
       break;
 
     case GET_SEARCH_HOME_RESULTS: {
-      console.log(`data: {
-        "region": ${store.getState().home.regionField},
-        "category": ${store.getState().home.categoryField}
-      }`);
       axios({
         method: 'post',
         url: `${server.url}:${server.port}/api/shopkeepers`,
@@ -53,11 +50,14 @@ const homeMiddleware = (store) => (next) => (action) => {
         }
       })
         .then((response) => {
-          console.log('success: ', response.data);
-          store.dispatch(redirect("/mentions-legales"));
+          // console.log('success search : ', response.data);
+          store.dispatch(saveSearchHomeData(response.data));
+          store.dispatch(redirect("/liste-commercants"));
         })
         .catch((error) => {
           console.warn(error);
+        })
+        .finally(() => {
         });
 
       next(action);

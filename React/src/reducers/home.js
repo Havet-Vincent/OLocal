@@ -54,9 +54,14 @@ const homeReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         redirectTo: action.link,
+        categoryField: '',
+        regionField: '',
       };
 
-    default: return state;
+    default: return {
+      ...state,
+      redirectTo: false,
+    };
   }
 };
 
