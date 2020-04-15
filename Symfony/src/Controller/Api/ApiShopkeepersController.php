@@ -111,7 +111,7 @@ class ApiShopkeepersController extends AbstractController
             $userToEdit->setPassword($data->password);
         }
         if ($data->logoPicture !== $userToEdit->getLogoPicture()) {
-            $userToEdit->setLogoPicture('/public/uploads/'.$data->logoPicture);
+            $userToEdit->setLogoPicture('/uploads/'.$data->logoPicture);
         }
         if ($data->phone !== $userToEdit->getLastname()) {
             $userToEdit->setPhone($data->phone);
