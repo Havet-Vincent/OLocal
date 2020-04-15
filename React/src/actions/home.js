@@ -6,6 +6,7 @@ export const SAVE_CATEGORIES_DATA = 'SAVE_CATEGORIES_DATA';
 export const SET_REGION_FIELD = 'SET_REGION_FIELD';
 export const SET_CATEGORY_FIELD = 'SET_CATEGORY_FIELD';
 export const GET_SEARCH_HOME_RESULTS = 'GET_SEARCH_HOME_RESULTS';
+export const REDIRECT = 'REDIRECT';
 
 // action creators
 export const getRegionsData = () => ({
@@ -38,4 +39,9 @@ export const setCategoryField = (id) => ({
 
 export const handleSearchHomeSubmit = () => ({
   type: GET_SEARCH_HOME_RESULTS,
+});
+
+export const redirect = (link) => ({
+  type: REDIRECT,
+  link,
 });

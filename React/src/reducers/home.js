@@ -3,6 +3,7 @@ import {
   SAVE_CATEGORIES_DATA,
   SET_REGION_FIELD,
   SET_CATEGORY_FIELD,
+  REDIRECT,
 } from '../actions/home';
 
 const initialState = {
@@ -16,6 +17,9 @@ const initialState = {
   // Display Home Loader
   loadingRegions: true,
   loadingCategories: true,
+
+  // Redirection link after success Search request
+  redirectTo: false,
 };
 
 const homeReducer = (state = initialState, action = {}) => {
@@ -44,6 +48,12 @@ const homeReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         categoryField: action.id,
+      };
+
+    case REDIRECT:
+      return {
+        ...state,
+        redirectTo: action.link,
       };
 
     default: return state;

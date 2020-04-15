@@ -24,7 +24,7 @@ const Footer = () => {
               </Link>
             </Route>
             <Route>
-              <Link component={RouterLink} to="/mentions-légales" className={classes.footerLink}>
+              <Link component={RouterLink} to="/mentions-legales" className={classes.footerLink}>
                 Mentions Légales
               </Link>
             </Route>

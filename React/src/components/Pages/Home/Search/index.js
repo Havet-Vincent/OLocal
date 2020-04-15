@@ -112,19 +112,14 @@ Search.propTypes = {
   categoryField: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
-  ]),
+  ]).isRequired,
   regionField: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
-  ]),
+  ]).isRequired,
   setRegionField: PropTypes.func.isRequired,
   setCategoryField: PropTypes.func.isRequired,
   handleSearchHomeSubmit: PropTypes.func.isRequired,
-};
-
-Search.defaultProps = {
-  categoryField: '',
-  regionField: '',
 };
 
 // == Export
