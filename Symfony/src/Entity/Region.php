@@ -19,6 +19,7 @@ class Region
      * @Groups("user_get")
      * @Groups("regions_get")
      * @Groups("add_local_supplier")
+     * @Groups("results_get")
      */
     private $id;
 
@@ -27,6 +28,7 @@ class Region
      * @Groups("regions_get")
      * @Groups("user_get")
      * @Groups("add_local_supplier")
+     * @Groups("results_get")
      */
     private $name;
 

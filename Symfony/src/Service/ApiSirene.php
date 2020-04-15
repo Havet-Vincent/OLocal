@@ -22,10 +22,13 @@ class ApiSirene
             // HTTP Bearer authentication (also called token authentication)
             'auth_bearer' => $this->tokenBearer,
         ]);
+        
         $response = $client->request('GET', "https://api.insee.fr/entreprises/sirene/V3/siret/{$siret}");   
 
+        // TODO : siret existence check
         return $response;
-     }
+        
+    }
 
      
 }
