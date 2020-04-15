@@ -239,7 +239,7 @@ class AppFixtures extends Fixture
             $user->setSiret($faker->numberBetween(10000000000000, 99999999999999));
             $user->setCompanyName($faker->unique()->company());
             $user->setCompanyDescription($faker->realText($maxNbChars = 400, $indexSize = 2));
-            $user->setLogoPicture('/public/uploads/frontoffice'.mt_rand(1, 30).'.jpg');
+            $user->setLogoPicture('/uploads/frontoffice'.mt_rand(1, 30).'.jpg');
             $user->setPhone($faker->serviceNumber());
             $user->setWebsite($faker->url());
             $user->setCreatedAt(new \DateTime());

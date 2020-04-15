@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,26 +25,31 @@ class LocalSupplier
      * @ORM\Column(type="string", length=255)
      * @Groups("user_get")
      * @Groups("local_by_region_get")
+     * @Groups("add_local_supplier")
      */
     private $name;
 
     /**
      * @ORM\Column(type="bigint", unique=true)
+     * @Groups("add_local_supplier")
      */
     private $siret;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("add_local_supplier")
      */
     private $postalCode;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("add_local_supplier")
      */
     private $city;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("add_local_supplier")
      */
     private $createdAt;
 
@@ -54,6 +60,7 @@ class LocalSupplier
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Region", inversedBy="localSuppliers")
+     * @Groups("add_local_supplier")
      */
     private $region;
 
@@ -71,6 +78,7 @@ class LocalSupplier
     {
         $this->products = new ArrayCollection();
         $this->catalogs = new ArrayCollection();
+        $this->createdAt= new DateTime();
     }
 
     public function getId(): ?int
