@@ -41,6 +41,7 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="products")
      * @Groups("user_get")
+     * @Groups("results_get")
      */
     private $category;
 

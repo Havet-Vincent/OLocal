@@ -29,6 +29,7 @@ class Catalog
      * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="catalogs", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Groups("user_get")
+     * @Groups("results_get")
      */
     private $product;
 

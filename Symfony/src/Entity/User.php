@@ -2,15 +2,16 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id()
@@ -53,7 +54,7 @@ class User
      * @ORM\Column(type="json", nullable=true)
      * @Groups("user_get")
      */
-    private $role = [];
+    private $userRole = [];
 
     /**
      * @ORM\Column(type="boolean")
@@ -168,12 +169,14 @@ class User
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Region", inversedBy="users")
      * @Groups("user_get")
+     * @Groups("results_get")
      */
     private $region;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Catalog", mappedBy="user", orphanRemoval=true, cascade={"persist"})
      * @Groups("user_get")
+     * @Groups("results_get")
      */
     private $catalogs;
 
@@ -181,6 +184,7 @@ class User
     {
         $this->products = new ArrayCollection();
         $this->catalogs = new ArrayCollection();
+        $this->getCreatedAt= new \DateTime();
     }
 
     public function getId(): ?int
@@ -229,13 +233,6 @@ class User
         return $this->password;
     }
 
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
     public function getIsEmailChecked(): ?bool
     {
         return $this->isEmailChecked;
@@ -248,14 +245,14 @@ class User
         return $this;
     }
 
-    public function getRole(): ?array
+    public function getUserRole(): ?array
     {
-        return $this->role;
+        return $this->userRole;
     }
 
-    public function setRole(?array $role): self
+    public function setUserRole(?array $userRole): self
     {
-        $this->role = $role;
+        $this->role = $userRole;
 
         return $this;
     }
@@ -533,5 +530,57 @@ class User
         }
 
         return $this;
+    }
+
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    public function getRoles()
+    {
+        return array($this->getUserRole()->getRoleString());
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized, array('allowed_classes' => false));
+    }
+
+    public function setPassword(?string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
     }
 }

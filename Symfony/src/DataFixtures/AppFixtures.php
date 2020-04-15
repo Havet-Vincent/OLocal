@@ -226,7 +226,7 @@ class AppFixtures extends Fixture
             $user->setFirstname($faker->firstname());
             $user->setLastname($faker->lastname());
             $user->setPassword($faker->password());
-            $user->setRole(['ROLE_USER']);
+            $user->setUserRole(['ROLE_USER']);
             $user->setIsEmailChecked(true);
             $user->setIsActive(true);
             $user->setAdditionalAddress($faker->optional()->secondaryAddress());

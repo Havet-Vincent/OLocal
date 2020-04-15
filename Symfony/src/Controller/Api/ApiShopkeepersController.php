@@ -3,16 +3,26 @@
 namespace App\Controller\Api;
 
 use App\Entity\User;
+use App\Service\ApiSirene;
 use App\Repository\UserRepository;
+use App\Repository\RegionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ApiShopkeepersController extends AbstractController
 {
+    private $apiSirene;
+
+    public function __construct(ApiSirene $apiSirene)
+    {
+        $this->apiSirene=$apiSirene;
+    }
+    
     /**
      * @Route("/api/shopkeepers", name="api_shopkeeper_by_region_category", methods={"POST"})
      */
@@ -57,6 +67,101 @@ class ApiShopkeepersController extends AbstractController
         }
 
         return $this->json($userWanted, 200, [], ['groups' => 'user_get']);
+    }
+
+    /**
+     * @Route("/api/shopkeepers/add", name="api_shopkeeper_add", methods={"POST"})
+     */
+    public function add(Request $request, RegionRepository $regionRepository, DenormalizerInterface $denormalizer, ValidatorInterface $validator, UserRepository $userRepository, UserPasswordEncoderInterface $encoder)
+    {
+        $dataRequest = json_decode($request->getContent());
+        
+        $newShop = $denormalizer->denormalize($dataRequest, User::class);
+         
+        $errors = $validator->validate($newShop);
+        if (count($errors) !== 0) {
+             $jsonErrors = [];
+             foreach ($errors as $error) {
+                 $jsonErrors[] = [
+                     'field' => $error->getPropertyPath(),
+                     'message' => $error->getMessage(),
+                 ];
+             }
+ 
+             return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        
+        $siret = $dataRequest->siret;
+        if ($userRepository->findBy(['siret' => $siret])){
+            return $this->json('Ce numéro de SIRET est déjà utilisé.', 409);
+         }
+        //siret pour tester 85218609700014
+        
+        // take region data from request
+        $regionId = $dataRequest->region;
+        $region = $regionRepository->find($regionId);
+
+        // take email data from request
+        $newEmail = $dataRequest->email;
+        if ($userRepository->findBy(['email' => $newEmail])) {
+            return $this->json('Cet email est déjà utilisé.', 409);
+        }
+    
+        // take external API data from SIRET number
+        $response = $this->apiSirene->getShopkeeperData($siret);
+        $data = json_decode($response->getContent());
+
+
+        $user = New User;
+
+        $user->setEmail($newEmail);
+
+        $password = $dataRequest->password;
+        $user->setPassword($encoder->encodePassword($user, $password));
+
+        $role = ['ROLE_USER'];
+        $user->setUserRole($role);
+
+        // TODO : implements email check
+        $user->setIsEmailChecked(true);
+
+        $user->setIsActive(true);
+
+        $additionnalAddress = $data->etablissement->adresseEtablissement->complementAdresseEtablissement;
+        $user->setAdditionalAddress($additionnalAddress);
+
+        $repeatIndex = $data->etablissement->adresseEtablissement->indiceRepetitionEtablissement;
+        $user->setRepeatIndex($repeatIndex);
+
+        $wayNumber = $data->etablissement->adresseEtablissement->numeroVoieEtablissement;
+        $user->setWayNumber($wayNumber);
+
+        $wayType = $data->etablissement->adresseEtablissement->typeVoieEtablissement;
+        $user->setWayType($wayType);
+
+        $wayName = $data->etablissement->adresseEtablissement->libelleVoieEtablissement;
+        $user->setWayName($wayName);
+        
+        $postalCode = $data->etablissement->adresseEtablissement->codePostalEtablissement;
+        $user->setPostalCode($postalCode);
+
+        $city = $data->etablissement->adresseEtablissement->libelleCommuneEtablissement;
+        $user->setCity($city);
+
+        $company = $data->etablissement->uniteLegale->denominationUniteLegale;
+        $user->setCompanyName($company);
+
+        $user->setSiret($siret);
+
+        $user->setRegion($region);
+
+        $user->setCreatedAt(new \DateTime());
+
+        $em=$this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+         
+        return $this->json('Utilisateur-commerçant ajouté', 201);
     }
 
     /**

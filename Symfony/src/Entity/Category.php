@@ -19,6 +19,7 @@ class Category
      * @ORM\Column(type="integer")
      * @Groups("categories_get")
      * @Groups("user_get")
+     * @Groups("results_get")
      */
     private $id;
 
@@ -26,6 +27,7 @@ class Category
      * @ORM\Column(type="string", length=255)
      * @Groups("categories_get")
      * @Groups("user_get")
+     * @Groups("results_get")
      */
     private $name;
 
