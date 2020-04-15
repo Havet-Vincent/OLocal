@@ -18,6 +18,7 @@ class Region
      * @ORM\Column(type="integer")
      * @Groups("user_get")
      * @Groups("regions_get")
+     * @Groups("add_local_supplier")
      */
     private $id;
 
@@ -25,6 +26,7 @@ class Region
      * @ORM\Column(type="string", length=255)
      * @Groups("regions_get")
      * @Groups("user_get")
+     * @Groups("add_local_supplier")
      */
     private $name;
 
