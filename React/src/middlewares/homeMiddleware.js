@@ -6,6 +6,7 @@ import {
   GET_CATEGORIES_DATA,
   saveCategoriesData,
   GET_SEARCH_HOME_RESULTS,
+  setSearchNotMatch,
   redirect,
 } from '../actions/home';
 import {saveSearchHomeData} from '../actions/shopkeepers';
@@ -53,8 +54,14 @@ const homeMiddleware = (store) => (next) => (action) => {
       })
         .then((response) => {
           // console.log('success search : ', response.data);
-          store.dispatch(saveSearchHomeData(response.data, region, category));
-          store.dispatch(redirect("/liste-commercants"));
+          const results = response.data;
+          // Save data & redirect if search match results else display Alert
+          if (results.length > 0) {
+            store.dispatch(saveSearchHomeData(results, region, category));
+            store.dispatch(redirect("/liste-commercants"));
+          } else {
+            store.dispatch(setSearchNotMatch());
+          }
         })
         .catch((error) => {
           console.warn(error);

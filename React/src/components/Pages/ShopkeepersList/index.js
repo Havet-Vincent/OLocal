@@ -98,18 +98,8 @@ ShopkeepersList.propTypes = {
       logoPicture: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
-  currentCategory: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
-  currentRegion: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
+  currentCategory: PropTypes.object.isRequired,
+  currentRegion: PropTypes.object.isRequired,
 };
 
 // == Export

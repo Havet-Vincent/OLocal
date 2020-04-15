@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
-import { getRegionsData, getCategoriesData } from 'src/actions/home';
+import { getRegionsData, getCategoriesData, resetSearchNotMatch } from 'src/actions/home';
 
 import Home from 'src/components/Pages/Home';
 
 const mapStateToProps = (state) => ({
   loadingRegions: state.home.loadingRegions,
   loadingCategories: state.home.loadingCategories,
+  searchNotMatch: state.home.searchNotMatch,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -14,6 +15,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getCategoriesData: () => {
     dispatch(getCategoriesData());
+  },
+  resetSearchNotMatch: () => {
+    dispatch(resetSearchNotMatch());
   },
 });
 

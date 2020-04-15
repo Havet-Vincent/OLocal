@@ -9,3 +9,5 @@ export const saveSearchHomeData = (results, region, category) => ({
   category,
 });
 
+
+

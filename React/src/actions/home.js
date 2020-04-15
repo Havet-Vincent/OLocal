@@ -6,6 +6,8 @@ export const SAVE_CATEGORIES_DATA = 'SAVE_CATEGORIES_DATA';
 export const SET_REGION = 'SET_REGION';
 export const SET_CATEGORY = 'SET_CATEGORY';
 export const GET_SEARCH_HOME_RESULTS = 'GET_SEARCH_HOME_RESULTS';
+export const SET_SEARCH_NOT_MATCH_ALERT= 'SET_SEARCH_NOT_MATCH_ALERT';
+export const RESET_SEARCH_NOT_MATCH_ALERT= 'RESET_SEARCH_NOT_MATCH_ALERT';
 export const REDIRECT = 'REDIRECT';
 
 // action creators
@@ -39,6 +41,14 @@ export const setCategory = (value) => ({
 
 export const handleSearchHomeSubmit = () => ({
   type: GET_SEARCH_HOME_RESULTS,
+});
+
+export const setSearchNotMatch = () => ({
+  type: SET_SEARCH_NOT_MATCH_ALERT,
+});
+
+export const resetSearchNotMatch = () => ({
+  type: RESET_SEARCH_NOT_MATCH_ALERT,
 });
 
 export const redirect = (link) => ({

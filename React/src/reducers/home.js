@@ -3,6 +3,8 @@ import {
   SAVE_CATEGORIES_DATA,
   SET_REGION,
   SET_CATEGORY,
+  SET_SEARCH_NOT_MATCH_ALERT,
+  RESET_SEARCH_NOT_MATCH_ALERT,
   REDIRECT,
 } from '../actions/home';
 
@@ -16,7 +18,8 @@ const initialState = {
   // Display Home Loader
   loadingRegions: true,
   loadingCategories: true,
-
+  // Alert if Search not match
+  searchNotMatch: false,
   // Redirection link after success Search request
   redirectTo: false,
 };
@@ -47,6 +50,20 @@ const homeReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         category: action.value,
+      };
+    
+    case SET_SEARCH_NOT_MATCH_ALERT:
+      return {
+        ...state,
+        searchNotMatch: true,
+        categoryField: '',
+        regionField: '',
+      };
+
+    case RESET_SEARCH_NOT_MATCH_ALERT:
+      return {
+        ...state,
+        searchNotMatch: false,
       };
 
     case REDIRECT:

@@ -4,8 +4,8 @@ import {
 
 const initialState = {
   // API Home Search results Data
-  currentCategory: [],
-  currentRegion: [],
+  currentCategory: {},
+  currentRegion: {},
   searchResults: [],
 };
 
