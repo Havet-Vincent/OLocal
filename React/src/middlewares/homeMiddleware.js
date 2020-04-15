@@ -10,6 +10,7 @@ import {
 } from '../actions/home';
 import {saveSearchHomeData} from '../actions/shopkeepers';
 
+// == Import API server config
 const server = require('../api.config.json');
 
 const homeMiddleware = (store) => (next) => (action) => {

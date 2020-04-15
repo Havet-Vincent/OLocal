@@ -4,16 +4,24 @@ import PropTypes from 'prop-types';
 
 // == Import components
 import {
-  Container,
+  Grid,
   Paper,
   Typography,
   Card,
   CardMedia,
   CardContent,
+  Chip,
+  Button,
+  IconButton,
 } from '@material-ui/core';
+import BusinessIcon from '@material-ui/icons/Business';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 // == Import assets & styles
 import shopkeepersListStyles from './shopkeepersListStyles';
+
+// == Import API server config
+const server = require('src/api.config.json');
 
 // == Composant
 const ShopkeepersList = ({ searchResults }) => {
@@ -21,8 +29,11 @@ const ShopkeepersList = ({ searchResults }) => {
   const classes = shopkeepersListStyles();
 
   return (
-    <Container maxWidth="lg" className={classes.shopkeepersListWrapper}>
-      <Paper className={classes.searchContent} elevation={2}>
+    <Grid container className={classes.shopkeepersListWrapper}>
+      <Paper className={classes.shopkeepersListContent} elevation={2}>
+        <IconButton edge="start" color="primary">
+          <ArrowBackIcon fontSize="large" color="action"/>
+        </IconButton>
         <Typography variant="h4" component="h1" className={classes.shopkeepersListTitle} gutterBottom>
           Liste des commerçants de la région "region" <br />
           <Typography variant="h5" component="strong" className={classes.shopkeepersListSubtitle} gutterBottom>
@@ -34,23 +45,32 @@ const ShopkeepersList = ({ searchResults }) => {
             <Card key={item.id} className={classes.cardWrapper} elevation={3} component="li">
               <CardMedia
                 className={classes.cardImg}
-                image={item.logoPicture}
+                image="https://cdn.pixabay.com/photo/2016/11/23/15/14/shelf-1853439_960_720.jpg"
+                // image={`${server.url}:${server.port}${item.logoPicture}`}
                 title={`Image de présentation de ${item.companyName}`}
               />
               <CardContent className={classes.cardContent}>
-                <Typography gutterBottom variant="h6" component="h2">
+                <Typography gutterBottom variant="h6" component="h2" className={classes.cardTitle}>
                   {item.companyName}
-                  <em>{`  ${item.postalCode} - ${item.city}`}</em>
+                  <Chip
+                    variant="outlined"
+                    color="primary"
+                    component="em"
+                    icon={<BusinessIcon />}
+                    label={`${item.postalCode} - ${item.city}`} className={classes.cardSubtitle} />
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant="body2" color="textSecondary" component="p" className={classes.cardDescription}>
                   {item.companyDescription}
                 </Typography>
+                <Button variant="contained" size="small" color="primary" component="a" className={classes.cardLink}>
+                  Voir plus
+                </Button>
               </CardContent>
             </Card>
           ))}
         </ul>
       </Paper>
-    </Container>
+    </Grid>
   );
 };
 

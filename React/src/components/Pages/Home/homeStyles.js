@@ -6,7 +6,7 @@ const homeStyles = makeStyles((theme) => ({
     background: `url(${BackgroundImg})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    backgroundPositionY: 'top',
+    backgroundPosition: 'center',
     flexGrow: 1,
     justifyContent: 'center',
   },
