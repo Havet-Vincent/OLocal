@@ -15,9 +15,9 @@ export default {
   siret: 58647180566155,
   companyName: 'Michel SA',
   companyDescription: 'M. Canivet, dont les trois couvercles furent rabotés, cloués, soudés, on l\'exposa devant la barrière M. Lheureux, le marchand d\'étoffes, qui se permettait d\'admirer seul la dépense, sa mère obtint que l\'on mange dans le dos. Cette lettre, cachetée d\'un petit tonneau, à demi faciles, dans lesquelles la force d\'aucun sentiment. Quatre heures sonnèrent; et elle restait étendue sur le cahier de.',
-  logoPicture: '\/uploads\/frontoffice17.jpg',
+  logoPicture: '\/uploads\/frontoffice1.jpg',
   phone: '0897140758',
-  website: 'http:\/\/deschamps.net\/amet-sit-omnis-magni-id-qui-non-consequuntur-est',
+  website: 'http:\/\/deschamps.net',
   products: [],
   region: {
     id: 1,

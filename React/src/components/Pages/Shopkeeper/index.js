@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
 // == Import components
 import {
   Link,
   Grid,
+  Box,
+  Container,
   Typography,
   Card,
   CardContent,
   CardMedia,
   CardHeader,
-  Container,
+  Paper,
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
@@ -17,12 +20,16 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  IconButton,
+  Chip,
 } from '@material-ui/core';
+
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import CallIcon from '@material-ui/icons/Call';
 import WebIcon from '@material-ui/icons/Web';
 import LocationCityIcon from '@material-ui/icons/LocationCity';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 // == Import Selectors
 import { getUniqueCategories, getProductsByCategory } from 'src/utils/selectors';
@@ -31,6 +38,10 @@ import shop from './dataShop';
 
 // == Import assets & styles
 import shopkeeperStyles from './shopkeeperStyles';
+
+// == Import API server config
+const server = require('src/api.config.json');
+
 
 // == Composant
 const Shopkeeper = () => {
@@ -75,112 +86,123 @@ const Shopkeeper = () => {
   };
 
   return (
-    <>
-      <Container className={classes.cardGrid} maxWidth="lg">
-        <Grid className={classes.root}>
-          <Card className={classes.card}>
+    <Grid container className={classes.shopkeeperWrapper}>
+      <Container className={classes.shopkeeperContent}>
+        <Paper className={classes.shopkeeperDescription} elevation={2}>
+          <Box className={classes.shopkeepersListNav}>
+            <IconButton edge="start" color="primary" component={RouterLink} to="/">
+              <ArrowBackIcon fontSize="large" color="action" />
+            </IconButton>
+          </Box>
+          <Card elevation={0}>
             <CardHeader
               title={shop.companyName}
-              titleTypographyProps={{ align: 'center', variant: 'h3'}}
+              titleTypographyProps={{ align: 'center', variant: 'h4' }}
+              component="h1"
               className={classes.cardHeader}
             />
-            <CardMedia
-              className={classes.cardMedia}
-              image="../uploads/frontoffice1.jpg"
-              title="commerce"
-            />
-            <CardContent className={classes.cardContent}>
-              <Grid className={classes.gridLink}>
-                <Link display="block" variant="body1" href="#" key={shop.website}>
-                  <Grid container direction="row" spacing={1} alignItems="center">
-                    <Grid item>
-                      <WebIcon />
-                    </Grid>
-                    <Grid item>{shop.website}</Grid>
+            <Container className={classes.card}>
+              <Box className={classes.cardDetails}>
+                <CardMedia
+                  className={classes.cardMedia}
+                  image={`${server.url}:${server.port}${shop.logoPicture}`}
+                  title="commerce"
+                />
+                <Paper className={classes.root} elevation={0}>
+                  <Link variant="body1" href={shop.website}>
+                    <Chip
+                      icon={<WebIcon className={classes.chipIcon} />}
+                      label={shop.website}
+                      className={classes.chip}
+                    />
+                  </Link>
+                  <Link variant="body1" href={`tel:${shop.phone}`}>
+                    <Chip
+                      icon={<CallIcon className={classes.chipIcon} />}
+                      label={shop.phone}
+                      className={classes.chip}
+                    />
+                  </Link>
+                  <Link variant="body1" href={`mailto:${shop.email}`}>
+                    <Chip
+                      icon={<ContactMailIcon className={classes.chipIcon} />}
+                      label={shop.email}
+                      className={classes.chip}
+                    />
+                  </Link>
+                  <Typography component="p" variant="body2" className={classes.chipAdress}>
+                    <LocationCityIcon />
+                    {`
+                      ${shop.wayNumber}
+                      ${shop.repeatIndex}
+                      ${shop.wayType}
+                      ${shop.wayName}
+                      ${shop.additionalAddress}
+                      ${shop.postalCode}
+                      ${shop.city}
+                    `}
+                  </Typography>
+                </Paper>
+              </Box>
+              <Box className={classes.cardProducts}>
+                <CardContent className={classes.cardContent} elevation={0}>
+                  <Typography variant="body1" color="textSecondary">
+                    {shop.companyDescription}
+                  </Typography>
+                </CardContent>
+                <Paper className={classes.shopkeeperProducts} elevation={0}>
+                  <FormControl variant="outlined" className={classes.formControl} size="small">
+                    <InputLabel id="search-category">Catégorie de produits</InputLabel>
+                    <Select
+                      fullWidth
+                      className={classes.regionsSelect}
+                      label="Catégorie de produits"
+                      labelId="search-category"
+                      id="search-category"
+                      value={categorySelect}
+                      onChange={handleChangeCategory}
+                      MenuProps={MenuProps}
+                    >
+                      {uniqueCategories.map((category) => (
+                        <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <Grid className={classes.root}>
+                    <Typography variant="h6" component="h5">
+                      Liste des produits
+                    </Typography>
+
+                    {productsByCategory.map((product) => (
+                      <ExpansionPanel
+                        size="small"
+                        expanded={expanded === `panel${product.id}`}
+                        key={product.id}
+                        onChange={handleChangeExpand(`panel${product.id}`)}
+                      >
+                        <ExpansionPanelSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls={`panel${product.id}-content`}
+                          id={`panel${product.id}-header`}
+                        >
+                          <Typography className={classes.heading}>{product.name}</Typography>
+                          {/* <Typography className={classes.secondaryHeading}>{supplier.city}</Typography> */}
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                          <Typography>
+                            {`Producteur: ${product.localSupplier.name}`}
+                          </Typography>
+                        </ExpansionPanelDetails>
+                      </ExpansionPanel>
+                    ))}
                   </Grid>
-                </Link>
-                <Link display="block" variant="body1" href="#" key={shop.phone}>
-                  <Grid container direction="row" spacing={1} alignItems="center">
-                    <Grid item>
-                      <CallIcon />
-                    </Grid>Container
-                    <Grid item>{shop.phone}</Grid>
-                  </Grid>
-                </Link>
-                <Link display="block" variant="body1" href="#" key={shop.email}>
-                  <Grid container direction="row" spacing={1} alignItems="center">
-                    <Grid item>
-                      <ContactMailIcon />
-                    </Grid>
-                    <Grid item>{shop.email}</Grid>
-                  </Grid>
-                </Link>
-              </Grid>
-              <Grid container direction="row" spacing={1} alignItems="center">
-                <Grid item>
-                  <LocationCityIcon />
-                </Grid>
-                <Grid className={classes.gridAdress}>
-                  {shop.wayNumber}
-                  {shop.repeatIndex}
-                  {shop.wayType}
-                  {shop.wayName}
-                  {shop.additionalAddress}
-                  {shop.postalCode}
-                  {shop.city}
-                </Grid>
-                <br />
-                <br />
-              </Grid>
-              <Typography variant="body2" color="textSecondary">
-                {shop.companyDescription}
-              </Typography>
-            </CardContent>
+                </Paper>
+              </Box>
+            </Container>
           </Card>
-        </Grid>
-        <FormControl variant="outlined" className={classes.formControl}>
-          <InputLabel id="search-category">Catégorie de produits</InputLabel>
-          <Select
-            fullWidth
-            className={classes.regionsSelect}
-            label="Catégorie de produits"
-            labelId="search-category"
-            id="search-category"
-            value={categorySelect}
-            onChange={handleChangeCategory}
-            MenuProps={MenuProps}
-          >
-            {uniqueCategories.map((category) => (
-              <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <Grid className={classes.root}>
-          <Typography variant="h6" component="h5">
-            Liste des produits
-          </Typography>
-
-          {productsByCategory.map((product) => (
-            <ExpansionPanel expanded={expanded === `panel${product.id}`} key={product.id} onChange={handleChangeExpand(`panel${product.id}`)}>
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls={`panel${product.id}-content`}
-                id={`panel${product.id}-header`}
-              >
-                <Typography className={classes.heading}>{product.name}</Typography>
-                {/* <Typography className={classes.secondaryHeading}>{supplier.city}</Typography> */}
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography>
-                  {`Producteur: ${product.localSupplier.name}`}
-                </Typography>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-          ))}
-
-        </Grid>
+        </Paper>
       </Container>
-    </>
+    </Grid>
   );
 };
 
