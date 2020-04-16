@@ -245,18 +245,6 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getUserRole(): ?array
-    {
-        return $this->userRole;
-    }
-
-    public function setUserRole(?array $userRole): self
-    {
-        $this->role = $userRole;
-
-        return $this;
-    }
-
     public function getIsActive(): ?bool
     {
         return $this->isActive;
@@ -532,16 +520,15 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    public function __toString() {
+        return $this;
+    }
+
     public function getSalt()
     {
         // you *may* need a real salt depending on your encoder
         // see section on salt below
         return null;
-    }
-
-    public function getRoles()
-    {
-        return array($this->getUserRole()->getRoleString());
     }
 
     public function eraseCredentials()
@@ -579,8 +566,46 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getUsername(): ?string
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
     {
-        return $this->username;
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->userRole;
+        // guarantee every user at least has ROLE_USER
+        // $roles[] = 'ROLE_USER';
+
+        $userRole = [];
+
+        return $userRole;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getUserRole(): ?array
+    {
+        return $this->userRole;
+    }
+
+    public function setUserRole(?array $userRole): self
+    {
+        $this->userRole = $userRole;
+
+        return $this;
     }
 }
