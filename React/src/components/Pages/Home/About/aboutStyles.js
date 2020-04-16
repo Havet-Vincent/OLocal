@@ -3,17 +3,25 @@ import { FormHelperText } from '@material-ui/core';
 
 const aboutStyles = makeStyles((theme) => ({
   aboutWrapper: {
-    padding: theme.spacing(2, 0),
+    padding: theme.spacing(4, 0),
   },
   aboutTitle: {
     color: '#37474f',
     fontSize: '1.8em',
     fontWeight: '700',
     textAlign: 'center',
-    paddingBottom: theme.spacing(3),
+    paddingBottom: theme.spacing(1),
   },
   aboutIntro: {
-    padding: theme.spacing(3, 0, 5, 0),
+    fontSize: '1em',
+    margin: theme.spacing(3, 8),
+    paddingBottom: theme.spacing(5),
+    '& > p': {
+      paddingTop: theme.spacing(3),
+    },
+    [theme.breakpoints.down('sm')]: {
+      margin: theme.spacing(3, 1),
+    },
   },
   cardWrapper: {
     display: 'flex',
@@ -29,6 +37,7 @@ const aboutStyles = makeStyles((theme) => ({
   },
   cardContent: {
     maxWidth: 500,
+    fontSize: '1.2em',
   },
 }));
 
