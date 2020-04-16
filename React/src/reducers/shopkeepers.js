@@ -1,5 +1,6 @@
 import {
   SAVE_SEARCH_HOME_DATA,
+  SAVE_SHOPKEEPER_DATA,
 } from '../actions/shopkeepers';
 
 const initialState = {
@@ -7,6 +8,8 @@ const initialState = {
   currentCategory: {},
   currentRegion: {},
   searchResults: [],
+  // API Shopkeeper Data
+  shopkeeper: {},
 };
 
 const shopkeepersReducer = (state = initialState, action = {}) => {
@@ -17,6 +20,12 @@ const shopkeepersReducer = (state = initialState, action = {}) => {
         currentCategory: action.category,
         currentRegion: action.region,
         searchResults: action.results,
+      };
+
+    case SAVE_SHOPKEEPER_DATA:
+      return {
+        ...state,
+        shopkeeper: action.shopkeeper,
       };
 
     default: return state;
