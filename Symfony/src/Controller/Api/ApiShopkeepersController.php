@@ -149,6 +149,9 @@ class ApiShopkeepersController extends AbstractController
         $user->setCity($city);
 
         $company = $data->etablissement->uniteLegale->denominationUniteLegale;
+        if ($company === null) {
+            $company = $data->etablissement->periodesEtablissement[0]->enseigne1Etablissement;
+        }
         $user->setCompanyName($company);
 
         $user->setSiret($siret);

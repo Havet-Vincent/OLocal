@@ -79,6 +79,9 @@ class ApiLocalSuppliersController extends AbstractController
         //dd($data);
 
         $name=$data->etablissement->uniteLegale->denominationUniteLegale;
+        if ($name === null) {
+            $name = $data->etablissement->periodesEtablissement[0]->enseigne1Etablissement;
+        }
         $postalCode=$data->etablissement->adresseEtablissement->codePostalEtablissement;
         $city = $data->etablissement->adresseEtablissement->libelleCommuneEtablissement;
 
