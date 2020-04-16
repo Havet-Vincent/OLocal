@@ -19,13 +19,13 @@ const About = () => {
         A propos
       </Typography>
       <div className={classes.aboutIntro}>
-        <Typography variant="body2" align="center" color="textSecondary" component="p">
+        <Typography variant="body1" align="center" color="textSecondary" component="p">
           Créé en 2020, O'Local a pour objectif de mettre à disposition des consommateurs un moyen de connaître les commerçants de proximité proposant des produits issus de producteurs locaux.
         </Typography>
-        <Typography variant="body2" align="center" color="textSecondary" component="p">
+        <Typography variant="body1" align="center" color="textSecondary" component="p">
           O'Local a pour but de réunir les différentes adresses des commerçants proche de chez vous, vous donnant la possibilité d'obtenir divers articles au même endroit. Ainsi, nous privilégions une réduction des déplacements nécessaires pour faire ses achats.
         </Typography>
-        <Typography variant="body2" align="center" color="textSecondary" component="p">
+        <Typography variant="body1" align="center" color="textSecondary" component="p">
           Nous tenons à valoriser les produits de nos terroirs et à contribuer à une consommation plus saine, éco-responsable, tout en encourageant l'économie locale.
         </Typography>
       </div>

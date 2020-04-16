@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 
 // == Import components
@@ -11,7 +12,6 @@ import {
   Card,
   CardContent,
   CardMedia,
-  CardHeader,
   Paper,
   ExpansionPanel,
   ExpansionPanelDetails,
@@ -27,14 +27,13 @@ import {
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import CallIcon from '@material-ui/icons/Call';
 import WebIcon from '@material-ui/icons/Web';
-import LocationCityIcon from '@material-ui/icons/LocationCity';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
+import RoomRoundedIcon from '@material-ui/icons/RoomRounded';
 
 // == Import Selectors
 import { getUniqueCategories, getProductsByCategory } from 'src/utils/selectors';
-
-import shop from './dataShop';
 
 // == Import assets & styles
 import shopkeeperStyles from './shopkeeperStyles';
@@ -44,24 +43,23 @@ const server = require('src/api.config.json');
 
 
 // == Composant
-const Shopkeeper = () => {
+const Shopkeeper = ({ shopkeeper, currentCategory }) => {
+  // console.log(currentCategory);
   const classes = shopkeeperStyles();
 
-  // Temp state (redux)
-  const [currentCategory, setCurrentCategory] = useState({ id: 1, name: 'Fruits' });
-
-  // state
+  // Local state
   const [expanded, setExpanded] = useState(false);
   const [categorySelect, setCategorySelect] = useState(currentCategory.id);
 
+
   // Filter unique categories for Select
-  const categories = shop.catalogs.map((catalog) => {
+  const categories = shopkeeper.catalogs.map((catalog) => {
     return catalog.product.category;
   });
   const uniqueCategories = getUniqueCategories(categories);
 
   // Filter products for selected category
-  const products = shop.catalogs.map((catalog) => {
+  const products = shopkeeper.catalogs.map((catalog) => {
     return { ...catalog.product, localSupplier: catalog.localSupplier };
   });
   const productsByCategory = getProductsByCategory(products, categorySelect);
@@ -88,66 +86,75 @@ const Shopkeeper = () => {
   return (
     <Grid container className={classes.shopkeeperWrapper}>
       <Container className={classes.shopkeeperContent}>
-        <Paper className={classes.shopkeeperDescription} elevation={2}>
+        <Paper className={classes.shopkeeperDescription} elevation={0}>
           <Box className={classes.shopkeepersListNav}>
-            <IconButton edge="start" color="primary" component={RouterLink} to="/">
+            <IconButton color="primary" component={RouterLink} to="/liste-commercants">
               <ArrowBackIcon fontSize="large" color="action" />
             </IconButton>
+            <IconButton color="primary" component={RouterLink} to="/">
+              <HomeRoundedIcon fontSize="large" color="action" />
+            </IconButton>
           </Box>
-          <Card elevation={0}>
-            <CardHeader
-              title={shop.companyName}
-              titleTypographyProps={{ align: 'center', variant: 'h4' }}
-              component="h1"
-              className={classes.cardHeader}
-            />
+          <Card className={classes.cardWrapper} elevation={0}>
+            <Typography variant="h4" component="h1" className={classes.cardHeader} gutterBottom>
+              {shopkeeper.companyName}
+            </Typography>
             <Container className={classes.card}>
               <Box className={classes.cardDetails}>
                 <CardMedia
                   className={classes.cardMedia}
-                  image={`${server.url}:${server.port}${shop.logoPicture}`}
+                  image={`${server.url}:${server.port}${shopkeeper.logoPicture}`}
                   title="commerce"
                 />
                 <Paper className={classes.root} elevation={0}>
-                  <Link variant="body1" href={shop.website}>
+                  <Link variant="body1" href={shopkeeper.website}>
                     <Chip
                       icon={<WebIcon className={classes.chipIcon} />}
-                      label={shop.website}
+                      label={shopkeeper.website.replace(/(^\w+:|^)\/\//, '')}
                       className={classes.chip}
                     />
                   </Link>
-                  <Link variant="body1" href={`tel:${shop.phone}`}>
+                  <Link variant="body1" href={`tel:${shopkeeper.phone}`}>
                     <Chip
                       icon={<CallIcon className={classes.chipIcon} />}
-                      label={shop.phone}
+                      label={shopkeeper.phone}
                       className={classes.chip}
                     />
                   </Link>
-                  <Link variant="body1" href={`mailto:${shop.email}`}>
+                  <Link variant="body1" href={`mailto:${shopkeeper.email}`}>
                     <Chip
                       icon={<ContactMailIcon className={classes.chipIcon} />}
-                      label={shop.email}
+                      label={shopkeeper.email}
                       className={classes.chip}
                     />
                   </Link>
-                  <Typography component="p" variant="body2" className={classes.chipAdress}>
-                    <LocationCityIcon />
-                    {`
-                      ${shop.wayNumber}
-                      ${shop.repeatIndex}
-                      ${shop.wayType}
-                      ${shop.wayName}
-                      ${shop.additionalAddress}
-                      ${shop.postalCode}
-                      ${shop.city}
-                    `}
-                  </Typography>
+                  <Card className={classes.chipAdress} elevation={0}>
+                    <CardContent className={classes.chipContent}>
+                      <IconButton aria-label="location" className={classes.chipIconAdress} size="medium">
+                        <RoomRoundedIcon />
+                      </IconButton>
+                      <Typography variant="subtitle2" component="p">
+                        {`
+                          ${shopkeeper.wayNumber}
+                          ${shopkeeper.wayType}
+                          ${shopkeeper.wayName}
+                          ${shopkeeper.additionalAddress}
+                          -
+                          ${shopkeeper.postalCode}
+                          ${shopkeeper.city}
+                        `}
+                      </Typography>
+                    </CardContent>
+                  </Card>
                 </Paper>
               </Box>
-              <Box className={classes.cardProducts}>
+              <Paper className={classes.cardProducts} elevation={2}>
                 <CardContent className={classes.cardContent} elevation={0}>
+                  <Typography variant="h6" component="h5" gutterBottom>
+                    Description :
+                  </Typography>
                   <Typography variant="body1" color="textSecondary">
-                    {shop.companyDescription}
+                    {shopkeeper.companyDescription}
                   </Typography>
                 </CardContent>
                 <Paper className={classes.shopkeeperProducts} elevation={0}>
@@ -156,7 +163,7 @@ const Shopkeeper = () => {
                     <Select
                       fullWidth
                       className={classes.regionsSelect}
-                      label="Catégorie de produits"
+                      label="Catégorie de produits proposés"
                       labelId="search-category"
                       id="search-category"
                       value={categorySelect}
@@ -169,13 +176,12 @@ const Shopkeeper = () => {
                     </Select>
                   </FormControl>
                   <Grid className={classes.root}>
-                    <Typography variant="h6" component="h5">
-                      Liste des produits
+                    <Typography variant="h6" component="h5" gutterBottom>
+                      Nos produits proposés :
                     </Typography>
-
                     {productsByCategory.map((product) => (
                       <ExpansionPanel
-                        size="small"
+                        className={classes.expansionPanel}
                         expanded={expanded === `panel${product.id}`}
                         key={product.id}
                         onChange={handleChangeExpand(`panel${product.id}`)}
@@ -185,19 +191,23 @@ const Shopkeeper = () => {
                           aria-controls={`panel${product.id}-content`}
                           id={`panel${product.id}-header`}
                         >
-                          <Typography className={classes.heading}>{product.name}</Typography>
-                          {/* <Typography className={classes.secondaryHeading}>{supplier.city}</Typography> */}
+                          <Typography className={classes.heading}>
+                            {product.name}
+                          </Typography>
                         </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                          <Typography>
-                            {`Producteur: ${product.localSupplier.name}`}
+                        <ExpansionPanelDetails className={classes.secondaryHeading}>
+                          <Typography variant="body2">
+                            Producteur:
+                          </Typography>
+                          <Typography variant="subtitle1" color="primary">
+                            {product.localSupplier.name}
                           </Typography>
                         </ExpansionPanelDetails>
                       </ExpansionPanel>
                     ))}
                   </Grid>
                 </Paper>
-              </Box>
+              </Paper>
             </Container>
           </Card>
         </Paper>
@@ -206,6 +216,10 @@ const Shopkeeper = () => {
   );
 };
 
+Shopkeeper.propTypes = {
+  shopkeeper: PropTypes.object.isRequired,
+  currentCategory: PropTypes.object.isRequired,
+};
 
 // == Export
 export default Shopkeeper;

@@ -3,7 +3,7 @@ import { FormHelperText } from '@material-ui/core';
 
 const aboutStyles = makeStyles((theme) => ({
   aboutWrapper: {
-    padding: theme.spacing(4, 0),
+    padding: theme.spacing(2, 0),
   },
   aboutTitle: {
     color: '#37474f',
@@ -14,13 +14,13 @@ const aboutStyles = makeStyles((theme) => ({
   },
   aboutIntro: {
     fontSize: '1em',
-    margin: theme.spacing(3, 8),
+    margin: theme.spacing(1, 8, 2, 8),
     paddingBottom: theme.spacing(5),
     '& > p': {
       paddingTop: theme.spacing(3),
     },
     [theme.breakpoints.down('sm')]: {
-      margin: theme.spacing(3, 1),
+      margin: theme.spacing(1),
     },
   },
   cardWrapper: {

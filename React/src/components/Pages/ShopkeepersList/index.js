@@ -27,9 +27,15 @@ import shopkeepersListStyles from './shopkeepersListStyles';
 const server = require('src/api.config.json');
 
 // == Composant
-const ShopkeepersList = ({ currentCategory, currentRegion, searchResults }) => {
-  console.log(currentCategory, currentRegion, searchResults);
+const ShopkeepersList = ({
+  currentCategory,
+  currentRegion,
+  searchResults,
+  getShopkeeperData,
+}) => {
+  // console.log(currentCategory, currentRegion, searchResults);
   const classes = shopkeepersListStyles();
+  const nbResults = searchResults.length;
 
   return (
     <Grid container className={classes.shopkeepersListWrapper}>
@@ -41,7 +47,7 @@ const ShopkeepersList = ({ currentCategory, currentRegion, searchResults }) => {
           <Chip
               color="secondary"
               icon={<LocationSearchingRoundedIcon />}
-              label={`${searchResults.length} Résultats`}
+              label={nbResults <= 1 ? `${nbResults} Résultat` : `${nbResults} Résultats`}
             />
           </div>
           <Typography variant="h4" component="h1" className={classes.shopkeepersListTitle} gutterBottom>
@@ -75,7 +81,14 @@ const ShopkeepersList = ({ currentCategory, currentRegion, searchResults }) => {
                     length={400} 
                   />   
                 </Typography>
-                <Button variant="contained" size="small" color="primary" component="a" className={classes.cardLink}>
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="primary"
+                  component="a"
+                  className={classes.cardLink}
+                  onClick={() => getShopkeeperData(item.id)}
+                >
                   Voir plus
                 </Button>
               </CardContent>
@@ -88,18 +101,10 @@ const ShopkeepersList = ({ currentCategory, currentRegion, searchResults }) => {
 };
 
 ShopkeepersList.propTypes = {
-  searchResults: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      postalCode: PropTypes.number.isRequired,
-      city: PropTypes.string.isRequired,
-      companyName: PropTypes.string.isRequired,
-      companyDescription: PropTypes.string.isRequired,
-      logoPicture: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
+  searchResults: PropTypes.array.isRequired,
   currentCategory: PropTypes.object.isRequired,
   currentRegion: PropTypes.object.isRequired,
+  getShopkeeperData: PropTypes.func.isRequired,
 };
 
 // == Export
