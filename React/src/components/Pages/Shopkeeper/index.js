@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // == Import components
 import {
@@ -13,46 +13,65 @@ import {
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@material-ui/core';
-
-
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import CallIcon from '@material-ui/icons/Call';
 import WebIcon from '@material-ui/icons/Web';
 import LocationCityIcon from '@material-ui/icons/LocationCity';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+// == Import Selectors
+import { getUniqueCategories, getProductsByCategory } from 'src/utils/selectors';
+
 import shop from './dataShop';
 
 // == Import assets & styles
 import shopkeeperStyles from './shopkeeperStyles';
 
-
-const suppliers = [
-  {
-    id: 2,
-    name: 'De Sousa',
-    city: 'GautierVille',
-    codePostal: '97670',
-  },
-  {
-    id: 3,
-    name: 'Pereira',
-    city: 'Rouxboeuf',
-    codePostal: '26849',
-  },
-];
-
-
 // == Composant
 const Shopkeeper = () => {
-  // console.log('page keeper');
   const classes = shopkeeperStyles();
 
-  const [expanded, setExpanded] = React.useState(false);
+  // Temp state (redux)
+  const [currentCategory, setCurrentCategory] = useState({ id: 1, name: 'Fruits' });
 
-  const handleChange = (panel) => (event, isExpanded) => {
+  // state
+  const [expanded, setExpanded] = useState(false);
+  const [categorySelect, setCategorySelect] = useState(currentCategory.id);
+
+  // Filter unique categories for Select
+  const categories = shop.catalogs.map((catalog) => {
+    return catalog.product.category;
+  });
+  const uniqueCategories = getUniqueCategories(categories);
+
+  // Filter products for selected category
+  const products = shop.catalogs.map((catalog) => {
+    return { ...catalog.product, localSupplier: catalog.localSupplier };
+  });
+  const productsByCategory = getProductsByCategory(products, categorySelect);
+
+
+  const handleChangeExpand = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
+  };
+
+  const handleChangeCategory = (event) => {
+    setCategorySelect(event.target.value);
+  };
+
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        // sub-menu size
+        maxHeight: 300,
+        maxWidth: 320,
+      },
+    },
   };
 
   return (
@@ -61,7 +80,7 @@ const Shopkeeper = () => {
         <Grid className={classes.root}>
           <Card className={classes.card}>
             <CardHeader
-              title={shop.company}
+              title={shop.companyName}
               titleTypographyProps={{ align: 'center', variant: 'h3'}}
               className={classes.cardHeader}
             />
@@ -101,34 +120,59 @@ const Shopkeeper = () => {
                 <Grid item>
                   <LocationCityIcon />
                 </Grid>
-                <Grid item>{shop.additionalAddress}{shop.repeatIndex}{shop.wayNumber}</Grid>
+                <Grid className={classes.gridAdress}>
+                  {shop.wayNumber}
+                  {shop.repeatIndex}
+                  {shop.wayType}
+                  {shop.wayName}
+                  {shop.additionalAddress}
+                  {shop.postalCode}
+                  {shop.city}
+                </Grid>
                 <br />
                 <br />
               </Grid>
               <Typography variant="body2" color="textSecondary">
-                {shop.description}
+                {shop.companyDescription}
               </Typography>
             </CardContent>
           </Card>
         </Grid>
+        <FormControl variant="outlined" className={classes.formControl}>
+          <InputLabel id="search-category">Catégorie de produits</InputLabel>
+          <Select
+            fullWidth
+            className={classes.regionsSelect}
+            label="Catégorie de produits"
+            labelId="search-category"
+            id="search-category"
+            value={categorySelect}
+            onChange={handleChangeCategory}
+            MenuProps={MenuProps}
+          >
+            {uniqueCategories.map((category) => (
+              <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <Grid className={classes.root}>
           <Typography variant="h6" component="h5">
             Liste des produits
           </Typography>
 
-          {suppliers.map((supplier) => (
-            <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+          {productsByCategory.map((product) => (
+            <ExpansionPanel expanded={expanded === `panel${product.id}`} key={product.id} onChange={handleChangeExpand(`panel${product.id}`)}>
               <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-             >
-                <Typography className={classes.heading}>{supplier.name}</Typography>
-                <Typography className={classes.secondaryHeading}>{supplier.city}</Typography>
+                aria-controls={`panel${product.id}-content`}
+                id={`panel${product.id}-header`}
+              >
+                <Typography className={classes.heading}>{product.name}</Typography>
+                {/* <Typography className={classes.secondaryHeading}>{supplier.city}</Typography> */}
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography>
-                  carottes poireaux
+                  {`Producteur: ${product.localSupplier.name}`}
                 </Typography>
               </ExpansionPanelDetails>
             </ExpansionPanel>

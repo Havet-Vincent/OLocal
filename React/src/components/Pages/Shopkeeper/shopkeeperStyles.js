@@ -16,6 +16,9 @@ const shopkeeperStyles = makeStyles((theme) => ({
     textAlign: 'center',
     textTransform: 'capitalize',
   },
+  regionsSelect: {
+    width: 250,
+  },
   cardMedia: {
     paddingTop: '56.25%', // 16:9
   },
@@ -25,6 +28,9 @@ const shopkeeperStyles = makeStyles((theme) => ({
   gridLink: {
     display: 'flex',
     justifyContent: 'space-between',
+  },
+  gridAdress: {
+    marginRight: theme.spacing(3),
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
