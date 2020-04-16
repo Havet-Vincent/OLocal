@@ -5,16 +5,23 @@ namespace App\DataFixtures;
 use Faker\Factory;
 use App\Entity\User;
 use App\Entity\Region;
+use App\Entity\Catalog;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\LocalSupplier;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\DataFixtures\Provider\OlocalProvider;
-use App\Entity\Catalog;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
+    private $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
 
     public function load(ObjectManager $manager)
     {   
@@ -24,11 +31,11 @@ class AppFixtures extends Fixture
         // we create all regions
         $regionsList = [];
 
-        $region= new Region();
-        $region->setName("Auvergne-Rhône-Alpes");
-        $region->setCreatedAt(new \DateTime());
-        $regionsList[] = $region;
-        $manager->persist($region);
+        $regionA= new Region();
+        $regionA->setName("Auvergne-Rhône-Alpes");
+        $regionA->setCreatedAt(new \DateTime());
+        $regionsList[] = $regionA;
+        $manager->persist($regionA);
 
         $region= new Region();
         $region->setName("Bourgogne-Franche-Comté");
@@ -241,7 +248,7 @@ class AppFixtures extends Fixture
             $user->setCompanyDescription($faker->realText($maxNbChars = 400, $indexSize = 2));
             $user->setLogoPicture('/uploads/frontoffice'.mt_rand(1, 30).'.jpg');
             $user->setPhone($faker->serviceNumber());
-            $user->setWebsite($faker->url());
+            $user->setWebsite('http://www.monsitewebtropbeau.com');
             $user->setCreatedAt(new \DateTime());
             
             $randomRegion = $regionsList[array_rand($regionsList)];
@@ -274,6 +281,56 @@ class AppFixtures extends Fixture
             $usersList[] = $user;
             $manager->persist($user);
         }
+
+        // custom user for tests
+        $custom = new User();
+        $custom->setEmail('user@user.com');
+        $custom->setFirstname($faker->firstname());
+        $custom->setLastname($faker->lastname());
+        $custom->setPassword($this->encoder->encodePassword($custom, 'user'));
+        $custom->setUserRole(['ROLE_USER']);
+        $custom->setIsEmailChecked(true);
+        $custom->setIsActive(true);
+        $custom->setAdditionalAddress($faker->optional()->secondaryAddress());
+        $custom->setRepeatIndex($faker->optional()->randomElement(["Bis","Ter"]));
+        $custom->setWayNumber($faker->buildingNumber());
+        $custom->setWayType($faker->randomElement(["rue","avenue","allée","boulevard", "route","place"]));
+        $custom->setWayName($faker->streetName());
+        $custom->setPostalCode($faker->numberBetween(10000, 99999));
+        $custom->setCity($faker->city());
+        $custom->setSiret($faker->numberBetween(10000000000000, 99999999999999));
+        $custom->setCompanyName('La boutique des tests');
+        $custom->setCompanyDescription($faker->realText(400, 2));
+        $custom->setLogoPicture('/uploads/frontoffice'.mt_rand(1, 30).'.jpg');
+        $custom->setPhone($faker->serviceNumber());
+        $custom->setWebsite('http://www.monsitewebtropbeau.com');
+        $custom->setCreatedAt(new \DateTime());    
+        $custom->setRegion($regionA);
+            // we create between 30 products
+            $productsList = [];
+            for ($p = 0; $p < 30; $p++) {
+                $product = new Product();
+                $product->setName($faker->word());
+                $product->setCreatedAt(new \DateTime());
+
+                $randomCategory = $categoriesList[array_rand($categoriesList)];
+                $product->setCategory($randomCategory);
+            
+                $catalogProduct = new Catalog;
+                $catalogProduct->setUser($custom);
+                $catalogProduct->setProduct($product);
+                $randomLocal = $localList[array_rand($localList)];
+                
+                $catalogProduct->setLocalSupplier($randomLocal);
+
+                $product->addCatalog($catalogProduct); 
+
+                $productsList[] = $product;
+                $manager->persist($catalogProduct);
+            }
+        $usersList[] = $custom;
+        $manager->persist($custom);
+
 
         $manager->flush();
     }
