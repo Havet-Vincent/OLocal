@@ -21,7 +21,7 @@ security:
                 success_handler:          lexik_jwt_authentication.handler.authentication_success
                 failure_handler:          lexik_jwt_authentication.handler.authentication_failure
         api:
-            pattern:   ^/api/(shopkeepers/\d+/[ed]|localsuppliers/add|products/add|)
+            pattern:   ^/api/(shopkeepers/\d+/edit|shopkeepers/\d+/delete|localsuppliers/add|products/add|)$
             stateless: true
             guard:
                 authenticators:
