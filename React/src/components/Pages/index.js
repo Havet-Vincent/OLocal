@@ -1,15 +1,12 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-/*
-https://reacttraining.com/react-router/web/api/Switch
-- Routes sans Switch : il peut y avoir plusieurs routes qui correspondent à l'URL
-- Routes englobées dans un Switch : on s'arrête à la première route qui correspond
-à l'URL (nécessaire en particulier quand on veut une page d'erreur 404)
-*/
 
 // == Import components
 import Home from 'src/containers/Home';
+import Shopkeeper from 'src/components/Pages/Shopkeeper';
 import LegalNotices from 'src/components/Pages/LegalNotices';
+import Contact from 'src/components/Pages/Contact';
+import PlanDuSite from 'src/components/Pages/PlanDuSite';
 
 const Pages = () => (
   <>
@@ -20,9 +17,24 @@ const Pages = () => (
       <Home />
     </Route>
     <Route
+      path="/shopkeeper/costa"
+    >
+      <Shopkeeper />
+    </Route>
+    <Route
       path="/mentions-légales"
     >
       <LegalNotices />
+    </Route>
+    <Route
+      path="/contact"
+    >
+      <Contact />
+    </Route>
+    <Route
+      path="/plan-du-site"
+    >
+      <PlanDuSite />
     </Route>
   </>
 );
