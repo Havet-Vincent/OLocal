@@ -18,9 +18,17 @@ const About = () => {
       <Typography variant="h5" component="h1" className={classes.aboutTitle}>
         A propos
       </Typography>
-      <Typography variant="body2" align="center" color="textPrimary" component="p" className={classes.aboutIntro}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores voluptatum reiciendis a natus error quidem officia sequi blanditiis ullam alias, et assumenda minus quaerat tempore odit. Cupiditate praesentium vero veritatis delectus eius suscipit nesciunt quas sint quae esse cumque quia, recusandae, magnam autem, quibusdam aliquam ex facilis dolore sapiente illo.
-      </Typography>
+      <div className={classes.aboutIntro}>
+        <Typography variant="body2" align="center" color="textSecondary" component="p">
+          Créé en 2020, O'Local a pour objectif de mettre à disposition des consommateurs un moyen de connaître les commerçants de proximité proposant des produits issus de producteurs locaux.
+        </Typography>
+        <Typography variant="body2" align="center" color="textSecondary" component="p">
+          O'Local a pour but de réunir les différentes adresses des commerçants proche de chez vous, vous donnant la possibilité d'obtenir divers articles au même endroit. Ainsi, nous privilégions une réduction des déplacements nécessaires pour faire ses achats.
+        </Typography>
+        <Typography variant="body2" align="center" color="textSecondary" component="p">
+          Nous tenons à valoriser les produits de nos terroirs et à contribuer à une consommation plus saine, éco-responsable, tout en encourageant l'économie locale.
+        </Typography>
+      </div>
       <Card className={classes.cardWrapper} elevation={0}>
         <CardMedia
           className={classes.cardImg}
@@ -29,20 +37,20 @@ const About = () => {
         />
         <CardContent className={classes.cardContent}>
           <Typography gutterBottom variant="h6" component="h2">
-            Louise
+            Hello ! Moi c'est Louise
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, facere. Debitis, ipsum aperiam. Minima tempora odit quis tenetur eligendi, vitae dignissimos sed hic, nobis explicabo blanditiis ipsa error fuga aperiam!
+            Je cherche des commerces dans ma région proposant des produits locaux.
           </Typography>
         </CardContent>
       </Card>
       <Card className={classes.cardWrapper} elevation={0}>
         <CardContent className={classes.cardContent}>
           <Typography gutterBottom variant="h6" component="h2">
-            Bernard
+            Bonjour. Je suis Bernard
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis excepturi, facere sunt mollitia corrupti commodi debitis, adipisci voluptatem eum ratione recusandae. Esse cumque dolor saepe repudiandae temporibus eligendi consequatur veritatis.
+            Je cherche à promouvoir les produits locaux vendus dans ma boutique et gagner en visibilité au sein de ma région.
           </Typography>
         </CardContent>
         <CardMedia
