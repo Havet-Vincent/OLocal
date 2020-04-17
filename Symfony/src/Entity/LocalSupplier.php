@@ -38,12 +38,14 @@ class LocalSupplier
     /**
      * @ORM\Column(type="integer")
      * @Groups("add_local_supplier")
+     * @Groups("user_get")
      */
     private $postalCode;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("add_local_supplier")
+     * @Groups("user_get")
      */
     private $city;
 
