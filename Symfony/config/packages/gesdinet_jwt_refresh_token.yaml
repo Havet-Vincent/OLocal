@@ -1,0 +1,6 @@
+gesdinet_jwt_refresh_token:
+    ttl: 86400
+    user_identity_field: email
+    ttl_update: true
+    token_parameter_name: refreshToken
+    user_provider: our_olocal_provider
