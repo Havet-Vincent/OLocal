@@ -13,7 +13,7 @@ import Contact from 'src/components/Pages/Contact';
 const Pages = ({ redirectTo }) => (
   <>
     {redirectTo && (
-      <Redirect to={redirectTo} />
+      <Redirect to={redirectTo} push />
     )}
     <Switch>
       <Route exact path="/">

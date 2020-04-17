@@ -114,6 +114,11 @@ const shopkeeperStyles = makeStyles((theme) => ({
       display: 'none'
     },
   },
+  expensionPanelDetails: {
+    display: 'flex',
+    flexFlow: 'row wrap',
+    justifyContent: 'space-between',
+  },
   heading: {
     textTransform: 'capitalize',
     flexBasis: '33.33%',
@@ -122,7 +127,7 @@ const shopkeeperStyles = makeStyles((theme) => ({
     fontWeight: 700,
   },
   secondaryHeading: {
-    justifyContent: 'space-between',
+    width: 'auto',
     textTransform: 'capitalize',
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
@@ -154,6 +159,14 @@ const shopkeeperStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     color: theme.palette.primary.main,
   },
+  localSupplierAddress: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+  },
+  localSupplierTitle: {
+    paddingRight: theme.spacing(2),
+  }
 }));
 
 export default shopkeeperStyles;

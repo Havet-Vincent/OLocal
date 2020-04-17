@@ -33,7 +33,7 @@ const About = () => {
         <CardMedia
           className={classes.cardImg}
           image={NicoleImg}
-          title="Contemplative Reptile"
+          title="Illustration Louise"
         />
         <CardContent className={classes.cardContent}>
           <Typography gutterBottom variant="h6" component="h2">
@@ -56,7 +56,7 @@ const About = () => {
         <CardMedia
           className={classes.cardImg}
           image={BernardImg}
-          title="Contemplative Reptile"
+          title="Illustration Bernard"
         />
       </Card>
     </Container>
