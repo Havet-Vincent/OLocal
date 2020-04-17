@@ -34,7 +34,7 @@ class ApiCatalogsController extends AbstractController
     /**
      * @Route("/api/catalogs/add", name="api_catalogs_add", methods="POST")
      */
-    public function add (Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, ProductRepository $productRepository, RegionRepository $regionRepository, LocalSupplierRepository $localSupplierRepository, UserRepository $userRepository, CategoryRepository $categoryRepository, EntityManagerInterface $em)
+    public function add(Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, ProductRepository $productRepository, RegionRepository $regionRepository, LocalSupplierRepository $localSupplierRepository, UserRepository $userRepository, CategoryRepository $categoryRepository, EntityManagerInterface $em)
     {
         // 1. On récupère le contenu JSON
         $dataRequest = json_decode($request->getContent());
@@ -88,8 +88,75 @@ class ApiCatalogsController extends AbstractController
         $em->persist($catalog);
         $em->flush();
 
-        return $this->json('catalogue ajouté',201);
+        return $this->json('catalogue ajouté', 201);
 
+    }
+
+    /**
+     * @Route("/api/catalogs/{id<\d+>}/edit", name="api_catalogs_edit", methods="POST")
+     */
+    public function edit(Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, ProductRepository $productRepository, RegionRepository $regionRepository, LocalSupplierRepository $localSupplierRepository, UserRepository $userRepository, CategoryRepository $categoryRepository, CatalogRepository $catalogRepository, EntityManagerInterface $em)
+    {
+        // 1. On récupère le contenu JSON
+        $dataRequest = json_decode($request->getContent());
+      
+        $catalog = $denormalizer->denormalize($dataRequest, Catalog::class);
+        
+        //on valide l'entité 
+        $errors = $validator->validate($catalog);
+        if (count($errors) !== 0) {
+            $jsonErrors = [];
+            foreach ($errors as $error) {
+                $jsonErrors[] = [
+                    'field' => $error->getPropertyPath(),
+                    'message' => $error->getMessage(),
+                ];
+            }
+
+            return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        // catalog doesn't exist ?
+        $catalogId = $dataRequest->id;
+        $catalogToEdit = $catalogRepository->find($catalogId);
+        if (!$catalogToEdit){
+            throw $this->createNotFoundException(sprintf(
+                'Catalogue inexistant.'));
+        }
+
+        $localSupplierId = $dataRequest->localSupplier;
+        $localSupplier = $localSupplierRepository->find($localSupplierId);
+
+        $productName = $dataRequest->product;
+        // if product already in DB
+        if ($productRepository->findOneBy(['name' => $productName])) {
+            // take its id with getId()
+            $product = $productRepository->findOneBy(['name' => $productName]);            
+        } else {
+            // else -> call add product function before adding it to Catalog
+            $categoryId = $dataRequest->category;
+            $category = $categoryRepository->find($categoryId);
+            $product = new Product;
+            $product->setName($productName);
+            $product->setCategory($category);
+            $em=$this->getDoctrine()->getManager();
+            $em->persist($product);
+            $em->flush();
+            $product = $productRepository->findOneBy(['name' => $productName]);
+        }
+
+        if ($dataRequest->localSupplier !== $catalogToEdit->getLocalSupplier()) {
+            $catalogToEdit->setLocalSupplier($localSupplier);
+        }
+        if ($dataRequest->product !== $catalogToEdit->getProduct()) {
+            $catalogToEdit->setProduct($product);
+        }
+
+        $em=$this->getDoctrine()->getManager();
+        $em->persist($catalogToEdit);
+        $em->flush();
+
+        return $this->json('Catalogue mis à jour');
     }
 
     /**
