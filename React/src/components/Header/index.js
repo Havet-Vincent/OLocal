@@ -6,7 +6,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Link, AppBar, Toolbar } from '@material-ui/core';
 import NavMenu from './NavMenu';
 import AuthMenu from './AuthMenu';
-import SignUpForm from './SignUpForm';
+import SignUpForm from 'src/containers/Header/SignUpForm';
 import SignInForm from './SignInForm';
 
 // == Import assets & styles
@@ -14,15 +14,15 @@ import Logo from '../../assets/img/logo.svg';
 import headerStyles from './headerStyles';
 
 // == Composant
-const Header = () => {
+const Header = ({ signUp, setSignUp, signIn, setSignIn }) => {
   const classes = headerStyles();
 
   // temp state
   const [auth, setAuth] = React.useState(false);
 
   // state 
-  const [signUp, setSignUp] = React.useState(false);
-  const [signIn, setSignIn] = React.useState(false);
+  // const [signUp, setSignUp] = React.useState(false);
+  // const [signIn, setSignIn] = React.useState(false);
 
   const setLogout = () => {
     setAuth(false);
@@ -39,15 +39,15 @@ const Header = () => {
           </div>
           {!auth && (
             <NavMenu 
-              setSignUp={() => setSignUp(true)} 
-              setSignIn={() => setSignIn(true)} 
+              setSignUp={setSignUp} 
+              setSignIn={setSignIn} 
             />
           )}
           {signUp && (
-            <SignUpForm setSignUp={() => setSignUp(false)} />
+            <SignUpForm setSignUp={setSignUp} />
           )}
           {signIn && (
-            <SignInForm setSignIn={() => setSignIn(false)} />
+            <SignInForm setSignIn={setSignIn} />
           )}
           {auth && (
             <AuthMenu setLogout={setLogout} />

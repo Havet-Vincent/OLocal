@@ -27,15 +27,37 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 // == Composant
-const SignUpForm = ({ setSignUp }) => {
+const SignUpForm = ({
+  setSignUp,
+  siret,
+  region,
+  email,
+  password,
+  confirmPassword,
+  setFieldValue,
+  checkPasswordConfirmation,
+  passwordLength,
+  passwordConfirmed,
+  handleSignupSubmit,
+}) => {
   const classes = signUpFormStyles();
 
   // Responsive mobile
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
+  const handleChange = (evt) => {
+    setFieldValue(evt.target.name, evt.target.value);
+  };
+
+  const handleCheck = (evt) => {
+    handleChange(evt);
+    checkPasswordConfirmation();
+  };
+
   const handlesubmit = (event) => {
     event.preventDefault();
+    handleSignupSubmit();
   };
 
   return (
@@ -72,7 +94,8 @@ const SignUpForm = ({ setSignUp }) => {
               InputLabelProps={{
                 className: classes.inputLabelField,
               }}
-              //value=''
+              value={email}
+              onChange={handleChange}
             />
             <TextField
               id="siret"
@@ -85,7 +108,8 @@ const SignUpForm = ({ setSignUp }) => {
               InputLabelProps={{
                 className: classes.inputLabelField,
               }}
-              //value=''
+              value={siret}
+              onChange={handleChange}
             />
             <TextField
               id="password"
@@ -100,13 +124,14 @@ const SignUpForm = ({ setSignUp }) => {
               InputLabelProps={{
                 className: classes.inputLabelField,
               }}
-              //value=''
+              value={password}
+              onChange={handleCheck}
             />
             <TextField
               id="confirm-password"
               label="Confirmez le mot de passe"
               className={classes.textField}
-              name='confirm-password'
+              name='confirmPassword'
               type="password"
               required
               autoComplete="current-password"
@@ -115,7 +140,11 @@ const SignUpForm = ({ setSignUp }) => {
               InputLabelProps={{
                 className: classes.inputLabelField,
               }}
-              //value=''
+              value={confirmPassword}
+              onChange={handleCheck}
+              // Password confirmation check
+              error={(!passwordConfirmed & passwordLength >= 1) && true}
+              helperText={!passwordConfirmed && 'Les mots de passe saisis ne sont pas identiques'}
             />
             <DialogActions>
               <Button
@@ -124,6 +153,7 @@ const SignUpForm = ({ setSignUp }) => {
                 color="primary"
                 endIcon={<Icon>send</Icon>}
                 type="submit"
+                disabled={!passwordConfirmed && true}
               >
                 Envoyer
               </Button>

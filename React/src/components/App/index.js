@@ -4,7 +4,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 
 // == Import components
 import Container from '@material-ui/core/Container';
-import Header from '../Header';
+import Header from '../../containers/Header';
 import Pages from '../../containers/Pages';
 import Footer from '../Footer';
 

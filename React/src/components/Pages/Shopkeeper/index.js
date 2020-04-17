@@ -40,7 +40,7 @@ const server = require('src/api.config.json');
 
 // == Composant
 const Shopkeeper = ({ shopkeeper, currentCategory, uniqueCategories, productsByCategory }) => {
-  console.log(shopkeeper);
+  // console.log(shopkeeper);
   const classes = shopkeeperStyles();
 
   // Local state
