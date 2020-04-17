@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Entity\Region;
 use App\Entity\Catalog;
 use App\Entity\Product;
+use App\Repository\CatalogRepository;
 use App\Repository\UserRepository;
 use App\Repository\RegionRepository;
 use App\Repository\ProductRepository;
@@ -89,5 +90,44 @@ class ApiCatalogsController extends AbstractController
 
         return $this->json('catalogue ajouté',201);
 
+    }
+
+    /**
+     * @Route("/api/catalogs/{id<\d+>}/delete", name="api_catalogs_delete", methods={"DELETE"})
+     */
+    public function delete (Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, CatalogRepository $catalogRepository)
+    {
+        // translate json request
+        $data = json_decode($request->getContent());
+        $catalog = $denormalizer->denormalize($data, Catalog::class);
+
+        // validation/error
+        $errors = $validator->validate($catalog);
+        if (count($errors) !== 0) {
+            $jsonErrors = [];
+            foreach ($errors as $error) {
+                $jsonErrors[] = [
+                    'field' => $error->getPropertyPath(),
+                    'message' => $error->getMessage(),
+                ];
+            }
+
+            return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        // catalog doesn't exist ?
+        $catalogId = $data->catalog;
+        $catalogToRemove = $catalogRepository->find($catalogId);
+        if (!$catalogToRemove){
+            throw $this->createNotFoundException(sprintf(
+                'Catalogue inexistant.'));
+        }
+
+        // else : delete this user
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($catalogToRemove);
+        $em->flush();
+
+        return $this->json('Catalogue supprimé');
     }
 }
