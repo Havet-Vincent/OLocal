@@ -39,8 +39,13 @@ import shopkeeperStyles from './shopkeeperStyles';
 const server = require('src/api.config.json');
 
 // == Composant
-const Shopkeeper = ({ shopkeeper, currentCategory, uniqueCategories, productsByCategory }) => {
-  console.log(shopkeeper);
+const Shopkeeper = ({
+  shopkeeper,
+  currentCategory,
+  uniqueCategories,
+  productsByCategory,
+}) => {
+  // console.log(shopkeeper);
   const classes = shopkeeperStyles();
 
   // Local state
@@ -120,8 +125,8 @@ const Shopkeeper = ({ shopkeeper, currentCategory, uniqueCategories, productsByC
                           ${shopkeeper.wayNumber ? shopkeeper.wayNumber : ''}
                           ${shopkeeper.repeatIndex ? shopkeeper.repeatIndex : ''}
                           ${shopkeeper.wayName ? shopkeeper.wayName : ''}
-                          ${shopkeeper.additionalAddress ? '- '+shopkeeper.additionalAddress : ''}
-                          ${shopkeeper.postalCode ? '- '+shopkeeper.postalCode : ''}
+                          ${shopkeeper.additionalAddress ? `- ${shopkeeper.additionalAddress}` : ''}
+                          ${shopkeeper.postalCode ? `- ${shopkeeper.postalCode}` : ''}
                           ${shopkeeper.city ? shopkeeper.city.toUpperCase() : ''}
                         `}
                       </Typography>
@@ -211,6 +216,8 @@ const Shopkeeper = ({ shopkeeper, currentCategory, uniqueCategories, productsByC
 Shopkeeper.propTypes = {
   shopkeeper: PropTypes.object.isRequired,
   currentCategory: PropTypes.object.isRequired,
+  uniqueCategories: PropTypes.array.isRequired,
+  productsByCategory: PropTypes.array.isRequired,
 };
 
 // == Export

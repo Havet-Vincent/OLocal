@@ -18,9 +18,9 @@ import About from './About';
 import homeStyles from './homeStyles';
 
 // Search Snackbar Alert & transition effect
-const Alert = (props) => {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+const Alert = (props) => (
+  <MuiAlert elevation={6} variant="filled" {...props} />
+);
 
 // == Composant
 const Home = ({
@@ -28,8 +28,10 @@ const Home = ({
   loadingCategories,
   getRegionsData,
   getCategoriesData,
-  searchNotMatch,
-  resetSearchNotMatch,
+  snackbar,
+  snackbarType,
+  snackbarMessage,
+  resetSnackbar,
 }) => {
   const classes = homeStyles();
   const displayLoader = loadingRegions || loadingCategories;
@@ -38,7 +40,7 @@ const Home = ({
     if (reason === 'clickaway') {
       return;
     }
-    resetSearchNotMatch();
+    resetSnackbar();
   };
 
   useEffect(() => {
@@ -63,13 +65,13 @@ const Home = ({
         </Grid>
       </Grid>
       <Snackbar
-        open={searchNotMatch}
+        open={snackbar}
         autoHideDuration={6000}
-        anchorOrigin={{vertical: "top", horizontal: "center"}}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity="error">
-          La recherche n'a retourné aucun résultat
+        <Alert onClose={handleClose} severity={snackbarType}>
+          {snackbarMessage}
         </Alert>
       </Snackbar>
       <Backdrop className={classes.backdrop} open={displayLoader}>
@@ -84,8 +86,10 @@ Home.propTypes = {
   loadingCategories: PropTypes.bool.isRequired,
   getRegionsData: PropTypes.func.isRequired,
   getCategoriesData: PropTypes.func.isRequired,
-  searchNotMatch: PropTypes.bool.isRequired,
-  resetSearchNotMatch: PropTypes.func.isRequired,
+  snackbar: PropTypes.bool.isRequired,
+  snackbarType: PropTypes.string.isRequired,
+  snackbarMessage: PropTypes.string.isRequired,
+  resetSnackbar: PropTypes.func.isRequired,
 };
 
 // == Export

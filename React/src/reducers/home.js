@@ -3,8 +3,8 @@ import {
   SAVE_CATEGORIES_DATA,
   SET_REGION,
   SET_CATEGORY,
-  SET_SEARCH_NOT_MATCH_ALERT,
-  RESET_SEARCH_NOT_MATCH_ALERT,
+  SET_SNACKBAR,
+  RESET_SNACKBAR,
   REDIRECT,
 } from '../actions/home';
 
@@ -18,8 +18,10 @@ const initialState = {
   // Display Home Loader
   loadingRegions: true,
   loadingCategories: true,
-  // Alert if Search not match
-  searchNotMatch: false,
+  // Display SnackBar
+  snackbar: false,
+  snackbarType: '',
+  snackbarMessage: '',
   // Redirection link after success Search request
   redirectTo: false,
 };
@@ -51,27 +53,28 @@ const homeReducer = (state = initialState, action = {}) => {
         ...state,
         category: action.value,
       };
-    
-    case SET_SEARCH_NOT_MATCH_ALERT:
+
+    case SET_SNACKBAR:
       return {
         ...state,
-        searchNotMatch: true,
-        categoryField: '',
-        regionField: '',
+        snackbar: true,
+        snackbarType: action.severity,
+        snackbarMessage: action.message,
       };
 
-    case RESET_SEARCH_NOT_MATCH_ALERT:
+    case RESET_SNACKBAR:
       return {
         ...state,
-        searchNotMatch: false,
+        snackbar: false,
+        snackbarMessage: '',
       };
 
     case REDIRECT:
       return {
         ...state,
         redirectTo: action.link,
-        categoryField: '',
-        regionField: '',
+        category: [],
+        region: [],
       };
 
     default: return {

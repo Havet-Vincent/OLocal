@@ -2,7 +2,7 @@
 import React from 'react';
 
 // == Import material UI components
-import { Button, Menu,  MenuItem } from '@material-ui/core';
+import { Button, Menu, MenuItem } from '@material-ui/core';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 // == Import assets & styles

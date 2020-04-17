@@ -26,6 +26,9 @@ const signUpFormStyles = makeStyles((theme) => ({
       fontSize: '.8em',
     },
   },
+  formControl: {
+    width: '100%',
+  },
 }));
 
 export default signUpFormStyles;
