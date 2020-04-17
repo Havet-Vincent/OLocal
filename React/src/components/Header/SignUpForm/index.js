@@ -1,5 +1,6 @@
 // == Import npm
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 // == Import material UI components
 import {
@@ -8,6 +9,10 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   IconButton,
   Icon,
@@ -22,15 +27,15 @@ import CloseIcon from '@material-ui/icons/Close';
 import signUpFormStyles from './signUpFormStyles';
 
 // Transition Dialog effect
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="down" ref={ref} {...props} />;
-});
+const Transition = React.forwardRef((props, ref) => (
+  <Slide direction="down" ref={ref} {...props} />
+));
 
 // == Composant
 const SignUpForm = ({
   setSignUp,
   siret,
-  region,
+  regions,
   email,
   password,
   confirmPassword,
@@ -41,18 +46,59 @@ const SignUpForm = ({
   handleSignupSubmit,
 }) => {
   const classes = signUpFormStyles();
+  const [error, setError] = useState(true);
+  const [regionError, setRegionError] = useState(false);
+  const [regionSelect, setRegionSelect] = useState('');
 
   // Responsive mobile
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
-  const handleChange = (evt) => {
-    setFieldValue(evt.target.name, evt.target.value);
+  // ============= Password Check Display ==========
+  const [pwdError, setPwdError] = useState(false);
+  const [errorPwdMsg, setPwdErrorMsg] = useState('');
+
+  const handlePwdErrors = () => {
+    if (!passwordConfirmed) {
+      if (passwordLength === 0) {
+        return setPwdError(false);
+      }
+      if (passwordLength < 8) {
+        setPwdError(true);
+        return setPwdErrorMsg('Le mot de passe doit contenir au minimum 8 caractères');
+      }
+      setPwdError(true);
+      return setPwdErrorMsg('Les mots de passe saisis ne sont pas identiques');
+    }
+    setPwdError(false);
+    setPwdErrorMsg('');
   };
 
-  const handleCheck = (evt) => {
-    handleChange(evt);
+  useEffect(() => {
     checkPasswordConfirmation();
+    handlePwdErrors();
+    if (regionError === false && pwdError === false && passwordConfirmed) {
+      setError(false);
+    }
+  });
+
+  // ========================================
+
+  const handleFocus = () => {
+    if (regionSelect === '') {
+      setRegionError(true);
+    }
+  };
+
+  const handleChange = (event) => {
+    setFieldValue(event.target.name, event.target.value);
+  };
+
+  const handleChangeRegion = (event) => {
+    setRegionSelect(event.target.value);
+    const region = regions.find((reg) => reg.id === event.target.value);
+    setFieldValue(event.target.name, region.id);
+    setRegionError(false);
   };
 
   const handlesubmit = (event) => {
@@ -60,13 +106,23 @@ const SignUpForm = ({
     handleSignupSubmit();
   };
 
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        // sub-menu size
+        maxHeight: 300,
+        maxWidth: 320,
+      },
+    },
+  };
+
   return (
     <>
       <MuiDialog
-        open={true}
+        open
         fullScreen={fullScreen}
         fullWidth
-        maxWidth='sm'
+        maxWidth="sm"
         TransitionComponent={Transition}
       >
         <DialogTitle className={classes.formTitle}>
@@ -101,7 +157,7 @@ const SignUpForm = ({
               id="siret"
               label="Numéro de SIRET de l'entreprise"
               className={classes.textField}
-              name='siret'
+              name="siret"
               required
               margin="dense"
               fullWidth
@@ -111,11 +167,27 @@ const SignUpForm = ({
               value={siret}
               onChange={handleChange}
             />
+            <FormControl required className={classes.formControl} error={regionError}>
+              <InputLabel id="search-region">Région</InputLabel>
+              <Select
+                label="Région"
+                labelId="search-region"
+                id="search-region"
+                value={regionSelect}
+                onChange={handleChangeRegion}
+                inputProps={{ name: 'region' }}
+                MenuProps={MenuProps}
+              >
+                {regions.map((item) => (
+                  <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <TextField
               id="password"
               label="Mot de passe (minimum 8 caractères)"
               className={classes.textField}
-              name='password'
+              name="password"
               type="password"
               required
               autoComplete="current-password"
@@ -125,13 +197,16 @@ const SignUpForm = ({
                 className: classes.inputLabelField,
               }}
               value={password}
-              onChange={handleCheck}
+              onFocus={handleFocus}
+              onChange={handleChange}
+              error={pwdError}
+              helperText={errorPwdMsg}
             />
             <TextField
               id="confirm-password"
               label="Confirmez le mot de passe"
               className={classes.textField}
-              name='confirmPassword'
+              name="confirmPassword"
               type="password"
               required
               autoComplete="current-password"
@@ -141,10 +216,9 @@ const SignUpForm = ({
                 className: classes.inputLabelField,
               }}
               value={confirmPassword}
-              onChange={handleCheck}
-              // Password confirmation check
-              error={(!passwordConfirmed & passwordLength >= 1) && true}
-              helperText={!passwordConfirmed && 'Les mots de passe saisis ne sont pas identiques'}
+              onChange={handleChange}
+              error={pwdError}
+              helperText={errorPwdMsg}
             />
             <DialogActions>
               <Button
@@ -153,7 +227,7 @@ const SignUpForm = ({
                 color="primary"
                 endIcon={<Icon>send</Icon>}
                 type="submit"
-                disabled={!passwordConfirmed && true}
+                disabled={error}
               >
                 Envoyer
               </Button>
@@ -163,6 +237,25 @@ const SignUpForm = ({
       </MuiDialog>
     </>
   );
+};
+
+SignUpForm.propTypes = {
+  setSignUp: PropTypes.func.isRequired,
+  siret: PropTypes.string.isRequired,
+  regions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+  email: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  confirmPassword: PropTypes.string.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
+  checkPasswordConfirmation: PropTypes.func.isRequired,
+  passwordLength: PropTypes.number.isRequired,
+  passwordConfirmed: PropTypes.bool.isRequired,
+  handleSignupSubmit: PropTypes.func.isRequired,
 };
 
 // == Export

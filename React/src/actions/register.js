@@ -1,9 +1,10 @@
 // action types
-export const TOGGLE_SIGNUP_FORM= 'TOGGLE_SIGNUP_FORM';
-export const TOGGLE_SIGNIN_FORM= 'TOGGLE_SIGNIN_FORM';
-export const SET_FIELD_VALUE= 'SET_FIELD_VALUE';
-export const CHECK_PASSWORD_CONFIRMATION= 'CHECK_PASSWORD_CONFIRMATION';
-export const SUBMIT_SIGNUP= 'SUBMIT_SIGNUP';
+export const TOGGLE_SIGNUP_FORM = 'TOGGLE_SIGNUP_FORM';
+export const TOGGLE_SIGNIN_FORM = 'TOGGLE_SIGNIN_FORM';
+export const SET_FIELD_VALUE = 'SET_FIELD_VALUE';
+export const CHECK_PASSWORD_CONFIRMATION = 'CHECK_PASSWORD_CONFIRMATION';
+export const SUBMIT_SIGNUP = 'SUBMIT_SIGNUP';
+export const SET_REGISTER = 'SET_REGISTER';
 
 // action creators
 export const toggleSignUpForm = () => ({
@@ -26,4 +27,8 @@ export const checkPasswordConfirmation = () => ({
 
 export const handleSignupSubmit = () => ({
   type: SUBMIT_SIGNUP,
+});
+
+export const setRegister = () => ({
+  type: SET_REGISTER,
 });

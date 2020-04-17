@@ -6,7 +6,6 @@ import {
   Dialog as MuiDialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   TextField,
   IconButton,

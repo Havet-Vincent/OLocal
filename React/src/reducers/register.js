@@ -3,7 +3,7 @@ import {
   TOGGLE_SIGNIN_FORM,
   SET_FIELD_VALUE,
   CHECK_PASSWORD_CONFIRMATION,
-  SUBMIT_SIGNUP,
+  SET_REGISTER,
 } from '../actions/register';
 
 const initialState = {
@@ -24,13 +24,27 @@ const initialState = {
 const registerReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case TOGGLE_SIGNUP_FORM:
-      return  {
+      // State reset on manualy close
+      if (state.signUpForm === true) {
+        return {
+          ...state,
+          signUpForm: false,
+          siret: '',
+          region: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+          passwordLength: 0,
+          passwordConfirmed: false,
+        };
+      }
+      return {
         ...state,
         signUpForm: !state.signUpForm,
       };
 
     case TOGGLE_SIGNIN_FORM:
-      return  {
+      return {
         ...state,
         signInForm: !state.signInForm,
       };
@@ -40,29 +54,39 @@ const registerReducer = (state = initialState, action = {}) => {
         return {
           ...state,
           [action.name]: action.value,
-          passwordLength:  state.password.length + 1,
         };
       }
-      return  {
+      return {
         ...state,
         [action.name]: action.value,
       };
 
     case CHECK_PASSWORD_CONFIRMATION:
       // Password verification
-      if (state.passwordLength >= 8 & state.password === state.confirmPassword) {
+      if (state.passwordLength >= 7 && state.password === state.confirmPassword) {
         return {
           ...state,
           passwordConfirmed: true,
         };
       }
-      return  {
+      return {
         ...state,
+        passwordLength: state.password.length,
         passwordConfirmed: false,
-      }
+      };
 
-    case SUBMIT_SIGNUP: {
-      console.log('signup !')
+    case SET_REGISTER: {
+      return {
+        ...state,
+        signUpForm: false,
+        siret: '',
+        region: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        passwordLength: 0,
+        passwordConfirmed: false,
+      };
     }
 
     default: return state;

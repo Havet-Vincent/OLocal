@@ -31,13 +31,13 @@ const Search = ({
 
   const handleChangeRegion = (event) => {
     setRegionSelect(event.target.value);
-    const region = regions.find((region) => region.id === event.target.value);
+    const region = regions.find((reg) => reg.id === event.target.value);
     setRegion(region);
   };
 
   const handleChangeCategory = (event) => {
     setCategorySelect(event.target.value);
-    const category = categories.find((category) => category.id === event.target.value);
+    const category = categories.find((cat) => cat.id === event.target.value);
     setCategory(category);
   };
 
@@ -74,8 +74,8 @@ const Search = ({
             MenuProps={MenuProps}
           >
             {regions.map((item) => (
-            <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
-          ))}
+              <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+            ))}
           </Select>
         </FormControl>
         <FormControl variant="outlined" className={classes.formControl}>

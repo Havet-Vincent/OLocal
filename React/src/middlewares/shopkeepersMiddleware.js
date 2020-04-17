@@ -11,14 +11,14 @@ const server = require('../api.config.json');
 
 const shopkeepersMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
-    case GET_SHOPKEEPER_DATA:
+    case GET_SHOPKEEPER_DATA: {
       const id = action.shopkeeperId;
       axios({
         method: 'post',
         url: `${server.url}:${server.port}/api/shopkeepers/${id}`,
         data: {
           id,
-        }
+        },
       })
         .then((response) => {
           // console.log('success shopkeeper : ', response.data);
@@ -27,13 +27,15 @@ const shopkeepersMiddleware = (store) => (next) => (action) => {
           store.dispatch(redirect(`/commercant/${id}`));
         })
         .catch((error) => {
+          // eslint-disable-next-line no-console
           console.warn(error);
         })
         .finally(() => {
         });
-    
+
       next(action);
       break;
+    }
 
     default:
       next(action);

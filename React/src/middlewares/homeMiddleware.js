@@ -6,10 +6,10 @@ import {
   GET_CATEGORIES_DATA,
   saveCategoriesData,
   GET_SEARCH_HOME_RESULTS,
-  setSearchNotMatch,
+  setSnackbar,
   redirect,
 } from '../actions/home';
-import {saveSearchHomeData} from '../actions/shopkeepers';
+import { saveSearchHomeData } from '../actions/shopkeepers';
 
 // == Import API server config
 const server = require('../api.config.json');
@@ -23,6 +23,7 @@ const homeMiddleware = (store) => (next) => (action) => {
           store.dispatch(saveRegionsData(response.data));
         })
         .catch((error) => {
+          // eslint-disable-next-line no-console
           console.warn(error);
         });
 
@@ -36,6 +37,7 @@ const homeMiddleware = (store) => (next) => (action) => {
           store.dispatch(saveCategoriesData(response.data));
         })
         .catch((error) => {
+          // eslint-disable-next-line no-console
           console.warn(error);
         });
 
@@ -49,8 +51,8 @@ const homeMiddleware = (store) => (next) => (action) => {
         url: `${server.url}:${server.port}/api/shopkeepers`,
         data: {
           region: region.id,
-          category: category.id
-        }
+          category: category.id,
+        },
       })
         .then((response) => {
           // console.log('success search : ', response.data);
@@ -58,13 +60,16 @@ const homeMiddleware = (store) => (next) => (action) => {
           // Save data & redirect if search match results else display Alert
           if (results.length > 0) {
             store.dispatch(saveSearchHomeData(results, region, category));
-            store.dispatch(redirect("/liste-commercants"));
-          } else {
-            store.dispatch(setSearchNotMatch());
+            store.dispatch(redirect('/liste-commercants'));
+          }
+          else {
+            store.dispatch(setSnackbar('info', 'La recherche n\'a retourné aucun résultat'));
           }
         })
         .catch((error) => {
+          // eslint-disable-next-line no-console
           console.warn(error);
+          store.dispatch(setSnackbar('error', 'Echec de la recherche'));
         })
         .finally(() => {
         });

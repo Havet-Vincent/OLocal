@@ -1,8 +1,8 @@
+import { getUniqueCategories, getProductsByCategory } from 'src/utils/selectors';
 import {
   SAVE_SEARCH_HOME_DATA,
   SAVE_SHOPKEEPER_DATA,
 } from '../actions/shopkeepers';
-import { getUniqueCategories, getProductsByCategory } from 'src/utils/selectors';
 
 const initialState = {
   // API Home Search results Data
@@ -32,7 +32,7 @@ const shopkeepersReducer = (state = initialState, action = {}) => {
         return catalog.product.category;
       });
       const uniqueCategories = getUniqueCategories(categories);
-       // Filter products for selected category
+      // Filter products for selected category
       const products = action.shopkeeper.catalogs.map((catalog) => {
         return { ...catalog.product, localSupplier: catalog.localSupplier };
       });
@@ -44,7 +44,7 @@ const shopkeepersReducer = (state = initialState, action = {}) => {
         uniqueCategories,
         productsByCategory,
       };
-    };
+    }
 
     default: return state;
   }
