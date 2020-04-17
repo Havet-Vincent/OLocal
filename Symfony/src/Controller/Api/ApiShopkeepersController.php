@@ -259,7 +259,7 @@ class ApiShopkeepersController extends AbstractController
         }
 
         // user doesn't exist ?
-        $userId = $data->id;
+        $userId = $data->user;
         $userToRemove = $userRepository->find($userId);
         if (!$userToRemove){
             throw $this->createNotFoundException(sprintf(
