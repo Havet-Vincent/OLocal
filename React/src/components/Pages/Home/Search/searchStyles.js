@@ -13,6 +13,8 @@ const searchStyles = makeStyles((theme) => ({
     textAlign: 'center',
     paddingBottom: theme.spacing(4),
     [theme.breakpoints.down('sm')]: {
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
       paddingBottom: theme.spacing(2),
     },
   },

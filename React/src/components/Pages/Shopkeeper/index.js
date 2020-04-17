@@ -23,7 +23,6 @@ import {
   IconButton,
   Chip,
 } from '@material-ui/core';
-
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import CallIcon from '@material-ui/icons/Call';
 import WebIcon from '@material-ui/icons/Web';
@@ -31,9 +30,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import RoomRoundedIcon from '@material-ui/icons/RoomRounded';
-
-// == Import Selectors
-import { getUniqueCategories, getProductsByCategory } from 'src/utils/selectors';
+import BusinessIcon from '@material-ui/icons/Business';
 
 // == Import assets & styles
 import shopkeeperStyles from './shopkeeperStyles';
@@ -41,31 +38,16 @@ import shopkeeperStyles from './shopkeeperStyles';
 // == Import API server config
 const server = require('src/api.config.json');
 
-
 // == Composant
-const Shopkeeper = ({ shopkeeper, currentCategory }) => {
-  // console.log(currentCategory);
+const Shopkeeper = ({ shopkeeper, currentCategory, uniqueCategories, productsByCategory }) => {
+  console.log(shopkeeper);
   const classes = shopkeeperStyles();
 
   // Local state
   const [expanded, setExpanded] = useState(false);
   const [categorySelect, setCategorySelect] = useState(currentCategory.id);
 
-
-  // Filter unique categories for Select
-  const categories = shopkeeper.catalogs.map((catalog) => {
-    return catalog.product.category;
-  });
-  const uniqueCategories = getUniqueCategories(categories);
-
-  // Filter products for selected category
-  const products = shopkeeper.catalogs.map((catalog) => {
-    return { ...catalog.product, localSupplier: catalog.localSupplier };
-  });
-  const productsByCategory = getProductsByCategory(products, categorySelect);
-
-
-  const handleChangeExpand = (panel) => (event, isExpanded) => {
+  const handleChangeExpand = (panel) => (isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
@@ -110,7 +92,7 @@ const Shopkeeper = ({ shopkeeper, currentCategory }) => {
                   <Link variant="body1" href={shopkeeper.website}>
                     <Chip
                       icon={<WebIcon className={classes.chipIcon} />}
-                      label={shopkeeper.website.replace(/(^\w+:|^)\/\//, '')}
+                      label={shopkeeper.website ? shopkeeper.website.replace(/(^\w+:|^)\/\//, '') : ''}
                       className={classes.chip}
                     />
                   </Link>
@@ -135,13 +117,12 @@ const Shopkeeper = ({ shopkeeper, currentCategory }) => {
                       </IconButton>
                       <Typography variant="subtitle2" component="p">
                         {`
-                          ${shopkeeper.wayNumber}
-                          ${shopkeeper.wayType}
-                          ${shopkeeper.wayName}
-                          ${shopkeeper.additionalAddress}
-                          -
-                          ${shopkeeper.postalCode}
-                          ${shopkeeper.city}
+                          ${shopkeeper.wayNumber ? shopkeeper.wayNumber : ''}
+                          ${shopkeeper.repeatIndex ? shopkeeper.repeatIndex : ''}
+                          ${shopkeeper.wayName ? shopkeeper.wayName : ''}
+                          ${shopkeeper.additionalAddress ? '- '+shopkeeper.additionalAddress : ''}
+                          ${shopkeeper.postalCode ? '- '+shopkeeper.postalCode : ''}
+                          ${shopkeeper.city ? shopkeeper.city.toUpperCase() : ''}
                         `}
                       </Typography>
                     </CardContent>
@@ -195,13 +176,24 @@ const Shopkeeper = ({ shopkeeper, currentCategory }) => {
                             {product.name}
                           </Typography>
                         </ExpansionPanelSummary>
-                        <ExpansionPanelDetails className={classes.secondaryHeading}>
-                          <Typography variant="body2">
-                            Producteur:
-                          </Typography>
-                          <Typography variant="subtitle1" color="primary">
-                            {product.localSupplier.name}
-                          </Typography>
+                        <ExpansionPanelDetails className={classes.expensionPanelDetails}>
+                          <Box className={classes.secondaryHeading}>
+                            <Typography variant="body2" className={classes.localSupplierTitle}>
+                              Producteur:
+                            </Typography>
+                          </Box>
+                          <Box className={classes.localSupplierAddress}>
+                            <Typography variant="body1" color="primary" gutterBottom>
+                              {product.localSupplier.name}
+                            </Typography>
+                            <Chip
+                              variant="outlined"
+                              color="primary"
+                              component="em"
+                              icon={<BusinessIcon />}
+                              label={`${product.localSupplier.postalCode} - ${product.localSupplier.city.toUpperCase()}`}
+                            />
+                          </Box>
                         </ExpansionPanelDetails>
                       </ExpansionPanel>
                     ))}
