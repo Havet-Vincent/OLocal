@@ -18,9 +18,9 @@ const registerMiddleware = (store) => (next) => (action) => {
         email,
         confirmPassword: password,
         passwordConfirmed,
-      } = store.getState().register;
+      } = store.getState().authentication;
 
-      if (passwordConfirmed) {
+      if (siret !== '' && region !== '' && email !== '' && passwordConfirmed) {
         axios({
           method: 'post',
           url: `${server.url}:${server.port}/api/shopkeepers/add`,

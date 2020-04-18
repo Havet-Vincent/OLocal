@@ -8,19 +8,12 @@ import {
   Paper,
   Backdrop,
   CircularProgress,
-  Snackbar,
 } from '@material-ui/core';
-import MuiAlert from '@material-ui/lab/Alert';
 import Search from 'src/containers/Home/Search';
 import About from './About';
 
 // == Import assets & styles
 import homeStyles from './homeStyles';
-
-// Search Snackbar Alert & transition effect
-const Alert = (props) => (
-  <MuiAlert elevation={6} variant="filled" {...props} />
-);
 
 // == Composant
 const Home = ({
@@ -28,20 +21,9 @@ const Home = ({
   loadingCategories,
   getRegionsData,
   getCategoriesData,
-  snackbar,
-  snackbarType,
-  snackbarMessage,
-  resetSnackbar,
 }) => {
   const classes = homeStyles();
   const displayLoader = loadingRegions || loadingCategories;
-
-  const handleClose = (reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    resetSnackbar();
-  };
 
   useEffect(() => {
     getRegionsData();
@@ -64,16 +46,6 @@ const Home = ({
           </Paper>
         </Grid>
       </Grid>
-      <Snackbar
-        open={snackbar}
-        autoHideDuration={6000}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        onClose={handleClose}
-      >
-        <Alert onClose={handleClose} severity={snackbarType}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
       <Backdrop className={classes.backdrop} open={displayLoader}>
         <CircularProgress color="inherit" />
       </Backdrop>
@@ -86,10 +58,6 @@ Home.propTypes = {
   loadingCategories: PropTypes.bool.isRequired,
   getRegionsData: PropTypes.func.isRequired,
   getCategoriesData: PropTypes.func.isRequired,
-  snackbar: PropTypes.bool.isRequired,
-  snackbarType: PropTypes.string.isRequired,
-  snackbarMessage: PropTypes.string.isRequired,
-  resetSnackbar: PropTypes.func.isRequired,
 };
 
 // == Export
