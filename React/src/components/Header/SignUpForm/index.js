@@ -16,12 +16,15 @@ import {
   TextField,
   IconButton,
   Icon,
+  InputAdornment,
   Button,
   Slide,
   useMediaQuery,
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 // == Import assets & styles
 import signUpFormStyles from './signUpFormStyles';
@@ -47,6 +50,7 @@ const SignUpForm = ({
 }) => {
   const classes = signUpFormStyles();
   const [error, setError] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const [regionError, setRegionError] = useState(false);
   const [regionSelect, setRegionSelect] = useState('');
 
@@ -70,18 +74,16 @@ const SignUpForm = ({
       setPwdError(true);
       return setPwdErrorMsg('Les mots de passe saisis ne sont pas identiques');
     }
-    setPwdError(false);
-    setPwdErrorMsg('');
+    return [setPwdError(false), setPwdErrorMsg('')];
   };
 
   useEffect(() => {
     checkPasswordConfirmation();
     handlePwdErrors();
-    if (regionError === false && pwdError === false && passwordConfirmed) {
+    if (regionError === false && email !== '' && siret !== '' && pwdError === false && passwordConfirmed) {
       setError(false);
     }
   });
-
   // ========================================
 
   const handleFocus = () => {
@@ -99,6 +101,10 @@ const SignUpForm = ({
     const region = regions.find((reg) => reg.id === event.target.value);
     setFieldValue(event.target.name, region.id);
     setRegionError(false);
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   const handlesubmit = (event) => {
@@ -188,7 +194,7 @@ const SignUpForm = ({
               label="Mot de passe (minimum 8 caractères)"
               className={classes.textField}
               name="password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               required
               autoComplete="current-password"
               margin="dense"
@@ -201,13 +207,25 @@ const SignUpForm = ({
               onChange={handleChange}
               error={pwdError}
               helperText={errorPwdMsg}
+              InputProps={{
+                endAdornment:
+                  // eslint-disable-next-line react/jsx-indent
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>,
+              }}
             />
             <TextField
               id="confirm-password"
               label="Confirmez le mot de passe"
               className={classes.textField}
               name="confirmPassword"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               required
               autoComplete="current-password"
               margin="dense"
@@ -219,6 +237,18 @@ const SignUpForm = ({
               onChange={handleChange}
               error={pwdError}
               helperText={errorPwdMsg}
+              InputProps={{
+                endAdornment:
+                  // eslint-disable-next-line react/jsx-indent
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>,
+              }}
             />
             <DialogActions>
               <Button

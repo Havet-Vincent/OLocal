@@ -6,7 +6,7 @@ import { Link as RouterLink } from 'react-router-dom';
 // == Import components
 import { Link, AppBar, Toolbar } from '@material-ui/core';
 import SignUpForm from 'src/containers/Header/SignUpForm';
-import SignInForm from './SignInForm';
+import SignInForm from 'src/containers/Header/SignInForm';
 import NavMenu from './NavMenu';
 import AuthMenu from './AuthMenu';
 
@@ -20,15 +20,10 @@ const Header = ({
   setSignUp,
   signIn,
   setSignIn,
+  UserAuth,
+  setLogout,
 }) => {
   const classes = headerStyles();
-
-  // temp state
-  const [auth, setAuth] = React.useState(false);
-
-  const setLogout = () => {
-    setAuth(false);
-  };
 
   return (
     <>
@@ -39,7 +34,7 @@ const Header = ({
               <img className={classes.logo} src={Logo} alt="O'local Logo" />
             </Link>
           </div>
-          {!auth && (
+          {!UserAuth && (
             <NavMenu
               setSignUp={setSignUp}
               setSignIn={setSignIn}
@@ -51,7 +46,7 @@ const Header = ({
           {signIn && (
             <SignInForm setSignIn={setSignIn} />
           )}
-          {auth && (
+          {UserAuth && (
             <AuthMenu setLogout={setLogout} />
           )}
         </Toolbar>
@@ -66,6 +61,8 @@ Header.propTypes = {
   setSignUp: PropTypes.func.isRequired,
   signIn: PropTypes.bool.isRequired,
   setSignIn: PropTypes.func.isRequired,
+  UserAuth: PropTypes.bool.isRequired,
+  setLogout: PropTypes.func.isRequired,
 };
 
 // == Export

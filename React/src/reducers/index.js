@@ -1,14 +1,16 @@
 import { combineReducers } from 'redux';
 
 // import reducers
+import registerReducer from './register';
+import authenticationReducer from './authentication';
 import homeReducer from './home';
 import shopkeepersReducer from './shopkeepers';
-import registerReducer from './register';
 
 const rootReducer = combineReducers({
+  register: registerReducer,
+  authentication: authenticationReducer,
   home: homeReducer,
   shopkeepers: shopkeepersReducer,
-  register: registerReducer,
 });
 
 export default rootReducer;

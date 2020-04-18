@@ -1,30 +1,31 @@
 import {
-  TOGGLE_SIGNUP_FORM,
-  SET_SIGNUP_FIELD_VALUE,
+  TOGGLE_SIGNIN_FORM,
+  SET_SIGNIN_FIELD_VALUE,
   CHECK_PASSWORD_CONFIRMATION,
-  SET_REGISTER,
-} from '../actions/register';
+  SET_AUTHENTICATION,
+  SET_LOGOUT,
+} from '../actions/authentication';
 
 const initialState = {
-  // Display signUp form
-  signUpForm: false,
-  // Signup form fields values
-  siret: '',
-  region: '',
+  // Display signIn form
+  signInForm: false,
+  // SignIn form fields values
   email: '',
   password: '',
   confirmPassword: '',
   // Password Confirmation
   passwordLength: 0,
   passwordConfirmed: false,
+  // User authentication
+  UserAuth: false,
 };
 
-const registerReducer = (state = initialState, action = {}) => {
+const authenticationReducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case TOGGLE_SIGNUP_FORM:
+    case TOGGLE_SIGNIN_FORM:
       return {
         ...state,
-        signUpForm: !state.signUpForm,
+        signInForm: !state.signInForm,
         email: '',
         password: '',
         confirmPassword: '',
@@ -32,7 +33,7 @@ const registerReducer = (state = initialState, action = {}) => {
         passwordConfirmed: false,
       };
 
-    case SET_SIGNUP_FIELD_VALUE:
+    case SET_SIGNIN_FIELD_VALUE:
       return {
         ...state,
         [action.name]: action.value,
@@ -52,21 +53,26 @@ const registerReducer = (state = initialState, action = {}) => {
         passwordConfirmed: false,
       };
 
-    case SET_REGISTER:
+    case SET_AUTHENTICATION:
       return {
         ...state,
-        signUpForm: false,
-        siret: '',
-        region: '',
+        signInForm: false,
         email: '',
         password: '',
         confirmPassword: '',
         passwordLength: 0,
         passwordConfirmed: false,
+        UserAuth: true,
+      };
+
+    case SET_LOGOUT:
+      return {
+        ...state,
+        UserAuth: false,
       };
 
     default: return state;
   }
 };
 
-export default registerReducer;
+export default authenticationReducer;

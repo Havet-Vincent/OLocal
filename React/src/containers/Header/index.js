@@ -1,11 +1,13 @@
 import { connect } from 'react-redux';
-import { toggleSignUpForm, toggleSignInForm } from 'src/actions/register';
+import { toggleSignUpForm } from 'src/actions/register';
+import { toggleSignInForm, setLogout } from 'src/actions/authentication';
 
 import Header from 'src/components/Header';
 
 const mapStateToProps = (state) => ({
   signUp: state.register.signUpForm,
-  signIn: state.register.signInForm,
+  signIn: state.authentication.signInForm,
+  UserAuth: state.authentication.UserAuth,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -14,6 +16,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   setSignIn: () => {
     dispatch(toggleSignInForm());
+  },
+  setLogout: () => {
+    dispatch(setLogout());
   },
 });
 

@@ -1,8 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles';
-import BackgroundImg from '../../../assets/img/landscape_background.png';
+import BackgroundImg from 'src/assets/img/landscape_background.png';
 
 const shopkeepersListStyles = makeStyles((theme) => ({
-  shopkeepersListWrapper:{
+  shopkeepersListWrapper: {
     background: `url(${BackgroundImg})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
@@ -39,7 +39,7 @@ const shopkeepersListStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 0),
     '& > span': {
       color: theme.palette.secondary.main,
-    }
+    },
   },
   shopkeepersListSubtitle: {
     color: theme.palette.primary.main,
@@ -49,9 +49,9 @@ const shopkeepersListStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(1),
     '& > span': {
       color: theme.palette.secondary.main,
-    }
+    },
   },
-  cardWrapper:{
+  cardWrapper: {
     display: 'flex',
     flexFlow: 'row nowrap',
     alignItems: 'center',
@@ -63,12 +63,12 @@ const shopkeepersListStyles = makeStyles((theme) => ({
   },
   cardImg: {
     height: 250,
-    width: "30%",
+    width: '30%',
     [theme.breakpoints.down('md')]: {
       width: '40%',
     },
     [theme.breakpoints.down('sm')]: {
-      width: "100%",
+      width: '100%',
     },
   },
   cardContent: {
@@ -78,7 +78,7 @@ const shopkeepersListStyles = makeStyles((theme) => ({
       width: '60%',
     },
     [theme.breakpoints.down('sm')]: {
-      width: "100%",
+      width: '100%',
     },
   },
   cardTitle: {
@@ -105,7 +105,7 @@ const shopkeepersListStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 0),
   },
   cardLink: {
-    color: "#F7F9FA",
+    color: '#F7F9FA',
   },
 }));
 
