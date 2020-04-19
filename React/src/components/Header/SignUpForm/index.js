@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-// == Import material UI components
+// == Import components
 import {
   Dialog as MuiDialog,
   DialogTitle,
@@ -26,7 +26,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
-// == Import assets & styles
+// == Import styles
 import signUpFormStyles from './signUpFormStyles';
 
 // Transition Dialog effect
@@ -37,6 +37,7 @@ const Transition = React.forwardRef((props, ref) => (
 // == Composant
 const SignUpForm = ({
   setSignUp,
+  getRegionsData,
   siret,
   regions,
   email,
@@ -53,6 +54,10 @@ const SignUpForm = ({
   const [showPassword, setShowPassword] = useState(false);
   const [regionError, setRegionError] = useState(false);
   const [regionSelect, setRegionSelect] = useState('');
+
+  useEffect(() => {
+    getRegionsData();
+  }, []);
 
   // Responsive mobile
   const theme = useTheme();
@@ -271,6 +276,7 @@ const SignUpForm = ({
 
 SignUpForm.propTypes = {
   setSignUp: PropTypes.func.isRequired,
+  getRegionsData: PropTypes.func.isRequired,
   siret: PropTypes.string.isRequired,
   regions: PropTypes.arrayOf(
     PropTypes.shape({

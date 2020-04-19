@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import BackgroundImg from '../../../assets/img/landscape_background.png';
+import BackgroundImg from 'src/assets/img/landscape_background.png';
 
 const shopkeeperStyles = makeStyles((theme) => ({
   shopkeeperWrapper: {
@@ -38,7 +38,7 @@ const shopkeeperStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     padding: theme.spacing(3),
-    paddingBottom: theme.spacing(5)
+    paddingBottom: theme.spacing(5),
   },
   cardWrapper: {
     background: 'none',
@@ -104,14 +104,14 @@ const shopkeeperStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 0,
-    "&:last-child": {
-      paddingBottom: 0
+    '&:last-child': {
+      paddingBottom: 0,
     },
   },
   expansionPanel: {
     backgroundColor: 'rgba(109, 112, 112, .08)',
     '&:before': {
-      display: 'none'
+      display: 'none',
     },
   },
   expensionPanelDetails: {
@@ -166,7 +166,7 @@ const shopkeeperStyles = makeStyles((theme) => ({
   },
   localSupplierTitle: {
     paddingRight: theme.spacing(2),
-  }
+  },
 }));
 
 export default shopkeeperStyles;

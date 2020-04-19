@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 
 // == Import components
+import Logo from 'src/assets/img/logo.svg';
 import { Link, AppBar, Toolbar } from '@material-ui/core';
 import SignUpForm from 'src/containers/Header/SignUpForm';
 import SignInForm from 'src/containers/Header/SignInForm';
 import NavMenu from './NavMenu';
 import AuthMenu from './AuthMenu';
 
-// == Import assets & styles
-import Logo from '../../assets/img/logo.svg';
+// == Import styles
 import headerStyles from './headerStyles';
 
 // == Composant

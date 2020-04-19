@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import {
+  Route,
+  Switch,
+  Redirect,
+  useLocation,
+} from 'react-router-dom';
 
 // == Import components
 import { Snackbar } from '@material-ui/core';
@@ -11,6 +16,7 @@ import Shopkeeper from 'src/containers/Shopkeeper';
 import PlanDuSite from 'src/components/Pages/PlanDuSite';
 import LegalNotices from 'src/components/Pages/LegalNotices';
 import Contact from 'src/components/Pages/Contact';
+import NotFound from 'src/components/Pages/NotFound';
 
 // Snackbar Alert & transition effect
 const Alert = (props) => (
@@ -24,6 +30,12 @@ const Pages = ({
   snackbarMessage,
   resetSnackbar,
 }) => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   const handleClose = (reason) => {
     if (reason === 'clickaway') {
       return;
@@ -43,7 +55,7 @@ const Pages = ({
         <Route path="/liste-commercants">
           <ShopkeepersList />
         </Route>
-        <Route strict path="/commercant/:id">
+        <Route path="/commercant/:id">
           <Shopkeeper />
         </Route>
         <Route path="/plan-du-site">
@@ -54,6 +66,9 @@ const Pages = ({
         </Route>
         <Route path="/contact">
           <Contact />
+        </Route>
+        <Route>
+          <NotFound />
         </Route>
       </Switch>
       <Snackbar

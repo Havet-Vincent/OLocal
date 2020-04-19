@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { getShopkeeperData } from 'src/actions/shopkeepers';
 
 import ShopkeepersList from 'src/components/Pages/ShopkeepersList';
 
@@ -9,11 +8,7 @@ const mapStateToProps = (state) => ({
   searchResults: state.shopkeepers.searchResults,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  getShopkeeperData: (shopkeeperId) => {
-    dispatch(getShopkeeperData(shopkeeperId));
-  },
-});
+const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

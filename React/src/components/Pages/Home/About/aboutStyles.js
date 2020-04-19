@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { FormHelperText } from '@material-ui/core';
 
 const aboutStyles = makeStyles((theme) => ({
   aboutWrapper: {
@@ -42,4 +41,3 @@ const aboutStyles = makeStyles((theme) => ({
 }));
 
 export default aboutStyles;
-

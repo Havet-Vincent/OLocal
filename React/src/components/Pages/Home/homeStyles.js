@@ -14,7 +14,7 @@ const homeStyles = makeStyles((theme) => ({
     maxWidth: 1000,
     backgroundColor: 'rgba(247, 249, 250, .85)',
     borderRadius: 10,
-    margin: ("0 auto"),
+    margin: '0 auto',
     marginTop: theme.spacing(35),
     marginBottom: theme.spacing(35),
     [theme.breakpoints.down('sm')]: {
@@ -30,10 +30,6 @@ const homeStyles = makeStyles((theme) => ({
   aboutContent: {
     backgroundColor: 'rgba(159, 204, 62, .85)',
     padding: theme.spacing(4),
-  },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
   },
 }));
 

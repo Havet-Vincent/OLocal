@@ -14,7 +14,7 @@ import {
   Icon,
 } from '@material-ui/core';
 
-// == Import assets & styles
+// == Import styles
 import searchStyles from './searchStyles';
 
 // == Composant

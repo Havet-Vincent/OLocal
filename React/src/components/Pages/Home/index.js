@@ -6,13 +6,12 @@ import PropTypes from 'prop-types';
 import {
   Grid,
   Paper,
-  Backdrop,
-  CircularProgress,
 } from '@material-ui/core';
+import Loader from 'src/components/Loader';
 import Search from 'src/containers/Home/Search';
 import About from './About';
 
-// == Import assets & styles
+// == Import styles
 import homeStyles from './homeStyles';
 
 // == Composant
@@ -23,7 +22,7 @@ const Home = ({
   getCategoriesData,
 }) => {
   const classes = homeStyles();
-  const displayLoader = loadingRegions || loadingCategories;
+  const loader = loadingRegions || loadingCategories;
 
   useEffect(() => {
     getRegionsData();
@@ -32,6 +31,7 @@ const Home = ({
 
   return (
     <>
+      <Loader loader={loader} />
       <Grid container className={classes.searchWrapper}>
         <Grid item xs={10} md={9} sm={8}>
           <Paper className={classes.searchContent} elevation={3}>
@@ -46,9 +46,6 @@ const Home = ({
           </Paper>
         </Grid>
       </Grid>
-      <Backdrop className={classes.backdrop} open={displayLoader}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
     </>
   );
 };

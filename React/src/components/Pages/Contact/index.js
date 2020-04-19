@@ -1,13 +1,13 @@
 // == Import npm
 import React from 'react';
 
+// == Import components
+import { Grid, Container, Typography } from '@material-ui/core';
 import AddIcCallOutlinedIcon from '@material-ui/icons/AddIcCallOutlined';
 import AddLocationOutlinedIcon from '@material-ui/icons/AddLocationOutlined';
 import ContactMailOutlinedIcon from '@material-ui/icons/ContactMailOutlined';
-// == Import components
-import { Grid, Container, Typography } from '@material-ui/core';
 
-// == Import assets & styles
+// == Import styles
 import contactStyles from './contactStyles';
 
 // == Composant

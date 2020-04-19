@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { getRegionsData } from 'src/actions/home';
 import {
   setFieldValue,
   checkPasswordConfirmation,
@@ -18,6 +19,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  getRegionsData: () => {
+    dispatch(getRegionsData());
+  },
   setFieldValue: (name, value) => {
     dispatch(setFieldValue(name, value));
   },
