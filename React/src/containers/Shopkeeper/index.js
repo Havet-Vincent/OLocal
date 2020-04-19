@@ -1,9 +1,15 @@
 import { connect } from 'react-redux';
-import { getShopkeeperData, changeProductsCategory, clearShopkeeperData } from 'src/actions/shopkeepers';
+import {
+  getShopkeeperData,
+  changeProductsCategory,
+  clearShopkeeperData,
+  setNotMatch,
+} from 'src/actions/shopkeepers';
 
 import Shopkeeper from 'src/components/Pages/Shopkeeper';
 
 const mapStateToProps = (state) => ({
+  notMatch: state.shopkeepers.notMatch,
   loader: state.shopkeepers.loader,
   shopkeeper: state.shopkeepers.shopkeeper,
   productsCategoryId: state.shopkeepers.productsCategoryId,
@@ -20,6 +26,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   clearShopkeeperData: () => {
     dispatch(clearShopkeeperData());
+  },
+  setNotMatch: () => {
+    dispatch(setNotMatch());
   },
 });
 

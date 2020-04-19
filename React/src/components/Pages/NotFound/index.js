@@ -46,10 +46,10 @@ const NotFound = () => {
           <span>4</span>
         </Box>
         <Paper className={classes.notFoundContent} elevation={0} square>
-          <Typography variant="h4" align="center" color="textSecondary" component="p" gutterBottom>
+          <Typography color="textSecondary" className={classes.notFoundTitle} component="p" gutterBottom>
             La page demandée est introuvable
           </Typography>
-          <Typography variant="body1" align="center" color="textSecondary" component="p">
+          <Typography color="textSecondary" className={classes.notFoundSubtitle} component="p">
             Vous pouvez rester contempler ce beau paysage ou bien retourner à la page d'acceuil en passant par la petite maison ...
           </Typography>
           <IconButton component={RouterLink} to="/">
