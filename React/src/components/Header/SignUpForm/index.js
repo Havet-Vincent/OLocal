@@ -37,6 +37,7 @@ const Transition = React.forwardRef((props, ref) => (
 // == Composant
 const SignUpForm = ({
   setSignUp,
+  getRegionsData,
   siret,
   regions,
   email,
@@ -53,6 +54,10 @@ const SignUpForm = ({
   const [showPassword, setShowPassword] = useState(false);
   const [regionError, setRegionError] = useState(false);
   const [regionSelect, setRegionSelect] = useState('');
+
+  useEffect(() => {
+    getRegionsData();
+  }, []);
 
   // Responsive mobile
   const theme = useTheme();
@@ -271,6 +276,7 @@ const SignUpForm = ({
 
 SignUpForm.propTypes = {
   setSignUp: PropTypes.func.isRequired,
+  getRegionsData: PropTypes.func.isRequired,
   siret: PropTypes.string.isRequired,
   regions: PropTypes.arrayOf(
     PropTypes.shape({

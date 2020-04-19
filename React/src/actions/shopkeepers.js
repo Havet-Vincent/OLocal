@@ -1,7 +1,8 @@
 // action types
-export const SAVE_SEARCH_HOME_DATA= 'SAVE_SEARCH_HOME_DATA';
-export const GET_SHOPKEEPER_DATA= 'GET_SHOPKEEPER_DATA';
-export const SAVE_SHOPKEEPER_DATA= 'SAVE_SHOPKEEPER_DATA';
+export const SAVE_SEARCH_HOME_DATA = 'SAVE_SEARCH_HOME_DATA';
+export const GET_SHOPKEEPER_DATA = 'GET_SHOPKEEPER_DATA';
+export const SAVE_SHOPKEEPER_DATA = 'SAVE_SHOPKEEPER_DATA';
+export const CHANGE_PRODUCTS_CATEGORY = 'CHANGE_PRODUCTS_CATEGORY';
 
 // action creators
 export const saveSearchHomeData = (results, region, category) => ({
@@ -19,4 +20,9 @@ export const getShopkeeperData = (shopkeeperId) => ({
 export const saveShopkeeperData = (shopkeeper) => ({
   type: SAVE_SHOPKEEPER_DATA,
   shopkeeper,
+});
+
+export const changeProductsCategory = (productsCategoryId) => ({
+  type: CHANGE_PRODUCTS_CATEGORY,
+  productsCategoryId,
 });

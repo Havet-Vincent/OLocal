@@ -16,7 +16,7 @@ const authMiddleware = (store) => (next) => (action) => {
         email,
         confirmPassword: password,
         passwordConfirmed,
-      } = store.getState().register;
+      } = store.getState().authentication;
 
       if (email !== '' && passwordConfirmed) {
         axios({

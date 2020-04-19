@@ -9,15 +9,15 @@ import {
 } from '../actions/home';
 
 const initialState = {
+  // Display Loader
+  loadingRegions: true,
+  loadingCategories: true,
   // API Data
   regions: [],
   categories: [],
   // User Search Fields
   category: [],
   region: [],
-  // Display Home Loader
-  loadingRegions: true,
-  loadingCategories: true,
   // Display SnackBar
   snackbar: false,
   snackbarType: '',

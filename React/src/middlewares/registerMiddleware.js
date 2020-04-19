@@ -18,7 +18,7 @@ const registerMiddleware = (store) => (next) => (action) => {
         email,
         confirmPassword: password,
         passwordConfirmed,
-      } = store.getState().authentication;
+      } = store.getState().register;
 
       if (siret !== '' && region !== '' && email !== '' && passwordConfirmed) {
         axios({
