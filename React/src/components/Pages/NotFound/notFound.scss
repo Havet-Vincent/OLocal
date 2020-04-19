@@ -184,3 +184,12 @@
       @include transform(rotate(-3deg) translate3d(-10px, 0px, 0px));
   }
 }
+
+/* Media Queries */
+@media screen and (max-width: 600px) {
+  .notfound{
+    margin: 5.5rem 0 2.5rem 0;
+    color: #F7F9FA;
+    font-size: 8rem;
+  }
+}

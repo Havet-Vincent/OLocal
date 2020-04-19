@@ -4,6 +4,7 @@ export const GET_SHOPKEEPER_DATA = 'GET_SHOPKEEPER_DATA';
 export const SAVE_SHOPKEEPER_DATA = 'SAVE_SHOPKEEPER_DATA';
 export const CHANGE_PRODUCTS_CATEGORY = 'CHANGE_PRODUCTS_CATEGORY';
 export const CLEAR_SHOPKEEPER_DATA = 'CLEAR_SHOPKEEPER_DATA';
+export const SET_NOT_MATCH = 'SET_NOT_MATCH';
 
 // action creators
 export const saveSearchHomeData = (results, region, category) => ({
@@ -30,4 +31,8 @@ export const changeProductsCategory = (productsCategoryId) => ({
 
 export const clearShopkeeperData = () => ({
   type: CLEAR_SHOPKEEPER_DATA,
+});
+
+export const setNotMatch = () => ({
+  type: SET_NOT_MATCH,
 });

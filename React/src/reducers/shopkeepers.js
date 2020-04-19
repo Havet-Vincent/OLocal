@@ -4,6 +4,7 @@ import {
   SAVE_SHOPKEEPER_DATA,
   CHANGE_PRODUCTS_CATEGORY,
   CLEAR_SHOPKEEPER_DATA,
+  SET_NOT_MATCH,
 } from '../actions/shopkeepers';
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   currentRegion: {},
   searchResults: [],
   // API Shopkeeper Data
+  notMatch: false,
   shopkeeper: {},
   // Shopkeeper details page data
   products: [],
@@ -53,6 +55,7 @@ const shopkeepersReducer = (state = initialState, action = {}) => {
         const productsByCategory = getProductsByCategory(products, productsCategoryId);
         return {
           ...state,
+          notMatch: false,
           shopkeeper: action.shopkeeper,
           products,
           productsCategoryId,
@@ -70,6 +73,7 @@ const shopkeepersReducer = (state = initialState, action = {}) => {
       const productsByCategory = getProductsByCategory(products, productsInCategory.id);
       return {
         ...state,
+        notMatch: false,
         shopkeeper: action.shopkeeper,
         products,
         productsCategoryId: productsInCategory.id,
@@ -91,12 +95,19 @@ const shopkeepersReducer = (state = initialState, action = {}) => {
     case CLEAR_SHOPKEEPER_DATA:
       return {
         ...state,
+        notMatch: false,
         shopkeeper: {},
         products: [],
         productsCategoryId: null,
         uniqueCategories: [],
         productsByCategory: [],
         loader: true,
+      };
+
+    case SET_NOT_MATCH:
+      return {
+        ...state,
+        notMatch: true,
       };
 
     default: return state;
