@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-// == Import material UI components
+// == Import components
 import {
   Dialog as MuiDialog,
   DialogTitle,
@@ -21,7 +21,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
-// == Import assets & styles
+// == Import styles
 import signInFormStyles from './signInFormStyles';
 
 // Transition Dialog effect
@@ -102,7 +102,7 @@ const SignInForm = ({
     <>
       <MuiDialog
         open
-        // fullScreen={fullScreen}
+        fullScreen={fullScreen}
         fullWidth
         maxWidth="xs"
         TransitionComponent={Transition}

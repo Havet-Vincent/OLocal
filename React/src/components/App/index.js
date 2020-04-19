@@ -8,7 +8,7 @@ import Header from '../../containers/Header';
 import Pages from '../../containers/Pages';
 import Footer from '../Footer';
 
-// == Import assets & styles
+// == Import styles
 import appTheme from './appTheme';
 import appStyles from './appStyles';
 

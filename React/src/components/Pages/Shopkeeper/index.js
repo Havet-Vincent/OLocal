@@ -33,7 +33,7 @@ import RoomRoundedIcon from '@material-ui/icons/RoomRounded';
 import BusinessIcon from '@material-ui/icons/Business';
 import Loader from 'src/components/Loader';
 
-// == Import assets & styles
+// == Import styles
 import shopkeeperStyles from './shopkeeperStyles';
 
 // == Import API config for pictures base URL
@@ -48,9 +48,11 @@ const Shopkeeper = ({
   productsByCategory,
   getShopkeeperData,
   changeProductsCategory,
+  clearShopkeeperData,
 }) => {
   // console.log('productsByCategory:', productsByCategory);
   const classes = shopkeeperStyles();
+  // Get id from url param for fetch shopkeeper data
   const { id } = useParams();
 
   // Local state
@@ -60,6 +62,10 @@ const Shopkeeper = ({
   useEffect(() => {
     getShopkeeperData(id);
   }, []);
+
+  // When Unmounted => clear data
+  useEffect(() => () => clearShopkeeperData(),
+    []);
 
   const handleChangeExpand = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -169,7 +175,12 @@ const Shopkeeper = ({
                           MenuProps={MenuProps}
                         >
                           {uniqueCategories.map((category) => (
-                            <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
+                            <MenuItem
+                              key={category.id}
+                              value={category.id}
+                            >
+                              {category.name}
+                            </MenuItem>
                           ))}
                         </Select>
                       )}
@@ -235,6 +246,7 @@ Shopkeeper.propTypes = {
   productsByCategory: PropTypes.array.isRequired,
   getShopkeeperData: PropTypes.func.isRequired,
   changeProductsCategory: PropTypes.func.isRequired,
+  clearShopkeeperData: PropTypes.func.isRequired,
 };
 
 Shopkeeper.defaultProps = {

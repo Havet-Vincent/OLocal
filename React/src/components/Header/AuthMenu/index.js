@@ -1,11 +1,11 @@
 // == Import npm
 import React from 'react';
 
-// == Import material UI components
+// == Import components
 import { Button, Menu, MenuItem } from '@material-ui/core';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
-// == Import assets & styles
+// == Import styles
 import authMenuStyles from './authMenuStyles';
 
 // == Composant

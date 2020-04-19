@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getShopkeeperData, changeProductsCategory } from 'src/actions/shopkeepers';
+import { getShopkeeperData, changeProductsCategory, clearShopkeeperData } from 'src/actions/shopkeepers';
 
 import Shopkeeper from 'src/components/Pages/Shopkeeper';
 
@@ -17,6 +17,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   changeProductsCategory: (productsCategoryId) => {
     dispatch(changeProductsCategory(productsCategoryId));
+  },
+  clearShopkeeperData: () => {
+    dispatch(clearShopkeeperData());
   },
 });
 

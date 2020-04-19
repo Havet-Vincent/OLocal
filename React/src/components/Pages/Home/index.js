@@ -11,7 +11,7 @@ import Loader from 'src/components/Loader';
 import Search from 'src/containers/Home/Search';
 import About from './About';
 
-// == Import assets & styles
+// == Import styles
 import homeStyles from './homeStyles';
 
 // == Composant

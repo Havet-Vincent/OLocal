@@ -8,7 +8,7 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 
-// == Import assets & styles
+// == Import styles
 import loaderStyles from './loaderStyles';
 
 // == Composant

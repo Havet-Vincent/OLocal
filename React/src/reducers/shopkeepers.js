@@ -3,6 +3,7 @@ import {
   SAVE_SEARCH_HOME_DATA,
   SAVE_SHOPKEEPER_DATA,
   CHANGE_PRODUCTS_CATEGORY,
+  CLEAR_SHOPKEEPER_DATA,
 } from '../actions/shopkeepers';
 
 const initialState = {
@@ -86,6 +87,17 @@ const shopkeepersReducer = (state = initialState, action = {}) => {
         productsByCategory,
       };
     }
+
+    case CLEAR_SHOPKEEPER_DATA:
+      return {
+        ...state,
+        shopkeeper: {},
+        products: [],
+        productsCategoryId: null,
+        uniqueCategories: [],
+        productsByCategory: [],
+        loader: true,
+      };
 
     default: return state;
   }

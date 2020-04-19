@@ -4,7 +4,7 @@ import React from 'react';
 // == Import components
 import { Container, Typography } from '@material-ui/core';
 
-// == Import assets & styles
+// == Import styles
 import legalNoticesStyles from './legalNoticesStyles';
 
 // == Composant

@@ -2,10 +2,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// == Import material UI components
+// == Import components
 import { Button, Icon } from '@material-ui/core';
 
-// == Import assets & styles
+// == Import styles
 import './navMenu.scss';
 
 // == Composant

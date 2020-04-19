@@ -1,10 +1,17 @@
+/* eslint-disable max-len */
 // == Import npm
 import React from 'react';
 
 // == Import components
-import { Container, Typography, Grid, Paper, Card, CardMedia, CardContent } from '@material-ui/core';
+import {
+  Container,
+  Typography,
+  Card,
+  CardMedia,
+  CardContent,
+} from '@material-ui/core';
 
-// == Import assets & styles
+// == Import styles
 import NicoleImg from '../../../../assets/img/nicole.svg';
 import BernardImg from '../../../../assets/img/bernard.svg';
 import aboutStyles from './aboutStyles';

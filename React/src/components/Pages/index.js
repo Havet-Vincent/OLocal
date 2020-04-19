@@ -16,6 +16,7 @@ import Shopkeeper from 'src/containers/Shopkeeper';
 import PlanDuSite from 'src/components/Pages/PlanDuSite';
 import LegalNotices from 'src/components/Pages/LegalNotices';
 import Contact from 'src/components/Pages/Contact';
+import NotFound from 'src/components/Pages/NotFound';
 
 // Snackbar Alert & transition effect
 const Alert = (props) => (
@@ -65,6 +66,9 @@ const Pages = ({
         </Route>
         <Route path="/contact">
           <Contact />
+        </Route>
+        <Route>
+          <NotFound />
         </Route>
       </Switch>
       <Snackbar

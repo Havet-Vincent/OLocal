@@ -20,7 +20,7 @@ import BusinessIcon from '@material-ui/icons/Business';
 import LocationSearchingRoundedIcon from '@material-ui/icons/LocationSearchingRounded';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-// == Import assets & styles
+// == Import styles
 import shopkeepersListStyles from './shopkeepersListStyles';
 
 // == Import API config for pictures base URL
