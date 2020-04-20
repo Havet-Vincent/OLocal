@@ -13,14 +13,51 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Home from 'src/containers/Home';
 import ShopkeepersList from 'src/containers/ShopkeepersList';
 import Shopkeeper from 'src/containers/Shopkeeper';
+import ShopkeeperProfil from 'src/components/Pages/Profil/ShopkeeperProfil';
+import ShopkeeperProfilPage from 'src/components/Pages/Profil/ShopkeeperProfil/ShopkeeperProfilPage';
 import PlanDuSite from 'src/components/Pages/PlanDuSite';
 import LegalNotices from 'src/components/Pages/LegalNotices';
 import Contact from 'src/components/Pages/Contact';
 import NotFound from 'src/components/Pages/NotFound';
 
+<<<<<<< HEAD
 // Snackbar Alert & transition effect
 const Alert = (props) => (
   <MuiAlert elevation={6} variant="filled" {...props} />
+=======
+const Pages = ({ redirectTo }) => (
+  <>
+    {redirectTo && (
+      <Redirect to={redirectTo} push />
+    )}
+    <Switch>
+      <Route exact path="/">
+        <Home />
+      </Route>
+      <Route path="/liste-commercants">
+        <ShopkeepersList />
+      </Route>
+      <Route exact path="/commercant/:id">
+        <Shopkeeper />
+      </Route>
+      <Route exact path="/commercant/profil/informations">
+        <ShopkeeperProfil />
+      </Route>
+      <Route exact path="/commercant/profil/page">
+        <ShopkeeperProfilPage />
+      </Route>
+      <Route path="/plan-du-site">
+        <PlanDuSite />
+      </Route>
+      <Route path="/mentions-legales">
+        <LegalNotices />
+      </Route>
+      <Route path="/contact">
+        <Contact />
+      </Route>
+    </Switch>
+  </>
+>>>>>>> PageProfilShopkeeper
 );
 
 const Pages = ({
