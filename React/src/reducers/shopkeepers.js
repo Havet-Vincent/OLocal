@@ -49,6 +49,19 @@ const shopkeepersReducer = (state = initialState, action = {}) => {
         localSupplier: catalog.localSupplier,
       }));
 
+      // If there isn't categories in shopkeeper catalog
+      if (uniqueCategories.length === 0) {
+        return {
+          ...state,
+          notMatch: false,
+          shopkeeper: action.shopkeeper,
+          products,
+          uniqueCategories,
+          loader: false,
+        };
+      }
+
+      // If there isn't a currentCategory selected
       if (Object.keys(state.currentCategory).length === 0) {
         const productsCategoryId = uniqueCategories[0].id;
         // Filter products for first category to display

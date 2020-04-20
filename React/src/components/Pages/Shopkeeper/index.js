@@ -166,9 +166,9 @@ const Shopkeeper = ({
                           </Typography>
                         </CardContent>
                         <Paper className={classes.shopkeeperProducts} elevation={0}>
-                          <FormControl variant="outlined" className={classes.formControl} size="small">
-                            <InputLabel id="search-category">Catégorie de produits</InputLabel>
-                            {productsCategoryId && (
+                          {productsCategoryId && (
+                            <FormControl variant="outlined" className={classes.formControl} size="small">
+                              <InputLabel id="search-category">Catégorie de produits</InputLabel>
                               <Select
                                 fullWidth
                                 className={classes.regionsSelect}
@@ -188,8 +188,8 @@ const Shopkeeper = ({
                                   </MenuItem>
                                 ))}
                               </Select>
-                            )}
-                          </FormControl>
+                            </FormControl>
+                          )}
                           <Grid className={classes.root}>
                             <Typography variant="h6" component="h5" gutterBottom>
                               Nos produits proposés :

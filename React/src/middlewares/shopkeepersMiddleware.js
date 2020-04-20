@@ -8,12 +8,13 @@ const server = require('../api.config.json');
 const shopkeepersMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
     case GET_SHOPKEEPER_DATA: {
+      console.log(Number(action.shopkeeperId));
       const id = Number(action.shopkeeperId);
       axios({
         method: 'post',
         url: `${server.url}:${server.port}/api/shopkeepers/${id}`,
         data: {
-          id,
+          id: Number(action.shopkeeperId),
         },
       })
         .then((response) => {

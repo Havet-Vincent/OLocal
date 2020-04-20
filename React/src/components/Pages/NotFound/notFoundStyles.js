@@ -11,6 +11,10 @@ const notFoundStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     overflow: 'hidden',
+    height: '100%',
+    [theme.breakpoints.down('xs')]: {
+      justifyContent: 'flex-end',
+    },
   },
   clouds: {
     background: 'none',
@@ -25,14 +29,13 @@ const notFoundStyles = makeStyles((theme) => ({
     textAlign: 'center',
     background: 'none',
     width: '100%',
-    margin: 0,
   },
   notFoundContent: {
     background: 'none',
     padding: theme.spacing(0, 3),
     [theme.breakpoints.down('xs')]: {
       background: 'rgba(159, 204, 62, .85)',
-      height: 340,
+      paddingBottom: theme.spacing(2),
     },
   },
   notFoundTitle: {
@@ -45,21 +48,18 @@ const notFoundStyles = makeStyles((theme) => ({
   },
   notFoundSubtitle: {
     fontSize: '1.2em',
+    marginBottom: theme.spacing(3),
     [theme.breakpoints.down('xs')]: {
       fontSize: '1em',
+      marginBottom: theme.spacing(1),
     },
   },
   homeIcon: {
     fontSize: 80,
     color: '#37474f',
-    backgroundColor: theme.palette.primary.light,
     borderRadius: '50%',
-    margin: theme.spacing(3),
-    padding: theme.spacing(1),
     [theme.breakpoints.down('xs')]: {
       fontSize: 65,
-      margin: theme.spacing(1),
-      padding: theme.spacing(1),
     },
   },
 }));
