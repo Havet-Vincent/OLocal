@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -170,7 +171,7 @@ class ApiShopkeepersController extends AbstractController
     /**
      * @Route("/api/shopkeepers/{id<\d+>}/edit", name="api_shopkeeper_edit", methods={"POST"})
      */
-    public function editShopkeeper(Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, UserRepository $userRepository)
+    public function editShopkeeper(Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, UserRepository $userRepository, UserPasswordEncoderInterface $encoder)
     {
         // translate json request
         $data = json_decode($request->getContent());
@@ -202,11 +203,11 @@ class ApiShopkeepersController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $newEmail = $data->email;
-        if ($userRepository->findBy(['email' => $newEmail])) {
+        if ($newEmail === $userRepository->findBy(['email' => $newEmail])) {
             throw $this->createNotFoundException(sprintf(
                 'Adresse mail déjà utilisée.'));
         }
-        if ($data->email !== $userToEdit->getEmail()) {
+        if ($newEmail !== $userToEdit->getEmail()) {
             $userToEdit->setEmail($newEmail);
         }
         if ($data->firstname !== $userToEdit->getFirstname()) {
@@ -215,17 +216,33 @@ class ApiShopkeepersController extends AbstractController
         if ($data->lastname !== $userToEdit->getLastname()) {
             $userToEdit->setLastname($data->lastname);
         }
-        if ($data->password !== $userToEdit->getPassword()) {
-            $userToEdit->setPassword($data->password);
+        if ($data->password) {
+            $userToEdit->setPassword($encoder->encodePassword($userToEdit, $data->password));
         }
-        if ($data->logoPicture !== $userToEdit->getLogoPicture()) {
-            // TODO : uploading image
-            $userToEdit->setLogoPicture('/uploads/'.$data->logoPicture);
+        if ($data->companyDescription !== $userToEdit->getCompanyDescription()) {
+            $userToEdit->setCompanyDescription($data->companyDescription);
         }
-        if ($data->phone !== $userToEdit->getLastname()) {
+        if ($data->logoPicture !== null) {
+
+            $extension = explode('/', mime_content_type($data->logoPicture))[1];
+            $newFilename = 'avatarId'.$userId.'.'.$extension;
+
+            $img = explode(',', $data->logoPicture)[1];
+
+            $newPicture = base64_decode($img);
+
+            // Move the file to the directory where avatars are stored
+            if ($newPicture) {
+                file_put_contents('uploads/avatars/'.$newFilename, $newPicture);
+            } else {
+                return $this->json('Erreur lors de l\'envoi d\'image.');
+            }
+            $userToEdit->setLogoPicture('/uploads/avatars/'.$newFilename);
+        }
+        if ($data->phone !== $userToEdit->getPhone()) {
             $userToEdit->setPhone($data->phone);
         }
-        if ($data->webiste !== $userToEdit->getWebsite()) {
+        if ($data->website !== $userToEdit->getWebsite()) {
             $userToEdit->setWebsite($data->website);
         }
         $userToEdit->setUpdatedAt(new \DateTime());
