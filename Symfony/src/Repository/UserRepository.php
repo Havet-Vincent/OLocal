@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -44,7 +45,7 @@ class UserRepository extends ServiceEntityRepository
     // JOIN category ON category.id = product.category_id 
     // WHERE region_id = 924 AND category.id = 570
     
-
+    
     /*
     public function findOneBySomeField($value): ?User
     {

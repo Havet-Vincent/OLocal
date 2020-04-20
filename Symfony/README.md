@@ -20,7 +20,7 @@ Go to Symfony/
 ```sh
 mkdir -p config/jwt
 ```
-One of these two commands ask you to create a secret phrase you have to make for security. Remember it !
+One of these two commands will ask you to create a secret phrase you have to make for security. Remember it !
 ```sh
 openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
 ```

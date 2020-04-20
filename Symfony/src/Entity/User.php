@@ -19,6 +19,7 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="integer")
      * @Groups("user_get")
      * @Groups("results_get")
+     * @Groups("user_login")
      */
     private $id;
 
@@ -53,6 +54,7 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\Column(type="json", nullable=true)
      * @Groups("user_get")
+     * @Groups("user_login")
      */
     private $userRole = [];
 
