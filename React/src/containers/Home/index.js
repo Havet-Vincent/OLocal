@@ -3,10 +3,7 @@ import { getRegionsData, getCategoriesData } from 'src/actions/home';
 
 import Home from 'src/components/Pages/Home';
 
-const mapStateToProps = (state) => ({
-  loadingRegions: state.home.loadingRegions,
-  loadingCategories: state.home.loadingCategories,
-});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = (dispatch) => ({
   getRegionsData: () => {

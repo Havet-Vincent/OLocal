@@ -9,9 +9,6 @@ import {
 } from '../actions/home';
 
 const initialState = {
-  // Display Loader
-  loadingRegions: true,
-  loadingCategories: true,
   // API Data
   regions: [],
   categories: [],
@@ -32,14 +29,12 @@ const homeReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         regions: action.regions,
-        loadingRegions: false,
       };
 
     case SAVE_CATEGORIES_DATA:
       return {
         ...state,
         categories: action.categories,
-        loadingCategories: false,
       };
 
     case SET_REGION:

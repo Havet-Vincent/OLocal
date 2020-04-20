@@ -8,8 +8,9 @@ import Logo from 'src/assets/img/logo.svg';
 import { Link, AppBar, Toolbar } from '@material-ui/core';
 import SignUpForm from 'src/containers/Header/SignUpForm';
 import SignInForm from 'src/containers/Header/SignInForm';
+import AuthMenu from 'src/containers/Header/AuthMenu';
 import NavMenu from './NavMenu';
-import AuthMenu from './AuthMenu';
+
 
 // == Import styles
 import headerStyles from './headerStyles';
@@ -21,7 +22,6 @@ const Header = ({
   signIn,
   setSignIn,
   UserAuth,
-  setLogout,
 }) => {
   const classes = headerStyles();
 
@@ -47,7 +47,7 @@ const Header = ({
             <SignInForm setSignIn={setSignIn} />
           )}
           {UserAuth && (
-            <AuthMenu setLogout={setLogout} />
+            <AuthMenu />
           )}
         </Toolbar>
       </AppBar>
@@ -62,7 +62,6 @@ Header.propTypes = {
   signIn: PropTypes.bool.isRequired,
   setSignIn: PropTypes.func.isRequired,
   UserAuth: PropTypes.bool.isRequired,
-  setLogout: PropTypes.func.isRequired,
 };
 
 // == Export
