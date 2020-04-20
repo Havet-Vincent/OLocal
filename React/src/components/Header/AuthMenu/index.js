@@ -1,15 +1,21 @@
 // == Import npm
 import React from 'react';
+import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
 // == Import components
-import { Button, Menu, MenuItem } from '@material-ui/core';
+import {
+  Button,
+  Menu,
+  MenuItem,
+} from '@material-ui/core';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 // == Import styles
 import authMenuStyles from './authMenuStyles';
 
 // == Composant
-const AuthMenu = ({ setLogout}) => {
+const AuthMenu = ({ userId, setLogout }) => {
   const classes = authMenuStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -23,6 +29,11 @@ const AuthMenu = ({ setLogout}) => {
     setAnchorEl(null);
   };
 
+  const handleLogout = () => {
+    setLogout();
+    setAnchorEl(null);
+  };
+
   return (
     <div>
       <Button
@@ -32,7 +43,7 @@ const AuthMenu = ({ setLogout}) => {
         aria-controls="user-menu"
         aria-haspopup="true"
         className={classes.accountButton}
-        endIcon={<AccountBoxIcon viewBox="0 2 22 22" />}
+        endIcon={<AccountBoxIcon fontSize="large" />}
         onClick={handleMenu}
       >
         Mon Compte
@@ -52,11 +63,22 @@ const AuthMenu = ({ setLogout}) => {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Mon Profil</MenuItem>
-        <MenuItem color="secondary" onClick={setLogout}>Se déconnecter</MenuItem>
+        <MenuItem onClick={handleClose}>
+          <NavLink to={`/commercant/${userId}/profil/informations`}>Mon Profil</NavLink>
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>Se déconnecter</MenuItem>
       </Menu>
     </div>
   );
+};
+
+AuthMenu.propTypes = {
+  userId: PropTypes.number,
+  setLogout: PropTypes.func.isRequired,
+};
+
+AuthMenu.defaultProps = {
+  userId: null,
 };
 
 // == Export

@@ -3,11 +3,14 @@ import {
   SET_SIGNIN_FIELD_VALUE,
   CHECK_PASSWORD_CONFIRMATION,
   SAVE_AUTHENTICATION,
+  FETCH_AUTHENTICATION,
   SET_USER_AUTH,
   SET_LOGOUT,
 } from '../actions/authentication';
 
 const initialState = {
+  // Display Loader
+  loaderCheckAuth: true,
   // Display signIn form
   signInForm: false,
   // SignIn form fields values
@@ -70,6 +73,12 @@ const authenticationReducer = (state = initialState, action = {}) => {
         UserAuth: true,
       };
 
+    case FETCH_AUTHENTICATION:
+      return {
+        ...state,
+        loaderCheckAuth: false,
+      };
+
     case SET_USER_AUTH:
       return {
         ...state,
@@ -79,8 +88,11 @@ const authenticationReducer = (state = initialState, action = {}) => {
       };
 
     case SET_LOGOUT:
+      localStorage.clear();
       return {
         ...state,
+        token: null,
+        refreshToken: null,
         UserAuth: false,
       };
 

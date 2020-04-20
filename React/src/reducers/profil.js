@@ -3,7 +3,7 @@ import {
 } from '../actions/profil';
 
 const initialState = {
-  userId: '',
+  userId: null,
   userRole: [],
   userData: null,
 };

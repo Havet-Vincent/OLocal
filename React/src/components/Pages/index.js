@@ -10,6 +10,7 @@ import {
 // == Import components
 import { Snackbar } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
+import Loader from 'src/components/Loader';
 import Home from 'src/containers/Home';
 import ShopkeepersList from 'src/containers/ShopkeepersList';
 import Shopkeeper from 'src/containers/Shopkeeper';
@@ -19,6 +20,7 @@ import PlanDuSite from 'src/components/Pages/PlanDuSite';
 import LegalNotices from 'src/components/Pages/LegalNotices';
 import Contact from 'src/components/Pages/Contact';
 import NotFound from 'src/components/Pages/NotFound';
+import PrivateRoute from './PrivateRoute';
 
 // Snackbar Alert & transition effect
 const Alert = (props) => (
@@ -26,6 +28,8 @@ const Alert = (props) => (
 );
 
 const Pages = ({
+  loaderCheckAuth,
+  UserAuth,
   redirectTo,
   snackbar,
   snackbarType,
@@ -50,35 +54,44 @@ const Pages = ({
       {redirectTo && (
         <Redirect to={redirectTo} push />
       )}
-      <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route path="/liste-commercants">
-          <ShopkeepersList />
-        </Route>
-        <Route exact path="/commercant/:id">
-          <Shopkeeper />
-        </Route>
-        <Route exact path="/commercant/profil/informations">
-          <ShopkeeperProfil />
-        </Route>
-        <Route exact path="/commercant/profil/page">
-          <ShopkeeperProfilPage />
-        </Route>
-        <Route path="/plan-du-site">
-          <PlanDuSite />
-        </Route>
-        <Route path="/mentions-legales">
-          <LegalNotices />
-        </Route>
-        <Route path="/contact">
-          <Contact />
-        </Route>
-        <Route>
-          <NotFound />
-        </Route>
-      </Switch>
+      <Loader loader={loaderCheckAuth} />
+      {!loaderCheckAuth && (
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/liste-commercants">
+            <ShopkeepersList />
+          </Route>
+          <Route exact path="/commercant/:id">
+            <Shopkeeper />
+          </Route>
+          <Route path="/plan-du-site">
+            <PlanDuSite />
+          </Route>
+          <Route path="/mentions-legales">
+            <LegalNotices />
+          </Route>
+          <Route path="/contact">
+            <Contact />
+          </Route>
+          <PrivateRoute
+            exact
+            path="/commercant/:id/profil/informations"
+            component={ShopkeeperProfil}
+            isAuthenticated={UserAuth}
+          />
+          <PrivateRoute
+            exact
+            path="/commercant/:id/profil/page"
+            component={ShopkeeperProfilPage}
+            isAuthenticated={UserAuth}
+          />
+          <Route>
+            <NotFound />
+          </Route>
+        </Switch>
+      )}
       <Snackbar
         open={snackbar}
         autoHideDuration={6000}
@@ -94,6 +107,8 @@ const Pages = ({
 };
 
 Pages.propTypes = {
+  loaderCheckAuth: PropTypes.bool.isRequired,
+  UserAuth: PropTypes.bool.isRequired,
   redirectTo: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.string,

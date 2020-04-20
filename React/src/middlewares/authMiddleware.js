@@ -4,6 +4,7 @@ import jwtDecode from 'jwt-decode';
 import {
   SUBMIT_SIGNIN,
   FETCH_AUTHENTICATION,
+  SET_LOGOUT,
   saveAuthentication,
   setUserAuth,
 } from '../actions/authentication';
@@ -45,12 +46,11 @@ const authMiddleware = (store) => (next) => (action) => {
           .catch((error) => {
             // eslint-disable-next-line no-console
             console.warn(error);
-            store.dispatch(setSnackbar('error', 'Echec de la connexion'));
+            store.dispatch(setSnackbar('error', 'Echec de la connexion. Veuillez vérifier vos identifiants'));
           })
           .finally(() => {
           });
       }
-
       next(action);
       break;
     }
@@ -78,15 +78,19 @@ const authMiddleware = (store) => (next) => (action) => {
           .catch((error) => {
             // eslint-disable-next-line no-console
             console.warn(error);
-            store.dispatch(setSnackbar('error', 'Non authentifié'));
+            store.dispatch(setSnackbar('error', 'Echec vérification authentification'));
           })
           .finally(() => {
           });
       }
-
       next(action);
       break;
     }
+
+    case SET_LOGOUT:
+      store.dispatch(setSnackbar('info', 'Vous êtes déconnecté'));
+      next(action);
+      break;
 
     default:
       next(action);

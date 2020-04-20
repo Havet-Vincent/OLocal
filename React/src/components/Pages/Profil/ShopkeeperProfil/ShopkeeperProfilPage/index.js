@@ -128,9 +128,6 @@ const ShopkeeperProfilPage = () => {
                 }, 600);
               }),
           }}
-          options={{
-            filtering: true
-          }}
           actions={[
             {
               icon: 'save',
@@ -144,7 +141,6 @@ const ShopkeeperProfilPage = () => {
           title={"Article par gatégorie et producteur"}
           data={dataBis}
           columns={columns}
-          options={options}
         />
   );
       </Paper>

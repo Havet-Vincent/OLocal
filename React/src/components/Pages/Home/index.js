@@ -7,7 +7,6 @@ import {
   Grid,
   Paper,
 } from '@material-ui/core';
-import Loader from 'src/components/Loader';
 import Search from 'src/containers/Home/Search';
 import About from './About';
 
@@ -16,13 +15,10 @@ import homeStyles from './homeStyles';
 
 // == Composant
 const Home = ({
-  loadingRegions,
-  loadingCategories,
   getRegionsData,
   getCategoriesData,
 }) => {
   const classes = homeStyles();
-  const loader = loadingRegions || loadingCategories;
 
   useEffect(() => {
     getRegionsData();
@@ -31,7 +27,6 @@ const Home = ({
 
   return (
     <>
-      <Loader loader={loader} />
       <Grid container className={classes.searchWrapper}>
         <Grid item xs={10} md={9} sm={8}>
           <Paper className={classes.searchContent} elevation={3}>
@@ -51,8 +46,6 @@ const Home = ({
 };
 
 Home.propTypes = {
-  loadingRegions: PropTypes.bool.isRequired,
-  loadingCategories: PropTypes.bool.isRequired,
   getRegionsData: PropTypes.func.isRequired,
   getCategoriesData: PropTypes.func.isRequired,
 };
