@@ -6,6 +6,8 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from 'src/containers/Home';
 import ShopkeepersList from 'src/containers/ShopkeepersList';
 import Shopkeeper from 'src/containers/Shopkeeper';
+import ShopkeeperProfil from 'src/components/Pages/Profil/ShopkeeperProfil';
+import ShopkeeperProfilPage from 'src/components/Pages/Profil/ShopkeeperProfil/ShopkeeperProfilPage';
 import PlanDuSite from 'src/components/Pages/PlanDuSite';
 import LegalNotices from 'src/components/Pages/LegalNotices';
 import Contact from 'src/components/Pages/Contact';
@@ -22,8 +24,14 @@ const Pages = ({ redirectTo }) => (
       <Route path="/liste-commercants">
         <ShopkeepersList />
       </Route>
-      <Route strict path="/commercant/:id">
+      <Route exact path="/commercant/:id">
         <Shopkeeper />
+      </Route>
+      <Route exact path="/commercant/profil/informations">
+        <ShopkeeperProfil />
+      </Route>
+      <Route exact path="/commercant/profil/page">
+        <ShopkeeperProfilPage />
       </Route>
       <Route path="/plan-du-site">
         <PlanDuSite />
