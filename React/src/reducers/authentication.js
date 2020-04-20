@@ -2,7 +2,8 @@ import {
   TOGGLE_SIGNIN_FORM,
   SET_SIGNIN_FIELD_VALUE,
   CHECK_PASSWORD_CONFIRMATION,
-  SET_AUTHENTICATION,
+  SAVE_AUTHENTICATION,
+  SET_USER_AUTH,
   SET_LOGOUT,
 } from '../actions/authentication';
 
@@ -17,6 +18,8 @@ const initialState = {
   passwordLength: 0,
   passwordConfirmed: false,
   // User authentication
+  token: null,
+  refreshToken: null,
   UserAuth: false,
 };
 
@@ -53,7 +56,7 @@ const authenticationReducer = (state = initialState, action = {}) => {
         passwordConfirmed: false,
       };
 
-    case SET_AUTHENTICATION:
+    case SAVE_AUTHENTICATION:
       return {
         ...state,
         signInForm: false,
@@ -62,6 +65,16 @@ const authenticationReducer = (state = initialState, action = {}) => {
         confirmPassword: '',
         passwordLength: 0,
         passwordConfirmed: false,
+        token: action.token,
+        refreshToken: action.refreshToken,
+        UserAuth: true,
+      };
+
+    case SET_USER_AUTH:
+      return {
+        ...state,
+        token: action.token,
+        refreshToken: action.refreshToken,
         UserAuth: true,
       };
 
