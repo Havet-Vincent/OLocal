@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login_id", name="login_id", methods={"POST"})
+     * @Route("/api/login_id", name="login_id", methods={"POST"})
      */
     public function login_id(Request $request, UserRepository $userRepository, DenormalizerInterface $denormalizer, ValidatorInterface $validator)
     {
