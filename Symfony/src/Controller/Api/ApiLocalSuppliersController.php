@@ -22,23 +22,11 @@ class ApiLocalSuppliersController extends AbstractController
     {
         $this->apiSirene=$apiSirene;
     }
-    
-    
-    /**
-     * @Route("/api/local/suppliers", name="api_local_suppliers")
-     */
-    public function index()
-    {
-        return $this->render('api_local_suppliers/index.html.twig', [
-            'controller_name' => 'ApiLocalSuppliersController',
-        ]);
-    }
 
     /**
      * @Route("/api/localsuppliers/add", name="api_localsuppliers_add", methods="POST")
      */
-
-    public function add (Request $request, RegionRepository $regionRepository, DenormalizerInterface $denormalizer, ValidatorInterface $validator, LocalSupplierRepository $localSupplierRepository)
+    public function add(Request $request, RegionRepository $regionRepository, DenormalizerInterface $denormalizer, ValidatorInterface $validator, LocalSupplierRepository $localSupplierRepository)
     {
          // 1. On récupère le contenu JSON
          $dataRequest = json_decode($request->getContent());

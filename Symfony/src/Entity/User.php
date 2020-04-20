@@ -523,7 +523,7 @@ class User implements UserInterface, \Serializable
     }
 
     public function __toString() {
-        return $this;
+        return $this->email;
     }
 
     public function getSalt()
