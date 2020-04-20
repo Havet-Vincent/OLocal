@@ -2,7 +2,6 @@
 
 namespace App\Controller\Api;
 
-use Symfony\Bundle\FrameworkBundle\Client;
 use App\Entity\Region;
 use App\Repository\LocalSupplierRepository;
 use App\Repository\RegionRepository;
@@ -17,12 +16,11 @@ class ApiRegionsController extends AbstractController
     public function getRegions(RegionRepository $regionRepository)
     {
         $regions=$regionRepository->findAll();
-       
         return $this->json($regions, 200, [], ['groups' => 'regions_get']);
     }
 
     /**
-     * @Route("/api/regions/{id<\d+>}/localsuppliers", name="get_local_by_region")
+     * @Route("/api/regions/{id<\d+>}/localsuppliers", name="get_local_by_region", methods={"POST"})
      * 
      * @return list of local suppliers for one region
      */

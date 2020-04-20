@@ -1,0 +1,16 @@
+easy_admin:
+    entities:
+        # List the entity class name you want to manage
+        Catalogues:
+            class: App\Entity\Catalog
+        Categories:
+            class: App\Entity\Category
+        Producteurs_Locaux:
+            class: App\Entity\LocalSupplier
+        Produits:
+            class: App\Entity\Product
+        Regions:
+            class: App\Entity\Region
+        Utilisateurs:
+            class: App\Entity\User
+    site_name: "o'Local - Panneau d'administration"

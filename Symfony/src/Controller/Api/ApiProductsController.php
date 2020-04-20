@@ -19,14 +19,6 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 class ApiProductsController extends AbstractController
 {
     /**
-     * @Route("/api/products", name="api_products", methods={"GET"})
-     */
-    public function index()
-    {
-        return $this->json([]);
-    }
-
-    /**
      * @Route("/api/products/add", name="api_products_add", methods={"POST"})
      */
     public function add (Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository, UserRepository $userRepository,LocalSupplierRepository $localSupplierRepository, EntityManagerInterface $em, ValidatorInterface $validator, DenormalizerInterface $denormalizer)

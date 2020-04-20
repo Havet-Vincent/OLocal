@@ -2,7 +2,6 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\Region;
 use App\Entity\Catalog;
 use App\Entity\Product;
 use App\Repository\CatalogRepository;
@@ -21,16 +20,6 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class ApiCatalogsController extends AbstractController
 {
-    /**
-     * @Route("/api/catalogs", name="api_catalogs")
-     */
-    public function index()
-    {
-        return $this->render('api/api_catalog/index.html.twig', [
-            'controller_name' => 'ApiCatalogController',
-        ]);
-    }
-
     /**
      * @Route("/api/catalogs/add", name="api_catalogs_add", methods="POST")
      */
