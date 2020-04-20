@@ -10,9 +10,26 @@ composer install
 
 ### .env.local at Symfony/ :
 Create file .env.local at Symfony/
-And copy/paste this code after replace your PMA login and password
+And copy/paste this code after replace with your PMA login and password
 ```sh
 DATABASE_URL=mysql://PMALOGIN:PMAPASSWORD@127.0.0.1:3306/olocal_dev?serverVersion=5.7
+```
+
+### Generate the SSH keys for JWT Token (first time only):
+Go to Symfony/
+```sh
+mkdir -p config/jwt
+```
+One of these two commands ask you to create a secret phrase you have to make for security. Remember it !
+```sh
+openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
+```
+```sh
+openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem -pubout
+```
+And copy/paste this code in .env.local after replace with your secret phrase you make when generating keys :
+```sh
+JWT_PASSPHRASE=yoursecretphrase
 ```
 
 ### Create database :

@@ -287,7 +287,7 @@ class AppFixtures extends Fixture
         $custom->setEmail('user@user.com');
         $custom->setFirstname($faker->firstname());
         $custom->setLastname($faker->lastname());
-        $custom->setPassword($this->encoder->encodePassword($custom, 'user'));
+        $custom->setPassword($this->encoder->encodePassword($custom, 'password'));
         $custom->setUserRole(['ROLE_USER']);
         $custom->setIsEmailChecked(true);
         $custom->setIsActive(true);
