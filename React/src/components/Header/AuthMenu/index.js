@@ -1,7 +1,6 @@
 // == Import npm
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
 
 // == Import components
 import {
@@ -15,7 +14,7 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import authMenuStyles from './authMenuStyles';
 
 // == Composant
-const AuthMenu = ({ userId, setLogout }) => {
+const AuthMenu = ({ getProfil, setLogout }) => {
   const classes = authMenuStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -26,6 +25,11 @@ const AuthMenu = ({ userId, setLogout }) => {
   };
 
   const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleProfil = () => {
+    getProfil();
     setAnchorEl(null);
   };
 
@@ -63,9 +67,7 @@ const AuthMenu = ({ userId, setLogout }) => {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>
-          <NavLink to={`/commercant/${userId}/profil/informations`}>Mon Profil</NavLink>
-        </MenuItem>
+        <MenuItem onClick={handleProfil}>Mon Profil</MenuItem>
         <MenuItem onClick={handleLogout}>Se déconnecter</MenuItem>
       </Menu>
     </div>
@@ -73,12 +75,8 @@ const AuthMenu = ({ userId, setLogout }) => {
 };
 
 AuthMenu.propTypes = {
-  userId: PropTypes.number,
+  getProfil: PropTypes.func.isRequired,
   setLogout: PropTypes.func.isRequired,
-};
-
-AuthMenu.defaultProps = {
-  userId: null,
 };
 
 // == Export

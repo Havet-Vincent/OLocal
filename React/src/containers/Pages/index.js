@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { resetSnackbar } from 'src/actions/home';
+import { clearRedirect, resetSnackbar } from 'src/actions/home';
 
 import Pages from 'src/components/Pages';
 
@@ -13,6 +13,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  clearRedirectTo: () => {
+    dispatch(clearRedirect());
+  },
   resetSnackbar: () => {
     dispatch(resetSnackbar());
   },

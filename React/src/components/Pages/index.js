@@ -14,7 +14,7 @@ import Loader from 'src/components/Loader';
 import Home from 'src/containers/Home';
 import ShopkeepersList from 'src/containers/ShopkeepersList';
 import Shopkeeper from 'src/containers/Shopkeeper';
-import ShopkeeperProfil from 'src/components/Pages/Profil/ShopkeeperProfil';
+import ShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil';
 import ShopkeeperProfilPage from 'src/components/Pages/Profil/ShopkeeperProfil/ShopkeeperProfilPage';
 import PlanDuSite from 'src/components/Pages/PlanDuSite';
 import LegalNotices from 'src/components/Pages/LegalNotices';
@@ -31,6 +31,7 @@ const Pages = ({
   loaderCheckAuth,
   UserAuth,
   redirectTo,
+  clearRedirectTo,
   snackbar,
   snackbarType,
   snackbarMessage,
@@ -40,6 +41,7 @@ const Pages = ({
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    clearRedirectTo();
   }, [pathname]);
 
   const handleClose = (reason) => {
@@ -113,6 +115,7 @@ Pages.propTypes = {
     PropTypes.bool,
     PropTypes.string,
   ]).isRequired,
+  clearRedirectTo: PropTypes.func.isRequired,
   snackbar: PropTypes.bool.isRequired,
   snackbarType: PropTypes.string.isRequired,
   snackbarMessage: PropTypes.string.isRequired,

@@ -9,6 +9,7 @@ export const GET_SEARCH_HOME_RESULTS = 'GET_SEARCH_HOME_RESULTS';
 export const SET_SNACKBAR = 'SET_SNACKBAR';
 export const RESET_SNACKBAR = 'RESET_SNACKBAR';
 export const REDIRECT = 'REDIRECT';
+export const CLEAR_REDIRECT = 'CLEAR_REDIRECT';
 
 // action creators
 export const getRegionsData = () => ({
@@ -56,4 +57,8 @@ export const resetSnackbar = () => ({
 export const redirect = (link) => ({
   type: REDIRECT,
   link,
+});
+
+export const clearRedirect = () => ({
+  type: CLEAR_REDIRECT,
 });

@@ -1,11 +1,16 @@
 import {
   SAVE_USER,
+  SAVE_USER_DATA,
+  CLEAR_USER_DATA,
 } from '../actions/profil';
 
 const initialState = {
+  // Display Loader
+  loader: true,
+  // API User Data
   userId: null,
   userRole: [],
-  userData: null,
+  userData: {},
 };
 
 const profilReducer = (state = initialState, action = {}) => {
@@ -15,6 +20,20 @@ const profilReducer = (state = initialState, action = {}) => {
         ...state,
         userId: action.id,
         userRole: action.userRole,
+      };
+
+    case SAVE_USER_DATA:
+      return {
+        ...state,
+        userData: action.userData,
+        loader: false,
+      };
+
+    case CLEAR_USER_DATA:
+      return {
+        ...state,
+        userData: {},
+        loader: true,
       };
 
     default: return state;

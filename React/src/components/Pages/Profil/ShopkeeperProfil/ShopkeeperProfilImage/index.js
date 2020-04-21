@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 
 // == Import components
-import { CardMedia, Paper, IconButton, Box } from '@material-ui/core';
-
+import {
+  CardMedia,
+  Paper,
+  IconButton,
+  Box,
+} from '@material-ui/core';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 
-// datas for the tests
-import shopkeeper from 'src/dataShop';
-
-// == Import assets & styles
+// == Import styles
 import shopkeeperProfilImageStyles from './shopkeeperProfilImageStyles';
 
-// == Import API server config
+// == Import API config for pictures base URL
 const server = require('src/api.config.json');
 
 // == Composant
-const ShopkeeperProfilImage = () => {
+const ShopkeeperProfilImage = ({ logoPicture }) => {
   const classes = shopkeeperProfilImageStyles();
-
-  const [logoPicture, setLogoPicture] = useState();
 
   return (
     <Paper>
@@ -30,14 +30,16 @@ const ShopkeeperProfilImage = () => {
       </Box>
       <CardMedia
         className={classes.cardMedia}
-        image={`${server.url}:${server.port}${shopkeeper.logoPicture}`}
-        title="commerce"
+        image={`${server.url}:${server.port}${logoPicture}`}
+        title="Image du commerce"
       />
     </Paper>
   );
+};
 
+ShopkeeperProfilImage.propTypes = {
+  logoPicture: PropTypes.string.isRequired,
 };
 
 // == Export
 export default ShopkeeperProfilImage;
-

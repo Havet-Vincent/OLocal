@@ -31,8 +31,8 @@ const registerMiddleware = (store) => (next) => (action) => {
             password,
           },
         })
-          .then((response) => {
-            console.log('success register : ', response.data);
+          .then(() => {
+            // console.log('success register : ', response.data);
             store.dispatch(setSnackbar('success', 'Inscription réussie. Vous pouvez vous connecter à votre compte'));
             store.dispatch(setRegister());
           })

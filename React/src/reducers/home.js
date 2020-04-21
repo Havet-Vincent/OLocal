@@ -6,6 +6,7 @@ import {
   SET_SNACKBAR,
   RESET_SNACKBAR,
   REDIRECT,
+  CLEAR_REDIRECT,
 } from '../actions/home';
 
 const initialState = {
@@ -19,7 +20,7 @@ const initialState = {
   snackbar: false,
   snackbarType: '',
   snackbarMessage: '',
-  // Redirection link after success Search request
+  // Redirection Page
   redirectTo: false,
 };
 
@@ -72,10 +73,13 @@ const homeReducer = (state = initialState, action = {}) => {
         region: [],
       };
 
-    default: return {
-      ...state,
-      redirectTo: false,
-    };
+    case CLEAR_REDIRECT:
+      return {
+        ...state,
+        redirectTo: false,
+      };
+
+    default: return state;
   }
 };
 

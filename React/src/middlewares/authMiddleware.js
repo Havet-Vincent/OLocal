@@ -33,7 +33,7 @@ const authMiddleware = (store) => (next) => (action) => {
           },
         })
           .then((response) => {
-            console.log('success authentication : ', response.data);
+            // console.log('success authentication : ', response.data);
             // Success => save token and refresh token in LocalStorage
             const { token, refreshToken } = response.data;
             localStorage.setItem('token', token);
@@ -66,7 +66,7 @@ const authMiddleware = (store) => (next) => (action) => {
           },
         })
           .then((response) => {
-            console.log('success fetch authentication : ', response.data);
+            // console.log('success fetch authentication : ', response.data);
             // Success => save token in LocalStorage
             const { token } = response.data;
             localStorage.setItem('token', token);

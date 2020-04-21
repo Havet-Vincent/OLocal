@@ -34,7 +34,9 @@ const Header = ({
               <img className={classes.logo} src={Logo} alt="O'local Logo" />
             </Link>
           </div>
-          {!UserAuth && (
+          {UserAuth ? (
+            <AuthMenu />
+          ) : (
             <NavMenu
               setSignUp={setSignUp}
               setSignIn={setSignIn}
@@ -45,9 +47,6 @@ const Header = ({
           )}
           {signIn && (
             <SignInForm setSignIn={setSignIn} />
-          )}
-          {UserAuth && (
-            <AuthMenu />
           )}
         </Toolbar>
       </AppBar>

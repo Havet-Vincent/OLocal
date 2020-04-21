@@ -11,7 +11,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 // for the alert
 import MuiAlert from '@material-ui/lab/Alert';
 
-import NavbarShopkeeperProfil from '../NavbarShopkeeperProfil';
+import NavbarShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil/NavbarShopkeeperProfil';
 import ShopkeeperProfilImage from '../ShopkeeperProfilImage';
 
 
