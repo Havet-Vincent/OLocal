@@ -119,7 +119,7 @@ class ApiShopkeepersController extends AbstractController
         $password = $dataRequest->password;
         $user->setPassword($encoder->encodePassword($user, $password));
 
-        $role = ['ROLE_USER'];
+        $role = ['ROLE_SHOPKEEPER'];
         $user->setUserRole($role);
 
         // TODO : implements email check
@@ -203,8 +203,7 @@ class ApiShopkeepersController extends AbstractController
 
         $newEmail = $data->email;
         if ($newEmail === $userRepository->findBy(['email' => $newEmail])) {
-            throw $this->createNotFoundException(sprintf(
-                'Adresse mail déjà utilisée.'));
+            return $this->json('Cette adresse email est déjà utilisée.', 409);
         }
         if ($newEmail !== $userToEdit->getEmail()) {
             $userToEdit->setEmail($newEmail);
