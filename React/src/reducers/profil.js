@@ -29,8 +29,10 @@ const profilReducer = (state = initialState, action = {}) => {
       const catalog = state.userData.catalogs.map((item) => (
         {
           catalogId: item.id,
+          categoryId: item.product.category.id,
           category: item.product.category.name,
           product: item.product.name,
+          supplierId: item.localSupplier.id,
           supplier: item.localSupplier.name,
           city: item.localSupplier.city,
           postalCode: item.localSupplier.postalCode,

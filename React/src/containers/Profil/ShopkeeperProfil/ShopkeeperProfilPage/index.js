@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getCatalog, deleteCatalogItem } from 'src/actions/profil';
+import { getCatalog, deleteCatalogItem, updateCatalogItem } from 'src/actions/profil';
 
 import ShopkeeperProfilPage from 'src/components/Pages/Profil/ShopkeeperProfil/ShopkeeperProfilPage';
 
@@ -14,6 +14,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onDelete: (data) => {
     dispatch(deleteCatalogItem(data));
+  },
+  onUpdate: (data) => {
+    dispatch(updateCatalogItem(data));
   },
 });
 

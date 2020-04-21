@@ -17,16 +17,16 @@ import NavbarShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil/Navba
 import shopkeeperProfilPageStyles from './shopkeeperProfilPageStyles';
 
 
-const onDelete = (data) => {
-  deleteCatalogItem(data);
-  console.log('delete ', data);
-};
+// const onDelete = (data) => {
+//   deleteCatalogItem(data);
+//   console.log('delete ', data);
+// };
 const onAdd = (data) => {
   console.log('add ', data);
 };
-const onUpdate = (newData) => {
-  console.log('update ', newData);
-};
+// const onUpdate = (newData) => {
+//   console.log('update ', newData);
+// };
 
 // == Composant
 const ShopkeeperProfilPage = ({
@@ -34,6 +34,7 @@ const ShopkeeperProfilPage = ({
   catalog,
   getCatalog,
   onDelete,
+  onUpdate,
 }) => {
   const classes = shopkeeperProfilPageStyles();
   const [state, setState] = useState({});
@@ -163,6 +164,8 @@ ShopkeeperProfilPage.propTypes = {
   loader: PropTypes.bool.isRequired,
   catalog: PropTypes.array.isRequired,
   getCatalog: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 // == Export

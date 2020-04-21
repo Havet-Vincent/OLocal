@@ -7,6 +7,7 @@ export const GET_USER_DATA = 'GET_USER_DATA';
 export const GET_CATALOG = 'GET_CATALOG';
 export const SAVE_USER_DATA = 'SAVE_USER_DATA';
 export const DELETE_CATALOG_ITEM = 'DELETE_CATALOG_ITEM';
+export const UPDATE_CATALOG_ITEM = 'UPDATE_CATALOG_ITEM';
 export const CLEAR_USER_DATA = 'CLEAR_USER_DATA';
 
 // action creators
@@ -44,6 +45,11 @@ export const getCatalog = () => ({
 
 export const deleteCatalogItem = (data) => ({
   type: DELETE_CATALOG_ITEM,
+  data,
+});
+
+export const updateCatalogItem = (data) => ({
+  type: UPDATE_CATALOG_ITEM,
   data,
 });
 
