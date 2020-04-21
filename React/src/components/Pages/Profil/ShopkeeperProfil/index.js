@@ -17,6 +17,7 @@ import UploadAvatar from 'src/components/Pages/Profil/UploadAvatar';
 import NavbarShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil/NavbarShopkeeperProfil';
 import ShopkeeperProfilImage from 'src/components/Pages/Profil/ShopkeeperProfil/ShopkeeperProfilImage';
 
+
 // == Import styles
 import shopkeeperProfilStyles from './shopkeeperProfilStyles';
 
