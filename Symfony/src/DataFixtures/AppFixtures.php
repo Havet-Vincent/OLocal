@@ -233,7 +233,7 @@ class AppFixtures extends Fixture
             $user->setFirstname($faker->firstname());
             $user->setLastname($faker->lastname());
             $user->setPassword($faker->password());
-            $user->setUserRole(['ROLE_USER']);
+            $user->setUserRole(['ROLE_SHOPKEEPER']);
             $user->setIsEmailChecked(true);
             $user->setIsActive(true);
             $user->setAdditionalAddress($faker->optional()->secondaryAddress());
@@ -330,6 +330,20 @@ class AppFixtures extends Fixture
             }
         $usersList[] = $custom;
         $manager->persist($custom);
+
+        // create admin user
+        $admin = new User();
+        $admin->setEmail('admin@admin.com');
+        $admin->setFirstname('Micheline');
+        $admin->setLastname('Michu');
+        $admin->setPassword($this->encoder->encodePassword($admin, 'password'));
+        $admin->setUserRole(['ROLE_ADMIN']);
+        $admin->setIsEmailChecked(true);
+        $admin->setIsActive(true);
+        $admin->setCreatedAt(new \DateTime());    
+        $admin->setRegion($regionA);
+        $manager->persist($admin);
+
 
 
         $manager->flush();
