@@ -17,35 +17,29 @@ import NavbarShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil/Navba
 import shopkeeperProfilPageStyles from './shopkeeperProfilPageStyles';
 
 
-// const onDelete = (data) => {
-//   deleteCatalogItem(data);
-//   console.log('delete ', data);
-// };
 const onAdd = (data) => {
   console.log('add ', data);
 };
-// const onUpdate = (newData) => {
-//   console.log('update ', newData);
-// };
+
 
 // == Composant
 const ShopkeeperProfilPage = ({
   loader,
   catalog,
-  getCatalog,
+  getUserData,
   onDelete,
   onUpdate,
 }) => {
   const classes = shopkeeperProfilPageStyles();
   const [state, setState] = useState({});
 
-  // First render => get catalog data
+  // First render => get user catalog data
   useEffect(() => {
-    getCatalog();
+    getUserData();
   }, []);
 
   // Local State
-  const loadCatalog = () => {
+  const loadTable = () => {
     setState({
       columns: [
         {
@@ -87,10 +81,10 @@ const ShopkeeperProfilPage = ({
     });
   };
 
-  // When we have result of getCatalog => local setState
+  // When catalog is updated => set data in local state
   useEffect(() => {
-    loadCatalog();
-  }, [!loader]);
+    loadTable();
+  }, [catalog]);
 
   return (
     <>
@@ -110,6 +104,7 @@ const ShopkeeperProfilPage = ({
               data={state.data}
               editable={{
                 onRowAdd: (newData) =>
+                // eslint-disable-next-line implicit-arrow-linebreak
                   new Promise((resolve) => {
                     setTimeout(() => {
                       onAdd(newData);
@@ -122,6 +117,7 @@ const ShopkeeperProfilPage = ({
                     }, 600);
                   }),
                 onRowUpdate: (newData, oldData) =>
+                // eslint-disable-next-line implicit-arrow-linebreak
                   new Promise((resolve) => {
                     setTimeout(() => {
                       onUpdate(newData);
@@ -136,6 +132,7 @@ const ShopkeeperProfilPage = ({
                     }, 600);
                   }),
                 onRowDelete: (oldData) =>
+                  // eslint-disable-next-line implicit-arrow-linebreak
                   new Promise((resolve) => {
                     setTimeout(() => {
                       onDelete(oldData);
@@ -163,7 +160,7 @@ const ShopkeeperProfilPage = ({
 ShopkeeperProfilPage.propTypes = {
   loader: PropTypes.bool.isRequired,
   catalog: PropTypes.array.isRequired,
-  getCatalog: PropTypes.func.isRequired,
+  getUserData: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
 };

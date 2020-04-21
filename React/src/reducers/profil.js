@@ -7,6 +7,7 @@ import {
 
 const initialState = {
   // Display Loader
+  loaderUser: true,
   loaderProfil: true,
   loaderProfilPage: true,
   // API User Data
@@ -23,6 +24,7 @@ const profilReducer = (state = initialState, action = {}) => {
         ...state,
         userId: action.id,
         userRole: action.userRole,
+        loaderUser: false,
       };
 
     case GET_CATALOG: {
@@ -50,6 +52,7 @@ const profilReducer = (state = initialState, action = {}) => {
         ...state,
         userData: action.userData,
         loaderProfil: false,
+        loaderProfilPage: false,
       };
 
     case CLEAR_USER_DATA:

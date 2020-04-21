@@ -3,7 +3,7 @@ import axios from 'axios';
 import {
   DELETE_CATALOG_ITEM,
   UPDATE_CATALOG_ITEM,
-  getCatalog,
+  getUserData,
 } from '../actions/profil';
 import { setSnackbar } from '../actions/home';
 
@@ -15,7 +15,6 @@ const catalogMiddleware = (store) => (next) => (action) => {
     case DELETE_CATALOG_ITEM: {
       const { catalogId: id } = action.data;
       const token = localStorage.getItem('token');
-
       axios({
         method: 'delete',
         url: `${server.url}:${server.port}/api/catalogs/${id}/delete`,
@@ -26,7 +25,7 @@ const catalogMiddleware = (store) => (next) => (action) => {
       })
         .then(() => {
           // console.log('success delete catalog : ', response.data);
-          store.dispatch(getCatalog());
+          store.dispatch(getUserData());
           store.dispatch(setSnackbar('success', 'Elément supprimé'));
         })
         .catch((error) => {
@@ -48,9 +47,6 @@ const catalogMiddleware = (store) => (next) => (action) => {
         product,
       } = action.data;
       const token = localStorage.getItem('token');
-
-      console.log(action.data);
-
       axios({
         method: 'post',
         url: `${server.url}:${server.port}/api/catalogs/${id}/edit`,
@@ -64,15 +60,13 @@ const catalogMiddleware = (store) => (next) => (action) => {
       })
         .then(() => {
           // console.log('success update catalog : ', response.data);
-          store.dispatch(getCatalog());
+          store.dispatch(getUserData());
           store.dispatch(setSnackbar('success', 'Elément modifié'));
         })
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.warn(error);
           store.dispatch(setSnackbar('error', 'Echec de la modification'));
-        })
-        .finally(() => {
         });
       next(action);
       break;

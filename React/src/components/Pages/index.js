@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,
@@ -29,6 +29,7 @@ const Alert = (props) => (
 
 const Pages = ({
   loaderCheckAuth,
+  loaderUser,
   UserAuth,
   redirectTo,
   clearRedirectTo,
@@ -38,11 +39,22 @@ const Pages = ({
   resetSnackbar,
 }) => {
   const { pathname } = useLocation();
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     clearRedirectTo();
   }, [pathname]);
+
+  useEffect(() => {
+    switch (pathname.slice(0, 18)) {
+      case '/commercant/profil':
+        setLoader(loaderUser);
+        break;
+      default:
+        setLoader(loaderCheckAuth);
+    }
+  });
 
   const handleClose = (reason) => {
     if (reason === 'clickaway') {
@@ -56,8 +68,8 @@ const Pages = ({
       {redirectTo && (
         <Redirect to={redirectTo} push />
       )}
-      <Loader loader={loaderCheckAuth} />
-      {!loaderCheckAuth && (
+      <Loader loader={loader} />
+      {!loader && (
         <Switch>
           <Route exact path="/">
             <Home />
@@ -110,6 +122,7 @@ const Pages = ({
 
 Pages.propTypes = {
   loaderCheckAuth: PropTypes.bool.isRequired,
+  loaderUser: PropTypes.bool.isRequired,
   UserAuth: PropTypes.bool.isRequired,
   redirectTo: PropTypes.oneOfType([
     PropTypes.bool,

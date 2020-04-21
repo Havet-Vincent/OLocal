@@ -5,6 +5,7 @@ import Pages from 'src/components/Pages';
 
 const mapStateToProps = (state) => ({
   loaderCheckAuth: state.authentication.loaderCheckAuth,
+  loaderUser: state.profil.loaderUser,
   UserAuth: state.authentication.UserAuth,
   redirectTo: state.home.redirectTo,
   snackbar: state.home.snackbar,

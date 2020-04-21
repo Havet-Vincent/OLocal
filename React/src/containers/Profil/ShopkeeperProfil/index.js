@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getUserData, clearUserData } from 'src/actions/profil';
+import { getUserData } from 'src/actions/profil';
 
 import ShopkeeperProfil from 'src/components/Pages/Profil/ShopkeeperProfil';
 
@@ -11,9 +11,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getUserData: () => {
     dispatch(getUserData());
-  },
-  clearUserData: () => {
-    dispatch(clearUserData());
   },
 });
 
