@@ -24,7 +24,7 @@ const profilMiddleware = (store) => (next) => (action) => {
         },
       })
         .then((response) => {
-          console.log('success user : ', response.data);
+          // console.log('success user : ', response.data);
           // Success => save userId and userRole token in LocalStorage
           const { id, userRole } = response.data;
           localStorage.setItem('userId', id);
@@ -42,10 +42,10 @@ const profilMiddleware = (store) => (next) => (action) => {
     }
 
     case GET_PROFIL: {
-      const { userId, userRole } = store.getState().profil;
+      const { userRole } = store.getState().profil;
       if (userRole[0] === 'ROLE_USER') {
         try {
-          store.dispatch(redirect(`/commercant/${userId}/profil/informations`));
+          store.dispatch(redirect('/commercant/profil/informations'));
         }
         catch (error) {
           // eslint-disable-next-line no-console
@@ -57,10 +57,10 @@ const profilMiddleware = (store) => (next) => (action) => {
     }
 
     case GET_PROFIL_PAGE: {
-      const { userId, userRole } = store.getState().profil;
+      const { userRole } = store.getState().profil;
       if (userRole[0] === 'ROLE_USER') {
         try {
-          store.dispatch(redirect(`/commercant/${userId}/profil/page`));
+          store.dispatch(redirect('/commercant/profil/page'));
         }
         catch (error) {
           // eslint-disable-next-line no-console
@@ -81,7 +81,7 @@ const profilMiddleware = (store) => (next) => (action) => {
         },
       })
         .then((response) => {
-          console.log('success userData : ', response.data);
+          // console.log('success userData : ', response.data);
           store.dispatch(saveUserData(response.data));
         })
         .catch((error) => {

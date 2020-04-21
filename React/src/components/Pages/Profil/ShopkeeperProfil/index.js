@@ -26,7 +26,6 @@ const ShopkeeperProfil = ({
   loader,
   userData,
   getUserData,
-  clearUSerData,
 }) => {
   const classes = shopkeeperProfilStyles();
 
@@ -34,10 +33,6 @@ const ShopkeeperProfil = ({
   useEffect(() => {
     getUserData();
   }, []);
-
-  // When Unmounted => clear User data
-  useEffect(() => () => clearUSerData(),
-    []);
 
   // state
   const [email, setEmail] = useState();
@@ -152,7 +147,6 @@ const ShopkeeperProfil = ({
                 margin="dense"
                 variant="outlined"
                 helperText="Mot de passe"
-
               />
               <TextField
                 id="confirmPassword"
@@ -234,7 +228,6 @@ ShopkeeperProfil.propTypes = {
   loader: PropTypes.bool.isRequired,
   userData: PropTypes.object.isRequired,
   getUserData: PropTypes.func.isRequired,
-  clearUSerData: PropTypes.func.isRequired,
 };
 
 // == Export

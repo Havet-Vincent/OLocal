@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
-import { getUserData, clearUSerData } from 'src/actions/profil';
+import { getUserData, clearUserData } from 'src/actions/profil';
 
 import ShopkeeperProfil from 'src/components/Pages/Profil/ShopkeeperProfil';
 
 const mapStateToProps = (state) => ({
-  loader: state.profil.loader,
+  loader: state.profil.loaderProfil,
   userData: state.profil.userData,
 });
 
@@ -12,8 +12,8 @@ const mapDispatchToProps = (dispatch) => ({
   getUserData: () => {
     dispatch(getUserData());
   },
-  clearUSerData: () => {
-    dispatch(clearUSerData());
+  clearUserData: () => {
+    dispatch(clearUserData());
   },
 });
 

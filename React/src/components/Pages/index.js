@@ -15,7 +15,7 @@ import Home from 'src/containers/Home';
 import ShopkeepersList from 'src/containers/ShopkeepersList';
 import Shopkeeper from 'src/containers/Shopkeeper';
 import ShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil';
-import ShopkeeperProfilPage from 'src/components/Pages/Profil/ShopkeeperProfil/ShopkeeperProfilPage';
+import ShopkeeperProfilPage from 'src/containers/Profil/ShopkeeperProfil/ShopkeeperProfilPage';
 import PlanDuSite from 'src/components/Pages/PlanDuSite';
 import LegalNotices from 'src/components/Pages/LegalNotices';
 import Contact from 'src/components/Pages/Contact';
@@ -79,13 +79,13 @@ const Pages = ({
           </Route>
           <PrivateRoute
             exact
-            path="/commercant/:id/profil/informations"
+            path="/commercant/profil/informations"
             component={ShopkeeperProfil}
             isAuthenticated={UserAuth}
           />
           <PrivateRoute
             exact
-            path="/commercant/:id/profil/page"
+            path="/commercant/profil/page"
             component={ShopkeeperProfilPage}
             isAuthenticated={UserAuth}
           />
@@ -96,7 +96,7 @@ const Pages = ({
       )}
       <Snackbar
         open={snackbar}
-        autoHideDuration={6000}
+        autoHideDuration={4000}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         onClose={handleClose}
       >
