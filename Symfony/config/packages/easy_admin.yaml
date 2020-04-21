@@ -4,10 +4,22 @@ easy_admin:
         time:     'H:i'
         datetime: 'd/m/Y H:i:s'
         number : '%s'
+    design:
+        menu:
+            - {entity: 'Catalog', label: 'Catalogues'}
+            - {entity: 'Category', label: 'Catégories'}
+            - {entity: 'LocalSupplier', label: 'Producteurs locaux'}
+            - {entity: 'Product', label: 'Produits'}
+            - {entity: 'Region', label: 'Régions'}
+            - {entity: 'User', label: 'Utilisateurs'}
+        assets:
+            css:
+                - '/css/adminstyle.css'
     entities:
         # List the entity class name you want to manage
-        Catalogues:
+        Catalog:
             class: App\Entity\Catalog
+            label: 'Catalogue'
             form:
                 fields:
                     - {property: 'user', label: 'Utilisateur'}
@@ -19,8 +31,9 @@ easy_admin:
                     - {property: 'user', label: 'Utilisateur'}
                     - {property: 'product', label: 'Produit'}
                     - {property: 'localSupplier', label: 'Producteur'}          
-        Categories:
+        Category:
             class: App\Entity\Category
+            label: 'Catégorie'
             form:
                 fields:
                     - {property: 'name', label: 'Nom'}
@@ -37,8 +50,9 @@ easy_admin:
                     - id
                     - {property: 'name', label: 'Nom'}
                     - {property: 'products', label: 'Nombre de produits'}
-        Producteurs_Locaux:
+        LocalSupplier:
             class: App\Entity\LocalSupplier
+            label: 'Producteur local'
             form:
                 fields:
                     - {property: 'name', label: 'Société'}
@@ -67,8 +81,9 @@ easy_admin:
                     - {property: 'city', label: 'Ville'}
                     - {property: 'region', label: 'Région'}
                     - {property: 'catalogs', label: "Présence en catalogue"}
-        Produits:
+        Product:
             class: App\Entity\Product
+            label: 'Produit'
             form:
                 fields:
                     - {property: 'name', label: 'Nom'}
@@ -90,8 +105,9 @@ easy_admin:
                     - {property: 'name', label: 'Nom'}
                     - {property: 'category', label: 'Catégorie'}
                     - {property: 'catalogs', label: "Présence en catalogue"}
-        Regions:
+        Region:
             class: App\Entity\Region
+            label: 'Région'
             form:
                 fields:
                     - {property: 'name', label: 'Nom'}
@@ -110,8 +126,9 @@ easy_admin:
                     - {property: 'name', label: 'Nom'}
                     - {property: 'localSuppliers', label: 'Nombre de producteurs'}
                     - {property: 'users', label: "Nombre d'utilisateurs"}
-        Utilisateurs:
+        User:
             class: App\Entity\User 
+            label: 'Utilisateur'
             form:
                 fields:
                     - {type: 'tab' , label: 'Profil du compte'}
