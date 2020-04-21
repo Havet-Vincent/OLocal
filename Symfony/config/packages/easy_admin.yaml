@@ -7,39 +7,140 @@ easy_admin:
     entities:
         # List the entity class name you want to manage
         Catalogues:
-            class: App\Entity\Catalog            
+            class: App\Entity\Catalog
+            form:
+                fields:
+                    - {property: 'user', label: 'Utilisateur'}
+                    - {property: 'product', label: 'Produit'}
+                    - {property: 'localSupplier', label: 'Producteur'}   
             list:
-                fields: ['id', {property: 'user', label: 'Utilisateur'}, {property: 'product', label: 'Produit'}, {property: 'localSupplier', label: 'Producteur'}]          
+                fields: 
+                    - id
+                    - {property: 'user', label: 'Utilisateur'}
+                    - {property: 'product', label: 'Produit'}
+                    - {property: 'localSupplier', label: 'Producteur'}          
         Categories:
             class: App\Entity\Category
+            form:
+                fields:
+                    - {property: 'name', label: 'Nom'}
             show:
-                fields: ['id', {property: 'name', label: 'Nom'}, {property: 'products', label: 'Liste des produits'}, {property: 'createdAt', label: 'Date de création'}, {property: 'updatedAt', label: 'Dernière modification'}]
+                fields: 
+                    - id
+                    - {property: 'name', 'label': 'Nom'}
+                    - {property: 'products', label: 'Liste des produits'}
+                    - {property: 'createdAt', label: 'Date de création'}
+                    - {property: 'updatedAt', label: 'Dernière modification'}
                 max_results: 15
             list:
-                fields: ['id', {property: 'name', label: 'Nom'}, {property: 'products', label: 'Nombre de produits'}]
+                fields:
+                    - id
+                    - {property: 'name', label: 'Nom'}
+                    - {property: 'products', label: 'Nombre de produits'}
         Producteurs_Locaux:
             class: App\Entity\LocalSupplier
+            form:
+                fields:
+                    - {property: 'name', label: 'Société'}
+                    - {property: 'siret', label: 'Numéro SIRET'}
+                    - {property: 'postalCode', label: 'Code postal'}
+                    - {property: 'city', label: 'Ville'}
+                    - {property: 'region', label: 'Région'}
             show:
-                fields: ['id', {property: 'name', label: 'Société'}, {property: 'siret', label: 'Numéro SIRET'}, {property: 'postalCode', label: 'Code postal'}, {property: 'city', label: 'Ville'}, {property: 'region', label: 'Région'}, {property: 'products', label: 'Liste des produits'}, {property: 'catalogs', label: "Liste des catalogues"}, {property: 'createdAt', label: 'Date de création'}, {property: 'updatedAt', label: 'Dernière modification'}]
+                fields:
+                    - id 
+                    - {property: 'name', label: 'Société'}
+                    - {property: 'siret', label: 'Numéro SIRET'}
+                    - {property: 'postalCode', label: 'Code postal'}
+                    - {property: 'city', label: 'Ville'}
+                    - {property: 'region', label: 'Région'}
+                    - {property: 'products', label: 'Liste des produits'}
+                    - {property: 'catalogs', label: "Liste des catalogues"}
+                    - {property: 'createdAt', label: 'Date de création'}
+                    - {property: 'updatedAt', label: 'Dernière modification'}
                 max_results: 15
             list:
-                fields: ['id', {property: 'name', label: 'Société'}, {property: 'postalCode', label: 'Code postal'}, {property: 'city', label: 'Ville'}, {property: 'region', label: 'Région'}, {property: 'catalogs', label: "Présence en catalogue"}]
+                fields:
+                    - id
+                    - {property: 'name', label: 'Société'}
+                    - {property: 'postalCode', label: 'Code postal'}
+                    - {property: 'city', label: 'Ville'}
+                    - {property: 'region', label: 'Région'}
+                    - {property: 'catalogs', label: "Présence en catalogue"}
         Produits:
             class: App\Entity\Product
+            form:
+                fields:
+                    - {property: 'name', label: 'Nom'}
+                    - {property: 'category', label: 'Catégorie'}
             show:
-                fields: ['id', {property: 'name', label: 'Nom'}, {property: 'category', label: 'Catégorie'}, {property: 'localSuppliers', label: 'Liste des producteurs'}, {property: 'users', label: "Liste des utilisateurs"}, {property: 'catalogs', label: "Liste des catalogues"}, {property: 'createdAt', label: 'Date de création'}, {property: 'updatedAt', label: 'Dernière modification'}]
+                fields:
+                    - id
+                    - {property: 'name', label: 'Nom'}
+                    - {property: 'category', label: 'Catégorie'}
+                    - {property: 'localSuppliers', label: 'Liste des producteurs'}
+                    - {property: 'users', label: "Liste des utilisateurs"}
+                    - {property: 'catalogs', label: "Liste des catalogues"}
+                    - {property: 'createdAt', label: 'Date de création'}
+                    - {property: 'updatedAt', label: 'Dernière modification'}
                 max_results: 15
             list:
-                fields: ['id', {property: 'name', label: 'Nom'}, {property: 'category', label: 'Catégorie'}, {property: 'catalogs', label: "Présence en catalogue"}]
+                fields:
+                    - id
+                    - {property: 'name', label: 'Nom'}
+                    - {property: 'category', label: 'Catégorie'}
+                    - {property: 'catalogs', label: "Présence en catalogue"}
         Regions:
             class: App\Entity\Region
+            form:
+                fields:
+                    - {property: 'name', label: 'Nom'}
             show:
-                fields: ['id', {property: 'name', label: 'Nom'}, {property: 'localSuppliers', label: 'Liste des producteurs'}, {property: 'users', label: "Liste des utilisateurs"}, {property: 'createdAt', label: 'Date de création'}, {property: 'updatedAt', label: 'Dernière modification'}]
+                fields:
+                    - id
+                    - {property: 'name', label: 'Nom'}
+                    - {property: 'localSuppliers', label: 'Liste des producteurs'}
+                    - {property: 'users', label: "Liste des utilisateurs"}
+                    - {property: 'createdAt', label: 'Date de création'}
+                    - {property: 'updatedAt', label: 'Dernière modification'}
                 max_results: 15
             list:
-                fields: ['id', {property: 'name', label: 'Nom'}, {property: 'localSuppliers', label: 'Nombre de producteurs'}, {property: 'users', label: "Nombre d'utilisateurs"}]
+                fields:
+                    - id
+                    - {property: 'name', label: 'Nom'}
+                    - {property: 'localSuppliers', label: 'Nombre de producteurs'}
+                    - {property: 'users', label: "Nombre d'utilisateurs"}
         Utilisateurs:
             class: App\Entity\User 
+            form:
+                fields:
+                    - {type: 'tab' , label: 'Profil du compte'}
+                    - {property: 'email', label: 'Email'}
+                    - {property: 'password', label: 'Mot de Passe'}
+                    - {property: 'isEmailChecked', label: 'Email validé'}
+                    - {property: 'isActive', label: 'Compte actif'}
+                    - {property: 'userRole', label: 'Rôle utilisateur', type: 'collection'}
+                    - {type: 'tab' , label: 'Profil professionnel'}
+                    - {type: 'group', columns: 6, label: 'Informations générales'}
+                    - {property: 'firstName', label: 'Prénom'}
+                    - {property: 'lastName', label: 'Nom'}
+                    - {property: 'companyName', label: 'Société' }
+                    - {property: 'phone', label: 'Numéro de téléphone'}
+                    - {property: 'website', label: 'Site internet'}
+                    - {property: 'companyDescription', label: 'Description'}
+                    - {property: 'siret', label: 'Numéro SIRET'}
+                    - {type: 'group', columns: 6, label: 'Adresse'}
+                    - {property: 'additionalAddress', label: "Complément d'adresse"}
+                    - {property: 'repeatIndex', label: 'Indice de répétition'}
+                    - {property: 'wayNumber', label: 'Numéro de la voie'}
+                    - {property: 'wayType', label: 'Type de la voie'}
+                    - {property: 'wayName', label: 'Nom de la voie'}
+                    - {property: 'postalCode', label: 'Code postal'}
+                    - {property: 'city', label: 'Ville'}
+                    - {property: 'region', label: 'Région'}
+                    - {type: 'tab' , label: 'Images'}
+                    - {property: 'logoPicture', label: "Url de l'image"}
+                    - {property: 'folderPicture', label: 'Galerie photos'}
             show:
                 fields: 
                     - id 
@@ -71,5 +172,11 @@ easy_admin:
                     - {property: 'updatedAt', label: 'Dernière modification'}
                 max_results: 15
             list:
-                fields: ['id', {property: 'email', label: 'Email'}, {property: 'companyName', label: 'Société' }, {property: 'isEmailChecked', label: 'Email validé'}, {property: 'isActive', label: 'Compte actif'}, {property: 'userRole', label: 'Rôle utilisateur'}]
+                fields:
+                    - id
+                    - {property: 'email', label: 'Email'}
+                    - {property: 'companyName', label: 'Société' }
+                    - {property: 'isEmailChecked', label: 'Email validé'}
+                    - {property: 'isActive', label: 'Compte actif'}
+                    - {property: 'userRole', label: 'Rôle utilisateur'}
     site_name: "o'Local - Panneau d'administration"
