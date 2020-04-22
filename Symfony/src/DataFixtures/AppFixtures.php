@@ -288,7 +288,7 @@ class AppFixtures extends Fixture
         $custom->setFirstname($faker->firstname());
         $custom->setLastname($faker->lastname());
         $custom->setPassword($this->encoder->encodePassword($custom, 'password'));
-        $custom->setUserRole(['ROLE_USER']);
+        $custom->setUserRole(['ROLE_SHOPKEEPER']);
         $custom->setIsEmailChecked(true);
         $custom->setIsActive(true);
         $custom->setAdditionalAddress($faker->optional()->secondaryAddress());
