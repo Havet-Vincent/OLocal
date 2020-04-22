@@ -7,7 +7,7 @@ body{
 }
 
 .main-sidebar li{
-    background-color:rgb(148,218,247, 0.8);
+    background-color:rgb(148,218,247, 0.85);
     padding: 0.3em 0.3em 0.3em 1em;
     border-radius: 10px !important;
     margin-bottom: 0.5em;
@@ -27,7 +27,7 @@ body{
 }
 
 .content-wrapper{
-    background-color: rgba(255, 255, 255, 0.9) !important;
+    background-color: rgba(255, 255, 255, 0.85) !important;
     border-radius: 10px !important;
 }
 

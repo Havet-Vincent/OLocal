@@ -186,7 +186,7 @@ class User implements UserInterface, \Serializable
     {
         $this->products = new ArrayCollection();
         $this->catalogs = new ArrayCollection();
-        $this->getCreatedAt= new \DateTime();
+        $this->createdAt= new \DateTime();
     }
 
     public function getId(): ?int
