@@ -43,10 +43,16 @@ const profilMiddleware = (store) => (next) => (action) => {
     case GET_PROFIL: {
       const { userRole } = store.getState().profil;
       switch (userRole[0]) {
-        case 'ROLE_USER':
+        case 'ROLE_SHOPKEEPER':
           store.dispatch(redirect('/commercant/profil/informations'));
           next(action);
           break;
+
+        case 'ROLE_ADMIN':
+          // store.dispatch(redirect(`${server.url}:${server.port}/admin`));
+          next(action);
+          break;
+
         default:
           next(action);
       }
@@ -57,7 +63,7 @@ const profilMiddleware = (store) => (next) => (action) => {
     case GET_PROFIL_PAGE: {
       const { userRole } = store.getState().profil;
       switch (userRole[0]) {
-        case 'ROLE_USER':
+        case 'ROLE_SHOPKEEPER':
           store.dispatch(redirect('/commercant/profil/page'));
           next(action);
           break;
@@ -71,7 +77,7 @@ const profilMiddleware = (store) => (next) => (action) => {
     case GET_USER_DATA: {
       const { userId, userRole } = store.getState().profil;
       switch (userRole[0]) {
-        case 'ROLE_USER':
+        case 'ROLE_SHOPKEEPER':
           axios({
             method: 'post',
             url: `${server.url}:${server.port}/api/shopkeepers/${userId}`,

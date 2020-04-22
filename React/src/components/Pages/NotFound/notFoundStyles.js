@@ -34,8 +34,7 @@ const notFoundStyles = makeStyles((theme) => ({
     background: 'none',
     padding: theme.spacing(0, 3),
     [theme.breakpoints.down('xs')]: {
-      background: 'rgba(159, 204, 62, .85)',
-      paddingBottom: theme.spacing(2),
+      paddingBottom: theme.spacing(1),
     },
   },
   notFoundTitle: {
