@@ -103,7 +103,6 @@ const profilReducer = (state = initialState, action = {}) => {
           };
         }
       }
-
       return {
         ...state,
         fieldError: false,
@@ -113,12 +112,6 @@ const profilReducer = (state = initialState, action = {}) => {
         },
       };
     }
-
-    case SET_REGION:
-      return {
-        ...state,
-        region: action.value,
-      };
 
     case SET_FIELD_ERROR:
       return {
@@ -134,10 +127,18 @@ const profilReducer = (state = initialState, action = {}) => {
         userData: {},
         logoPicture: '',
         fieldError: true,
-        catalog: [],
         activePage: 'Informations',
         loaderProfil: true,
         loaderProfilPage: true,
+        catalog: [],
+        region: '',
+        siret: '',
+      };
+
+    case SET_REGION:
+      return {
+        ...state,
+        region: action.value,
       };
 
     default: return state;

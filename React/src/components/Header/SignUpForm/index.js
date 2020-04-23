@@ -40,7 +40,7 @@ const SignUpForm = ({
   regions,
   email,
   setFieldValue,
-  handleSignupSubmit,
+  handleSignUpSubmit,
 }) => {
   const classes = signUpFormStyles();
   const [error, setError] = useState(true);
@@ -82,7 +82,7 @@ const SignUpForm = ({
 
   const handlesubmit = (event) => {
     event.preventDefault();
-    handleSignupSubmit();
+    handleSignUpSubmit();
   };
 
   const MenuProps = {
@@ -208,7 +208,7 @@ SignUpForm.propTypes = {
   ).isRequired,
   email: PropTypes.string.isRequired,
   setFieldValue: PropTypes.func.isRequired,
-  handleSignupSubmit: PropTypes.func.isRequired,
+  handleSignUpSubmit: PropTypes.func.isRequired,
 };
 
 // == Export

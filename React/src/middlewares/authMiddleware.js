@@ -41,12 +41,12 @@ const authMiddleware = (store) => (next) => (action) => {
             // Save authentication data & fetch user id & role
             store.dispatch(saveAuthentication(token, refreshToken));
             store.dispatch(fetchUser(username));
-            store.dispatch(setSnackbar('success', 'Vous êtes connecté. Vous pouvez accéder à votre profil'));
+            store.dispatch(setSnackbar('success', 'Vous êtes connecté. Vous pouvez accéder à votre compte'));
           })
           .catch((error) => {
             // eslint-disable-next-line no-console
             console.warn(error);
-            store.dispatch(setSnackbar('error', 'Echec de la connexion. Veuillez vérifier vos identifiants'));
+            store.dispatch(setSnackbar('error', 'Echec de la connexion : Veuillez vérifier vos identifiants'));
           })
           .finally(() => {
           });
@@ -78,7 +78,7 @@ const authMiddleware = (store) => (next) => (action) => {
           .catch((error) => {
             // eslint-disable-next-line no-console
             console.warn(error);
-            store.dispatch(setSnackbar('error', 'Echec vérification authentification'));
+            store.dispatch(setSnackbar('error', 'Erreur interne : Echec vérification authentification'));
           })
           .finally(() => {
           });

@@ -6,6 +6,7 @@ import {
   setLogoPictureError,
   setFieldError,
   updateUserData,
+  deleteUserAccount,
 } from 'src/actions/profil';
 
 import ShopkeeperProfil from 'src/components/Pages/Profil/ShopkeeperProfil';
@@ -36,6 +37,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleUpdateUserData: () => {
     dispatch(updateUserData());
+  },
+  handleDeleteUserAccount: () => {
+    dispatch(deleteUserAccount());
   },
 });
 

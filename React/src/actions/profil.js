@@ -10,6 +10,7 @@ export const SAVE_USER_DATA = 'SAVE_USER_DATA';
 export const SET_LOGO_PICTURE = 'SET_LOGO_PICTURE';
 export const SET_LOGO_PICTURE_ERROR = 'SET_LOGO_PICTURE_ERROR';
 export const UPDATE_USER_DATA = 'UPDATE_USER_DATA';
+export const DELETE_USER_ACCOUNT = 'DELETE_USER_ACCOUNT';
 export const SET_PROFIL_FIELD_VALUE = 'SET_PROFIL_FIELD_VALUE';
 export const SET_FIELD_ERROR = 'SET_FIELD_ERROR';
 export const DELETE_CATALOG_ITEM = 'DELETE_CATALOG_ITEM';
@@ -97,6 +98,11 @@ export const updateCatalogItem = (data) => ({
 export const clearUserData = () => ({
   type: CLEAR_USER_DATA,
 });
+
+export const deleteUserAccount = () => ({
+  type: DELETE_USER_ACCOUNT,
+});
+
 
 // partie ajout producteur
 export const getRegionsData = () => ({

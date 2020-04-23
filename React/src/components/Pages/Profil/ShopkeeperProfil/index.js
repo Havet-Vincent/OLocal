@@ -27,6 +27,7 @@ import Loader from 'src/components/Loader';
 import Password from 'src/containers/Password';
 import NavbarShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil/NavbarShopkeeperProfil';
 import ShopkeeperProfilImage from 'src/components/Pages/Profil/ShopkeeperProfil/ShopkeeperProfilImage';
+import DeleteAccountAlert from '../DeleteAccountAlert';
 
 
 // == Import styles
@@ -41,6 +42,7 @@ const ShopkeeperProfil = ({
   fieldError,
   setFieldError,
   handleUpdateUserData,
+  handleDeleteUserAccount,
   logoPicture,
   setLogoPicture,
   setLogoPictureError,
@@ -49,6 +51,7 @@ const ShopkeeperProfil = ({
   const classes = shopkeeperProfilStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(true);
+  const [openAlert, setOpenAlert] = useState(false);
 
   // Responsive mobile
   const theme = useTheme();
@@ -267,10 +270,15 @@ const ShopkeeperProfil = ({
                   root: classes.fab,
                   label: classes.fabLabel,
                 }}
+                onClick={() => setOpenAlert(true)}
               >
                 <DeleteForeverRoundedIcon className={classes.extendedIcon} />
                 Supprimer mon compte
               </Fab>
+              <DeleteAccountAlert
+                openAlert={openAlert}
+                handleDeleteUserAccount={handleDeleteUserAccount}
+              />
             </Box>
           </Container>
         </Grid>
@@ -288,6 +296,7 @@ ShopkeeperProfil.propTypes = {
   fieldError: PropTypes.bool.isRequired,
   setFieldError: PropTypes.func.isRequired,
   handleUpdateUserData: PropTypes.func.isRequired,
+  handleDeleteUserAccount: PropTypes.func.isRequired,
   setLogoPicture: PropTypes.func.isRequired,
   setLogoPictureError: PropTypes.func.isRequired,
   pwdCheckError: PropTypes.bool.isRequired,

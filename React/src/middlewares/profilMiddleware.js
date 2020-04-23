@@ -7,6 +7,8 @@ import {
   GET_USER_DATA,
   SET_LOGO_PICTURE_ERROR,
   UPDATE_USER_DATA,
+  DELETE_USER_ACCOUNT,
+  clearUserData,
   getUserData,
   saveUser,
   saveUserData,
@@ -96,7 +98,7 @@ const profilMiddleware = (store) => (next) => (action) => {
             .catch((error) => {
               // eslint-disable-next-line no-console
               console.warn(error);
-              store.dispatch(setSnackbar('error', 'Echec récupération des données utilisateur'));
+              store.dispatch(setSnackbar('error', 'Erreur interne : Echec récupération des données utilisateur'));
             });
 
           next(action);
@@ -146,13 +148,47 @@ const profilMiddleware = (store) => (next) => (action) => {
           })
             .then((response) => {
               console.log('success update userData : ', response.data);
-              store.dispatch(setSnackbar('success', 'Vos informations ont été enregistrées'));
+              store.dispatch(setSnackbar('success', 'Vos modification sont enregistrées'));
               store.dispatch(getUserData());
             })
             .catch((error) => {
               // eslint-disable-next-line no-console
               console.warn(error);
-              store.dispatch(setSnackbar('error', 'Echec enregistrement des informations'));
+              store.dispatch(setSnackbar('error', 'Erreur interne : Echec enregistrement des informations'));
+            });
+
+          next(action);
+          break;
+        }
+        default:
+          next(action);
+      }
+      next(action);
+      break;
+    }
+
+    case DELETE_USER_ACCOUNT: {
+      const { userId, userRole } = store.getState().profil;
+      const token = localStorage.getItem('token');
+      switch (userRole[0]) {
+        case 'ROLE_SHOPKEEPER': {
+          axios({
+            method: 'post',
+            url: `${server.url}:${server.port}/api/shopkeepers/${userId}/delete`,
+            headers: { Authorization: `Bearer ${token}` },
+            data: {
+              id: userId,
+            },
+          })
+            .then((response) => {
+              console.log('success delete userAccount : ', response.data);
+              store.dispatch(clearUserData());
+              store.dispatch(setSnackbar('info', 'Votre compte à bien été supprimé'));
+            })
+            .catch((error) => {
+              // eslint-disable-next-line no-console
+              console.warn(error);
+              store.dispatch(setSnackbar('error', 'Erreur interne : Echec suppression du compte utilisateur'));
             });
 
           next(action);

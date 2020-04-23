@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import {
-  setFieldValue,
+  setAuthFieldValue,
   setPwdCheckError,
   checkPasswordConfirmation,
   handleSignInSubmit,
 } from 'src/actions/authentication';
+import { setRegisterFieldValue } from 'src/actions/register';
 
 import Password from 'src/components/Password';
 
@@ -18,7 +19,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setFieldValue: (name, value) => {
-    dispatch(setFieldValue(name, value));
+    dispatch(setAuthFieldValue(name, value));
+    dispatch(setRegisterFieldValue(name, value));
   },
   setPwdCheckError: (value) => {
     dispatch(setPwdCheckError(value));

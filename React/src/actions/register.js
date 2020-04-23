@@ -10,7 +10,7 @@ export const toggleSignUpForm = () => ({
   type: TOGGLE_SIGNUP_FORM,
 });
 
-export const setFieldValue = (name, value) => ({
+export const setRegisterFieldValue = (name, value) => ({
   type: SET_SIGNUP_FIELD_VALUE,
   name,
   value,
@@ -20,7 +20,7 @@ export const checkPasswordConfirmation = () => ({
   type: CHECK_PASSWORD_CONFIRMATION,
 });
 
-export const handleSignupSubmit = () => ({
+export const handleSignUpSubmit = () => ({
   type: SUBMIT_SIGNUP,
 });
 

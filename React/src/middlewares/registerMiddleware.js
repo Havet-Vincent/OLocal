@@ -39,7 +39,7 @@ const registerMiddleware = (store) => (next) => (action) => {
           .catch((error) => {
             // eslint-disable-next-line no-console
             console.warn(error);
-            store.dispatch(setSnackbar('error', 'Echec inscription. Erreur SIRET ou email déjà existant'));
+            store.dispatch(setSnackbar('error', 'Echec inscription : Erreur SIRET ou email déjà existant'));
           })
           .finally(() => {
           });

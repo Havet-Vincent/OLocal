@@ -6,7 +6,7 @@ import {
   CardMedia,
   Paper,
 } from '@material-ui/core';
-import UploadPictureB64 from './UploadPictureB64';
+import UploadPictureB64 from '../../UploadPictureB64';
 
 // == Import styles
 import shopkeeperProfilImageStyles from './shopkeeperProfilImageStyles';

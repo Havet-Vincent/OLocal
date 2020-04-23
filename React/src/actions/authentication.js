@@ -14,7 +14,7 @@ export const toggleSignInForm = () => ({
   type: TOGGLE_SIGNIN_FORM,
 });
 
-export const setFieldValue = (name, value) => ({
+export const setAuthFieldValue = (name, value) => ({
   type: SET_SIGNIN_FIELD_VALUE,
   name,
   value,
