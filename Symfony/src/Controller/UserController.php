@@ -57,15 +57,14 @@ class UserController extends EasyAdminController
 
             $password = $_POST["user"]['password'];
 
-            if ($password) {
-                // Validate password strength
-                $uppercase = preg_match('@[A-Z]@', $password);
-                $lowercase = preg_match('@[a-z]@', $password);
-                $number    = preg_match('@[0-9]@', $password);
-                if(!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
-                    throw new \Exception('Le mot de passe doit faire 8 caractères minimum et doit contenir au moins une majuscule et un chiffre.');
-                }
+            // Validate password strength
+            $uppercase = preg_match('@[A-Z]@', $password);
+            $lowercase = preg_match('@[a-z]@', $password);
+            $number    = preg_match('@[0-9]@', $password);
+            if(!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
+                throw new \Exception('Le mot de passe doit faire 8 caractères minimum et doit contenir au moins une majuscule et un chiffre.');
             }
+            
             $user->setPassword($this->encoder->encodePassword($user, $password));
 
             if (array_key_exists('isEmailChecked', $_POST["user"])) {
@@ -138,6 +137,13 @@ class UserController extends EasyAdminController
         $newUser->setEmail($email);
 
         $password = $_POST["user"]['password'];
+        // Validate password strength
+        $uppercase = preg_match('@[A-Z]@', $password);
+        $lowercase = preg_match('@[a-z]@', $password);
+        $number    = preg_match('@[0-9]@', $password);
+        if(!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
+            throw new \Exception('Le mot de passe doit faire 8 caractères minimum et doit contenir au moins une majuscule et un chiffre.');
+        }
         $newUser->setPassword($this->encoder->encodePassword($newUser, $password));  
         
         if (array_key_exists('isEmailChecked', $_POST["user"])) {
