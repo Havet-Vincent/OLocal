@@ -8,6 +8,7 @@ import profilMiddleware from 'src/middlewares/profilMiddleware';
 import catalogMiddleware from 'src/middlewares/catalogMiddleware';
 import homeMiddleware from 'src/middlewares/homeMiddleware';
 import shopkeepersMiddleware from 'src/middlewares/shopkeepersMiddleware';
+import supplierMiddleware from 'src/middlewares/supplierMiddleware';
 
 import rootReducer from 'src/reducers';
 
@@ -18,6 +19,7 @@ const enhancers = composeWithDevTools(
     authMiddleware,
     profilMiddleware,
     catalogMiddleware,
+    supplierMiddleware,
     homeMiddleware,
     shopkeepersMiddleware,
   ),

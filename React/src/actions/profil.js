@@ -9,6 +9,12 @@ export const SAVE_USER_DATA = 'SAVE_USER_DATA';
 export const DELETE_CATALOG_ITEM = 'DELETE_CATALOG_ITEM';
 export const UPDATE_CATALOG_ITEM = 'UPDATE_CATALOG_ITEM';
 export const CLEAR_USER_DATA = 'CLEAR_USER_DATA';
+export const GET_REGIONS_DATA = 'GET_REGIONS_DATA';
+export const SET_REGION = 'SET_REGION';
+export const SET_FIELD_VALUE = 'SET_FIELD_VALUE';
+export const HANDLE_SUPPLIER_SUBMIT = 'HANDLE_SUPPLIER_SUBMIT';
+
+
 
 // action creators
 export const fetchUser = (username) => ({
@@ -56,3 +62,25 @@ export const updateCatalogItem = (data) => ({
 export const clearUserData = () => ({
   type: CLEAR_USER_DATA,
 });
+
+// partie ajout producteur
+export const getRegionsData = () => ({
+  type: GET_REGIONS_DATA,
+});
+
+export const setRegion = (value) => ({
+  type: SET_REGION,
+  value,
+});
+
+
+export const setFieldValue = (name, value) => ({
+  type: SET_FIELD_VALUE,
+  name,
+  value,
+});
+
+export const handleSupplierSubmit = () => ({
+  type: HANDLE_SUPPLIER_SUBMIT,
+});
+

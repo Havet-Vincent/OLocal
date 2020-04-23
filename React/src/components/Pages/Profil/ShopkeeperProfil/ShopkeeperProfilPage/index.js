@@ -7,11 +7,23 @@ import {
   Paper,
   IconButton,
   Container,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  TextField,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select,
 } from '@material-ui/core';
 import MaterialTable from 'material-table';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Loader from 'src/components/Loader';
 import NavbarShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil/NavbarShopkeeperProfil';
+
 
 // == Import styles
 import shopkeeperProfilPageStyles from './shopkeeperProfilPageStyles';
@@ -21,7 +33,6 @@ const onAdd = (data) => {
   console.log('add ', data);
 };
 
-
 // == Composant
 const ShopkeeperProfilPage = ({
   loader,
@@ -29,13 +40,35 @@ const ShopkeeperProfilPage = ({
   getUserData,
   onDelete,
   onUpdate,
+  getRegionsData,
+  regions,
+  setFieldValue,
+  siret,
+  handleSupplierSubmit,
 }) => {
   const classes = shopkeeperProfilPageStyles();
+  const [error, setError] = useState(true);
+  const [open, setOpen] = useState(false);
   const [state, setState] = useState({});
+  const [regionSelect, setRegionSelect] = useState('');
+  const [regionError, setRegionError] = useState(false);
+
+  // First render => get user catalog data
+  const handleToggle = () => {
+    setOpen(!open);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   // First render => get user catalog data
   useEffect(() => {
     getUserData();
+    getRegionsData();
+    if (regionError === false && siret !== '') {
+      setError(false);
+    }
   }, []);
 
   // Local State
@@ -86,6 +119,38 @@ const ShopkeeperProfilPage = ({
     loadTable();
   }, [catalog]);
 
+  // print current page
+  function imprimer_page() {
+    window.print();
+  };
+
+  const handleChangeRegion = (event) => {
+    setRegionSelect(event.target.value);
+    const region = regions.find((reg) => reg.id === event.target.value);
+    setFieldValue(event.target.name, region.id);
+    setRegionError(false);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handleSupplierSubmit();
+    setOpen(false);
+  };
+
+  const handleChange = (event) => {
+    setFieldValue(event.target.name, event.target.value);
+  };
+
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        // sub-menu size
+        maxHeight: 300,
+        maxWidth: 320,
+      },
+    },
+  };
+
   return (
     <>
       <Loader loader={loader} />
@@ -104,7 +169,7 @@ const ShopkeeperProfilPage = ({
               data={state.data}
               editable={{
                 onRowAdd: (newData) =>
-                // eslint-disable-next-line implicit-arrow-linebreak
+                  // eslint-disable-next-line implicit-arrow-linebreak
                   new Promise((resolve) => {
                     setTimeout(() => {
                       onAdd(newData);
@@ -117,7 +182,7 @@ const ShopkeeperProfilPage = ({
                     }, 600);
                   }),
                 onRowUpdate: (newData, oldData) =>
-                // eslint-disable-next-line implicit-arrow-linebreak
+                  // eslint-disable-next-line implicit-arrow-linebreak
                   new Promise((resolve) => {
                     setTimeout(() => {
                       onUpdate(newData);
@@ -149,7 +214,80 @@ const ShopkeeperProfilPage = ({
                 exportButton: true,
                 filtering: true,
               }}
+              actions={[
+                {
+                  icon: 'local_printshop',
+                  iconProps: {
+                    color: 'action',
+                  },
+                  tooltip: 'Imprimer page en cours',
+                  isFreeAction: true,
+                  onClick: () => {
+                    imprimer_page()
+                  }
+                },
+                {
+                  icon: 'account_box',
+                  iconProps: {
+                    color: 'action',
+                  },
+                  tooltip: 'Ajout producteur',
+                  isFreeAction: true,
+                  onClick: (event, rowData) => {
+                    console.log('ajout producteur onClick')
+                    handleToggle()
+                  }
+                },
+
+              ]}
             />
+          </Paper>
+          <Paper>
+            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+              <DialogTitle id="form-dialog-title">Ajouter un producteur</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Entrer le N° de siret du producteur et la région
+                </DialogContentText>
+                <form onSubmit={handleSubmit}>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="siret"
+                    label="N° de siret"
+                    fullWidth
+                    name="siret"
+                    value={siret}
+                    onChange={handleChange}
+                  />
+                  <FormControl variant="outlined" className={classes.formControl} error={regionError}>
+                    <InputLabel id="search-region">Région</InputLabel>
+                    <Select
+                      className={classes.searchSelect}
+                      label="Région"
+                      labelId="search-region"
+                      id="search-region"
+                      inputProps={{ name: 'region' }}
+                      value={regionSelect}
+                      onChange={handleChangeRegion}
+                      MenuProps={MenuProps}
+                    >
+                      {regions.map((item) => (
+                        <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                      Abandonner
+                    </Button>
+                    <Button type="submit" color="primary">
+                      Ajouter
+                    </Button>
+                  </DialogActions>
+                   </form>
+              </DialogContent>
+            </Dialog>
           </Paper>
         </Container>
       )}
@@ -163,6 +301,10 @@ ShopkeeperProfilPage.propTypes = {
   getUserData: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  getRegionsData: PropTypes.func.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
+  setRegion: PropTypes.func.isRequired,
+  siret: PropTypes.string.isRequired,
 };
 
 // == Export

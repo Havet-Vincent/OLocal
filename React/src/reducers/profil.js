@@ -3,6 +3,8 @@ import {
   SAVE_USER_DATA,
   GET_CATALOG,
   CLEAR_USER_DATA,
+  SET_REGION,
+  SET_FIELD_VALUE,
 } from '../actions/profil';
 
 const initialState = {
@@ -15,6 +17,8 @@ const initialState = {
   userRole: [],
   userData: {},
   catalog: [],
+  region: '',
+  siret: '',
 };
 
 const profilReducer = (state = initialState, action = {}) => {
@@ -53,6 +57,18 @@ const profilReducer = (state = initialState, action = {}) => {
         userData: action.userData,
         loaderProfil: false,
         loaderProfilPage: false,
+      };
+
+    case SET_FIELD_VALUE:
+      return {
+        ...state,
+        [action.name]: action.value,
+      };
+
+    case SET_REGION:
+      return {
+        ...state,
+        region: action.value,
       };
 
     case CLEAR_USER_DATA:
