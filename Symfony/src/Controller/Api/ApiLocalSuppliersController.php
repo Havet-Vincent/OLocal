@@ -15,9 +15,8 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class ApiLocalSuppliersController extends AbstractController
 {
-
     private $apiSirene;
-
+    // get our ApiSirene service
     public function __construct(ApiSirene $apiSirene)
     {
         $this->apiSirene=$apiSirene;
@@ -25,16 +24,16 @@ class ApiLocalSuppliersController extends AbstractController
 
     /**
      * @Route("/api/localsuppliers/add", name="api_localsuppliers_add", methods="POST")
+     * @return JsonResponse add a local supplier in DB
      */
     public function add(Request $request, RegionRepository $regionRepository, DenormalizerInterface $denormalizer, ValidatorInterface $validator, LocalSupplierRepository $localSupplierRepository)
     {
-         // 1. On récupère le contenu JSON
-         $dataRequest = json_decode($request->getContent());
-         //dump($data);
+        // we get the JSON Content
+        $dataRequest = json_decode($request->getContent());
         
         $localSupplier = $denormalizer->denormalize($dataRequest, LocalSupplier::class);
          
-        //on valide l'entité 
+        // entity validation
         $errors = $validator->validate($localSupplier);
         if (count($errors) !== 0) {
              $jsonErrors = [];
@@ -44,37 +43,30 @@ class ApiLocalSuppliersController extends AbstractController
                      'message' => $error->getMessage(),
                  ];
              }
- 
-             return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        // we get the siret number
+        // we get the SIRET number
         $siret = $dataRequest->siret;
 
-        // we check the number of charters of the siret number
-        
+        // we check the number of characters of the SIRET number
         if(!strlen($siret) === 14) {
             return $this->json('Entrez un numéro SIRET valide.', 409);
         }
 
-        // we check if the siret number is already stored on the database
-         
-         if ($localSupplierRepository->findBy(['siret'=>$siret])){
-             return $this->json('existe déjà', 409);
-         }
+        // we check if the SIRET number is already stored on the database
+        if ($localSupplierRepository->findBy(['siret'=>$siret])){
+            return $this->json('existe déjà', 409);
+        }
 
-        //siret number for testing 85218609700014
-        
         $regionId = $dataRequest->region;
         $region = $regionRepository->find($regionId);
     
-        //$response= new Response;
-        $response=$this->apiSirene->getShopkeeperData($siret);
-        
-        //dd($response);
-        $data = json_decode($response->getContent());
-        //dd($data);
+        // getting informations from external API Sirene
+        $response=$this->apiSirene->getShopkeeperData($siret);      
+        $data = json_decode($response->getContent());     
 
+        // setting them
         $name=$data->etablissement->uniteLegale->denominationUniteLegale;
         if ($name === null) {
             $name = $data->etablissement->periodesEtablissement[0]->enseigne1Etablissement;
@@ -92,7 +84,6 @@ class ApiLocalSuppliersController extends AbstractController
         $em->persist($localSupplier);
         $em->flush();
          
-        //return $this->json($localSupplier, 200, [], ['groups' => 'add_local_supplier']);
-        return $this->json('producteur ajouté',201);
+        return $this->json('Producteur local ajouté',201);
     }
 }

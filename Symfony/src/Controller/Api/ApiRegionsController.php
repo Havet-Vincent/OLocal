@@ -13,6 +13,7 @@ class ApiRegionsController extends AbstractController
 {
     /**
      * @Route("/api/regions", name="get_regions", methods={"GET"})
+     * @return JsonResponse list of all regions
      */
     public function getRegions(RegionRepository $regionRepository)
     {
@@ -22,15 +23,14 @@ class ApiRegionsController extends AbstractController
 
     /**
      * @Route("/api/regions/{id<\d+>}/localsuppliers", name="get_local_by_region", methods={"POST"})
-     * 
-     * @return list of local suppliers for one region
+     * @return JsonResponse list of local suppliers for one region
      */
     public function getLocalSuppliersByRegion(Request $request, LocalSupplierRepository $localSupplierRepository)
     {      
+        // getting region id for filter search
         $dataRequest = json_decode($request->getContent());
         $regionId = $request->region;
         $localSupplierByRegion = $localSupplierRepository->findBy(['region' => $regionId]);
         return $this->json($localSupplierByRegion, 200, [], ['groups' => 'local_by_region_get']);
     }
-
 }

@@ -22,15 +22,15 @@ class ApiCatalogsController extends AbstractController
 {
     /**
      * @Route("/api/catalogs/add", name="api_catalogs_add", methods="POST")
+     * @return JsonReponse add one catalog's row
      */
     public function add(Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, ProductRepository $productRepository, RegionRepository $regionRepository, LocalSupplierRepository $localSupplierRepository, UserRepository $userRepository, CategoryRepository $categoryRepository, EntityManagerInterface $em)
     {
-        // 1. On récupère le contenu JSON
-        $dataRequest = json_decode($request->getContent());
-      
+        // we get the JSON Content
+        $dataRequest = json_decode($request->getContent());     
         $catalog = $denormalizer->denormalize($dataRequest, Catalog::class);
         
-        //on valide l'entité 
+        // entity validation
         $errors = $validator->validate($catalog);
         if (count($errors) !== 0) {
             $jsonErrors = [];
@@ -40,10 +40,10 @@ class ApiCatalogsController extends AbstractController
                     'message' => $error->getMessage(),
                 ];
             }
-
             return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+        // we get informations from Json and get its objects from DB
         $localSupplierId = $dataRequest->localSupplier;
         $localSupplier = $localSupplierRepository->find($localSupplierId);
 
@@ -51,7 +51,8 @@ class ApiCatalogsController extends AbstractController
         $user = $userRepository->find($userId);
 
         $productName = $dataRequest->product;
-        // if product already in DB
+
+        // we check if product is already in Database
         if ($productRepository->findOneBy(['name'=>$productName])){
             // take its id with getId()
             $product = $productRepository->findOneBy(['name'=>$productName]);            
@@ -67,9 +68,8 @@ class ApiCatalogsController extends AbstractController
             $em->persist($product);
             $em->flush();
             $product = $productRepository->findOneBy(['name'=>$productName]);
-
         }
-
+        // setting all properties
         $catalog->setProduct($product);
         $catalog->setUser($user);
         $catalog->setLocalSupplier($localSupplier);
@@ -77,21 +77,22 @@ class ApiCatalogsController extends AbstractController
         $em->persist($catalog);
         $em->flush();
 
-        return $this->json('catalogue ajouté', 201);
+        return $this->json('Catalogue ajouté', 201);
 
     }
 
     /**
      * @Route("/api/catalogs/{id<\d+>}/edit", name="api_catalogs_edit", methods="POST")
+     * @return JsonReponse edit one catalog's row
      */
     public function edit(Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, ProductRepository $productRepository, RegionRepository $regionRepository, LocalSupplierRepository $localSupplierRepository, UserRepository $userRepository, CategoryRepository $categoryRepository, CatalogRepository $catalogRepository, EntityManagerInterface $em)
     {
-        // 1. On récupère le contenu JSON
+        // we get the JSON Content
         $dataRequest = json_decode($request->getContent());
       
         $catalog = $denormalizer->denormalize($dataRequest, Catalog::class);
         
-        //on valide l'entité 
+        // entity validation
         $errors = $validator->validate($catalog);
         if (count($errors) !== 0) {
             $jsonErrors = [];
@@ -101,7 +102,6 @@ class ApiCatalogsController extends AbstractController
                     'message' => $error->getMessage(),
                 ];
             }
-
             return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -150,6 +150,7 @@ class ApiCatalogsController extends AbstractController
 
     /**
      * @Route("/api/catalogs/{id<\d+>}/delete", name="api_catalogs_delete", methods={"DELETE"})
+     * @return JsonResponse delete selected catalog's row
      */
     public function delete (Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, CatalogRepository $catalogRepository)
     {
@@ -157,7 +158,7 @@ class ApiCatalogsController extends AbstractController
         $data = json_decode($request->getContent());
         $catalog = $denormalizer->denormalize($data, Catalog::class);
 
-        // validation/error
+        // entity validation
         $errors = $validator->validate($catalog);
         if (count($errors) !== 0) {
             $jsonErrors = [];
@@ -167,7 +168,6 @@ class ApiCatalogsController extends AbstractController
                     'message' => $error->getMessage(),
                 ];
             }
-
             return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
