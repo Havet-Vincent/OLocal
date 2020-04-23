@@ -5,6 +5,9 @@ const authMenuStyles = makeStyles(() => ({
     fontSize: '.8em',
     fontWeight: 700,
   },
+  accountIcon: {
+    fontSize: 60,
+  },
 }));
 
 export default authMenuStyles;

@@ -1,19 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
 
 // == Import components
 import {
+  Grid,
   TextField,
   Container,
   Paper,
   Box,
+  FormControl,
+  InputAdornment,
   Typography,
-  Button,
+  Fab,
   TextareaAutosize,
+  useMediaQuery,
+  Link,
 } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
+import LanguageRoundedIcon from '@material-ui/icons/LanguageRounded';
+import PhoneRoundedIcon from '@material-ui/icons/PhoneRounded';
+import RoomRoundedIcon from '@material-ui/icons/RoomRounded';
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import SaveRoundedIcon from '@material-ui/icons/SaveRounded';
+import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 import Loader from 'src/components/Loader';
-import UploadAvatar from 'src/components/Pages/Profil/UploadAvatar';
+import Password from 'src/containers/Password';
 import NavbarShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil/NavbarShopkeeperProfil';
 import ShopkeeperProfilImage from 'src/components/Pages/Profil/ShopkeeperProfil/ShopkeeperProfilImage';
 
@@ -26,199 +37,243 @@ const ShopkeeperProfil = ({
   loader,
   userData,
   getUserData,
+  setFieldValue,
+  updateUserData,
 }) => {
   const classes = shopkeeperProfilStyles();
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(true);
+  const [pwdError, setPwdError] = useState(false);
+
+  // Responsive mobile
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+
+  console.log(userData);
 
   // First render => fetch User data
   useEffect(() => {
     getUserData();
+    if (userData.email !== '' && !pwdError) {
+      setError(false);
+    }
   }, []);
 
-  // state
-  const [email, setEmail] = useState();
-  const [webSite, setWebSite] = useState();
-  const [phone, setPhone] = useState();
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
-
-  const validateEmail = (e) => {
-    // console.log('e vaut', e);
-    // regex from http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
-    let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(e);
+  const handleChange = (event) => {
+    setFieldValue(event.target.name, event.target.value);
   };
 
-  const _handleEmailChange = (event) => {
-    console.log(event.target.value);
-    let errorText = ''
-    if (!validateEmail(event.target.value)) {
-      let errorText = "Email Format Error"
-    }
-
-    console.log(errorText);
-    // setState({emailErrorText: errorText, email: val})
-  };
-
-  const handleChangeValue = (name) => (event) => {
-    switch (name) {
-      case 'email':
-        console.log(event.target.value);
-        if (!validateEmail(name)) {
-          //errorText = "Email Format Error"
-          console.log('email errror');
-        }
-        setEmail(event.target.value);
-        break;
-      case 'webSite':
-        console.log(event.target.value);
-        setWebSite(event.target.value);
-        break;
-      case 'phone':
-        console.log(event.target.value);
-        setPhone(event.target.value);
-        break;
-      case 'password':
-        console.log(event.target.value);
-        setPassword(event.target.value);
-        break;
-      default:
-        console.log('Aucun changement');
-    }
-  };
-
-  const handleSubmit = (file) => (event) => {
-    event.preventDefault();
-    // console.log('handle uploading-', file);
-  };
+  const InputLabelProps = fullScreen
+    ? {
+      className: classes.inputLabelField,
+      shrink: fullScreen,
+    } : {
+      className: classes.inputLabelField,
+    };
 
   return (
     <>
       <Loader loader={loader} />
       {!loader && (
-        <Container className={classes.shopkeeperProfilContent} component="main" maxWidth="lg">
-          <Paper className={classes.root}>
-            <ShopkeeperProfilImage logoPicture={userData.logoPicture} />
+        <Grid container className={classes.shopkeeperProfilWrapper}>
+          <Container className={classes.shopkeeperProfilContent} component="main">
             <NavbarShopkeeperProfil />
-            <UploadAvatar />
-          </Paper>
-          <Paper>
-            <Typography variant="h4" component="h3" gutterBottom>
+            <Typography className={classes.shopkeeperProfilTitle} variant="h4" component="h1" align="center">
               {userData.companyName}
             </Typography>
-            <Typography variant="h6" component="h4" gutterBottom>
-              Siret : {userData.siret}
-            </Typography>
-            <Typography variant="subtitle2" component="p">
-              {`
-                  ${userData.wayNumber ? userData.wayNumber : ''}
-                  ${userData.repeatIndex ? userData.repeatIndex : ''}
-                  ${userData.wayName ? userData.wayName : ''}
-                  ${userData.additionalAddress ? `- ${userData.additionalAddress}` : ''}
-                  ${userData.postalCode ? `- ${userData.postalCode}` : ''}
-                  ${userData.city ? userData.city.toUpperCase() : ''}
-                `}
-            </Typography>
-          </Paper>
-          <Box>
-            <form>
-              <TextField
-                id="email"
-                label={userData.email ? userData.email : ''}
-                className={classes.textField}
-                type="email"
-                name="email"
-                value={email}
-                onChange={_handleEmailChange}
-                autoComplete={userData.email}
-                margin="dense"
-                variant="outlined"
-                helperText="Email"
-
-              />
-              <TextField
-                id="password"
-                label="Mot de passe (minimum 8 caractères)"
-                className={classes.textField}
-                type="password"
-                name="password"
-                autoComplete="new-password"
-                value={password}
-                onChange={handleChangeValue('password')}
-                margin="dense"
-                variant="outlined"
-                helperText="Mot de passe"
-              />
-              <TextField
-                id="confirmPassword"
-                label="Confirmez le mot de passe"
-                className={classes.textField}
-                type="password"
-                name="repeat-passord"
-                autoComplete="new-password"
-                value={confirmPassword}
-                onChange={handleChangeValue('passwordConfirm')}
-                margin="dense"
-                variant="outlined"
-                helperText="Confirmation Mot de passe"
-
-              />
-              <TextField
-                id="website"
-                label={userData.website ? userData.website.replace(/(^\w+:|^)\/\//, '') : ''}
-                className={classes.textField}
-                type="text"
-                name="website"
-                autoComplete="site web"
-                value={webSite}
-                onChange={handleChangeValue('webSite')}
-                margin="dense"
-                variant="outlined"
-                helperText="Nom du site Web"
-
-              />
-              <TextField
-                id="phone"
-                label={userData.phone ? userData.phone : ''}
-                className={classes.textField}
-                type="text"
-                name="phone"
-                autoComplete={userData.phone}
-                value={phone}
-                onChange={handleChangeValue('phone')}
-                margin="dense"
-                variant="outlined"
-                helperText="N° de téléphone"
-
-              />
-            </form>
-          </Box>
-          <Paper>
-            <Typography variant="h6" component="h4" gutterBottom>
-              Description de votre compagnie :
-            </Typography>
-            <TextareaAutosize
-              aria-label="description-companyName"
-              defaultValue={userData.companyDescription}
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.margin}
-            >
-              Enregister les modifications
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              className={classes.margin}
-              component={RouterLink}
-              to="/shopkeeper/profil/delete"
-            >
-              Supprimer mon compte
-            </Button>
-          </Paper>
-        </Container>
+            <Paper className={classes.shopkeeperProfilContainer} elevation={0}>
+              <Box className={classes.shopkeeperProfilPicture}>
+                <Box>
+                  <ShopkeeperProfilImage logoPicture={userData.logoPicture} />
+                </Box>
+                <Paper variant="outlined" className={classes.shopkeeperProfilInfos} elevation={3}>
+                  <Typography variant="h6" component="h5" className={classes.shopkeeperProfilInfosTitle} gutterBottom>
+                    Informations personnelles
+                  </Typography>
+                  <TextField
+                    id="lastname"
+                    label="Nom"
+                    className={classes.textField}
+                    type="text"
+                    name="lastname"
+                    autoComplete="lastname"
+                    fullWidth
+                    InputLabelProps={{ ...InputLabelProps, shrink: true }}
+                    value={userData.lastname ? userData.lastname : ''}
+                    onChange={handleChange}
+                    InputProps={{
+                      endAdornment: <InputAdornment position="end"><EditRoundedIcon /></InputAdornment>,
+                    }}
+                  />
+                  <TextField
+                    id="firstname"
+                    label="Prénom"
+                    className={classes.textField}
+                    type="text"
+                    name="firstname"
+                    autoComplete="firstname"
+                    fullWidth
+                    InputLabelProps={{ ...InputLabelProps, shrink: true }}
+                    value={userData.firstname ? userData.firstname : ''}
+                    onChange={handleChange}
+                    InputProps={{
+                      endAdornment: <InputAdornment position="end"><EditRoundedIcon /></InputAdornment>,
+                    }}
+                  />
+                  <TextField
+                    id="email"
+                    label="Email"
+                    className={classes.textField}
+                    type="email"
+                    name="email"
+                    required
+                    autoComplete="email"
+                    fullWidth
+                    InputLabelProps={{ ...InputLabelProps, shrink: true }}
+                    value={userData.email}
+                    onChange={handleChange}
+                    InputProps={{
+                      endAdornment: <InputAdornment position="end"><EditRoundedIcon /></InputAdornment>,
+                    }}
+                  />
+                  <Box className={classes.passwordForm}>
+                    <Link
+                      component="button"
+                      variant="body2"
+                      underline="always"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      { showPassword ? 'Verrouiller les champs Mot de Passe' : 'Modifier le mot de passe'}
+                    </Link>
+                    <Password
+                      setError={(value) => setPwdError(value)}
+                      style={classes.passwordField}
+                      variante="outlined"
+                      fullwidth
+                      labelShrink
+                      disabledField={!showPassword}
+                    />
+                  </Box>
+                </Paper>
+              </Box>
+              <Box className={classes.shopkeeperProfilDescription}>
+                <Box>
+                  <Typography variant="h6" component="h4" gutterBottom>
+                    SIRET : {userData.siret}
+                  </Typography>
+                  <Typography variant="subtitle2" component="p" className={classes.shopkeeperProfilAddress}>
+                    <RoomRoundedIcon />
+                    {`
+                        ${userData.wayNumber ? userData.wayNumber : ''}
+                        ${userData.repeatIndex ? userData.repeatIndex : ''}
+                        ${userData.wayName ? userData.wayName : ''}
+                        ${userData.additionalAddress ? `- ${userData.additionalAddress}` : ''}
+                        ${userData.postalCode ? `- ${userData.postalCode}` : ''}
+                        ${userData.city ? userData.city.toUpperCase() : ''}
+                      `}
+                  </Typography>
+                </Box>
+                <FormControl className={classes.shopkeeperProfilCoordonates}>
+                  <Box>
+                    <Grid container spacing={1} alignItems="flex-end">
+                      <Grid item>
+                        <LanguageRoundedIcon />
+                      </Grid>
+                      <Grid item>
+                        <TextField
+                          id="website"
+                          label="Mon site web"
+                          className={classes.gridField}
+                          type="text"
+                          name="website"
+                          placeholder="www.monsite.com"
+                          autoComplete="site web"
+                          value={userData.webSite ? userData.webSite : ''}
+                          onChange={handleChange}
+                          margin="dense"
+                          InputLabelProps={{
+                            className: classes.inputLabelField,
+                          }}
+                          InputProps={{
+                            endAdornment: <InputAdornment position="end"><EditRoundedIcon /></InputAdornment>,
+                          }}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Box>
+                  <Box>
+                    <Grid container spacing={1} alignItems="flex-end">
+                      <Grid item>
+                        <PhoneRoundedIcon />
+                      </Grid>
+                      <Grid item>
+                        <TextField
+                          id="phone"
+                          label="N° de téléphone"
+                          className={classes.gridField}
+                          type="text"
+                          name="phone"
+                          autoComplete="phone"
+                          value={userData.phone ? userData.phone : ''}
+                          onChange={handleChange}
+                          margin="dense"
+                          InputLabelProps={{
+                            className: classes.inputLabelField,
+                          }}
+                          InputProps={{
+                            endAdornment: <InputAdornment position="end"><EditRoundedIcon /></InputAdornment>,
+                          }}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </FormControl>
+                <Paper elevation={0} className={classes.shopkeeperProfilDetails}>
+                  <Paper className={classes.textAreaFieldWrapper} elevation={3}>
+                    <Typography variant="h6" component="h4" gutterBottom>
+                      Description de votre boutique :
+                    </Typography>
+                    <TextareaAutosize
+                      className={classes.textAreaField}
+                      aria-label="description"
+                      rowsMin={22}
+                      placeholder="Vous pouvez décrire ici votre boutique avec toutes les informations complémentaires (ex: horaires)"
+                      defaultValue={userData.companyDescription}
+                    />
+                  </Paper>
+                </Paper>
+              </Box>
+            </Paper>
+            <Box className={classes.shopkeeperProfilValidationBtn}>
+              <Fab
+                variant="extended"
+                size="medium"
+                color="primary"
+                aria-label="save-account"
+                classes={{
+                  root: classes.fab,
+                  label: classes.fabLabel,
+                }}
+              >
+                <SaveRoundedIcon className={classes.extendedIcon} />
+                Enregister les modifications
+              </Fab>
+              <Fab
+                variant="extended"
+                size="medium"
+                color="secondary"
+                aria-label="delete-account"
+                classes={{
+                  root: classes.fab,
+                  label: classes.fabLabel,
+                }}
+              >
+                <DeleteForeverRoundedIcon className={classes.extendedIcon} />
+                Supprimer mon compte
+              </Fab>
+            </Box>
+          </Container>
+        </Grid>
       )}
     </>
   );

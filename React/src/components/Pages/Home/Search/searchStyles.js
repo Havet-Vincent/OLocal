@@ -48,4 +48,3 @@ const searchStyles = makeStyles((theme) => ({
 }));
 
 export default searchStyles;
-

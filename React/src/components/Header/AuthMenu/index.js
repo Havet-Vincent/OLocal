@@ -7,8 +7,8 @@ import {
   Button,
   Menu,
   MenuItem,
+  Icon,
 } from '@material-ui/core';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 // == Import styles
 import authMenuStyles from './authMenuStyles';
@@ -47,7 +47,7 @@ const AuthMenu = ({ getProfil, setLogout }) => {
         aria-controls="user-menu"
         aria-haspopup="true"
         className={classes.accountButton}
-        endIcon={<AccountBoxIcon fontSize="large" />}
+        endIcon={<Icon style={{ fontSize: 32 }} className={classes.accountIcon}>person</Icon>}
         onClick={handleMenu}
       >
         Mon Compte

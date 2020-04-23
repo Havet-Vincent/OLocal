@@ -33,6 +33,7 @@ import RoomRoundedIcon from '@material-ui/icons/RoomRounded';
 import BusinessIcon from '@material-ui/icons/Business';
 import NotFound from 'src/components/Pages/NotFound';
 import Loader from 'src/components/Loader';
+import BaseProfilPicture from 'src/assets/img/profil.png';
 
 // == Import styles
 import shopkeeperStyles from './shopkeeperStyles';
@@ -59,10 +60,14 @@ const Shopkeeper = ({
 
   // Local state
   const [expanded, setExpanded] = useState(false);
+  const [picture, setPicture] = useState(BaseProfilPicture);
 
   // First render => fetch data
   useEffect(() => {
     getShopkeeperData(id);
+    if (shopkeeper.logoPicture) {
+      setPicture(`${server.url}:${server.port}${shopkeeper.logoPicture}`);
+    }
   }, []);
 
   // When Unmounted => clear data
@@ -112,24 +117,28 @@ const Shopkeeper = ({
                       <Box className={classes.cardDetails}>
                         <CardMedia
                           className={classes.cardMedia}
-                          image={`${server.url}:${server.port}${shopkeeper.logoPicture}`}
-                          title="commerce"
+                          image={picture}
+                          title="Image du commerce"
                         />
                         <Paper className={classes.root} elevation={0}>
-                          <Link variant="body1" href={shopkeeper.website}>
-                            <Chip
-                              icon={<WebIcon className={classes.chipIcon} />}
-                              label={shopkeeper.website ? shopkeeper.website.replace(/(^\w+:|^)\/\//, '') : ''}
-                              className={classes.chip}
-                            />
-                          </Link>
-                          <Link variant="body1" href={`tel:${shopkeeper.phone}`}>
-                            <Chip
-                              icon={<CallIcon className={classes.chipIcon} />}
-                              label={shopkeeper.phone}
-                              className={classes.chip}
-                            />
-                          </Link>
+                          {shopkeeper.website && (
+                            <Link variant="body1" href={shopkeeper.website}>
+                              <Chip
+                                icon={<WebIcon className={classes.chipIcon} />}
+                                label={shopkeeper.website ? shopkeeper.website.replace(/(^\w+:|^)\/\//, '') : ''}
+                                className={classes.chip}
+                              />
+                            </Link>
+                          )}
+                          {shopkeeper.phone && (
+                            <Link variant="body1" href={`tel:${shopkeeper.phone}`}>
+                              <Chip
+                                icon={<CallIcon className={classes.chipIcon} />}
+                                label={shopkeeper.phone}
+                                className={classes.chip}
+                              />
+                            </Link>
+                          )}
                           <Link variant="body1" href={`mailto:${shopkeeper.email}`}>
                             <Chip
                               icon={<ContactMailIcon className={classes.chipIcon} />}
@@ -167,7 +176,7 @@ const Shopkeeper = ({
                         </CardContent>
                         <Paper className={classes.shopkeeperProducts} elevation={0}>
                           {productsCategoryId && (
-                            <FormControl variant="outlined" className={classes.formControl} size="small">
+                            <FormControl variant="outlined" className={classes.formControl}>
                               <InputLabel id="search-category">Catégorie de produits</InputLabel>
                               <Select
                                 fullWidth
@@ -192,7 +201,7 @@ const Shopkeeper = ({
                           )}
                           <Grid className={classes.root}>
                             <Typography variant="h6" component="h5" gutterBottom>
-                              Nos produits proposés :
+                              Les produits proposés :
                             </Typography>
                             {productsByCategory.map((product, index) => (
                               <ExpansionPanel

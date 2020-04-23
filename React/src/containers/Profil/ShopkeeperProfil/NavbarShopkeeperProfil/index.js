@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
-import { getProfil, getProfilPage } from 'src/actions/profil';
+import { getProfil, getProfilPage, setActivePage } from 'src/actions/profil';
 
 import NavbarShopkeeperProfil from 'src/components/Pages/Profil/ShopkeeperProfil/NavbarShopkeeperProfil';
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+  activePage: state.profil.activePage,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   getProfil: () => {
@@ -11,6 +13,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getProfilPage: () => {
     dispatch(getProfilPage());
+  },
+  setActivePage: (newValue) => {
+    dispatch(setActivePage(newValue));
   },
 });
 
