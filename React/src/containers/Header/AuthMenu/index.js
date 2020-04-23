@@ -4,7 +4,9 @@ import { getProfil } from 'src/actions/profil';
 
 import AuthMenu from 'src/components/Header/AuthMenu';
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+  userRole: state.profil.userRole[0],
+});
 
 const mapDispatchToProps = (dispatch) => ({
   getProfil: () => {

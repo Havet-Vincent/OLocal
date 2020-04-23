@@ -13,8 +13,11 @@ import {
 // == Import styles
 import authMenuStyles from './authMenuStyles';
 
+// == Import API config for API base URL
+const server = require('src/api.config.json');
+
 // == Composant
-const AuthMenu = ({ getProfil, setLogout }) => {
+const AuthMenu = ({ userRole, getProfil, setLogout }) => {
   const classes = authMenuStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -68,6 +71,13 @@ const AuthMenu = ({ getProfil, setLogout }) => {
         onClose={handleClose}
       >
         <MenuItem onClick={handleProfil}>Mon Profil</MenuItem>
+        {userRole === 'ROLE_ADMIN' && (
+        <MenuItem>
+          <a href={`${server.url}/admin`} target="_blank" rel="noopener noreferrer">
+            Accès BackOffice Administration
+          </a>
+        </MenuItem>
+        )}
         <MenuItem onClick={handleLogout}>Se déconnecter</MenuItem>
       </Menu>
     </div>
@@ -77,6 +87,11 @@ const AuthMenu = ({ getProfil, setLogout }) => {
 AuthMenu.propTypes = {
   getProfil: PropTypes.func.isRequired,
   setLogout: PropTypes.func.isRequired,
+  userRole: PropTypes.string,
+};
+
+AuthMenu.defaultProps = {
+  userRole: null,
 };
 
 // == Export
