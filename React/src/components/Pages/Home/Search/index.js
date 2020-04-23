@@ -12,6 +12,7 @@ import {
   MenuItem,
   Button,
   Icon,
+  FormHelperText,
 } from '@material-ui/core';
 
 // == Import styles
@@ -28,6 +29,8 @@ const Search = ({
   const classes = searchStyles();
   const [regionSelect, setRegionSelect] = useState('');
   const [categorySelect, setCategorySelect] = useState('');
+  const [regionError, setRegionError] = useState(false);
+  const [categoryError, setCategoryError] = useState(false);
 
   const handleChangeRegion = (event) => {
     setRegionSelect(event.target.value);
@@ -43,7 +46,17 @@ const Search = ({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    handleSearchHomeSubmit();
+    setRegionError(false);
+    setCategoryError(false);
+    if (regionSelect === '') {
+      setRegionError(true);
+    }
+    if (categorySelect === '') {
+      setCategoryError(true);
+    }
+    if (regionSelect !== '' && categorySelect !== '') {
+      handleSearchHomeSubmit();
+    }
   };
 
   const MenuProps = {
@@ -58,43 +71,56 @@ const Search = ({
 
   return (
     <Container className={classes.searchWrapper}>
-      <Typography variant="h5" className={classes.searchTitle}>
+      <Typography variant="h5" className={classes.searchTitle} gutterBottom>
         Rechercher un commerçant
       </Typography>
       <form className={classes.searchForm} onSubmit={handleSubmit}>
-        <FormControl variant="outlined" className={classes.formControl}>
-          <InputLabel id="search-region">Région</InputLabel>
+        <FormControl variant="outlined" className={classes.formControl} error={regionError}>
+          <InputLabel htmlFor="search-region">Région</InputLabel>
           <Select
+            name="region"
             className={classes.searchSelect}
             label="Région"
-            labelId="search-region"
-            id="search-region"
+            id="region"
             value={regionSelect}
             onChange={handleChangeRegion}
+            inputProps={{ name: 'region' }}
             MenuProps={MenuProps}
           >
             {regions.map((item) => (
               <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
             ))}
           </Select>
+          <FormHelperText className={classes.searchHelperText}>*Champ Requis</FormHelperText>
         </FormControl>
-        <FormControl variant="outlined" className={classes.formControl}>
-          <InputLabel id="search-category">Catégorie de produits</InputLabel>
+        <FormControl variant="outlined" className={classes.formControl} error={categoryError}>
+          <InputLabel htmlFor="search-category">Catégorie de produits</InputLabel>
           <Select
+            name="category"
             className={classes.searchSelect}
             label="Catégorie de produits"
-            labelId="search-category"
-            id="search-category"
+            id="category"
             value={categorySelect}
             onChange={handleChangeCategory}
+            inputProps={{ name: 'category' }}
             MenuProps={MenuProps}
           >
             {categories.map((item) => (
               <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
             ))}
           </Select>
+          <FormHelperText className={classes.searchHelperText}>*Champ Requis</FormHelperText>
         </FormControl>
-        <Button type="submit" color="primary" variant="contained" size="large" endIcon={<Icon>search</Icon>} className={classes.searchButton}>Rechercher</Button>
+        <Button
+          type="submit"
+          color="primary"
+          variant="contained"
+          size="large"
+          endIcon={<Icon>search</Icon>}
+          className={classes.searchButton}
+        >
+          Rechercher
+        </Button>
       </form>
     </Container>
   );

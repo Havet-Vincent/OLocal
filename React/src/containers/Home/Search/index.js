@@ -10,8 +10,6 @@ import Search from 'src/components/Pages/Home/Search';
 const mapStateToProps = (state) => ({
   categories: state.home.categories,
   regions: state.home.regions,
-  categoryField: state.home.categoryField,
-  regionField: state.home.regionField,
 });
 
 const mapDispatchToProps = (dispatch) => ({

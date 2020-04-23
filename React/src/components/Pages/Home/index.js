@@ -28,7 +28,7 @@ const Home = ({
   return (
     <>
       <Grid container className={classes.searchWrapper}>
-        <Grid item xs={10} md={9} sm={8}>
+        <Grid item>
           <Paper className={classes.searchContent} elevation={3}>
             <Search />
           </Paper>
