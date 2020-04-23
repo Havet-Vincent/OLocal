@@ -88,13 +88,16 @@ class ApiShopkeepersController extends AbstractController
                  ];
              }
  
-             return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
         
         $siret = $dataRequest->siret;
+        if(!strlen($siret) === 14) {
+            return $this->json('Entrez un numéro SIRET valide.', 409);
+        }
         if ($userRepository->findBy(['siret' => $siret])){
-            return $this->json('Ce numéro de SIRET est déjà utilisé.', 409);
-         }
+            return $this->json('Ce numéro SIRET est déjà utilisé.', 409);
+        }
         //siret pour tester 85218609700014
         
         // take region data from request

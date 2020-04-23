@@ -31,6 +31,12 @@ class UserController extends EasyAdminController
             $regionId = $_POST["user"]['region'];
             $region = $this->regionRepository->find($regionId);
 
+            // we check the number of charters of the siret number
+            if(!strlen($siret) === 14) {
+                return $this->json('Entrez un numéro SIRET valide.', 409);
+            }
+
+            // we check if the siret number is already stored on the database
             if ($this->userRepository->findBy(['siret' => $siret])){
                 throw new \Exception('Ce numéro de SIRET est déjà utilisé.');
             }
