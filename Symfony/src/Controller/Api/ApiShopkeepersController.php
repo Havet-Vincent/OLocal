@@ -103,6 +103,11 @@ class ApiShopkeepersController extends AbstractController
 
         // take email data from request
         $newEmail = $dataRequest->email;
+
+        if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+            return $this->json("Cette adresse n'est pas valide", 409);
+        }
+        
         if ($userRepository->findBy(['email' => $newEmail])) {
             return $this->json('Cet email est déjà utilisé.', 409);
         }
@@ -116,9 +121,15 @@ class ApiShopkeepersController extends AbstractController
 
         $user->setEmail($newEmail);
 
-        // TODO : implements constraints password
         $password = $dataRequest->password;
-        $user->setPassword($encoder->encodePassword($user, $password));
+        // Validate password strength
+        $uppercase = preg_match('@[A-Z]@', $password);
+        $lowercase = preg_match('@[a-z]@', $password);
+        $number    = preg_match('@[0-9]@', $password);
+        if(!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
+            return $this->json('Le mot de passe doit faire 8 caractères minimum et doit contenir au moins une majuscule et un chiffre.', 409 );
+        }
+        $user->setPassword($encoder->encodePassword($user, $password));    
 
         $role = ['ROLE_SHOPKEEPER'];
         $user->setUserRole($role);
@@ -203,6 +214,9 @@ class ApiShopkeepersController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $newEmail = $data->email;
+        if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+            return $this->json("Cette adresse n'est pas valide", 409);
+        }
         if ($newEmail === $userRepository->findBy(['email' => $newEmail])) {
             return $this->json('Cette adresse email est déjà utilisée.', 409);
         }
@@ -216,12 +230,19 @@ class ApiShopkeepersController extends AbstractController
             $userToEdit->setLastname($data->lastname);
         }
         if ($data->password) {
+            // Validate password strength
+            $uppercase = preg_match('@[A-Z]@', $data->password);
+            $lowercase = preg_match('@[a-z]@', $data->password);
+            $number    = preg_match('@[0-9]@', $data->password);
+            if(!$uppercase || !$lowercase || !$number || strlen($data->password) < 8) {
+                return $this->json('Le mot de passe doit faire 8 caractères minimum et doit contenir au moins une majuscule et un chiffre.', 409 );
+            }
             $userToEdit->setPassword($encoder->encodePassword($userToEdit, $data->password));
         }
         if ($data->companyDescription !== $userToEdit->getCompanyDescription()) {
             $userToEdit->setCompanyDescription($data->companyDescription);
         }
-        if ($data->logoPicture !== null) {
+        if ($data->logoPicture !== $userToEdit->getLogoPicture()) {
 
             $extension = explode('/', mime_content_type($data->logoPicture))[1];
             $newFilename = 'avatarId'.$userId.'.'.$extension;

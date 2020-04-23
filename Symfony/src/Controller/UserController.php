@@ -32,14 +32,19 @@ class UserController extends EasyAdminController
             $region = $this->regionRepository->find($regionId);
 
             if ($this->userRepository->findBy(['siret' => $siret])){
-                return $this->json('Ce numéro de SIRET est déjà utilisé.', 409);
+                throw new \Exception('Ce numéro de SIRET est déjà utilisé.');
             }
             //siret pour tester 85218609700014            
 
             // take email data from request
             $newEmail = $_POST["user"]['email'];
+
+            if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+                throw new \Exception("Cette adresse n'est pas valide");
+            }
+
             if ($this->userRepository->findBy(['email' => $newEmail])) {
-                return $this->json('Cet email est déjà utilisé.', 409);
+                throw new \Exception('Cet email est déjà utilisé.');
             }
         
             // take external API data from SIRET number
@@ -50,8 +55,17 @@ class UserController extends EasyAdminController
 
             $user->setEmail($newEmail);
 
-            // TODO : implements constraints password
             $password = $_POST["user"]['password'];
+
+            if ($password) {
+                // Validate password strength
+                $uppercase = preg_match('@[A-Z]@', $password);
+                $lowercase = preg_match('@[a-z]@', $password);
+                $number    = preg_match('@[0-9]@', $password);
+                if(!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
+                    throw new \Exception('Le mot de passe doit faire 8 caractères minimum et doit contenir au moins une majuscule et un chiffre.');
+                }
+            }
             $user->setPassword($this->encoder->encodePassword($user, $password));
 
             if (array_key_exists('isEmailChecked', $_POST["user"])) {
@@ -168,17 +182,25 @@ class UserController extends EasyAdminController
         $em = $this->getDoctrine()->getManager();
 
         $newEmail = $entity->getEmail();
+
+        if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+            throw new \Exception("Cette adresse n'est pas valide");
+        }
+
         if ($newEmail === $this->userRepository->findBy(['email' => $newEmail])) {
             throw new \Exception('Email déjà utilisé');
         }
+
         if ($newEmail !== $user->getEmail()) {
             $user->setEmail($newEmail);
         }
+
         if (array_key_exists(0, $entity->getUserRole())) {
             $role = $entity->getUserRole()[0];
         } else {
             $role = 'ROLE_USER';
         }
+
         $user->setUserRole([$role]);
 
         if ($entity->getFirstname() !== $user->getFirstname()) {
