@@ -75,6 +75,11 @@ class SecurityController extends AbstractController
             ]);
     }
 
-    
-
+    /**
+     * @Route("/", name="home")
+     */
+    public function homepage()
+    {
+        return $this->redirect('http://olocal.dscloud.me/');
+    }
 }

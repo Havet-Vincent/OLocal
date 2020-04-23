@@ -159,6 +159,8 @@ class ApiShopkeepersController extends AbstractController
 
         $user->setRegion($region);
 
+        $user->setLogoPicture('uploads/avatars/no-avatar.png');
+
         $em=$this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
@@ -235,6 +237,8 @@ class ApiShopkeepersController extends AbstractController
                 return $this->json('Erreur lors de l\'envoi d\'image.');
             }
             $userToEdit->setLogoPicture('/uploads/avatars/'.$newFilename);
+        } elseif ($data->logoPicture == '') {
+            $user->setLogoPicture('uploads/avatars/no-avatar.png');
         }
         if ($data->phone !== $userToEdit->getPhone()) {
             $userToEdit->setPhone($data->phone);

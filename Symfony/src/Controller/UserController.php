@@ -106,6 +106,8 @@ class UserController extends EasyAdminController
 
             $user->setRegion($region);
 
+            $user->setLogoPicture('uploads/avatars/no-avatar.png');
+
             $em=$this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -146,6 +148,8 @@ class UserController extends EasyAdminController
             $role = 'ROLE_USER';
         }
         $newUser->setUserRole([$role]);
+
+        $newUser->setLogoPicture('uploads/avatars/no-avatar.png');
 
         $em=$this->getDoctrine()->getManager();
         $em->persist($newUser);
