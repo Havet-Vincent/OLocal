@@ -5,6 +5,9 @@ import {
   GET_PROFIL,
   GET_PROFIL_PAGE,
   GET_USER_DATA,
+  SET_LOGO_PICTURE_ERROR,
+  UPDATE_USER_DATA,
+  getUserData,
   saveUser,
   saveUserData,
   getCatalog,
@@ -98,6 +101,63 @@ const profilMiddleware = (store) => (next) => (action) => {
 
           next(action);
           break;
+        default:
+          next(action);
+      }
+      next(action);
+      break;
+    }
+
+    case SET_LOGO_PICTURE_ERROR:
+      store.dispatch(setSnackbar('error', action.errorMsg));
+      next(action);
+      break;
+
+    case UPDATE_USER_DATA: {
+      const { userId, userRole } = store.getState().profil;
+      const token = localStorage.getItem('token');
+      switch (userRole[0]) {
+        case 'ROLE_SHOPKEEPER': {
+          const {
+            email,
+            firstname,
+            lastname,
+            password,
+            companyDescription,
+            phone,
+            website,
+            logoPicture,
+          } = store.getState().profil.userData;
+          axios({
+            method: 'post',
+            url: `${server.url}:${server.port}/api/shopkeepers/${userId}/edit`,
+            headers: { Authorization: `Bearer ${token}` },
+            data: {
+              id: userId,
+              email,
+              firstname,
+              lastname,
+              password,
+              companyDescription,
+              phone,
+              website,
+              logoPicture,
+            },
+          })
+            .then((response) => {
+              console.log('success update userData : ', response.data);
+              store.dispatch(setSnackbar('success', 'Vos informations ont été enregistrées'));
+              store.dispatch(getUserData());
+            })
+            .catch((error) => {
+              // eslint-disable-next-line no-console
+              console.warn(error);
+              store.dispatch(setSnackbar('error', 'Echec enregistrement des informations'));
+            });
+
+          next(action);
+          break;
+        }
         default:
           next(action);
       }

@@ -2,9 +2,15 @@ import {
   SET_ACTIVE_PAGE,
   SAVE_USER,
   SAVE_USER_DATA,
+  SET_LOGO_PICTURE,
+  SET_PROFIL_FIELD_VALUE,
+  SET_FIELD_ERROR,
   GET_CATALOG,
   CLEAR_USER_DATA,
 } from '../actions/profil';
+
+// == Import API config for pictures base URL
+const server = require('src/api.config.json');
 
 const initialState = {
   // Display Loader
@@ -17,6 +23,8 @@ const initialState = {
   userId: null,
   userRole: [],
   userData: {},
+  logoPicture: '',
+  fieldError: true,
   catalog: [],
 };
 
@@ -59,9 +67,54 @@ const profilReducer = (state = initialState, action = {}) => {
     case SAVE_USER_DATA:
       return {
         ...state,
-        userData: action.userData,
+        userData: {
+          ...action.userData,
+          password: '',
+        },
+        logoPicture: `${server.url}:${server.port}${action.userData.logoPicture}`,
         loaderProfil: false,
         loaderProfilPage: false,
+      };
+
+    case SET_LOGO_PICTURE:
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          logoPicture: action.newLogoPicture,
+        },
+        logoPicture: action.newLogoPicture,
+      };
+
+    case SET_PROFIL_FIELD_VALUE: {
+      if (action.name === 'email') {
+        const emailValue = action.value;
+        if (emailValue === '') {
+          return {
+            ...state,
+            fieldError: true,
+            userData: {
+              ...state.userData,
+              email: emailValue,
+            },
+          };
+        }
+      }
+
+      return {
+        ...state,
+        fieldError: false,
+        userData: {
+          ...state.userData,
+          [action.name]: action.value,
+        },
+      };
+    }
+
+    case SET_FIELD_ERROR:
+      return {
+        ...state,
+        fieldError: action.value,
       };
 
     case CLEAR_USER_DATA:

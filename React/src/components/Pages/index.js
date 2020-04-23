@@ -108,7 +108,7 @@ const Pages = ({
       )}
       <Snackbar
         open={snackbar}
-        autoHideDuration={4000}
+        autoHideDuration={5000}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         onClose={handleClose}
       >

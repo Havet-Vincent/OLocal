@@ -76,7 +76,7 @@ const SignInForm = ({
         TransitionComponent={Transition}
       >
         <DialogTitle className={classes.formTitle}>
-          Connection
+          Connexion
           <IconButton color="secondary" className={classes.closeButton} onClick={setSignIn}>
             <CloseIcon />
           </IconButton>

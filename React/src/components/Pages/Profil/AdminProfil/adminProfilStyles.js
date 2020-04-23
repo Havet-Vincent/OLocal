@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import BackgroundImg from 'src/assets/img/landscape_background.png';
 
-const shopkeeperProfilStyles = makeStyles((theme) => ({
+const adminProfilStyles = makeStyles((theme) => ({
   shopkeeperProfilWrapper: {
     background: `url(${BackgroundImg})`,
     backgroundRepeat: 'no-repeat',
@@ -92,17 +92,6 @@ const shopkeeperProfilStyles = makeStyles((theme) => ({
     flexFlow: 'column nowrap',
     justifyContent: 'space-around',
     alignItems: 'flex-start',
-    width: '100%',
-    marginTop: theme.spacing(2),
-    [theme.breakpoints.down('xs')]: {
-      width: '95%',
-    },
-  },
-  shopkeeperProfilCoordonatesWrapper: {
-    width: '100%',
-  },
-  shopkeeperProfilGrid: {
-
   },
   shopkeeperProfilDetails: {
     marginTop: theme.spacing(3),
@@ -162,12 +151,9 @@ const shopkeeperProfilStyles = makeStyles((theme) => ({
       fontSize: '1em',
     },
   },
-  inputGridField: {
-    fontSize: '.8em',
-  },
   passwordForm: {
     margin: theme.spacing(2, 0),
   },
 }));
 
-export default shopkeeperProfilStyles;
+export default adminProfilStyles;

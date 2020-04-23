@@ -7,6 +7,11 @@ export const SET_ACTIVE_PAGE = 'SET_ACTIVE_PAGE';
 export const GET_USER_DATA = 'GET_USER_DATA';
 export const GET_CATALOG = 'GET_CATALOG';
 export const SAVE_USER_DATA = 'SAVE_USER_DATA';
+export const SET_LOGO_PICTURE = 'SET_LOGO_PICTURE';
+export const SET_LOGO_PICTURE_ERROR = 'SET_LOGO_PICTURE_ERROR';
+export const UPDATE_USER_DATA = 'UPDATE_USER_DATA';
+export const SET_PROFIL_FIELD_VALUE = 'SET_PROFIL_FIELD_VALUE';
+export const SET_FIELD_ERROR = 'SET_FIELD_ERROR';
 export const DELETE_CATALOG_ITEM = 'DELETE_CATALOG_ITEM';
 export const UPDATE_CATALOG_ITEM = 'UPDATE_CATALOG_ITEM';
 export const CLEAR_USER_DATA = 'CLEAR_USER_DATA';
@@ -43,6 +48,32 @@ export const getUserData = () => ({
 export const saveUserData = (userData) => ({
   type: SAVE_USER_DATA,
   userData,
+});
+
+export const setLogoPicture = (newLogoPicture) => ({
+  type: SET_LOGO_PICTURE,
+  newLogoPicture,
+});
+
+export const setLogoPictureError = (errorMsg) => ({
+  type: SET_LOGO_PICTURE_ERROR,
+  errorMsg,
+});
+
+export const updateUserData = (data) => ({
+  type: UPDATE_USER_DATA,
+  data,
+});
+
+export const setFieldError = (value) => ({
+  type: SET_FIELD_ERROR,
+  value,
+});
+
+export const setFieldValue = (name, value) => ({
+  type: SET_PROFIL_FIELD_VALUE,
+  name,
+  value,
 });
 
 export const getCatalog = () => ({

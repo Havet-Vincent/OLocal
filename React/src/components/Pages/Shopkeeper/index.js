@@ -33,13 +33,9 @@ import RoomRoundedIcon from '@material-ui/icons/RoomRounded';
 import BusinessIcon from '@material-ui/icons/Business';
 import NotFound from 'src/components/Pages/NotFound';
 import Loader from 'src/components/Loader';
-import BaseProfilPicture from 'src/assets/img/profil.png';
 
 // == Import styles
 import shopkeeperStyles from './shopkeeperStyles';
-
-// == Import API config for pictures base URL
-const server = require('src/api.config.json');
 
 // == Composant
 const Shopkeeper = ({
@@ -60,14 +56,10 @@ const Shopkeeper = ({
 
   // Local state
   const [expanded, setExpanded] = useState(false);
-  const [picture, setPicture] = useState(BaseProfilPicture);
 
   // First render => fetch data
   useEffect(() => {
     getShopkeeperData(id);
-    if (shopkeeper.logoPicture) {
-      setPicture(`${server.url}:${server.port}${shopkeeper.logoPicture}`);
-    }
   }, []);
 
   // When Unmounted => clear data
@@ -117,7 +109,7 @@ const Shopkeeper = ({
                       <Box className={classes.cardDetails}>
                         <CardMedia
                           className={classes.cardMedia}
-                          image={picture}
+                          image={shopkeeper.logoPicture}
                           title="Image du commerce"
                         />
                         <Paper className={classes.root} elevation={0}>

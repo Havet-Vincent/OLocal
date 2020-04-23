@@ -30,53 +30,37 @@ import ShopkeeperProfilImage from 'src/components/Pages/Profil/ShopkeeperProfil/
 
 
 // == Import styles
-import shopkeeperProfilStyles from './shopkeeperProfilStyles';
+import adminProfilStyles from './adminProfilStyles';
 
 // == Composant
-const ShopkeeperProfil = ({
+const AdminProfil = ({
   loader,
   userData,
   getUserData,
   setFieldValue,
-  fieldError,
-  setFieldError,
-  handleUpdateUserData,
-  logoPicture,
-  setLogoPicture,
-  setLogoPictureError,
-  pwdCheckError,
+  updateUserData,
 }) => {
-  const classes = shopkeeperProfilStyles();
+  const classes = adminProfilStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(true);
+  const [pwdError, setPwdError] = useState(false);
 
   // Responsive mobile
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
+  console.log(userData);
+
   // First render => fetch User data
   useEffect(() => {
     getUserData();
-  }, []);
-
-  // Disable update data button if errors
-  useEffect(() => {
-    if (pwdCheckError) {
-      setError(true);
-      setFieldError(false);
-    }
-    if (!fieldError) {
+    if (userData.email !== '' && !pwdError) {
       setError(false);
     }
-  });
+  }, []);
 
   const handleChange = (event) => {
     setFieldValue(event.target.name, event.target.value);
-  };
-
-  const setPicture = (picture) => {
-    setError(false);
-    setLogoPicture(picture);
   };
 
   const InputLabelProps = fullScreen
@@ -100,16 +84,42 @@ const ShopkeeperProfil = ({
             <Paper className={classes.shopkeeperProfilContainer} elevation={0}>
               <Box className={classes.shopkeeperProfilPicture}>
                 <Box>
-                  <ShopkeeperProfilImage
-                    logoPicture={logoPicture}
-                    setPicture={setPicture}
-                    setError={setLogoPictureError}
-                  />
+                  <ShopkeeperProfilImage logoPicture={userData.logoPicture} />
                 </Box>
                 <Paper variant="outlined" className={classes.shopkeeperProfilInfos} elevation={3}>
                   <Typography variant="h6" component="h5" className={classes.shopkeeperProfilInfosTitle} gutterBottom>
                     Informations personnelles
                   </Typography>
+                  <TextField
+                    id="lastname"
+                    label="Nom"
+                    className={classes.textField}
+                    type="text"
+                    name="lastname"
+                    autoComplete="lastname"
+                    fullWidth
+                    InputLabelProps={{ ...InputLabelProps, shrink: true }}
+                    value={userData.lastname ? userData.lastname : ''}
+                    onChange={handleChange}
+                    InputProps={{
+                      endAdornment: <InputAdornment position="end"><EditRoundedIcon /></InputAdornment>,
+                    }}
+                  />
+                  <TextField
+                    id="firstname"
+                    label="Prénom"
+                    className={classes.textField}
+                    type="text"
+                    name="firstname"
+                    autoComplete="firstname"
+                    fullWidth
+                    InputLabelProps={{ ...InputLabelProps, shrink: true }}
+                    value={userData.firstname ? userData.firstname : ''}
+                    onChange={handleChange}
+                    InputProps={{
+                      endAdornment: <InputAdornment position="end"><EditRoundedIcon /></InputAdornment>,
+                    }}
+                  />
                   <TextField
                     id="email"
                     label="Email"
@@ -133,9 +143,10 @@ const ShopkeeperProfil = ({
                       underline="always"
                       onClick={() => setShowPassword(!showPassword)}
                     >
-                      { showPassword ? 'Verrouiller les champs Mot de Passe' : 'Modifier votre mot de passe'}
+                      { showPassword ? 'Verrouiller les champs Mot de Passe' : 'Modifier le mot de passe'}
                     </Link>
                     <Password
+                      setError={(value) => setPwdError(value)}
                       style={classes.passwordField}
                       variante="outlined"
                       fullwidth
@@ -163,43 +174,39 @@ const ShopkeeperProfil = ({
                   </Typography>
                 </Box>
                 <FormControl className={classes.shopkeeperProfilCoordonates}>
-                  <Box className={classes.shopkeeperProfilCoordonatesWrapper}>
+                  <Box>
                     <Grid container spacing={1} alignItems="flex-end">
                       <Grid item>
                         <LanguageRoundedIcon />
                       </Grid>
-                      <Grid item md={8} xs={10}>
+                      <Grid item>
                         <TextField
-                          fullWidth
                           id="website"
                           label="Mon site web"
                           className={classes.gridField}
                           type="text"
                           name="website"
-                          placeholder="Copiez ici le lien de votre site web"
-                          autoComplete="website"
-                          value={userData.website ? userData.website : ''}
+                          placeholder="www.monsite.com"
+                          autoComplete="site web"
+                          value={userData.webSite ? userData.webSite : ''}
                           onChange={handleChange}
                           margin="dense"
                           InputLabelProps={{
                             className: classes.inputLabelField,
                           }}
                           InputProps={{
-                            classes: {
-                              input: classes.inputGridField,
-                            },
                             endAdornment: <InputAdornment position="end"><EditRoundedIcon /></InputAdornment>,
                           }}
                         />
                       </Grid>
                     </Grid>
                   </Box>
-                  <Box className={classes.shopkeeperProfilCoordonatesWrapper}>
+                  <Box>
                     <Grid container spacing={1} alignItems="flex-end">
                       <Grid item>
                         <PhoneRoundedIcon />
                       </Grid>
-                      <Grid item md={8} xs={10}>
+                      <Grid item>
                         <TextField
                           id="phone"
                           label="N° de téléphone"
@@ -214,9 +221,6 @@ const ShopkeeperProfil = ({
                             className: classes.inputLabelField,
                           }}
                           InputProps={{
-                            classes: {
-                              input: classes.inputGridField,
-                            },
                             endAdornment: <InputAdornment position="end"><EditRoundedIcon /></InputAdornment>,
                           }}
                         />
@@ -231,12 +235,10 @@ const ShopkeeperProfil = ({
                     </Typography>
                     <TextareaAutosize
                       className={classes.textAreaField}
-                      name="companyDescription"
-                      aria-label="companyDescription"
+                      aria-label="description"
                       rowsMin={22}
                       placeholder="Vous pouvez décrire ici votre boutique avec toutes les informations complémentaires (ex: horaires)"
                       defaultValue={userData.companyDescription}
-                      onChange={handleChange}
                     />
                   </Paper>
                 </Paper>
@@ -248,12 +250,10 @@ const ShopkeeperProfil = ({
                 size="medium"
                 color="primary"
                 aria-label="save-account"
-                disabled={error}
                 classes={{
                   root: classes.fab,
                   label: classes.fabLabel,
                 }}
-                onClick={handleUpdateUserData}
               >
                 <SaveRoundedIcon className={classes.extendedIcon} />
                 Enregister les modifications
@@ -279,19 +279,12 @@ const ShopkeeperProfil = ({
   );
 };
 
-ShopkeeperProfil.propTypes = {
+AdminProfil.propTypes = {
   loader: PropTypes.bool.isRequired,
   userData: PropTypes.object.isRequired,
-  logoPicture: PropTypes.string.isRequired,
   getUserData: PropTypes.func.isRequired,
   setFieldValue: PropTypes.func.isRequired,
-  fieldError: PropTypes.bool.isRequired,
-  setFieldError: PropTypes.func.isRequired,
-  handleUpdateUserData: PropTypes.func.isRequired,
-  setLogoPicture: PropTypes.func.isRequired,
-  setLogoPictureError: PropTypes.func.isRequired,
-  pwdCheckError: PropTypes.bool.isRequired,
 };
 
 // == Export
-export default ShopkeeperProfil;
+export default AdminProfil;

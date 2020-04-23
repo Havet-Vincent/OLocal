@@ -21,6 +21,8 @@ const Password = ({
   password,
   confirmPassword,
   setFieldValue,
+  pwdCheckError,
+  setPwdCheckError,
   checkPasswordConfirmation,
   passwordLength,
   passwordConfirmed,
@@ -30,8 +32,6 @@ const Password = ({
   variante,
   labelShrink,
   disabledField,
-  // Error => false = Display Send Button
-  setError,
 }) => {
   const classes = passwordStyles();
   const [showPassword, setShowPassword] = useState(false);
@@ -41,29 +41,28 @@ const Password = ({
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
   // ============= Password Check Display ==========
-  const [pwdError, setPwdError] = useState(false);
   const [errorPwdMsg, setPwdErrorMsg] = useState('');
 
   const handlePwdErrors = () => {
     if (!passwordConfirmed) {
       if (passwordLength === 0) {
-        return setPwdError(false);
+        return setPwdCheckError(false);
       }
       if (passwordLength < 8) {
-        setPwdError(true);
+        setPwdCheckError(true);
         return setPwdErrorMsg('Le mot de passe doit contenir au minimum 8 caractères');
       }
-      setPwdError(true);
+      setPwdCheckError(true);
       return setPwdErrorMsg('Les mots de passe saisis ne sont pas identiques');
     }
-    return [setPwdError(false), setPwdErrorMsg('')];
+    return [setPwdCheckError(false), setPwdErrorMsg('')];
   };
 
   useEffect(() => {
     checkPasswordConfirmation();
     handlePwdErrors();
-    if (!pwdError && passwordConfirmed) {
-      setError(false);
+    if (!pwdCheckError && passwordConfirmed) {
+      setPwdCheckError(false);
     }
   });
   // ========================================
@@ -76,14 +75,18 @@ const Password = ({
     setShowPassword(!showPassword);
   };
 
+  // eslint-disable-next-line no-nested-ternary
   const InputLabelProps = fullScreen
     ? {
       className: classes.inputLabelField,
       shrink: fullScreen,
-    } : {
-      className: classes.inputLabelField,
-      shrink: labelShrink && true,
-    };
+    } : (labelShrink
+      ? {
+        className: classes.inputLabelField,
+        shrink: labelShrink,
+      } : {
+        className: classes.inputLabelField,
+      });
 
   return (
     <>
@@ -103,7 +106,7 @@ const Password = ({
         value={password}
         onFocus={handleFocus}
         onChange={handleChange}
-        error={pwdError}
+        error={pwdCheckError}
         helperText={errorPwdMsg}
         InputProps={{
           endAdornment:
@@ -133,7 +136,7 @@ const Password = ({
         InputLabelProps={InputLabelProps}
         value={confirmPassword}
         onChange={handleChange}
-        error={pwdError}
+        error={pwdCheckError}
         helperText={errorPwdMsg}
         InputProps={{
           endAdornment:
@@ -155,12 +158,13 @@ const Password = ({
 Password.propTypes = {
   password: PropTypes.string.isRequired,
   confirmPassword: PropTypes.string.isRequired,
+  pwdCheckError: PropTypes.bool.isRequired,
+  setPwdCheckError: PropTypes.func.isRequired,
   setFieldValue: PropTypes.func.isRequired,
   checkPasswordConfirmation: PropTypes.func.isRequired,
   passwordLength: PropTypes.number.isRequired,
   passwordConfirmed: PropTypes.bool.isRequired,
   handleFocus: PropTypes.func,
-  setError: PropTypes.func.isRequired,
   style: PropTypes.string,
   fullwidth: PropTypes.bool,
   variante: PropTypes.string,
