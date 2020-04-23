@@ -5,6 +5,7 @@ import {
   SET_LOGO_PICTURE,
   SET_PROFIL_FIELD_VALUE,
   SET_FIELD_ERROR,
+  SET_REGION,
   GET_CATALOG,
   CLEAR_USER_DATA,
 } from '../actions/profil';
@@ -111,6 +112,12 @@ const profilReducer = (state = initialState, action = {}) => {
       };
     }
 
+    case SET_REGION:
+      return {
+        ...state,
+        region: action.value,
+      };
+
     case SET_FIELD_ERROR:
       return {
         ...state,
@@ -123,6 +130,8 @@ const profilReducer = (state = initialState, action = {}) => {
         userId: null,
         userRole: [],
         userData: {},
+        logoPicture: '',
+        fieldError: true,
         catalog: [],
         activePage: 'Informations',
         loaderProfil: true,
