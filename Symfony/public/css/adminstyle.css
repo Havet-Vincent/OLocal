@@ -1,5 +1,6 @@
 body{
-    background-image: url('../images/landscape_background.png');
+    background: url('../images/landscape_background.png') no-repeat center fixed;
+    background-size: cover;
 }
 
 .main-sidebar, .content, .content-footer, .content-header, .content-body, .new-form, .edit-form, thead{
@@ -7,7 +8,7 @@ body{
 }
 
 .main-sidebar li{
-    background-color:rgb(148,218,247, 0.8);
+    background-color:rgb(148,218,247, 0.85);
     padding: 0.3em 0.3em 0.3em 1em;
     border-radius: 10px !important;
     margin-bottom: 0.5em;
@@ -26,11 +27,49 @@ body{
     font-weight: bold;
 }
 
+.content-top{
+    background-color: rgba(255, 255, 255, 0.85) !important;
+    border-radius: 10px !important;
+    font-weight: bold;
+    padding: 1em;
+}
+
+.user-name{
+    color: black;
+}
+
 .content-wrapper{
-    background-color: rgba(255, 255, 255, 0.9) !important;
+    background-color: rgba(255, 255, 255, 0.85) !important;
     border-radius: 10px !important;
 }
 
 thead{
     font-weight: bold;
+}
+
+.login-wrapper{
+    background-color: rgba(255, 255, 255, 0.85) !important;
+    border-radius: 10px !important;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 10%;
+}
+
+.form-label{
+    margin-bottom: 0em;
+    margin-top: 1em;
+}
+
+.form-control{
+    max-width: 95%;
+}
+
+.btn{
+    margin-top: 2em;
 }

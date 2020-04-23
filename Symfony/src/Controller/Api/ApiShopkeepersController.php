@@ -116,6 +116,7 @@ class ApiShopkeepersController extends AbstractController
 
         $user->setEmail($newEmail);
 
+        // TODO : implements constraints password
         $password = $dataRequest->password;
         $user->setPassword($encoder->encodePassword($user, $password));
 
@@ -157,8 +158,6 @@ class ApiShopkeepersController extends AbstractController
         $user->setSiret($siret);
 
         $user->setRegion($region);
-
-        $user->setCreatedAt(new \DateTime());
 
         $em=$this->getDoctrine()->getManager();
         $em->persist($user);

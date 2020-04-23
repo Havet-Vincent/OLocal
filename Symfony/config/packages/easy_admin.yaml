@@ -11,10 +11,11 @@ easy_admin:
             - {entity: 'LocalSupplier', label: 'Producteurs locaux'}
             - {entity: 'Product', label: 'Produits'}
             - {entity: 'Region', label: 'Régions'}
-            - {entity: 'User', label: 'Utilisateurs'}
+            - {entity: 'User', label: 'Utilisateurs', default: true}
         assets:
             css:
                 - '/css/adminstyle.css'
+            favicon: '/images/favicon.ico'
     entities:
         # List the entity class name you want to manage
         Catalog:
@@ -22,9 +23,9 @@ easy_admin:
             label: 'Catalogue'
             form:
                 fields:
-                    - {property: 'user', label: 'Utilisateur'}
-                    - {property: 'product', label: 'Produit'}
-                    - {property: 'localSupplier', label: 'Producteur'}   
+                    - {property: 'user', label: 'Utilisateur', type_options: {required: true}}
+                    - {property: 'product', label: 'Produit', type_options: {required: true}}
+                    - {property: 'localSupplier', label: 'Producteur', type_options: {required: true}}   
             list:
                 fields: 
                     - id
@@ -36,7 +37,7 @@ easy_admin:
             label: 'Catégorie'
             form:
                 fields:
-                    - {property: 'name', label: 'Nom'}
+                    - {property: 'name', label: 'Nom', type_options: {required: true}}
             show:
                 fields: 
                     - id
@@ -51,15 +52,20 @@ easy_admin:
                     - {property: 'name', label: 'Nom'}
                     - {property: 'products', label: 'Nombre de produits'}
         LocalSupplier:
+            controller: App\Controller\LocalSupplierController
             class: App\Entity\LocalSupplier
             label: 'Producteur local'
-            form:
+            new:
                 fields:
-                    - {property: 'name', label: 'Société'}
-                    - {property: 'siret', label: 'Numéro SIRET'}
-                    - {property: 'postalCode', label: 'Code postal'}
-                    - {property: 'city', label: 'Ville'}
-                    - {property: 'region', label: 'Région'}
+                    - {property: 'siret', label: 'Numéro SIRET', type_options: {required: true}}
+                    - {property: 'region', label: 'Région', type_options: {required: true}}
+            edit:
+                fields:
+                    - {property: 'name', label: 'Société', type_options: {required: true}}
+                    - {property: 'siret', label: 'Numéro SIRET', type_options: {required: true}}
+                    - {property: 'postalCode', label: 'Code postal', type_options: {required: true}}
+                    - {property: 'city', label: 'Ville', type_options: {required: true}}
+                    - {property: 'region', label: 'Région', type_options: {required: true}}
             show:
                 fields:
                     - id 
@@ -86,8 +92,8 @@ easy_admin:
             label: 'Produit'
             form:
                 fields:
-                    - {property: 'name', label: 'Nom'}
-                    - {property: 'category', label: 'Catégorie'}
+                    - {property: 'name', label: 'Nom', type_options: {required: true}}
+                    - {property: 'category', label: 'Catégorie', type_options: {required: true}}
             show:
                 fields:
                     - id
@@ -110,7 +116,7 @@ easy_admin:
             label: 'Région'
             form:
                 fields:
-                    - {property: 'name', label: 'Nom'}
+                    - {property: 'name', label: 'Nom', type_options: {required: true}}
             show:
                 fields:
                     - id
@@ -127,15 +133,25 @@ easy_admin:
                     - {property: 'localSuppliers', label: 'Nombre de producteurs'}
                     - {property: 'users', label: "Nombre d'utilisateurs"}
         User:
+            controller: App\Controller\UserController
             class: App\Entity\User 
             label: 'Utilisateur'
-            form:
+            new:
+                fields:
+                    - {property: 'email', label: 'Email', type_options: {required: true}}
+                    - {property: 'password', label: 'Mot de Passe', type_options: {required: true}}
+                    - {property: 'isEmailChecked', label: 'Email validé'}
+                    - {property: 'isActive', label: 'Compte actif'}
+                    - {property: 'region', label: 'Région', type_options: {required: true}}
+                    - {property: 'siret', label: 'Numéro SIRET'}
+                    - {property: 'userRole', label: 'Rôle utilisateur', type: 'collection'}
+            edit:
                 fields:
                     - {type: 'tab' , label: 'Profil du compte'}
                     - {property: 'email', label: 'Email'}
-                    - {property: 'password', label: 'Mot de Passe'}
                     - {property: 'isEmailChecked', label: 'Email validé'}
                     - {property: 'isActive', label: 'Compte actif'}
+                    - {property: 'siret', label: 'Numéro SIRET'}
                     - {property: 'userRole', label: 'Rôle utilisateur', type: 'collection'}
                     - {type: 'tab' , label: 'Profil professionnel'}
                     - {type: 'group', columns: 6, label: 'Informations générales'}
@@ -145,7 +161,6 @@ easy_admin:
                     - {property: 'phone', label: 'Numéro de téléphone'}
                     - {property: 'website', label: 'Site internet'}
                     - {property: 'companyDescription', label: 'Description'}
-                    - {property: 'siret', label: 'Numéro SIRET'}
                     - {type: 'group', columns: 6, label: 'Adresse'}
                     - {property: 'additionalAddress', label: "Complément d'adresse"}
                     - {property: 'repeatIndex', label: 'Indice de répétition'}
