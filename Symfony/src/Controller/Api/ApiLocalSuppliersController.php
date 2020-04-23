@@ -47,14 +47,23 @@ class ApiLocalSuppliersController extends AbstractController
  
              return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-        
 
-         // on verifie si le produit n'exite pas déjà en base 
-         $siret = $dataRequest->siret;
+        // we get the siret number
+        $siret = $dataRequest->siret;
+
+        // we check the number of charters of the siret number
+        
+        if(!strlen($siret) === 14) {
+            return $this->json('Entrez un numéro SIRET valide.', 409);
+        }
+
+        // we check if the siret number is already stored on the database
+         
          if ($localSupplierRepository->findBy(['siret'=>$siret])){
              return $this->json('existe déjà', 409);
          }
-        //siret pour tester 85218609700014
+
+        //siret number for testing 85218609700014
         
         $regionId = $dataRequest->region;
         $region = $regionRepository->find($regionId);
