@@ -32,14 +32,19 @@ class UserController extends EasyAdminController
             $region = $this->regionRepository->find($regionId);
 
             if ($this->userRepository->findBy(['siret' => $siret])){
-                return $this->json('Ce numéro de SIRET est déjà utilisé.', 409);
+                throw new \Exception('Ce numéro de SIRET est déjà utilisé.');
             }
             //siret pour tester 85218609700014            
 
             // take email data from request
             $newEmail = $_POST["user"]['email'];
+
+            if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+                throw new \Exception("Cette adresse n'est pas valide");
+            }
+
             if ($this->userRepository->findBy(['email' => $newEmail])) {
-                return $this->json('Cet email est déjà utilisé.', 409);
+                throw new \Exception('Cet email est déjà utilisé.');
             }
         
             // take external API data from SIRET number
@@ -50,8 +55,16 @@ class UserController extends EasyAdminController
 
             $user->setEmail($newEmail);
 
-            // TODO : implements constraints password
             $password = $_POST["user"]['password'];
+
+            // Validate password strength
+            $uppercase = preg_match('@[A-Z]@', $password);
+            $lowercase = preg_match('@[a-z]@', $password);
+            $number    = preg_match('@[0-9]@', $password);
+            if(!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
+                throw new \Exception('Le mot de passe doit faire 8 caractères minimum et doit contenir au moins une majuscule et un chiffre.');
+            }
+            
             $user->setPassword($this->encoder->encodePassword($user, $password));
 
             if (array_key_exists('isEmailChecked', $_POST["user"])) {
@@ -124,6 +137,13 @@ class UserController extends EasyAdminController
         $newUser->setEmail($email);
 
         $password = $_POST["user"]['password'];
+        // Validate password strength
+        $uppercase = preg_match('@[A-Z]@', $password);
+        $lowercase = preg_match('@[a-z]@', $password);
+        $number    = preg_match('@[0-9]@', $password);
+        if(!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
+            throw new \Exception('Le mot de passe doit faire 8 caractères minimum et doit contenir au moins une majuscule et un chiffre.');
+        }
         $newUser->setPassword($this->encoder->encodePassword($newUser, $password));  
         
         if (array_key_exists('isEmailChecked', $_POST["user"])) {
@@ -156,5 +176,86 @@ class UserController extends EasyAdminController
         $em->flush();
             
         return $newUser;
+    }
+
+    public function updateUserEntity ($entity)
+    {
+       //dd($entity);
+        $userId = $entity->getId();
+        $user = $this->userRepository->find($userId);
+        
+        // else : edit this user
+        $em = $this->getDoctrine()->getManager();
+
+        $newEmail = $entity->getEmail();
+
+        if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+            throw new \Exception("Cette adresse n'est pas valide");
+        }
+
+        if ($newEmail === $this->userRepository->findBy(['email' => $newEmail])) {
+            throw new \Exception('Email déjà utilisé');
+        }
+
+        if ($newEmail !== $user->getEmail()) {
+            $user->setEmail($newEmail);
+        }
+
+        if (array_key_exists(0, $entity->getUserRole())) {
+            $role = $entity->getUserRole()[0];
+        } else {
+            $role = 'ROLE_USER';
+        }
+
+        $user->setUserRole([$role]);
+
+        if ($entity->getFirstname() !== $user->getFirstname()) {
+            $user->setFirstname($entity->getFirstname());
+        }
+        if ($entity->getLastname() !== $user->getLastname()) {
+            $user->setLastname($entity->getLastname());
+        }
+        if ($entity->getCompanyName() !== $user->getCompanyName()) {
+            $user->setCompany($entity->getCompany());
+        }
+        if ($entity->getCompanyDescription() !== $user->getCompanyDescription()) {
+            $user->setCompanyDescription($entity->getCompanyDescription());
+        }
+        if ($entity->getAdditionalAddress() !== $user->getAdditionalAddress()) {
+            $user->setAdditionalAddress($entity->getAdditionalAddress());
+        }
+        if ($entity->getRepeatIndex() !== $user->getRepeatIndex()) {
+            $user->setRepeatIndex($entity->getRepeatIndex());
+        }
+        if ($entity->getWayNumber() !== $user->getWayNumber()) {
+            $user->setWayNumber($entity->getWayNumber());
+        }
+        if ($entity->getWayType() !== $user->getWayType()) {
+            $user->setWayType($entity->getWayType());
+        }
+        if ($entity->getWayName() !== $user->getWayName()) {
+            $user->setWayName($entity->getWayName());
+        }
+        if ($entity->getPostalCode() !== $user->getPostalCode()) {
+            $user->setPostalCode($entity->getPostalCode());
+        }
+        if ($entity->getCity() !== $user->getCity()) {
+            $user->setCity($entity->getCity());
+        }      
+        if ($entity->getLogoPicture() == null) {
+            $user->setLogoPicture('uploads/avatars/no-avatar.png');
+        }
+        if ($entity->getPhone() !== $user->getPhone()) {
+            $user->setPhone($entity->getPhone());
+        }
+        if ($entity->getWebsite() !== $user->getWebsite()) {
+            $user->setWebsite($entity->getWebsite());
+        }
+        $user->setUpdatedAt(new \DateTime());
+
+        $em->persist($user);
+        $em->flush();
+
+        return $user;
     }
 }
