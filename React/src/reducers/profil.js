@@ -27,6 +27,8 @@ const initialState = {
   logoPicture: '',
   fieldError: true,
   catalog: [],
+  region: '',
+  siret: '',
 };
 
 const profilReducer = (state = initialState, action = {}) => {
