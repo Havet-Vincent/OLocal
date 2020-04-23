@@ -20,16 +20,16 @@ class ApiProductsController extends AbstractController
 {
     /**
      * @Route("/api/products/add", name="api_products_add", methods={"POST"})
+     * @return JsonReponse add one product's row
      */
     public function add (Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository, UserRepository $userRepository,LocalSupplierRepository $localSupplierRepository, EntityManagerInterface $em, ValidatorInterface $validator, DenormalizerInterface $denormalizer)
     {
          
-        // 1. On récupère le contenu JSON
+        // we get JSON content
         $data = json_decode($request->getContent());
-
         $product = $denormalizer->denormalize($data->product, Product::class);
         
-        //on valide l'entité 
+        // entity validation 
         $errors = $validator->validate($product);
         if (count($errors) !== 0) {
             $jsonErrors = [];
@@ -43,7 +43,7 @@ class ApiProductsController extends AbstractController
             return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        // on verifie si le produit n'exite pas déjà en base 
+        // we check if product is already in database
 
         $productName=$data->product->name;
         if ($productName=$productRepository->findBy(['name'=>$productName])){
@@ -51,10 +51,11 @@ class ApiProductsController extends AbstractController
             return $this->json('existe déjà', 409);
         }
        
-        // 3. On va récupérer la catégorie du JSON
+        // we get the categoy from JSON content
         $categoryId = $data->category;
         $category = $categoryRepository->find($categoryId);
-        // On l'associe au produit
+
+        // we associate to the product
         $product->setCategory($category);
 
         foreach ($data->users as $userId) {
@@ -67,10 +68,10 @@ class ApiProductsController extends AbstractController
             $product->addlocalSupplier($localSupplier);
         }
 
-        $catalog= new Catalog;
-        $catalog->setUser($user);
-        $catalog->setLocalSupplier($localSupplier);
-        $product->addCatalog($catalog);
+        //$catalog= new Catalog;
+        //$catalog->setUser($user);
+        //$catalog->setLocalSupplier($localSupplier);
+        //$product->addCatalog($catalog);
         
         $em = $this->getDoctrine()->getManager();
         $em->persist($product);
@@ -82,18 +83,17 @@ class ApiProductsController extends AbstractController
 
     /**
      * @Route("/api/products/{id<\d+>}/edit", name="api_products_edit", methods={"POST"})
+     * @return JsonReponse edit one product's row
      */
     public function edit (CategoryRepository $categoryRepository, Request $request, EntityManagerInterface $em, ProductRepository $productRepository, DenormalizerInterface $denormalizer, ValidatorInterface $validator, Product $product=null )
     {   
         
-        // on verifie si le produit exite en base 
-
+        // we check if product is already in database 
         if ($product===null) {
-
         return $this->json('produit inexistant', 404);
         } 
         
-        //on valide l'entité 
+        //entity validation 
         $errors = $validator->validate($product);
         if (count($errors) !== 0) {
             $jsonErrors = [];
@@ -113,28 +113,21 @@ class ApiProductsController extends AbstractController
             
         $productUpdate->setUpdatedAt(new \DateTime);
 
-        // 3. On va récupérer la catégorie du JSON
-        $categoryId = $data->category;
-        // on verifie qu'il est pas nul
-        if (!empty($categoryId)){
+        // we get the JSON content
 
+        $categoryId = $data->category;
+        // we check if it's empty
+        if (!empty($categoryId)){
         $category = $categoryRepository->find($categoryId);
-        // On l'associe au produit
+        // we associate the category to the product
         $productUpdate->setCategory($category);
         }
-        
-        
-
-        
         $em->flush();
 
         return $this->json('produit modifié',200);
-       
 
     }
-     
-
-    
+         
 }
 
 

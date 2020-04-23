@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class ApiShopkeepersController extends AbstractController
 {
     private $apiSirene;
-
+    // get our ApiSirene service
     public function __construct(ApiSirene $apiSirene)
     {
         $this->apiSirene=$apiSirene;
@@ -25,11 +25,13 @@ class ApiShopkeepersController extends AbstractController
     
     /**
      * @Route("/api/shopkeepers", name="api_shopkeeper_by_region_category", methods={"POST"})
+     * @return JsonResponse list of shopkeepers by region and by category
      */
     public function getShopkeepersByRegionAndCategory(Request $request, UserRepository $userRepository)
     {
+        // we get JSON content
         $data = json_decode($request->getContent());
-
+        // setting as filters for custom query
         $regionId = $data->region;
         $categoryId = $data->category;
         $results = $userRepository->findByRegionAndCategory($regionId, $categoryId);
@@ -37,15 +39,17 @@ class ApiShopkeepersController extends AbstractController
         return $this->json($results, 200, [], ['groups' => 'results_get']);
     }
 
-
     /**
      * @Route("/api/shopkeepers/{id<\d+>}", name="api_shopkeeper_by_id", methods={"POST"})
+     * @return JsonResponse get informations for selected shopkeeper
      */
     public function getShopkeeperInformations(Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, UserRepository $userRepository)
     {
+        // we get JSON content
         $data = json_decode($request->getContent());
         $user = $denormalizer->denormalize($data, User::class);
 
+        // entity validation
         $errors = $validator->validate($user);
         if (count($errors) !== 0) {
             $jsonErrors = [];
@@ -71,13 +75,15 @@ class ApiShopkeepersController extends AbstractController
 
     /**
      * @Route("/api/shopkeepers/add", name="api_shopkeeper_add", methods={"POST"})
+     * @return JsonResponse add a shopkeeper in DB
      */
     public function add(Request $request, RegionRepository $regionRepository, DenormalizerInterface $denormalizer, ValidatorInterface $validator, UserRepository $userRepository, UserPasswordEncoderInterface $encoder)
     {
-        $dataRequest = json_decode($request->getContent());
-        
+        // we get JSON content
+        $dataRequest = json_decode($request->getContent());  
         $newShop = $denormalizer->denormalize($dataRequest, User::class);
          
+        // entity validation
         $errors = $validator->validate($newShop);
         if (count($errors) !== 0) {
              $jsonErrors = [];
@@ -87,10 +93,10 @@ class ApiShopkeepersController extends AbstractController
                      'message' => $error->getMessage(),
                  ];
              }
- 
-            return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
         
+        // SIRET number validation : 14 characters and not already exist
         $siret = $dataRequest->siret;
         if(!strlen($siret) === 14) {
             return $this->json('Entrez un numéro SIRET valide.', 409);
@@ -98,19 +104,16 @@ class ApiShopkeepersController extends AbstractController
         if ($userRepository->findBy(['siret' => $siret])){
             return $this->json('Ce numéro SIRET est déjà utilisé.', 409);
         }
-        //siret pour tester 85218609700014
         
         // take region data from request
         $regionId = $dataRequest->region;
         $region = $regionRepository->find($regionId);
 
-        // take email data from request
+        // take email data from request and validation : wrong value ? already exist ?
         $newEmail = $dataRequest->email;
-
         if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
             return $this->json("Cette adresse n'est pas valide", 409);
         }
-        
         if ($userRepository->findBy(['email' => $newEmail])) {
             return $this->json('Cet email est déjà utilisé.', 409);
         }
@@ -119,11 +122,11 @@ class ApiShopkeepersController extends AbstractController
         $response = $this->apiSirene->getShopkeeperData($siret);
         $data = json_decode($response->getContent());
 
-
+        // new Shopkeeper -> setting informations from request and external API
         $user = New User;
 
         $user->setEmail($newEmail);
-
+        
         $password = $dataRequest->password;
         // Validate password strength
         $uppercase = preg_match('@[A-Z]@', $password);
@@ -184,6 +187,7 @@ class ApiShopkeepersController extends AbstractController
 
     /**
      * @Route("/api/shopkeepers/{id<\d+>}/edit", name="api_shopkeeper_edit", methods={"POST"})
+     * @return JsonResponse edit a shopkeeper's row
      */
     public function editShopkeeper(Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, UserRepository $userRepository, UserPasswordEncoderInterface $encoder)
     {
@@ -201,7 +205,6 @@ class ApiShopkeepersController extends AbstractController
                     'message' => $error->getMessage(),
                 ];
             }
-
             return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -280,6 +283,7 @@ class ApiShopkeepersController extends AbstractController
 
     /**
      * @Route("/api/shopkeepers/{id<\d+>}/delete", name="api_shopkeeper_delete", methods={"DELETE"})
+     * @return JsonResponse delete a shopkeeper's row
      */
     public function deleteShopkeeper(Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, UserRepository $userRepository)
     {
@@ -297,7 +301,6 @@ class ApiShopkeepersController extends AbstractController
                     'message' => $error->getMessage(),
                 ];
             }
-
             return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
