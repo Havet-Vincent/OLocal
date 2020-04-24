@@ -28,8 +28,8 @@ class ApiRegionsController extends AbstractController
     public function getLocalSuppliersByRegion(Request $request, LocalSupplierRepository $localSupplierRepository)
     {      
         // getting region id for filter search
-        $dataRequest = json_decode($request->getContent());
-        $regionId = $request->region;
+        $data = json_decode($request->getContent());
+        $regionId = $data->region;
         $localSupplierByRegion = $localSupplierRepository->findBy(['region' => $regionId]);
         return $this->json($localSupplierByRegion, 200, [], ['groups' => 'local_by_region_get']);
     }

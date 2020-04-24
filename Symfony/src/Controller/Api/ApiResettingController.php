@@ -44,7 +44,6 @@ class ApiResettingController extends AbstractController
         $bodyMail = $mailer->createBodyMail('resetting/mail.html.twig', [
             'user' => $user
         ]);
-        // $mailer->sendMessage('from@email.com', $user->getEmail(), 'Renouvellement du mot de passe', $bodyMail);
         $mailer->sendMessage('chopin.nico@gmail.com', $user->getEmail(), 'Renouvellement du mot de passe', $bodyMail);
 
         return $this->json("Un mail va vous être envoyé afin que vous puissiez renouveller votre mot de passe. Le lien que vous recevrez sera valide 10 minutes.");
