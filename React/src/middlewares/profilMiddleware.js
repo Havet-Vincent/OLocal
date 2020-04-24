@@ -173,7 +173,7 @@ const profilMiddleware = (store) => (next) => (action) => {
       switch (userRole[0]) {
         case 'ROLE_SHOPKEEPER': {
           axios({
-            method: 'post',
+            method: 'delete',
             url: `${server.url}:${server.port}/api/shopkeepers/${userId}/delete`,
             headers: { Authorization: `Bearer ${token}` },
             data: {

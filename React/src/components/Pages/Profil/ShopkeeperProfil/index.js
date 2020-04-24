@@ -277,6 +277,7 @@ const ShopkeeperProfil = ({
               </Fab>
               <DeleteAccountAlert
                 openAlert={openAlert}
+                handleCloseAlert={() => setOpenAlert(false)}
                 handleDeleteUserAccount={handleDeleteUserAccount}
               />
             </Box>

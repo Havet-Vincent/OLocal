@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 // == Import components
@@ -15,55 +15,43 @@ const Transition = React.forwardRef((props, ref) => {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const DeleteAccountAlert = ({ openAlert, handleDeleteUserAccount }) => {
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (openAlert) {
-      setOpen(true);
-    }
-  });
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleConfirm = () => {
-    handleDeleteUserAccount();
-    setOpen(false);
-  };
-
-  return (
-    <div>
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-slide-title"
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle id="alert-dialog-slide-title">Suppression du compte utilisateur</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            Cette action entraîne la suppression définitive de l'ensemble de vos données personnelles. Etes vous certain de vouloir poursuivre ?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Annuler
-          </Button>
-          <Button onClick={handleConfirm} color="primary">
-            Valider
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-};
+const DeleteAccountAlert = ({ openAlert, handleCloseAlert, handleDeleteUserAccount }) => (
+  <div>
+    <Dialog
+      open={openAlert}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleCloseAlert}
+      aria-labelledby="alert-dialog-slide-title"
+      aria-describedby="alert-dialog-slide-description"
+    >
+      <DialogTitle id="alert-dialog-slide-title">Suppression du compte utilisateur</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-slide-description">
+          Cette action entraîne la suppression définitive de l'ensemble de vos données personnelles. Etes vous certain de vouloir poursuivre ?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCloseAlert} color="primary">
+          Annuler
+        </Button>
+        <Button
+          onClick={() => {
+            handleCloseAlert();
+            handleDeleteUserAccount();
+          }}
+          color="primary"
+        >
+          Valider
+        </Button>
+      </DialogActions>
+    </Dialog>
+  </div>
+);
 
 DeleteAccountAlert.propTypes = {
   openAlert: PropTypes.bool.isRequired,
+  handleCloseAlert: PropTypes.func.isRequired,
   handleDeleteUserAccount: PropTypes.func.isRequired,
 };
 
