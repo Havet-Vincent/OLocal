@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { getRegionsData } from 'src/actions/home';
 import {
-  setFieldValue,
+  setRegisterFieldValue,
   handleSignUpSubmit,
 } from 'src/actions/register';
 
@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getRegionsData());
   },
   setFieldValue: (name, value) => {
-    dispatch(setFieldValue(name, value));
+    dispatch(setRegisterFieldValue(name, value));
   },
   handleSignUpSubmit: () => {
     dispatch(handleSignUpSubmit());

@@ -1,5 +1,5 @@
 // == Import npm
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // == Import components
@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
-import Password from 'src/containers/Password';
+import SignInPassword from 'src/containers/Header/SignInForm/SignInPassword';
 
 // == Import styles
 import signInFormStyles from './signInFormStyles';
@@ -35,19 +35,11 @@ const SignInForm = ({
   handleSignInSubmit,
 }) => {
   const classes = signInFormStyles();
-  const [error, setError] = useState(true);
-  const [pwdError, setPwdError] = useState(false);
+  const [pwdError, setPwdError] = useState(true);
 
   // Responsive mobile
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
-
-  // Check Errors else display Send Button
-  useEffect(() => {
-    if (email !== '' && !pwdError) {
-      setError(false);
-    }
-  });
 
   const handleChange = (event) => {
     setFieldValue(event.target.name, event.target.value);
@@ -76,7 +68,7 @@ const SignInForm = ({
         TransitionComponent={Transition}
       >
         <DialogTitle className={classes.formTitle}>
-          Connexion
+          Connexion à votre compte
           <IconButton color="secondary" className={classes.closeButton} onClick={setSignIn}>
             <CloseIcon />
           </IconButton>
@@ -98,7 +90,7 @@ const SignInForm = ({
               value={email}
               onChange={handleChange}
             />
-            <Password
+            <SignInPassword
               setError={(value) => setPwdError(value)}
               style={classes.textField}
               variante="outlined"
@@ -110,7 +102,7 @@ const SignInForm = ({
                 color="secondary"
                 endIcon={<Icon>send</Icon>}
                 type="submit"
-                disabled={error}
+                disabled={pwdError}
               >
                 Envoyer
               </Button>

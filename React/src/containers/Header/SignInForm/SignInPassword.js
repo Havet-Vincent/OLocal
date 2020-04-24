@@ -1,25 +1,26 @@
 import { connect } from 'react-redux';
 import {
   setAuthFieldValue,
-  handleSignInSubmit,
+  checkPasswordConfirmation,
 } from 'src/actions/authentication';
 
-import SignInForm from 'src/components/Header/SignInForm';
+import SignInPassword from 'src/components/Header/SignInForm/SignInPassword';
 
 const mapStateToProps = (state) => ({
-  email: state.authentication.email,
+  password: state.authentication.password,
+  passwordLength: state.authentication.passwordLength,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setFieldValue: (name, value) => {
     dispatch(setAuthFieldValue(name, value));
   },
-  handleSignInSubmit: () => {
-    dispatch(handleSignInSubmit());
+  checkPasswordConfirmation: () => {
+    dispatch(checkPasswordConfirmation());
   },
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SignInForm);
+)(SignInPassword);

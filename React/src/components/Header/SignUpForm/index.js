@@ -22,7 +22,7 @@ import {
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
-import Password from 'src/containers/Password';
+import SignUpPassword from 'src/containers/Header/SignUpForm/SignUpPassword';
 
 // == Import styles
 import signUpFormStyles from './signUpFormStyles';
@@ -46,6 +46,7 @@ const SignUpForm = ({
   const [error, setError] = useState(true);
   const [pwdError, setPwdError] = useState(false);
   const [regionError, setRegionError] = useState(false);
+  const [regionFocus, setRegionFocus] = useState(false);
   const [regionSelect, setRegionSelect] = useState('');
 
   useEffect(() => {
@@ -58,8 +59,11 @@ const SignUpForm = ({
 
   // Check Errors else display Send Button
   useEffect(() => {
-    if (!regionError && email !== '' && siret !== '' && !pwdError) {
+    if (regionFocus && !regionError && email !== '' && siret !== '' && !pwdError) {
       setError(false);
+    }
+    else {
+      setError(true);
     }
   });
 
@@ -67,6 +71,7 @@ const SignUpForm = ({
     if (regionSelect === '') {
       setRegionError(true);
     }
+    setRegionFocus(true);
   };
 
   const handleChange = (event) => {
@@ -120,7 +125,7 @@ const SignUpForm = ({
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Merci de renseigner le formulaire ci-dessous afin de créer votre compte
+            Veuillez renseigner le formulaire ci-dessous afin de créer votre compte
           </DialogContentText>
           <form onSubmit={handlesubmit}>
             <TextField
@@ -171,11 +176,9 @@ const SignUpForm = ({
                 ))}
               </Select>
             </FormControl>
-            <Password
+            <SignUpPassword
               setError={(value) => setPwdError(value)}
               handleFocus={handleFocus}
-              style={classes.textField}
-              fullwidth
             />
             <DialogActions>
               <Button

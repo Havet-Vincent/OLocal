@@ -42,6 +42,13 @@ const authenticationReducer = (state = initialState, action = {}) => {
       };
 
     case SET_SIGNIN_FIELD_VALUE:
+      if (action.name === 'password') {
+        return {
+          ...state,
+          [action.name]: action.value,
+          passwordLength: state.password.length,
+        };
+      }
       return {
         ...state,
         [action.name]: action.value,
@@ -55,7 +62,7 @@ const authenticationReducer = (state = initialState, action = {}) => {
 
     case CHECK_PASSWORD_CONFIRMATION:
       // Password verification
-      if (state.passwordLength >= 7 && state.password === state.confirmPassword) {
+      if (state.password === state.confirmPassword) {
         return {
           ...state,
           passwordConfirmed: true,
