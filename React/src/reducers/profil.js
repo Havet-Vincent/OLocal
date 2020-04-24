@@ -1,3 +1,5 @@
+import { getUniqueSuppliers } from 'src/utils/selectors';
+
 import {
   SAVE_USER,
   SAVE_USER_DATA,
@@ -5,6 +7,7 @@ import {
   CLEAR_USER_DATA,
   SET_REGION,
   SET_FIELD_VALUE,
+  SAVE_SUPLIERS_BY_REGION
 } from '../actions/profil';
 
 const initialState = {
@@ -19,6 +22,9 @@ const initialState = {
   catalog: [],
   region: '',
   siret: '',
+  currentRegion: {},
+  // API Data
+  suppliers: [],
 };
 
 const profilReducer = (state = initialState, action = {}) => {
@@ -55,6 +61,7 @@ const profilReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         userData: action.userData,
+        currentRegion: action.userData.region,
         loaderProfil: false,
         loaderProfilPage: false,
       };
@@ -70,6 +77,13 @@ const profilReducer = (state = initialState, action = {}) => {
         ...state,
         region: action.value,
       };
+
+    case SAVE_SUPLIERS_BY_REGION:
+      return {
+        ...state,
+        suppliers: action.suppliers,
+      };
+
 
     case CLEAR_USER_DATA:
       return {

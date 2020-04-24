@@ -3,11 +3,14 @@ import {
   getUserData,
   deleteCatalogItem,
   updateCatalogItem,
-  getRegionsData,
+  addCatalogItem,
   setRegion,
   setFieldValue,
   handleSupplierSubmit,
+  getSuppliersByRegion,
 } from 'src/actions/profil';
+
+import { getRegionsData } from 'src/actions/home';
 
 import ShopkeeperProfilPage from 'src/components/Pages/Profil/ShopkeeperProfil/ShopkeeperProfilPage';
 
@@ -16,6 +19,8 @@ const mapStateToProps = (state) => ({
   catalog: state.profil.catalog,
   regions: state.home.regions,
   siret: state.profil.siret,
+  suppliers: state.profil.suppliers,
+  currentRegion: state.profil.currentRegion,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -29,6 +34,10 @@ const mapDispatchToProps = (dispatch) => ({
 
   onUpdate: (data) => {
     dispatch(updateCatalogItem(data));
+  },
+
+  onAdd: (data) => {
+    dispatch(addCatalogItem(data));
   },
 
   getRegionsData: () => {
@@ -45,6 +54,10 @@ const mapDispatchToProps = (dispatch) => ({
 
   setRegion: (value) => {
     dispatch(setRegion(value));
+  },
+
+  getSuppliersByRegion: () => {
+    dispatch(getSuppliersByRegion());
   },
 
 });

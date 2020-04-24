@@ -2,7 +2,8 @@ import axios from 'axios';
 
 import {
   HANDLE_SUPPLIER_SUBMIT,
-  setAddSupplier,
+  GET_SUPPLIERS_BY_REGION,
+  saveSuppliersByRegion,
 } from '../actions/profil';
 import { setSnackbar } from '../actions/home';
 
@@ -17,8 +18,6 @@ const supplierMiddleware = (store) => (next) => (action) => {
         siret,
         region,
       } = store.getState().profil;
-
-      console.log('HANDLE_SUPPLIER_SUBMIT');
 
       if (siret !== '' && region !== '') {
         axios({
@@ -46,9 +45,40 @@ const supplierMiddleware = (store) => (next) => (action) => {
       break;
     }
 
+    case GET_SUPPLIERS_BY_REGION:{
+      // console.log('GET_SUPPLIERS_BY_REGION');
+      // console.log(store.getState().profil);
+      const {
+        id: id,
+      } = store.getState().profil.currentRegion;
+      console.log(id);
+      const token = localStorage.getItem('token');
+      axios({
+        method: 'post',
+        url: `${server.url}:${server.port}/api/regions/${id}/localsuppliers`,
+        headers: { Authorization: `Bearer ${token}` },
+        data: {
+          region: id,
+        },
+      })
+        .then((response) => {
+          // console.log('success suppliers : ', response.data);
+          store.dispatch(saveSuppliersByRegion(response.data));
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.warn(error);
+        });
+
+      next(action);
+      break;
+    }
+
+
     default:
       next(action);
   }
 };
 
 export default supplierMiddleware;
+

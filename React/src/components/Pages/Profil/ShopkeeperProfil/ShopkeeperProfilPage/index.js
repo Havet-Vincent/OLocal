@@ -29,9 +29,9 @@ import NavbarShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil/Navba
 import shopkeeperProfilPageStyles from './shopkeeperProfilPageStyles';
 
 
-const onAdd = (data) => {
+/* const onAdd = (data) => {
   console.log('add ', data);
-};
+}; */
 
 // == Composant
 const ShopkeeperProfilPage = ({
@@ -40,11 +40,15 @@ const ShopkeeperProfilPage = ({
   getUserData,
   onDelete,
   onUpdate,
+  onAdd,
   getRegionsData,
+  getSuppliersByRegion,
+  suppliers,
   regions,
   setFieldValue,
   siret,
   handleSupplierSubmit,
+  currentRegion,
 }) => {
   const classes = shopkeeperProfilPageStyles();
   const [error, setError] = useState(true);
@@ -71,6 +75,17 @@ const ShopkeeperProfilPage = ({
     }
   }, []);
 
+
+// console.log('suppliers : ', suppliers);
+
+const a = suppliers.map((supplier) => ({
+  // const b = {supplier.id: supplier.name};
+  id: supplier.id,
+  name: supplier.name,
+}));
+
+console.log(a);
+
   // Local State
   const loadTable = () => {
     setState({
@@ -78,26 +93,43 @@ const ShopkeeperProfilPage = ({
         {
           title: 'Catégorie',
           field: 'category',
+          tooltip: 'Catégorie de produit',
           headerStyle: { backgroundColor: '#039be5' },
           cellStyle: { backgroundColor: '#03923d', color: '#FFF' },
         },
         {
-          title: 'Article',
+          title: 'Produit',
           field: 'product',
+          tooltip: 'Produit',
           headerStyle: {
             backgroundColor: '#039be5',
           },
         },
         {
           title: 'Producteur',
-          field: 'supplier',
+          field: 'supplierId',
+          tooltip: 'Producteur',
           headerStyle: {
             backgroundColor: '#039be5',
           },
+          // // lookup: { 
+          //   34: 'İstanbul', 
+          //   0: 'Şanlıurfa' }
+          // lookup: suppliers.map((supplier) => {
+          //   return { 
+          //     ...supplier.id, 
+          //     ...supplier.name 
+          //   };
+          // }),
+          // lookup: suppliers.map((supplier) => {
+          //   supplier;
+          // }),
         },
         {
           title: 'Localisation',
           field: 'city',
+          tooltip: 'Ville',
+          editable: 'never',
           headerStyle: {
             backgroundColor: '#039be5',
           },
@@ -105,6 +137,8 @@ const ShopkeeperProfilPage = ({
         {
           title: 'Code Postal',
           field: 'postalCode',
+          tooltip: 'Code Postal',
+          editable: 'never',
           headerStyle: {
             backgroundColor: '#039be5',
           },
@@ -133,6 +167,7 @@ const ShopkeeperProfilPage = ({
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     handleSupplierSubmit();
     setOpen(false);
   };
@@ -150,6 +185,15 @@ const ShopkeeperProfilPage = ({
       },
     },
   };
+
+
+    // When catalog is updated => set data in local state
+    useEffect(() => {
+      getSuppliersByRegion();
+      console.log(currentRegion.id);
+    }, [currentRegion]);
+  
+
 
   return (
     <>
@@ -203,6 +247,7 @@ const ShopkeeperProfilPage = ({
                       onDelete(oldData);
                       resolve();
                       setState((prevState) => {
+                        console.log(prevState);
                         const data = [...prevState.data];
                         data.splice(data.indexOf(oldData), 1);
                         return { ...prevState, data };
@@ -234,7 +279,6 @@ const ShopkeeperProfilPage = ({
                   tooltip: 'Ajout producteur',
                   isFreeAction: true,
                   onClick: (event, rowData) => {
-                    console.log('ajout producteur onClick')
                     handleToggle()
                   }
                 },
