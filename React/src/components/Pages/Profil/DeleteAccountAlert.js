@@ -11,9 +11,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 
-const Transition = React.forwardRef((props, ref) => {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+const Transition = React.forwardRef((props, ref) => (
+  <Slide direction="up" ref={ref} {...props} />
+));
 
 const DeleteAccountAlert = ({ openAlert, handleCloseAlert, handleDeleteUserAccount }) => (
   <div>

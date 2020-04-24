@@ -168,8 +168,6 @@ Password.propTypes = {
   passwordLength: PropTypes.number.isRequired,
   passwordConfirmed: PropTypes.bool.isRequired,
   handleFocus: PropTypes.func,
-  forRegister: PropTypes.bool,
-  forAuth: PropTypes.bool,
   style: PropTypes.string,
   fullwidth: PropTypes.bool,
   variante: PropTypes.string,
@@ -179,8 +177,6 @@ Password.propTypes = {
 
 Password.defaultProps = {
   handleFocus: null,
-  forRegister: null,
-  forAuth: null,
   style: null,
   fullwidth: false,
   variante: 'standard',
