@@ -232,7 +232,7 @@ class AppFixtures extends Fixture
             $user->setEmail($faker->unique()->email());
             $user->setFirstname($faker->firstname());
             $user->setLastname($faker->lastname());
-            $user->setPassword($faker->password());
+            $user->setPassword($this->encoder->encodePassword($user, 'Password0'));
             $user->setUserRole(['ROLE_SHOPKEEPER']);
             $user->setIsEmailChecked(true);
             $user->setIsActive(true);
@@ -287,7 +287,7 @@ class AppFixtures extends Fixture
         $custom->setEmail('user@user.com');
         $custom->setFirstname($faker->firstname());
         $custom->setLastname($faker->lastname());
-        $custom->setPassword($this->encoder->encodePassword($custom, 'password'));
+        $custom->setPassword($this->encoder->encodePassword($custom, 'Password0'));
         $custom->setUserRole(['ROLE_SHOPKEEPER']);
         $custom->setIsEmailChecked(true);
         $custom->setIsActive(true);
@@ -336,7 +336,7 @@ class AppFixtures extends Fixture
         $admin->setEmail('admin@admin.com');
         $admin->setFirstname('Micheline');
         $admin->setLastname('Michu');
-        $admin->setPassword($this->encoder->encodePassword($admin, 'password'));
+        $admin->setPassword($this->encoder->encodePassword($admin, 'Password0'));
         $admin->setUserRole(['ROLE_ADMIN']);
         $admin->setIsEmailChecked(true);
         $admin->setIsActive(true);
