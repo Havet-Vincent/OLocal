@@ -28,7 +28,7 @@ body{
 }
 
 .content-top{
-    background-color: rgba(255, 255, 255, 0.85) !important;
+    background-color: rgba(255, 255, 255, 0.95) !important;
     border-radius: 10px !important;
     font-weight: bold;
     padding: 1em;
@@ -39,7 +39,7 @@ body{
 }
 
 .content-wrapper{
-    background-color: rgba(255, 255, 255, 0.85) !important;
+    background-color: rgba(255, 255, 255, 0.95) !important;
     border-radius: 10px !important;
 }
 

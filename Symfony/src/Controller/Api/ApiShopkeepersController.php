@@ -251,6 +251,10 @@ class ApiShopkeepersController extends AbstractController
         if ($data->logoPicture !== $userToEdit->getLogoPicture()) {
 
             $extension = explode('/', mime_content_type($data->logoPicture))[1];
+            // image's extension validation
+            if ($extension !== 'jpg' || $extension !== 'jpeg' || $extension !== 'png') {
+                return $this->json("Format d'image non autorisée.", 409);
+            }
             $newFilename = 'avatarId'.$userId.'.'.$extension;
 
             $img = explode(',', $data->logoPicture)[1];
@@ -261,7 +265,7 @@ class ApiShopkeepersController extends AbstractController
             if ($newPicture) {
                 file_put_contents('uploads/avatars/'.$newFilename, $newPicture);
             } else {
-                return $this->json('Erreur lors de l\'envoi d\'image.');
+                return $this->json("Erreur lors de l'envoi d'image.", 409);
             }
             $userToEdit->setLogoPicture('/uploads/avatars/'.$newFilename);
         } elseif ($data->logoPicture == '') {
