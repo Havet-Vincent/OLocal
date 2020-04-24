@@ -1,5 +1,5 @@
 // == Import npm
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // == Import components
@@ -11,15 +11,13 @@ import {
   TextField,
   IconButton,
   Icon,
-  InputAdornment,
   Button,
   Slide,
   useMediaQuery,
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import SignInPassword from 'src/containers/Header/SignInForm/SignInPassword';
 
 // == Import styles
 import signInFormStyles from './signInFormStyles';
@@ -33,56 +31,18 @@ const Transition = React.forwardRef((props, ref) => (
 const SignInForm = ({
   setSignIn,
   email,
-  password,
-  confirmPassword,
   setFieldValue,
-  checkPasswordConfirmation,
-  passwordLength,
-  passwordConfirmed,
   handleSignInSubmit,
 }) => {
   const classes = signInFormStyles();
-  const [error, setError] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
+  const [pwdError, setPwdError] = useState(true);
 
   // Responsive mobile
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
-  // ============= Password Check Display ==========
-  const [pwdError, setPwdError] = useState(false);
-  const [errorPwdMsg, setPwdErrorMsg] = useState('');
-
-  const handlePwdErrors = () => {
-    if (!passwordConfirmed) {
-      if (passwordLength === 0) {
-        return setPwdError(false);
-      }
-      if (passwordLength < 8) {
-        setPwdError(true);
-        return setPwdErrorMsg('Le mot de passe doit contenir au minimum 8 caractères');
-      }
-      setPwdError(true);
-      return setPwdErrorMsg('Les mots de passe saisis ne sont pas identiques');
-    }
-    return [setPwdError(false), setPwdErrorMsg('')];
-  };
-
-  useEffect(() => {
-    checkPasswordConfirmation();
-    handlePwdErrors();
-    if (email !== '' && pwdError === false && passwordConfirmed) {
-      setError(false);
-    }
-  });
-  // ========================================
-
   const handleChange = (event) => {
     setFieldValue(event.target.name, event.target.value);
-  };
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
   };
 
   const handlesubmit = (event) => {
@@ -108,7 +68,7 @@ const SignInForm = ({
         TransitionComponent={Transition}
       >
         <DialogTitle className={classes.formTitle}>
-          Connection
+          Connexion à votre compte
           <IconButton color="secondary" className={classes.closeButton} onClick={setSignIn}>
             <CloseIcon />
           </IconButton>
@@ -130,61 +90,10 @@ const SignInForm = ({
               value={email}
               onChange={handleChange}
             />
-            <TextField
-              id="password"
-              label="Mot de passe (minimum 8 caractères)"
-              className={classes.textField}
-              name="password"
-              type={showPassword ? 'text' : 'password'}
-              required
-              autoComplete="current-password"
-              margin="dense"
-              variant="outlined"
-              InputLabelProps={InputLabelProps}
-              value={password}
-              onChange={handleChange}
-              error={pwdError}
-              helperText={errorPwdMsg}
-              InputProps={{
-                endAdornment:
-                // eslint-disable-next-line react/jsx-indent
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>,
-              }}
-            />
-            <TextField
-              id="confirm-password"
-              label="Confirmez le mot de passe"
-              className={classes.textField}
-              name="confirmPassword"
-              type={showPassword ? 'text' : 'password'}
-              required
-              autoComplete="current-password"
-              margin="dense"
-              variant="outlined"
-              InputLabelProps={InputLabelProps}
-              value={confirmPassword}
-              onChange={handleChange}
-              error={pwdError}
-              helperText={errorPwdMsg}
-              InputProps={{
-                endAdornment:
-                  // eslint-disable-next-line react/jsx-indent
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>,
-              }}
+            <SignInPassword
+              setError={(value) => setPwdError(value)}
+              style={classes.textField}
+              variante="outlined"
             />
             <DialogActions>
               <Button
@@ -193,7 +102,7 @@ const SignInForm = ({
                 color="secondary"
                 endIcon={<Icon>send</Icon>}
                 type="submit"
-                disabled={error}
+                disabled={pwdError}
               >
                 Envoyer
               </Button>
@@ -208,12 +117,7 @@ const SignInForm = ({
 SignInForm.propTypes = {
   setSignIn: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
-  confirmPassword: PropTypes.string.isRequired,
   setFieldValue: PropTypes.func.isRequired,
-  checkPasswordConfirmation: PropTypes.func.isRequired,
-  passwordLength: PropTypes.number.isRequired,
-  passwordConfirmed: PropTypes.bool.isRequired,
   handleSignInSubmit: PropTypes.func.isRequired,
 };
 

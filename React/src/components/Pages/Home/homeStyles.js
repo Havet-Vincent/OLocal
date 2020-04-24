@@ -11,17 +11,17 @@ const homeStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   searchContent: {
-    maxWidth: 1000,
     backgroundColor: 'rgba(247, 249, 250, .85)',
     borderRadius: 10,
-    margin: '0 auto',
-    marginTop: theme.spacing(35),
-    marginBottom: theme.spacing(35),
-    [theme.breakpoints.down('sm')]: {
-      margin: theme.spacing(20, 0),
-    },
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: theme.spacing(35, 0),
+    padding: theme.spacing(0, 5),
     [theme.breakpoints.down('sm')]: {
       margin: theme.spacing(10, 0),
+      padding: theme.spacing(0, 4),
     },
   },
   aboutWrapper: {

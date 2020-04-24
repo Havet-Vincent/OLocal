@@ -1,21 +1,23 @@
 // == Import npm
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
 
 // == Import components
 import {
   Button,
   Menu,
   MenuItem,
+  Icon,
 } from '@material-ui/core';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 // == Import styles
 import authMenuStyles from './authMenuStyles';
 
+// == Import API config for API base URL
+const server = require('src/api.config.json');
+
 // == Composant
-const AuthMenu = ({ userId, setLogout }) => {
+const AuthMenu = ({ userRole, getProfil, setLogout }) => {
   const classes = authMenuStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -26,6 +28,11 @@ const AuthMenu = ({ userId, setLogout }) => {
   };
 
   const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleProfil = () => {
+    getProfil();
     setAnchorEl(null);
   };
 
@@ -43,7 +50,7 @@ const AuthMenu = ({ userId, setLogout }) => {
         aria-controls="user-menu"
         aria-haspopup="true"
         className={classes.accountButton}
-        endIcon={<AccountBoxIcon fontSize="large" />}
+        endIcon={<Icon style={{ fontSize: 32 }} className={classes.accountIcon}>person</Icon>}
         onClick={handleMenu}
       >
         Mon Compte
@@ -63,9 +70,14 @@ const AuthMenu = ({ userId, setLogout }) => {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>
-          <NavLink to={`/commercant/${userId}/profil/informations`}>Mon Profil</NavLink>
+        <MenuItem onClick={handleProfil}>Mon Profil</MenuItem>
+        {userRole === 'ROLE_ADMIN' && (
+        <MenuItem>
+          <a href={`${server.url}/admin`} target="_blank" rel="noopener noreferrer">
+            Accès BackOffice Administration
+          </a>
         </MenuItem>
+        )}
         <MenuItem onClick={handleLogout}>Se déconnecter</MenuItem>
       </Menu>
     </div>
@@ -73,12 +85,13 @@ const AuthMenu = ({ userId, setLogout }) => {
 };
 
 AuthMenu.propTypes = {
-  userId: PropTypes.number,
+  getProfil: PropTypes.func.isRequired,
   setLogout: PropTypes.func.isRequired,
+  userRole: PropTypes.string,
 };
 
 AuthMenu.defaultProps = {
-  userId: null,
+  userRole: null,
 };
 
 // == Export

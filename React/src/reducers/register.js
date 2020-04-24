@@ -26,6 +26,7 @@ const registerReducer = (state = initialState, action = {}) => {
         ...state,
         signUpForm: !state.signUpForm,
         email: '',
+        siret: '',
         password: '',
         confirmPassword: '',
         passwordLength: 0,
@@ -40,7 +41,7 @@ const registerReducer = (state = initialState, action = {}) => {
 
     case CHECK_PASSWORD_CONFIRMATION:
       // Password verification
-      if (state.passwordLength >= 7 && state.password === state.confirmPassword) {
+      if (state.password === state.confirmPassword) {
         return {
           ...state,
           passwordConfirmed: true,

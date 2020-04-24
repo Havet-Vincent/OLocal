@@ -37,9 +37,6 @@ import Loader from 'src/components/Loader';
 // == Import styles
 import shopkeeperStyles from './shopkeeperStyles';
 
-// == Import API config for pictures base URL
-const server = require('src/api.config.json');
-
 // == Composant
 const Shopkeeper = ({
   notMatch,
@@ -112,24 +109,28 @@ const Shopkeeper = ({
                       <Box className={classes.cardDetails}>
                         <CardMedia
                           className={classes.cardMedia}
-                          image={`${server.url}:${server.port}${shopkeeper.logoPicture}`}
-                          title="commerce"
+                          image={shopkeeper.logoPicture}
+                          title="Image du commerce"
                         />
                         <Paper className={classes.root} elevation={0}>
-                          <Link variant="body1" href={shopkeeper.website}>
-                            <Chip
-                              icon={<WebIcon className={classes.chipIcon} />}
-                              label={shopkeeper.website ? shopkeeper.website.replace(/(^\w+:|^)\/\//, '') : ''}
-                              className={classes.chip}
-                            />
-                          </Link>
-                          <Link variant="body1" href={`tel:${shopkeeper.phone}`}>
-                            <Chip
-                              icon={<CallIcon className={classes.chipIcon} />}
-                              label={shopkeeper.phone}
-                              className={classes.chip}
-                            />
-                          </Link>
+                          {shopkeeper.website && (
+                            <Link variant="body1" href={shopkeeper.website}>
+                              <Chip
+                                icon={<WebIcon className={classes.chipIcon} />}
+                                label={shopkeeper.website ? shopkeeper.website.replace(/(^\w+:|^)\/\//, '') : ''}
+                                className={classes.chip}
+                              />
+                            </Link>
+                          )}
+                          {shopkeeper.phone && (
+                            <Link variant="body1" href={`tel:${shopkeeper.phone}`}>
+                              <Chip
+                                icon={<CallIcon className={classes.chipIcon} />}
+                                label={shopkeeper.phone}
+                                className={classes.chip}
+                              />
+                            </Link>
+                          )}
                           <Link variant="body1" href={`mailto:${shopkeeper.email}`}>
                             <Chip
                               icon={<ContactMailIcon className={classes.chipIcon} />}
@@ -167,7 +168,7 @@ const Shopkeeper = ({
                         </CardContent>
                         <Paper className={classes.shopkeeperProducts} elevation={0}>
                           {productsCategoryId && (
-                            <FormControl variant="outlined" className={classes.formControl} size="small">
+                            <FormControl variant="outlined" className={classes.formControl}>
                               <InputLabel id="search-category">Catégorie de produits</InputLabel>
                               <Select
                                 fullWidth
@@ -192,7 +193,7 @@ const Shopkeeper = ({
                           )}
                           <Grid className={classes.root}>
                             <Typography variant="h6" component="h5" gutterBottom>
-                              Nos produits proposés :
+                              Les produits proposés :
                             </Typography>
                             {productsByCategory.map((product, index) => (
                               <ExpansionPanel

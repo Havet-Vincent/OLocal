@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,
@@ -14,8 +14,8 @@ import Loader from 'src/components/Loader';
 import Home from 'src/containers/Home';
 import ShopkeepersList from 'src/containers/ShopkeepersList';
 import Shopkeeper from 'src/containers/Shopkeeper';
-import ShopkeeperProfil from 'src/components/Pages/Profil/ShopkeeperProfil';
-import ShopkeeperProfilPage from 'src/components/Pages/Profil/ShopkeeperProfil/ShopkeeperProfilPage';
+import ShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil';
+import ShopkeeperProfilPage from 'src/containers/Profil/ShopkeeperProfil/ShopkeeperProfilPage';
 import PlanDuSite from 'src/components/Pages/PlanDuSite';
 import LegalNotices from 'src/components/Pages/LegalNotices';
 import Contact from 'src/components/Pages/Contact';
@@ -29,18 +29,32 @@ const Alert = (props) => (
 
 const Pages = ({
   loaderCheckAuth,
+  loaderUser,
   UserAuth,
   redirectTo,
+  clearRedirectTo,
   snackbar,
   snackbarType,
   snackbarMessage,
   resetSnackbar,
 }) => {
   const { pathname } = useLocation();
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    clearRedirectTo();
   }, [pathname]);
+
+  useEffect(() => {
+    switch (pathname.slice(0, 18)) {
+      case '/commercant/profil':
+        setLoader(loaderUser);
+        break;
+      default:
+        setLoader(loaderCheckAuth);
+    }
+  });
 
   const handleClose = (reason) => {
     if (reason === 'clickaway') {
@@ -54,8 +68,8 @@ const Pages = ({
       {redirectTo && (
         <Redirect to={redirectTo} push />
       )}
-      <Loader loader={loaderCheckAuth} />
-      {!loaderCheckAuth && (
+      <Loader loader={loader} />
+      {!loader && (
         <Switch>
           <Route exact path="/">
             <Home />
@@ -77,13 +91,13 @@ const Pages = ({
           </Route>
           <PrivateRoute
             exact
-            path="/commercant/:id/profil/informations"
+            path="/commercant/profil/informations"
             component={ShopkeeperProfil}
             isAuthenticated={UserAuth}
           />
           <PrivateRoute
             exact
-            path="/commercant/:id/profil/page"
+            path="/commercant/profil/page"
             component={ShopkeeperProfilPage}
             isAuthenticated={UserAuth}
           />
@@ -94,7 +108,7 @@ const Pages = ({
       )}
       <Snackbar
         open={snackbar}
-        autoHideDuration={6000}
+        autoHideDuration={5000}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         onClose={handleClose}
       >
@@ -108,11 +122,13 @@ const Pages = ({
 
 Pages.propTypes = {
   loaderCheckAuth: PropTypes.bool.isRequired,
+  loaderUser: PropTypes.bool.isRequired,
   UserAuth: PropTypes.bool.isRequired,
   redirectTo: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.string,
   ]).isRequired,
+  clearRedirectTo: PropTypes.func.isRequired,
   snackbar: PropTypes.bool.isRequired,
   snackbarType: PropTypes.string.isRequired,
   snackbarMessage: PropTypes.string.isRequired,

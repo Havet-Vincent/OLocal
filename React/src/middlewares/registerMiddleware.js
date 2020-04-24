@@ -31,15 +31,15 @@ const registerMiddleware = (store) => (next) => (action) => {
             password,
           },
         })
-          .then((response) => {
-            console.log('success register : ', response.data);
+          .then(() => {
+            // console.log('success register : ', response.data);
             store.dispatch(setSnackbar('success', 'Inscription réussie. Vous pouvez vous connecter à votre compte'));
             store.dispatch(setRegister());
           })
           .catch((error) => {
             // eslint-disable-next-line no-console
             console.warn(error);
-            store.dispatch(setSnackbar('error', 'Echec inscription. Erreur SIRET ou email déjà existant'));
+            store.dispatch(setSnackbar('error', 'Echec inscription : Erreur SIRET ou email déjà existant'));
           })
           .finally(() => {
           });

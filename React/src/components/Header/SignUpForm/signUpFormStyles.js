@@ -23,7 +23,7 @@ const signUpFormStyles = makeStyles((theme) => ({
   },
   inputLabelField: {
     [theme.breakpoints.down('xs')]: {
-      fontSize: '.8em',
+      fontSize: '1em',
     },
   },
   formControl: {

@@ -15,14 +15,15 @@ const searchStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
+      paddingBottom: theme.spacing(1),
       fontSize: '1.4em',
     },
   },
   formControl: {
+    position: 'relative',
     margin: theme.spacing(0, 2),
     [theme.breakpoints.down('sm')]: {
-      margin: theme.spacing(1, 0),
+      margin: theme.spacing(1.5, 0),
     },
   },
   searchForm: {
@@ -37,6 +38,12 @@ const searchStyles = makeStyles((theme) => ({
   searchSelect: {
     width: 220,
   },
+  searchHelperText: {
+    position: 'absolute',
+    top: -20,
+    right: -10,
+    fontStyle: 'italic',
+  },
   searchButton: {
     margin: theme.spacing(0, 2),
     color: '#fff',
@@ -48,4 +55,3 @@ const searchStyles = makeStyles((theme) => ({
 }));
 
 export default searchStyles;
-

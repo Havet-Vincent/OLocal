@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
-import { resetSnackbar } from 'src/actions/home';
+import { clearRedirect, resetSnackbar } from 'src/actions/home';
 
 import Pages from 'src/components/Pages';
 
 const mapStateToProps = (state) => ({
   loaderCheckAuth: state.authentication.loaderCheckAuth,
+  loaderUser: state.profil.loaderUser,
   UserAuth: state.authentication.UserAuth,
   redirectTo: state.home.redirectTo,
   snackbar: state.home.snackbar,
@@ -13,6 +14,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  clearRedirectTo: () => {
+    dispatch(clearRedirect());
+  },
   resetSnackbar: () => {
     dispatch(resetSnackbar());
   },

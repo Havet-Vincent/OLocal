@@ -1,6 +1,7 @@
 // action types
 export const TOGGLE_SIGNIN_FORM = 'TOGGLE_SIGNIN_FORM';
 export const SET_SIGNIN_FIELD_VALUE = 'SET_SIGNIN_FIELD_VALUE';
+export const SET_PASSWORD_CHECK_ERROR = 'TOGGLE_PASSWORD_CHECK_ERROR';
 export const CHECK_PASSWORD_CONFIRMATION = 'CHECK_PASSWORD_CONFIRMATION';
 export const SUBMIT_SIGNIN = 'SUBMIT_SIGNIN';
 export const SAVE_AUTHENTICATION = 'SAVE_AUTHENTICATION';
@@ -13,9 +14,14 @@ export const toggleSignInForm = () => ({
   type: TOGGLE_SIGNIN_FORM,
 });
 
-export const setFieldValue = (name, value) => ({
+export const setAuthFieldValue = (name, value) => ({
   type: SET_SIGNIN_FIELD_VALUE,
   name,
+  value,
+});
+
+export const setPwdCheckError = (value) => ({
+  type: SET_PASSWORD_CHECK_ERROR,
   value,
 });
 

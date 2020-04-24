@@ -1,9 +1,8 @@
 import { connect } from 'react-redux';
 import { getRegionsData } from 'src/actions/home';
 import {
-  setFieldValue,
-  checkPasswordConfirmation,
-  handleSignupSubmit,
+  setRegisterFieldValue,
+  handleSignUpSubmit,
 } from 'src/actions/register';
 
 import SignUpForm from 'src/components/Header/SignUpForm';
@@ -12,10 +11,6 @@ const mapStateToProps = (state) => ({
   siret: state.register.siret,
   regions: state.home.regions,
   email: state.register.email,
-  password: state.register.password,
-  confirmPassword: state.register.confirmPassword,
-  passwordLength: state.register.passwordLength,
-  passwordConfirmed: state.register.passwordConfirmed,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -23,13 +18,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getRegionsData());
   },
   setFieldValue: (name, value) => {
-    dispatch(setFieldValue(name, value));
+    dispatch(setRegisterFieldValue(name, value));
   },
-  checkPasswordConfirmation: () => {
-    dispatch(checkPasswordConfirmation());
-  },
-  handleSignupSubmit: () => {
-    dispatch(handleSignupSubmit());
+  handleSignUpSubmit: () => {
+    dispatch(handleSignUpSubmit());
   },
 });
 

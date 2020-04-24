@@ -1,153 +1,311 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 
 // == Import components
-import { Paper, IconButton, Container } from '@material-ui/core';
+import {
+  Paper,
+  IconButton,
+  Container,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  TextField,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select,
+} from '@material-ui/core';
 import MaterialTable from 'material-table';
-import MUIDataTable from "mui-datatables";
-
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
-// for the alert
-import MuiAlert from '@material-ui/lab/Alert';
-
-import NavbarShopkeeperProfil from '../NavbarShopkeeperProfil';
-import ShopkeeperProfilImage from '../ShopkeeperProfilImage';
+import Loader from 'src/components/Loader';
+import NavbarShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil/NavbarShopkeeperProfil';
 
 
-
-// datas for the tests
-import shopkeeper from 'src/dataShop';
-
-// == Import assets & styles
+// == Import styles
 import shopkeeperProfilPageStyles from './shopkeeperProfilPageStyles';
 
-// Search Snackbar Alert & transition effect
-const Alert = (props) => {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
-// == Import API server config
-const server = require('src/api.config.json');
+const onAdd = (data) => {
+  console.log('add ', data);
+};
 
 // == Composant
-const ShopkeeperProfilPage = () => {
-  const classes = shopkeeperProfilPageStyles()
+const ShopkeeperProfilPage = ({
+  loader,
+  catalog,
+  getUserData,
+  onDelete,
+  onUpdate,
+  getRegionsData,
+  regions,
+  setFieldValue,
+  siret,
+  handleSupplierSubmit,
+}) => {
+  const classes = shopkeeperProfilPageStyles();
+  const [error, setError] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [state, setState] = useState({});
+  const [regionSelect, setRegionSelect] = useState('');
+  const [regionError, setRegionError] = useState(false);
 
+  // First render => get user catalog data
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
-  const [state, setState] = useState({
-    columns: [
-      {
-        title: 'Catégorie', field: 'category', cellStyle: {
-          backgroundColor: '#039be5',
-          color: '#FFF'
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  // First render => get user catalog data
+  useEffect(() => {
+    getUserData();
+    getRegionsData();
+    if (regionError === false && siret !== '') {
+      setError(false);
+    }
+  }, []);
+
+  // Local State
+  const loadTable = () => {
+    setState({
+      columns: [
+        {
+          title: 'Catégorie',
+          field: 'category',
+          headerStyle: { backgroundColor: '#039be5' },
+          cellStyle: { backgroundColor: '#03923d', color: '#FFF' },
         },
-        headerStyle: {
-          backgroundColor: '#eee',
-        }
-      },
-      { title: 'Article', field: 'product' },
-      { title: 'Producteur', field: 'supplier' },
-      {
-        title: 'Localité',
-        field: 'city',
-      },
-      { title: 'Code postal', field: 'postalCode', lookup: { 75: 'Paris', 74: 'Bloix' }, },
-    ],
-    data: [
-      {
-        category: 'Fruits',
-        product: 'adipisci',
-        supplier: 'Leblanc S.A.S.',
-        city: 'Paris',
-        postalCode: 75,
+        {
+          title: 'Article',
+          field: 'product',
+          headerStyle: {
+            backgroundColor: '#039be5',
+          },
+        },
+        {
+          title: 'Producteur',
+          field: 'supplier',
+          headerStyle: {
+            backgroundColor: '#039be5',
+          },
+        },
+        {
+          title: 'Localisation',
+          field: 'city',
+          headerStyle: {
+            backgroundColor: '#039be5',
+          },
+        },
+        {
+          title: 'Code Postal',
+          field: 'postalCode',
+          headerStyle: {
+            backgroundColor: '#039be5',
+          },
+        },
+      ],
+      data: catalog,
+    });
+  };
 
-      },
-      {
-        category: 'savon noir',
-        product: 'Entretien et Nettoyage',
-        supplier: 'Perrier',
-        city: 'Bloix',
-        postalCode: 74,
-      },
-    ],
-  });
+  // When catalog is updated => set data in local state
+  useEffect(() => {
+    loadTable();
+  }, [catalog]);
 
-  const columns = ["Catégorie", "Article", "Producteur", "Localisation"];
-  const dataBis = [
-    ["Fruits", "adipisci", "Leblanc S.A.S.", "Paris"],
-    ["savon noir", "Entretien et Nettoyage", "Perrier", "Bloix"],
-  ];
+  // print current page
+  function imprimer_page() {
+    window.print();
+  };
+
+  const handleChangeRegion = (event) => {
+    setRegionSelect(event.target.value);
+    const region = regions.find((reg) => reg.id === event.target.value);
+    setFieldValue(event.target.name, region.id);
+    setRegionError(false);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handleSupplierSubmit();
+    setOpen(false);
+  };
+
+  const handleChange = (event) => {
+    setFieldValue(event.target.name, event.target.value);
+  };
+
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        // sub-menu size
+        maxHeight: 300,
+        maxWidth: 320,
+      },
+    },
+  };
 
   return (
-    <Container className={classes.shopkeeperProfilContent} component="main" maxWidth="lg">
-      <Paper className={classes.root}>
-        <IconButton color="primary" component={RouterLink} to="/commercant/profil/informations">
-          <ArrowBackIcon fontSize="large" color="action" />
-        </IconButton>
-        <NavbarShopkeeperProfil />
-
-        <MaterialTable
-          title="Liste des articles par catégories et par producteurs"
-          columns={state.columns}
-          data={state.data}
-          editable={{
-            onRowAdd: (newData) =>
-              new Promise((resolve) => {
-                setTimeout(() => {
-                  resolve();
-                  setState((prevState) => {
-                    const data = [...prevState.data];
-                    data.push(newData);
-                    return { ...prevState, data };
-                  });
-                }, 600);
-              }),
-            onRowUpdate: (newData, oldData) =>
-              new Promise((resolve) => {
-                setTimeout(() => {
-                  resolve();
-                  if (oldData) {
-                    setState((prevState) => {
-                      const data = [...prevState.data];
-                      data[data.indexOf(oldData)] = newData;
-                      return { ...prevState, data };
-                    });
+    <>
+      <Loader loader={loader} />
+      {!loader && (
+        <Container className={classes.shopkeeperProfilContent} component="main" maxWidth="lg">
+          <Paper className={classes.root}>
+            <IconButton color="primary" component={RouterLink} to="/commercant/profil/informations">
+              <ArrowBackIcon fontSize="large" color="action" />
+            </IconButton>
+            <NavbarShopkeeperProfil />
+          </Paper>
+          <Paper>
+            <MaterialTable
+              title="Article par catégorie et Producteur"
+              columns={state.columns}
+              data={state.data}
+              editable={{
+                onRowAdd: (newData) =>
+                  // eslint-disable-next-line implicit-arrow-linebreak
+                  new Promise((resolve) => {
+                    setTimeout(() => {
+                      onAdd(newData);
+                      resolve();
+                      setState((prevState) => {
+                        const data = [...prevState.data];
+                        data.push(newData);
+                        return { ...prevState, data };
+                      });
+                    }, 600);
+                  }),
+                onRowUpdate: (newData, oldData) =>
+                  // eslint-disable-next-line implicit-arrow-linebreak
+                  new Promise((resolve) => {
+                    setTimeout(() => {
+                      onUpdate(newData);
+                      resolve();
+                      if (oldData) {
+                        setState((prevState) => {
+                          const data = [...prevState.data];
+                          data[data.indexOf(oldData)] = newData;
+                          return { ...prevState, data };
+                        });
+                      }
+                    }, 600);
+                  }),
+                onRowDelete: (oldData) =>
+                  // eslint-disable-next-line implicit-arrow-linebreak
+                  new Promise((resolve) => {
+                    setTimeout(() => {
+                      onDelete(oldData);
+                      resolve();
+                      setState((prevState) => {
+                        const data = [...prevState.data];
+                        data.splice(data.indexOf(oldData), 1);
+                        return { ...prevState, data };
+                      });
+                    }, 600);
+                  }),
+              }}
+              options={{
+                exportButton: true,
+                filtering: true,
+              }}
+              actions={[
+                {
+                  icon: 'local_printshop',
+                  iconProps: {
+                    color: 'action',
+                  },
+                  tooltip: 'Imprimer page en cours',
+                  isFreeAction: true,
+                  onClick: () => {
+                    imprimer_page()
                   }
-                }, 600);
-              }),
-            onRowDelete: (oldData) =>
-              new Promise((resolve) => {
-                setTimeout(() => {
-                  resolve();
-                  setState((prevState) => {
-                    const data = [...prevState.data];
-                    data.splice(data.indexOf(oldData), 1);
-                    return { ...prevState, data };
-                  });
-                }, 600);
-              }),
-          }}
-          actions={[
-            {
-              icon: 'save',
-              tooltip: 'Save User',
-              onClick: (event, rowData) => alert("You saved " + rowData.name)
-            }
-          ]}
-        />
+                },
+                {
+                  icon: 'account_box',
+                  iconProps: {
+                    color: 'action',
+                  },
+                  tooltip: 'Ajout producteur',
+                  isFreeAction: true,
+                  onClick: (event, rowData) => {
+                    console.log('ajout producteur onClick')
+                    handleToggle()
+                  }
+                },
 
-        <MUIDataTable
-          title={"Article par gatégorie et producteur"}
-          data={dataBis}
-          columns={columns}
-        />
-  );
-      </Paper>
-    </Container>
+              ]}
+            />
+          </Paper>
+          <Paper>
+            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+              <DialogTitle id="form-dialog-title">Ajouter un producteur</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Entrer le N° de siret du producteur et la région
+                </DialogContentText>
+                <form onSubmit={handleSubmit}>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="siret"
+                    label="N° de siret"
+                    fullWidth
+                    name="siret"
+                    value={siret}
+                    onChange={handleChange}
+                  />
+                  <FormControl variant="outlined" className={classes.formControl} error={regionError}>
+                    <InputLabel id="search-region">Région</InputLabel>
+                    <Select
+                      className={classes.searchSelect}
+                      label="Région"
+                      labelId="search-region"
+                      id="search-region"
+                      inputProps={{ name: 'region' }}
+                      value={regionSelect}
+                      onChange={handleChangeRegion}
+                      MenuProps={MenuProps}
+                    >
+                      {regions.map((item) => (
+                        <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                      Abandonner
+                    </Button>
+                    <Button type="submit" color="primary">
+                      Ajouter
+                    </Button>
+                  </DialogActions>
+                   </form>
+              </DialogContent>
+            </Dialog>
+          </Paper>
+        </Container>
+      )}
+    </>
   );
 };
 
+ShopkeeperProfilPage.propTypes = {
+  loader: PropTypes.bool.isRequired,
+  catalog: PropTypes.array.isRequired,
+  getUserData: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  getRegionsData: PropTypes.func.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
+  setRegion: PropTypes.func.isRequired,
+  siret: PropTypes.string.isRequired,
+};
 
 // == Export
 export default ShopkeeperProfilPage;

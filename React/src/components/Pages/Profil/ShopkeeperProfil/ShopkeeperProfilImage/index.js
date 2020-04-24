@@ -1,43 +1,45 @@
-import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 // == Import components
-import { CardMedia, Paper, IconButton, Box } from '@material-ui/core';
+import {
+  CardMedia,
+  Paper,
+} from '@material-ui/core';
+import UploadPictureB64 from '../../UploadPictureB64';
 
-import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
-
-// datas for the tests
-import shopkeeper from 'src/dataShop';
-
-// == Import assets & styles
+// == Import styles
 import shopkeeperProfilImageStyles from './shopkeeperProfilImageStyles';
 
-// == Import API server config
-const server = require('src/api.config.json');
-
 // == Composant
-const ShopkeeperProfilImage = () => {
+const ShopkeeperProfilImage = ({ logoPicture, setPicture, setError }) => {
   const classes = shopkeeperProfilImageStyles();
 
-  const [logoPicture, setLogoPicture] = useState();
-
   return (
-    <Paper>
-      <Box className={classes.shopkeepersListNav}>
-        <IconButton color="primary" component={RouterLink} to="/">
-          <HomeRoundedIcon fontSize="large" color="action" />
-        </IconButton>
-      </Box>
+    <Paper elevation={2}>
       <CardMedia
         className={classes.cardMedia}
-        image={`${server.url}:${server.port}${shopkeeper.logoPicture}`}
-        title="commerce"
-      />
+        image={logoPicture}
+        title="Image du commerce"
+      >
+        <UploadPictureB64
+          setPicture={(file) => setPicture(file.base64)}
+          setError={(error) => setError(error)}
+        />
+      </CardMedia>
     </Paper>
   );
+};
 
+ShopkeeperProfilImage.propTypes = {
+  logoPicture: PropTypes.string,
+  setPicture: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired,
+};
+
+ShopkeeperProfilImage.defaultProps = {
+  logoPicture: null,
 };
 
 // == Export
 export default ShopkeeperProfilImage;
-

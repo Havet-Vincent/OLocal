@@ -27,6 +27,10 @@ const signInFormStyles = makeStyles((theme) => ({
       fontSize: '1em',
     },
   },
+  lostLink: {
+    fontSize: '.9em',
+    textTransform: 'capitalize',
+  },
 }));
 
 export default signInFormStyles;

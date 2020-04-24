@@ -8,7 +8,7 @@ import {
   saveAuthentication,
   setUserAuth,
 } from '../actions/authentication';
-import { fetchUser } from '../actions/profil';
+import { fetchUser, clearUserData } from '../actions/profil';
 import { setSnackbar } from '../actions/home';
 
 // == Import API server config
@@ -19,38 +19,34 @@ const authMiddleware = (store) => (next) => (action) => {
     case SUBMIT_SIGNIN: {
       const {
         email: username,
-        confirmPassword: password,
-        passwordConfirmed,
+        password,
       } = store.getState().authentication;
-
-      if (username !== '' && passwordConfirmed) {
-        axios({
-          method: 'post',
-          url: `${server.url}:${server.port}/api/login`,
-          data: {
-            username,
-            password,
-          },
+      axios({
+        method: 'post',
+        url: `${server.url}:${server.port}/api/login`,
+        data: {
+          username,
+          password,
+        },
+      })
+        .then((response) => {
+          // console.log('success authentication : ', response.data);
+          // Success => save token and refresh token in LocalStorage
+          const { token, refreshToken } = response.data;
+          localStorage.setItem('token', token);
+          localStorage.setItem('refreshToken', refreshToken);
+          // Save authentication data & fetch user id & role
+          store.dispatch(saveAuthentication(token, refreshToken));
+          store.dispatch(fetchUser(username));
+          store.dispatch(setSnackbar('success', 'Vous êtes connecté. Vous pouvez accéder à votre compte'));
         })
-          .then((response) => {
-            console.log('success authentication : ', response.data);
-            // Success => save token and refresh token in LocalStorage
-            const { token, refreshToken } = response.data;
-            localStorage.setItem('token', token);
-            localStorage.setItem('refreshToken', refreshToken);
-            // Save authentication data & fetch user id & role
-            store.dispatch(saveAuthentication(token, refreshToken));
-            store.dispatch(fetchUser(username));
-            store.dispatch(setSnackbar('success', 'Vous êtes connecté. Vous pouvez accéder à votre profil'));
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.warn(error);
-            store.dispatch(setSnackbar('error', 'Echec de la connexion. Veuillez vérifier vos identifiants'));
-          })
-          .finally(() => {
-          });
-      }
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.warn(error);
+          store.dispatch(setSnackbar('error', 'Echec de la connexion : Veuillez vérifier vos identifiants'));
+        })
+        .finally(() => {
+        });
       next(action);
       break;
     }
@@ -66,7 +62,7 @@ const authMiddleware = (store) => (next) => (action) => {
           },
         })
           .then((response) => {
-            console.log('success fetch authentication : ', response.data);
+            // console.log('success fetch authentication : ', response.data);
             // Success => save token in LocalStorage
             const { token } = response.data;
             localStorage.setItem('token', token);
@@ -78,7 +74,7 @@ const authMiddleware = (store) => (next) => (action) => {
           .catch((error) => {
             // eslint-disable-next-line no-console
             console.warn(error);
-            store.dispatch(setSnackbar('error', 'Echec vérification authentification'));
+            store.dispatch(setSnackbar('error', 'Erreur interne : Echec vérification authentification'));
           })
           .finally(() => {
           });
@@ -88,6 +84,7 @@ const authMiddleware = (store) => (next) => (action) => {
     }
 
     case SET_LOGOUT:
+      store.dispatch(clearUserData());
       store.dispatch(setSnackbar('info', 'Vous êtes déconnecté'));
       next(action);
       break;

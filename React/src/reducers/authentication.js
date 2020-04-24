@@ -1,6 +1,7 @@
 import {
   TOGGLE_SIGNIN_FORM,
   SET_SIGNIN_FIELD_VALUE,
+  SET_PASSWORD_CHECK_ERROR,
   CHECK_PASSWORD_CONFIRMATION,
   SAVE_AUTHENTICATION,
   FETCH_AUTHENTICATION,
@@ -18,6 +19,7 @@ const initialState = {
   password: '',
   confirmPassword: '',
   // Password Confirmation
+  pwdCheckError: false,
   passwordLength: 0,
   passwordConfirmed: false,
   // User authentication
@@ -40,14 +42,27 @@ const authenticationReducer = (state = initialState, action = {}) => {
       };
 
     case SET_SIGNIN_FIELD_VALUE:
+      if (action.name === 'password') {
+        return {
+          ...state,
+          [action.name]: action.value,
+          passwordLength: state.password.length,
+        };
+      }
       return {
         ...state,
         [action.name]: action.value,
       };
 
+    case SET_PASSWORD_CHECK_ERROR:
+      return {
+        ...state,
+        pwdCheckError: action.value,
+      };
+
     case CHECK_PASSWORD_CONFIRMATION:
       // Password verification
-      if (state.passwordLength >= 7 && state.password === state.confirmPassword) {
+      if (state.password === state.confirmPassword) {
         return {
           ...state,
           passwordConfirmed: true,

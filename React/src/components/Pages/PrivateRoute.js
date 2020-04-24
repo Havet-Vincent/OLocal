@@ -22,7 +22,10 @@ const PrivateRoute = ({
 
 PrivateRoute.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
-  component: PropTypes.func.isRequired,
+  component: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.func,
+  ]).isRequired,
 };
 
 export default PrivateRoute;

@@ -1,16 +1,19 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 const shopkeeperProfilImageStyles = makeStyles((theme) => ({
-
   cardMedia: {
+    position: 'relative',
     width: '100%',
-    height: 200,
-    borderRadius: 5,
-    [theme.breakpoints.down('xs')]: {
-      height: 150,
+    height: 320,
+    borderRadius: 4,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+      height: 220,
     },
   },
-
 }));
 
 export default shopkeeperProfilImageStyles;

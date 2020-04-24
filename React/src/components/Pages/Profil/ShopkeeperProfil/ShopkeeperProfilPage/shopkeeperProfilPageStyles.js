@@ -22,7 +22,17 @@ const shopkeeperProfilPageStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(1),
     }
-  }
+  },
+  
+  formControl: {
+    margin: theme.spacing(0, 2),
+    [theme.breakpoints.down('sm')]: {
+      margin: theme.spacing(1, 0),
+    },
+  },
+  searchSelect: {
+    width: 220,
+  },
 
   }));
 
