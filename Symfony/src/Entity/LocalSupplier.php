@@ -18,6 +18,7 @@ class LocalSupplier
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @Groups("user_get")
+     * @Groups("local_by_region_get")
      */
     private $id;
 
