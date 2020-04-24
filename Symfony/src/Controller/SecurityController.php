@@ -19,29 +19,28 @@ class SecurityController extends AbstractController
      */
     public function login_id(Request $request, UserRepository $userRepository, DenormalizerInterface $denormalizer, ValidatorInterface $validator)
     {
-        $dataRequest = json_decode($request->getContent());
-        
+        $dataRequest = json_decode($request->getContent());       
         $user = $denormalizer->denormalize($dataRequest, User::class);
 
+        // entity validation
         $errors = $validator->validate($user);
         if (count($errors) !== 0) {
-             $jsonErrors = [];
-             foreach ($errors as $error) {
-                 $jsonErrors[] = [
-                     'field' => $error->getPropertyPath(),
-                     'message' => $error->getMessage(),
-                 ];
-             }
+            $jsonErrors = [];
+            foreach ($errors as $error) {
+                $jsonErrors[] = [
+                    'field' => $error->getPropertyPath(),
+                    'message' => $error->getMessage(),
+                ];
+            }
  
-             return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+        // check if user exist -> get this user's object from DB
         $email = $dataRequest->username;
-        
         if($userRepository->findOneBy(['email' => $email]) == null) {
             throw $this->createNotFoundException(sprintf('Utilisateur inexistant.'));
         }
-        
         $loginUser = $userRepository->findOneBy(['email' => $email]);
 
         return $this->json($loginUser, 200, [], ['groups' => 'user_login']);
@@ -77,6 +76,7 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/", name="home")
+     * Redirect to the front-page
      */
     public function homepage()
     {

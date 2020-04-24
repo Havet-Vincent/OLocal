@@ -2,18 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Region;
 use App\Service\ApiSirene;
 use App\Entity\LocalSupplier;
 use App\Repository\LocalSupplierRepository;
 use App\Repository\RegionRepository;
-use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 
 class LocalSupplierController extends EasyAdminController
 {
     private $apiSirene;
-
+    // get our ApiSirene service and useful repositories
     public function __construct(ApiSirene $apiSirene, RegionRepository $regionRepository, LocalSupplierRepository $localSupplierRepository)
     {
         $this->apiSirene=$apiSirene;
@@ -21,6 +19,11 @@ class LocalSupplierController extends EasyAdminController
         $this->localSupplierRepository = $localSupplierRepository;
     }
 
+    /**
+     * Override native EasyAdmin add action for User LocalSupplier
+     * Add a local supplier with external API Sirene
+     *  in the Back-Office
+     */
     public function persistLocalSupplierEntity()
     {
         $siret = $_POST["localsupplier"]['siret'];

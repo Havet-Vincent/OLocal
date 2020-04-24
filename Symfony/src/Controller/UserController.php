@@ -21,6 +21,11 @@ class UserController extends EasyAdminController
         $this->encoder = $encoder;
     }
 
+    /**
+     * Override native EasyAdmin add action for User Entity
+     * Add a user with external API Sirene for shopkeepers only
+     *  in the Back-Office
+     */
     public function persistUserEntity()
     {        
         if ($_POST["user"]['siret']) {
@@ -184,6 +189,11 @@ class UserController extends EasyAdminController
         return $newUser;
     }
 
+    /**
+     * Override native EasyAdmin edit action for User Entity
+     * Edit a user
+     *  in the Back-Office
+     */
     public function updateUserEntity ($entity)
     {
        //dd($entity);
