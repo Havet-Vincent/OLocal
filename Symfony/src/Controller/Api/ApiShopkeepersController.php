@@ -97,7 +97,7 @@ class ApiShopkeepersController extends AbstractController
         }
         
         // SIRET number validation : 14 characters and not already exist
-        $siret = $dataRequest->siret;
+        $siret = filter_var($dataRequest->siret, FILTER_SANITIZE_NUMBER_INT);
         if(!strlen($siret) === 14) {
             return $this->json('Entrez un numéro SIRET valide.', 409);
         }
@@ -106,11 +106,11 @@ class ApiShopkeepersController extends AbstractController
         }
         
         // take region data from request
-        $regionId = $dataRequest->region;
+        $regionId = filter_var($dataRequest->region, FILTER_SANITIZE_NUMBER_INT);
         $region = $regionRepository->find($regionId);
 
         // take email data from request and validation : wrong value ? already exist ?
-        $newEmail = $dataRequest->email;
+        $newEmail = filter_var($dataRequest->newEmail, FILTER_SANITIZE_EMAIL);
         if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
             return $this->json("Cette adresse n'est pas valide", 409);
         }
@@ -209,17 +209,16 @@ class ApiShopkeepersController extends AbstractController
         }
 
         // user doesn't exist ?
-        $userId = $data->id;
+        $userId = filter_var($data->id, FILTER_SANITIZE_NUMBER_INT);
         $userToEdit = $userRepository->find($userId);
         if (!$userToEdit){
-            throw $this->createNotFoundException(sprintf(
-                'Utilisateur inexistant.'));
+            return $this->json('Utilisateur inexistant.', 409);
         }
 
         // else : edit this user
         $em = $this->getDoctrine()->getManager();
 
-        $newEmail = $data->email;
+        $newEmail = filter_var($data->email, FILTER_SANITIZE_EMAIL);
         if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
             return $this->json("Cette adresse n'est pas valide", 409);
         }
@@ -229,12 +228,17 @@ class ApiShopkeepersController extends AbstractController
         if ($newEmail !== $userToEdit->getEmail()) {
             $userToEdit->setEmail($newEmail);
         }
-        if ($data->firstname !== $userToEdit->getFirstname()) {
-            $userToEdit->setFirstname($data->firstname);
+
+        $firstname = filter_var($data->firstname, FILTER_SANITIZE_STRING);
+        if ($firstname !== $userToEdit->getFirstname()) {
+            $userToEdit->setFirstname($firstname);
         }
-        if ($data->lastname !== $userToEdit->getLastname()) {
-            $userToEdit->setLastname($data->lastname);
+
+        $lastname = filter_var($data->lastname, FILTER_SANITIZE_STRING);
+        if ($lastname !== $userToEdit->getLastname()) {
+            $userToEdit->setLastname($lastname);
         }
+
         if ($data->password) {
             // Validate password strength
             $uppercase = preg_match('@[A-Z]@', $data->password);
@@ -245,11 +249,13 @@ class ApiShopkeepersController extends AbstractController
             }
             $userToEdit->setPassword($encoder->encodePassword($userToEdit, $data->password));
         }
-        if ($data->companyDescription !== $userToEdit->getCompanyDescription()) {
-            $userToEdit->setCompanyDescription($data->companyDescription);
-        }
-        if ($data->logoPicture !== $userToEdit->getLogoPicture()) {
 
+        $companyDescription = filter_var($data->companyDescription, FILTER_SANITIZE_STRING);
+        if ($companyDescription !== $userToEdit->getCompanyDescription()) {
+            $userToEdit->setCompanyDescription($companyDescription);
+        }
+
+        if ($data->logoPicture !== $userToEdit->getLogoPicture()) {
             $extension = explode('/', mime_content_type($data->logoPicture))[1];
             // image's extension validation
             if ($extension !== 'jpg' || $extension !== 'jpeg' || $extension !== 'png') {
@@ -271,12 +277,22 @@ class ApiShopkeepersController extends AbstractController
         } elseif ($data->logoPicture == '') {
             $user->setLogoPicture('uploads/avatars/no-avatar.png');
         }
-        if ($data->phone !== $userToEdit->getPhone()) {
-            $userToEdit->setPhone($data->phone);
+
+        $phone = filter_var($data->phone, FILTER_SANITIZE_STRING);
+        if ($phone !== $userToEdit->getPhone()) {
+            $userToEdit->setPhone($phone);
         }
-        if ($data->website !== $userToEdit->getWebsite()) {
-            $userToEdit->setWebsite($data->website);
+
+        $website = filter_var($data->website, FILTER_SANITIZE_URL);
+        if ($website !== $userToEdit->getWebsite()) {
+            $userToEdit->setWebsite($website);
         }
+
+        $contact = filter_var($data->contact, FILTER_SANITIZE_EMAIL);
+        if ($contact !== $userToEdit->getContact()) {
+            $userToEdit->setContact($contact);
+        }
+
         $userToEdit->setUpdatedAt(new \DateTime());
 
         $em->persist($userToEdit);
@@ -309,11 +325,10 @@ class ApiShopkeepersController extends AbstractController
         }
 
         // user doesn't exist ?
-        $userId = $data->id;
+        $userId = filter_var($data->id, FILTER_SANITIZE_NUMBER_INT);
         $userToRemove = $userRepository->find($userId);
         if (!$userToRemove){
-            throw $this->createNotFoundException(sprintf(
-                'Utilisateur inexistant.'));
+            return $this->json('Utilisateur inexistant.', 409);
         }
 
         // else : delete this user

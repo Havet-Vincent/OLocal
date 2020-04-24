@@ -14,6 +14,8 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+    private $homepage = 'http://olocal.dscloud.me/';
+    
     /**
      * @Route("/api/login_id", name="login_id", methods={"POST"})
      */
@@ -37,9 +39,9 @@ class SecurityController extends AbstractController
         }
 
         // check if user exist -> get this user's object from DB
-        $email = $dataRequest->username;
+        $email = filter_var($dataRequest->username, FILTER_SANITIZE_EMAIL);
         if($userRepository->findOneBy(['email' => $email]) == null) {
-            throw $this->createNotFoundException(sprintf('Utilisateur inexistant.'));
+            return $this->json('Utilisateur inexistant.', 409);
         }
         $loginUser = $userRepository->findOneBy(['email' => $email]);
 
@@ -80,6 +82,6 @@ class SecurityController extends AbstractController
      */
     public function homepage()
     {
-        return $this->redirect('http://olocal.dscloud.me/');
+        return $this->redirect($this->homepage);
     }
 }

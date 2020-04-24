@@ -6,7 +6,6 @@ use App\Entity\Catalog;
 use App\Entity\Product;
 use App\Repository\CatalogRepository;
 use App\Repository\UserRepository;
-use App\Repository\RegionRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,7 +23,7 @@ class ApiCatalogsController extends AbstractController
      * @Route("/api/catalogs/add", name="api_catalogs_add", methods="POST")
      * @return JsonReponse add one catalog's row
      */
-    public function add(Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, ProductRepository $productRepository, RegionRepository $regionRepository, LocalSupplierRepository $localSupplierRepository, UserRepository $userRepository, CategoryRepository $categoryRepository, EntityManagerInterface $em)
+    public function add(Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, ProductRepository $productRepository, LocalSupplierRepository $localSupplierRepository, UserRepository $userRepository, CategoryRepository $categoryRepository, EntityManagerInterface $em)
     {
         // we get the JSON Content
         $dataRequest = json_decode($request->getContent());     
@@ -44,13 +43,13 @@ class ApiCatalogsController extends AbstractController
         }
 
         // we get informations from Json and get its objects from DB
-        $localSupplierId = $dataRequest->localSupplier;
+        $localSupplierId = filter_var($dataRequest->localSupplier, FILTER_SANITIZE_NUMBER_INT);
         $localSupplier = $localSupplierRepository->find($localSupplierId);
 
-        $userId = $dataRequest->user;
+        $userId = filter_var($dataRequest->user, FILTER_SANITIZE_NUMBER_INT);
         $user = $userRepository->find($userId);
 
-        $productName = $dataRequest->product;
+        $productName = filter_var($dataRequest->product, FILTER_SANITIZE_STRING);
 
         // we check if product is already in Database
         if ($productRepository->findOneBy(['name'=>$productName])){
@@ -59,7 +58,7 @@ class ApiCatalogsController extends AbstractController
         }
         else{
             // else -> call add product function before adding it to Catalog
-            $categoryId = $dataRequest->category;
+            $categoryId = filter_var($dataRequest->category, FILTER_SANITIZE_NUMBER_INT);
             $category = $categoryRepository->find($categoryId);
             $product = new Product;
             $product->setName($productName);
@@ -85,7 +84,7 @@ class ApiCatalogsController extends AbstractController
      * @Route("/api/catalogs/{id<\d+>}/edit", name="api_catalogs_edit", methods="POST")
      * @return JsonReponse edit one catalog's row
      */
-    public function edit(Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, ProductRepository $productRepository, RegionRepository $regionRepository, LocalSupplierRepository $localSupplierRepository, UserRepository $userRepository, CategoryRepository $categoryRepository, CatalogRepository $catalogRepository, EntityManagerInterface $em)
+    public function edit(Request $request, DenormalizerInterface $denormalizer, ValidatorInterface $validator, ProductRepository $productRepository, LocalSupplierRepository $localSupplierRepository, CategoryRepository $categoryRepository, CatalogRepository $catalogRepository, EntityManagerInterface $em)
     {
         // we get the JSON Content
         $dataRequest = json_decode($request->getContent());
@@ -106,24 +105,24 @@ class ApiCatalogsController extends AbstractController
         }
 
         // catalog doesn't exist ?
-        $catalogId = $dataRequest->id;
+        $catalogId = filter_var($dataRequest->id, FILTER_SANITIZE_NUMBER_INT);
         $catalogToEdit = $catalogRepository->find($catalogId);
         if (!$catalogToEdit){
             throw $this->createNotFoundException(sprintf(
                 'Catalogue inexistant.'));
         }
 
-        $localSupplierId = $dataRequest->localSupplier;
+        $localSupplierId = filter_var($dataRequest->localSupplier, FILTER_SANITIZE_NUMBER_INT);
         $localSupplier = $localSupplierRepository->find($localSupplierId);
 
-        $productName = $dataRequest->product;
+        $productName = filter_var($dataRequest->product, FILTER_SANITIZE_STRING);
         // if product already in DB
         if ($productRepository->findOneBy(['name' => $productName])) {
             // take its id with getId()
             $product = $productRepository->findOneBy(['name' => $productName]);            
         } else {
             // else -> call add product function before adding it to Catalog
-            $categoryId = $dataRequest->category;
+            $categoryId = filter_var($dataRequest->category, FILTER_SANITIZE_NUMBER_INT);
             $category = $categoryRepository->find($categoryId);
             $product = new Product;
             $product->setName($productName);
@@ -134,10 +133,10 @@ class ApiCatalogsController extends AbstractController
             $product = $productRepository->findOneBy(['name' => $productName]);
         }
 
-        if ($dataRequest->localSupplier !== $catalogToEdit->getLocalSupplier()) {
+        if ($localSupplierId !== $catalogToEdit->getLocalSupplier()) {
             $catalogToEdit->setLocalSupplier($localSupplier);
         }
-        if ($dataRequest->product !== $catalogToEdit->getProduct()) {
+        if ($product->getId() !== $catalogToEdit->getProduct()) {
             $catalogToEdit->setProduct($product);
         }
 
@@ -172,11 +171,10 @@ class ApiCatalogsController extends AbstractController
         }
 
         // catalog doesn't exist ?
-        $catalogId = $data->catalog;
+        $catalogId = filter_var($data->catalog, FILTER_SANITIZE_NUMBER_INT);
         $catalogToRemove = $catalogRepository->find($catalogId);
         if (!$catalogToRemove){
-            throw $this->createNotFoundException(sprintf(
-                'Catalogue inexistant.'));
+            return $this->json('Catalogue inexistant.', 409);
         }
 
         // else : delete this user
