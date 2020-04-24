@@ -26,14 +26,13 @@ class LocalSupplierController extends EasyAdminController
      */
     public function persistLocalSupplierEntity()
     {
-        $siret = $_POST["localsupplier"]['siret'];
-
-        $regionId = $_POST["localsupplier"]['region'];
+        $regionId = filter_var($_POST["localsupplier"]['region'], FILTER_SANITIZE_NUMBER_INT);
         $region = $this->regionRepository->find($regionId);
 
+        $siret = filter_var($_POST["localsupplier"]['siret'], FILTER_SANITIZE_NUMBER_INT);
         // we check the number of charters of the siret number
         if(!strlen($siret) === 14) {
-            return $this->json('Entrez un numéro SIRET valide.', 409);
+            throw new \Exception('Entrez un numéro SIRET valide.');
         }
 
         // we check if the siret number is already stored on the database

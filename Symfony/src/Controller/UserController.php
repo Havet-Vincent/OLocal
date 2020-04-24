@@ -29,31 +29,26 @@ class UserController extends EasyAdminController
     public function persistUserEntity()
     {        
         if ($_POST["user"]['siret']) {
-
-            $siret = $_POST["user"]['siret'];
-
             // take region data from request
-            $regionId = $_POST["user"]['region'];
+            $regionId = filter_var($_POST["user"]['region'], FILTER_SANITIZE_NUMBER_INT);
             $region = $this->regionRepository->find($regionId);
 
+            $siret = filter_var($_POST["user"]['siret'], FILTER_SANITIZE_NUMBER_INT);
             // we check the number of charters of the siret number
             if(!strlen($siret) === 14) {
-                return $this->json('Entrez un numéro SIRET valide.', 409);
+                throw new \Exception('Entrez un numéro SIRET valide.');
             }
 
             // we check if the siret number is already stored on the database
             if ($this->userRepository->findBy(['siret' => $siret])){
                 throw new \Exception('Ce numéro de SIRET est déjà utilisé.');
             }
-            //siret pour tester 85218609700014            
 
             // take email data from request
-            $newEmail = $_POST["user"]['email'];
-
+            $newEmail = filter_var($_POST["user"]['email'], FILTER_SANITIZE_EMAIL);
             if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
                 throw new \Exception("Cette adresse n'est pas valide");
             }
-
             if ($this->userRepository->findBy(['email' => $newEmail])) {
                 throw new \Exception('Cet email est déjà utilisé.');
             }
@@ -67,15 +62,13 @@ class UserController extends EasyAdminController
             $user->setEmail($newEmail);
 
             $password = $_POST["user"]['password'];
-
             // Validate password strength
             $uppercase = preg_match('@[A-Z]@', $password);
             $lowercase = preg_match('@[a-z]@', $password);
             $number    = preg_match('@[0-9]@', $password);
             if(!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
                 throw new \Exception('Le mot de passe doit faire 8 caractères minimum et doit contenir au moins une majuscule et un chiffre.');
-            }
-            
+            }            
             $user->setPassword($this->encoder->encodePassword($user, $password));
 
             if (array_key_exists('isEmailChecked', $_POST["user"])) {
@@ -141,7 +134,7 @@ class UserController extends EasyAdminController
 
         $newUser = new User;
 
-        $email = $_POST["user"]['email'];
+        $email = filter_var($_POST["user"]['email'], FILTER_SANITIZE_EMAIL);
         if ($this->userRepository->findBy(['email' => $email])) {
                 throw new \Exception('Email déjà utilisé');;
             }
@@ -196,23 +189,18 @@ class UserController extends EasyAdminController
      */
     public function updateUserEntity ($entity)
     {
-       //dd($entity);
-        $userId = $entity->getId();
+        $userId = filter_var($entity->getId(), FILTER_SANITIZE_NUMBER_INT);
         $user = $this->userRepository->find($userId);
         
-        // else : edit this user
         $em = $this->getDoctrine()->getManager();
 
-        $newEmail = $entity->getEmail();
-
+        $newEmail = filter_var($entity->getEmail(), FILTER_SANITIZE_EMAIL);
         if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
             throw new \Exception("Cette adresse n'est pas valide");
         }
-
         if ($newEmail === $this->userRepository->findBy(['email' => $newEmail])) {
             throw new \Exception('Email déjà utilisé');
         }
-
         if ($newEmail !== $user->getEmail()) {
             $user->setEmail($newEmail);
         }
@@ -222,50 +210,62 @@ class UserController extends EasyAdminController
         } else {
             $role = 'ROLE_USER';
         }
-
         $user->setUserRole([$role]);
 
-        if ($entity->getFirstname() !== $user->getFirstname()) {
-            $user->setFirstname($entity->getFirstname());
+        $firstname = filter_var($entity->getFirstname(), FILTER_SANITIZE_STRING);
+        if ($firstname !== $user->getFirstname()) {
+            $user->setFirstname($firstname);
         }
-        if ($entity->getLastname() !== $user->getLastname()) {
-            $user->setLastname($entity->getLastname());
+        $lastname = filter_var($entity->getLastname(), FILTER_SANITIZE_STRING);
+        if ($lastname !== $user->getLastname()) {
+            $user->setLastname($lastname);
         }
-        if ($entity->getCompanyName() !== $user->getCompanyName()) {
-            $user->setCompany($entity->getCompany());
+        $companyName = filter_var($entity->getCompanyName(), FILTER_SANITIZE_STRING);
+        if ($companyName !== $user->getCompanyName()) {
+            $user->setCompany($companyName);
         }
-        if ($entity->getCompanyDescription() !== $user->getCompanyDescription()) {
-            $user->setCompanyDescription($entity->getCompanyDescription());
+        $companyDescription = filter_var($entity->getCompanyDescription(), FILTER_SANITIZE_STRING);
+        if ($companyDescription !== $user->getCompanyDescription()) {
+            $user->setCompanyDescription($companyDescription);
         }
-        if ($entity->getAdditionalAddress() !== $user->getAdditionalAddress()) {
-            $user->setAdditionalAddress($entity->getAdditionalAddress());
+        $additionalAddress = filter_var($entity->getAdditionalAddress(), FILTER_SANITIZE_STRING);
+        if ($additionalAddress !== $user->getAdditionalAddress()) {
+            $user->setAdditionalAddress($additionalAddress);
         }
-        if ($entity->getRepeatIndex() !== $user->getRepeatIndex()) {
-            $user->setRepeatIndex($entity->getRepeatIndex());
+        $repeatIndex = filter_var($entity->getRepeatIndex(), FILTER_SANITIZE_STRING);
+        if ($repeatIndex !== $user->getRepeatIndex()) {
+            $user->setRepeatIndex($repeatIndex);
         }
-        if ($entity->getWayNumber() !== $user->getWayNumber()) {
-            $user->setWayNumber($entity->getWayNumber());
+        $wayNumber = filter_var($entity->getWayNumber(), FILTER_SANITIZE_STRING);
+        if ($wayNumber !== $user->getWayNumber()) {
+            $user->setWayNumber($wayNumber);
         }
-        if ($entity->getWayType() !== $user->getWayType()) {
-            $user->setWayType($entity->getWayType());
+        $wayType = filter_var($entity->getWayType(), FILTER_SANITIZE_STRING);
+        if ($wayType !== $user->getWayType()) {
+            $user->setWayType($wayType);
         }
-        if ($entity->getWayName() !== $user->getWayName()) {
-            $user->setWayName($entity->getWayName());
+        $wayName = filter_var($entity->getWayName(), FILTER_SANITIZE_STRING);
+        if ($wayName !== $user->getWayName()) {
+            $user->setWayName($wayName);
         }
-        if ($entity->getPostalCode() !== $user->getPostalCode()) {
-            $user->setPostalCode($entity->getPostalCode());
+        $postalCode = filter_var($entity->getPostalCode(), FILTER_SANITIZE_NUMBER_INT);
+        if ($postalCode !== $user->getPostalCode()) {
+            $user->setPostalCode($postalCode);
         }
-        if ($entity->getCity() !== $user->getCity()) {
-            $user->setCity($entity->getCity());
+        $city = filter_var($entity->getCity(), FILTER_SANITIZE_STRING);
+        if ($city !== $user->getCity()) {
+            $user->setCity($city);
         }      
         if ($entity->getLogoPicture() == null) {
             $user->setLogoPicture('uploads/avatars/no-avatar.png');
         }
-        if ($entity->getPhone() !== $user->getPhone()) {
-            $user->setPhone($entity->getPhone());
+        $phone = filter_var($entity->getPhone(), FILTER_SANITIZE_STRING);
+        if ($phone !== $user->getPhone()) {
+            $user->setPhone($phone);
         }
-        if ($entity->getWebsite() !== $user->getWebsite()) {
-            $user->setWebsite($entity->getWebsite());
+        $website= filter_var($entity->getWebsite(), FILTER_SANITIZE_URL);
+        if ($website !== $user->getWebsite()) {
+            $user->setWebsite($website);
         }
         $user->setUpdatedAt(new \DateTime());
 

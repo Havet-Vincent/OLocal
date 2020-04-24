@@ -47,7 +47,7 @@ class ApiLocalSuppliersController extends AbstractController
         }
 
         // we get the SIRET number
-        $siret = $dataRequest->siret;
+        $siret = filter_var($dataRequest->siret, FILTER_SANITIZE_NUMBER_INT);
 
         // we check the number of characters of the SIRET number
         if(!strlen($siret) === 14) {
@@ -59,11 +59,11 @@ class ApiLocalSuppliersController extends AbstractController
             return $this->json('existe déjà', 409);
         }
 
-        $regionId = $dataRequest->region;
+        $regionId = filter_var($dataRequest->region, FILTER_SANITIZE_NUMBER_INT);
         $region = $regionRepository->find($regionId);
     
         // getting informations from external API Sirene
-        $response=$this->apiSirene->getShopkeeperData($siret);      
+        $response = $this->apiSirene->getShopkeeperData($siret);      
         $data = json_decode($response->getContent());     
 
         // setting them
