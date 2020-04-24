@@ -19,6 +19,7 @@ import {
   Button,
   Slide,
   useMediaQuery,
+  LinearProgress,
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
@@ -34,6 +35,7 @@ const Transition = React.forwardRef((props, ref) => (
 
 // == Composant
 const SignUpForm = ({
+  loaderCheckRegister,
   setSignUp,
   getRegionsData,
   siret,
@@ -193,6 +195,9 @@ const SignUpForm = ({
               </Button>
             </DialogActions>
           </form>
+          {loaderCheckRegister && (
+            <LinearProgress color="primary" className={classes.progress} />
+          )}
         </DialogContent>
       </MuiDialog>
     </>
@@ -200,6 +205,7 @@ const SignUpForm = ({
 };
 
 SignUpForm.propTypes = {
+  loaderCheckRegister: PropTypes.bool.isRequired,
   setSignUp: PropTypes.func.isRequired,
   getRegionsData: PropTypes.func.isRequired,
   siret: PropTypes.string.isRequired,
