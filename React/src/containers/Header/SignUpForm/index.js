@@ -8,6 +8,7 @@ import {
 import SignUpForm from 'src/components/Header/SignUpForm';
 
 const mapStateToProps = (state) => ({
+  loaderCheckRegister: state.register.loaderCheckRegister,
   siret: state.register.siret,
   regions: state.home.regions,
   email: state.register.email,

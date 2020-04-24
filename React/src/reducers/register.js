@@ -2,10 +2,13 @@ import {
   TOGGLE_SIGNUP_FORM,
   SET_SIGNUP_FIELD_VALUE,
   CHECK_PASSWORD_CONFIRMATION,
+  SUBMIT_SIGNUP,
   SET_REGISTER,
 } from '../actions/register';
 
 const initialState = {
+  // Display Loader
+  loaderCheckRegister: false,
   // Display signUp form
   signUpForm: false,
   // Signup form fields values
@@ -53,9 +56,16 @@ const registerReducer = (state = initialState, action = {}) => {
         passwordConfirmed: false,
       };
 
+    case SUBMIT_SIGNUP:
+      return {
+        ...state,
+        loaderCheckRegister: true,
+      };
+
     case SET_REGISTER:
       return {
         ...state,
+        loaderCheckRegister: false,
         signUpForm: false,
         siret: '',
         region: '',

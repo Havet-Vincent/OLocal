@@ -14,6 +14,7 @@ import {
   saveUserData,
   getCatalog,
 } from '../actions/profil';
+import { setLogout } from '../actions/authentication';
 import { redirect, setSnackbar } from '../actions/home';
 
 // == Import API server config
@@ -182,7 +183,9 @@ const profilMiddleware = (store) => (next) => (action) => {
           })
             .then((response) => {
               console.log('success delete userAccount : ', response.data);
+              store.dispatch(setLogout());
               store.dispatch(clearUserData());
+              store.dispatch(redirect('/'));
               store.dispatch(setSnackbar('info', 'Votre compte à bien été supprimé'));
             })
             .catch((error) => {

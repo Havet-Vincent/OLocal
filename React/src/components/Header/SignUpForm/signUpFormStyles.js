@@ -29,6 +29,10 @@ const signUpFormStyles = makeStyles((theme) => ({
   formControl: {
     width: '100%',
   },
+  progress: {
+    height: 5,
+    marginBottom: '1rem',
+  },
 }));
 
 export default signUpFormStyles;
