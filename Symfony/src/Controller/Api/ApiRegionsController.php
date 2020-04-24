@@ -17,7 +17,7 @@ class ApiRegionsController extends AbstractController
      */
     public function getRegions(RegionRepository $regionRepository)
     {
-        $regions=$regionRepository->findAll();
+        $regions = $regionRepository->findAll();
         return $this->json($regions, 200, [], ['groups' => 'regions_get']);
     }
 
