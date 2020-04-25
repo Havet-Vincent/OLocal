@@ -75,16 +75,13 @@ const ShopkeeperProfilPage = ({
     }
   }, []);
 
+  const supplierLookup = suppliers.reduce(function(acc, cur, i) {
+    acc[cur.id] = cur.name;
+    return acc;
+  }, {});
 
-// console.log('suppliers : ', suppliers);
 
-const a = suppliers.map((supplier) => ({
-  // const b = {supplier.id: supplier.name};
-  id: supplier.id,
-  name: supplier.name,
-}));
-
-console.log(a);
+// console.log('lookup', supplierLookup);
 
   // Local State
   const loadTable = () => {
@@ -112,18 +109,7 @@ console.log(a);
           headerStyle: {
             backgroundColor: '#039be5',
           },
-          // // lookup: { 
-          //   34: 'İstanbul', 
-          //   0: 'Şanlıurfa' }
-          // lookup: suppliers.map((supplier) => {
-          //   return { 
-          //     ...supplier.id, 
-          //     ...supplier.name 
-          //   };
-          // }),
-          // lookup: suppliers.map((supplier) => {
-          //   supplier;
-          // }),
+          lookup: supplierLookup,
         },
         {
           title: 'Localisation',
@@ -258,6 +244,7 @@ console.log(a);
               options={{
                 exportButton: true,
                 filtering: true,
+                maxBodyHeight: 500,
               }}
               actions={[
                 {
