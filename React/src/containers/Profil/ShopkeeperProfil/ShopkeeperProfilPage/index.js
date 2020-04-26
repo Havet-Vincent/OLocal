@@ -1,52 +1,41 @@
 import { connect } from 'react-redux';
 import {
   getUserData,
-  deleteCatalogItem,
   updateCatalogItem,
-  getRegionsData,
-  setRegion,
-  setFieldValue,
+  editCatalogField,
   handleSupplierSubmit,
 } from 'src/actions/profil';
+import { getCategoriesData } from 'src/actions/home';
 
 import ShopkeeperProfilPage from 'src/components/Pages/Profil/ShopkeeperProfil/ShopkeeperProfilPage';
 
 const mapStateToProps = (state) => ({
   loader: state.profil.loaderProfilPage,
   catalog: state.profil.catalog,
-  regions: state.home.regions,
+  categories: state.home.categories,
+  currentRegion: state.profil.userData.length > 0 ? state.profil.userData.region : [],
   siret: state.profil.siret,
+  suppliers: state.profil.suppliers,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getUserData: () => {
     dispatch(getUserData());
   },
-
-  onDelete: (data) => {
-    dispatch(deleteCatalogItem(data));
+  getCategoriesData: () => {
+    dispatch(getCategoriesData());
   },
-
-  onUpdate: (data) => {
+  editCatalogField: (value) => {
+    dispatch(editCatalogField(value));
+  },
+  updateCatalogItem: (data) => {
     dispatch(updateCatalogItem(data));
   },
 
-  getRegionsData: () => {
-    dispatch(getRegionsData());
-  },
-
-  setFieldValue: (name, value) => {
-    dispatch(setFieldValue(name, value));
-  },
 
   handleSupplierSubmit: () => {
     dispatch(handleSupplierSubmit());
   },
-
-  setRegion: (value) => {
-    dispatch(setRegion(value));
-  },
-
 });
 
 export default connect(

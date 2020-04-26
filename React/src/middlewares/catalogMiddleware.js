@@ -66,7 +66,7 @@ const catalogMiddleware = (store) => (next) => (action) => {
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.warn(error);
-          store.dispatch(setSnackbar('error', 'Echec de la modification'));
+          store.dispatch(setSnackbar('error', 'Erreur interne : Echec de la modification'));
         });
       next(action);
       break;

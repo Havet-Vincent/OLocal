@@ -2,7 +2,8 @@ import axios from 'axios';
 
 import {
   HANDLE_SUPPLIER_SUBMIT,
-  setAddSupplier,
+  GET_SUPPLIERS_BY_REGION,
+  saveSuppliersByRegion,
 } from '../actions/profil';
 import { setSnackbar } from '../actions/home';
 
@@ -17,8 +18,6 @@ const supplierMiddleware = (store) => (next) => (action) => {
         siret,
         region,
       } = store.getState().profil;
-
-      console.log('HANDLE_SUPPLIER_SUBMIT');
 
       if (siret !== '' && region !== '') {
         axios({
@@ -41,6 +40,30 @@ const supplierMiddleware = (store) => (next) => (action) => {
           .finally(() => {
           });
       }
+      next(action);
+      break;
+    }
+
+    case GET_SUPPLIERS_BY_REGION: {
+      const { id: regionId } = store.getState().profil.userData.region;
+      const token = localStorage.getItem('token');
+      axios({
+        method: 'post',
+        url: `${server.url}:${server.port}/api/regions/${regionId}/localsuppliers`,
+        headers: { Authorization: `Bearer ${token}` },
+        data: {
+          region: regionId,
+        },
+      })
+        .then((response) => {
+          // console.log('success suppliers : ', response.data);
+          store.dispatch(saveSuppliersByRegion(response.data));
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.warn(error);
+          store.dispatch(setSnackbar('error', 'Erreur interne : Echec récupération données  producteurs'));
+        });
 
       next(action);
       break;

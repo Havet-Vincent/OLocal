@@ -5,8 +5,9 @@ import {
   SET_LOGO_PICTURE,
   SET_PROFIL_FIELD_VALUE,
   SET_FIELD_ERROR,
-  SET_REGION,
   GET_CATALOG,
+  EDIT_CATALOG_FIELD,
+  SAVE_SUPLIERS_BY_REGION,
   CLEAR_USER_DATA,
 } from '../actions/profil';
 
@@ -27,8 +28,8 @@ const initialState = {
   logoPicture: '',
   fieldError: true,
   catalog: [],
-  region: '',
   siret: '',
+  suppliers: [],
 };
 
 const profilReducer = (state = initialState, action = {}) => {
@@ -64,6 +65,16 @@ const profilReducer = (state = initialState, action = {}) => {
         ...state,
         catalog,
         loaderProfilPage: false,
+      };
+    }
+
+    case EDIT_CATALOG_FIELD: {
+      const catalogItem = state.catalog.find((item) => (item.catalogId) === action.catalogId);
+      const newCatalog = [...state.catalog[catalogItem]];
+      console.log(newCatalog);
+      return {
+        ...state.catalog,
+        ...action.value,
       };
     }
 
@@ -119,6 +130,12 @@ const profilReducer = (state = initialState, action = {}) => {
         fieldError: action.value,
       };
 
+    case SAVE_SUPLIERS_BY_REGION:
+      return {
+        ...state,
+        suppliers: action.suppliers,
+      };
+
     case CLEAR_USER_DATA:
       return {
         ...state,
@@ -135,11 +152,6 @@ const profilReducer = (state = initialState, action = {}) => {
         siret: '',
       };
 
-    case SET_REGION:
-      return {
-        ...state,
-        region: action.value,
-      };
 
     default: return state;
   }
