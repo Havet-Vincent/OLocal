@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import {
   getUserData,
+  addCatalogItem,
+  deleteCatalogItem,
   updateCatalogItem,
-  editCatalogField,
   handleSupplierSubmit,
 } from 'src/actions/profil';
 import { getCategoriesData } from 'src/actions/home';
@@ -25,14 +26,15 @@ const mapDispatchToProps = (dispatch) => ({
   getCategoriesData: () => {
     dispatch(getCategoriesData());
   },
-  editCatalogField: (value) => {
-    dispatch(editCatalogField(value));
+  addCatalogItem: (data) => {
+    dispatch(addCatalogItem(data));
+  },
+  deleteCatalogItem: (data) => {
+    dispatch(deleteCatalogItem(data));
   },
   updateCatalogItem: (data) => {
     dispatch(updateCatalogItem(data));
   },
-
-
   handleSupplierSubmit: () => {
     dispatch(handleSupplierSubmit());
   },

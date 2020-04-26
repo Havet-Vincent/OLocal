@@ -6,7 +6,6 @@ import {
   SET_PROFIL_FIELD_VALUE,
   SET_FIELD_ERROR,
   GET_CATALOG,
-  EDIT_CATALOG_FIELD,
   SAVE_SUPLIERS_BY_REGION,
   CLEAR_USER_DATA,
 } from '../actions/profil';
@@ -68,21 +67,13 @@ const profilReducer = (state = initialState, action = {}) => {
       };
     }
 
-    case EDIT_CATALOG_FIELD: {
-      const catalogItem = state.catalog.find((item) => (item.catalogId) === action.catalogId);
-      const newCatalog = [...state.catalog[catalogItem]];
-      console.log(newCatalog);
-      return {
-        ...state.catalog,
-        ...action.value,
-      };
-    }
-
     case SAVE_USER_DATA:
       return {
         ...state,
         userData: {
           ...action.userData,
+          // Provisoir !
+          contact: '',
           password: '',
         },
         logoPicture: `${server.url}:${server.port}${action.userData.logoPicture}`,

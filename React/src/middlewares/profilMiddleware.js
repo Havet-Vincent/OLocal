@@ -125,6 +125,7 @@ const profilMiddleware = (store) => (next) => (action) => {
         case 'ROLE_SHOPKEEPER': {
           const {
             email,
+            contact,
             firstname,
             lastname,
             password,
@@ -140,6 +141,7 @@ const profilMiddleware = (store) => (next) => (action) => {
             data: {
               id: userId,
               email,
+              contact,
               firstname,
               lastname,
               password,

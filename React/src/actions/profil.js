@@ -16,7 +16,7 @@ export const CLEAR_USER_DATA = 'CLEAR_USER_DATA';
 
 // ====== Shopkeeper Profil Page
 export const GET_CATALOG = 'GET_CATALOG';
-export const EDIT_CATALOG_FIELD = 'EDIT_CATALOG_FIELD';
+export const ADD_CATALOG_ITEM = 'ADD_CATALOG_ITEM';
 export const DELETE_CATALOG_ITEM = 'DELETE_CATALOG_ITEM';
 export const UPDATE_CATALOG_ITEM = 'UPDATE_CATALOG_ITEM';
 export const GET_SUPPLIERS_BY_REGION = 'GET_SUPPLIERS_BY_REGION';
@@ -98,9 +98,9 @@ export const getCatalog = () => ({
   type: GET_CATALOG,
 });
 
-export const editCatalogField = (value) => ({
-  type: EDIT_CATALOG_FIELD,
-  value,
+export const addCatalogItem = (data) => ({
+  type: ADD_CATALOG_ITEM,
+  data,
 });
 
 export const deleteCatalogItem = (data) => ({

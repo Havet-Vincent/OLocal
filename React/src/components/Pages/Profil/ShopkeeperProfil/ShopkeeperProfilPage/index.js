@@ -32,11 +32,12 @@ const ShopkeeperProfilPage = ({
   suppliers,
   siret,
   //
+  addCatalogItem,
   updateCatalogItem,
+  deleteCatalogItem,
   //
   getUserData,
   getCategoriesData,
-  editCatalogField,
   handleSupplierSubmit,
 }) => {
   const classes = shopkeeperProfilPageStyles();
@@ -56,6 +57,19 @@ const ShopkeeperProfilPage = ({
       currentRow: 0,
       columns: [
         {
+          title: 'CatalogId',
+          field: 'catalogId',
+          headerStyle: {
+            paddingLeft: '30px',
+            fontSize: '.85em',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+          },
+          cellStyle: { paddingLeft: '30px' },
+          editable: 'onAdd',
+          defaultSort: 'desc',
+        },
+        {
           title: 'Catégorie',
           field: 'category',
           headerStyle: {
@@ -66,6 +80,8 @@ const ShopkeeperProfilPage = ({
           },
           cellStyle: { paddingLeft: '30px' },
           editable: 'onAdd',
+          defaultSort: 'desc',
+          // customSort: (term, rowData) => console.log(term),
           editComponent: (props) => (
             <Autocomplete
               id="category"
@@ -171,11 +187,11 @@ const ShopkeeperProfilPage = ({
     });
   };
 
-  // When suppliers is updated => load table
+  // When catalog is updated => load table
   useEffect(() => {
     loadTable();
     setLoading(false);
-  }, [suppliers]);
+  }, [catalog]);
 
   // print current page
   function imprimer_page() {
@@ -215,24 +231,21 @@ const ShopkeeperProfilPage = ({
                         this.setState({ data }, () => resolve()); */
                       console.log(newData);
                       resolve();
-                    }, 1500);
+                    }, 600);
                   }),
                   onRowUpdate: () => new Promise((resolve) => {
                     setTimeout(() => {
                       setLoading(true);
                       updateCatalogItem(currentRow);
                       resolve();
-                    }, 2000);
+                    }, 600);
                   }),
                   onRowDelete: (oldData) => new Promise((resolve) => {
                     setTimeout(() => {
-                      /* let data = this.state.data;
-                        const index = data.indexOf(oldData);
-                        data.splice(index, 1);
-                        this.setState({ data }, () => resolve()); */
-                      console.log(oldData);
+                      setLoading(true);
+                      deleteCatalogItem(oldData);
                       resolve();
-                    }, 1500);
+                    }, 600);
                   }),
                 }}
                 components={{
@@ -280,9 +293,7 @@ const ShopkeeperProfilPage = ({
                     },
                     tooltip: 'Imprimer page en cours',
                     isFreeAction: true,
-                    onClick: () => {
-                      imprimer_page();
-                    },
+                    onClick: () => window.print(),
                   },
                 ]}
                 // onRowClick={((evt, selectedRow) => this.setState({ selectedRow }))}
@@ -349,10 +360,11 @@ ShopkeeperProfilPage.propTypes = {
   currentRegion: PropTypes.array.isRequired,
   suppliers: PropTypes.array.isRequired,
   siret: PropTypes.string.isRequired,
+  addCatalogItem: PropTypes.func.isRequired,
   updateCatalogItem: PropTypes.func.isRequired,
+  deleteCatalogItem: PropTypes.func.isRequired,
   getUserData: PropTypes.func.isRequired,
   getCategoriesData: PropTypes.func.isRequired,
-  editCatalogField: PropTypes.func.isRequired,
   handleSupplierSubmit: PropTypes.func.isRequired,
 };
 
