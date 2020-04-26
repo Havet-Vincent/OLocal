@@ -54,10 +54,10 @@ const profilReducer = (state = initialState, action = {}) => {
           categoryId: item.product.category.id,
           category: item.product.category.name,
           product: item.product.name,
-          supplierId: item.localSupplier.id,
-          supplier: item.localSupplier.name,
-          city: item.localSupplier.city,
-          postalCode: item.localSupplier.postalCode,
+          supplierId: item.localSupplier !== null ? item.localSupplier.id : '',
+          supplier: item.localSupplier !== null ? item.localSupplier.name : '',
+          city: item.localSupplier !== null ? item.localSupplier.city : '',
+          postalCode: item.localSupplier !== null ? item.localSupplier.postalCode : '',
         }
       ));
       return {
@@ -74,6 +74,7 @@ const profilReducer = (state = initialState, action = {}) => {
           ...action.userData,
           // Provisoir !
           contact: '',
+          // ====== !
           password: '',
         },
         logoPicture: `${server.url}:${server.port}${action.userData.logoPicture}`,

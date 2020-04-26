@@ -7,14 +7,24 @@ import {
   Grid,
   Paper,
   Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
   Container,
   Link,
   TextField,
+  Button,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select,
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Loader from 'src/components/Loader';
 import NavbarShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil/NavbarShopkeeperProfil';
-import CustomFooter from './MUITable/CustomFooter';
+
 // ====Material-table
 import MaterialTable from './MUITable';
 import MTableToolbar from './MUITable/components/m-table-toolbar';
@@ -28,6 +38,7 @@ const ShopkeeperProfilPage = ({
   loader,
   catalog,
   categories,
+  regions,
   currentRegion,
   suppliers,
   siret,
@@ -38,17 +49,26 @@ const ShopkeeperProfilPage = ({
   //
   getUserData,
   getCategoriesData,
+  getRegionsData,
   handleSupplierSubmit,
 }) => {
   const classes = shopkeeperProfilPageStyles();
+  const [open, setOpen] = useState(false);
   const [state, setState] = useState({});
   const [loading, setLoading] = useState(true);
-  const [currentRow, setCurrentRow] = useState(null);
+
+  const [categorySelect, setCategorySelect] = useState({ categoryId: '' });
+  const [productField, setProductField] = useState({ product: '' });
+  const [supplierSelect, setSupplierSelect] = useState({ supplierId: '' });
+  const categoryError = { error: true, helperText: 'Obligatoire' };
+  const productError = { error: true, helperText: 'Obligatoire' };
+  const supplierError = { error: true, helperText: 'Obligatoire' };
 
   // First render => get data
   useEffect(() => {
     getUserData();
     getCategoriesData();
+    getRegionsData();
   }, []);
 
   const loadTable = () => {
@@ -59,14 +79,8 @@ const ShopkeeperProfilPage = ({
         {
           title: 'CatalogId',
           field: 'catalogId',
-          headerStyle: {
-            paddingLeft: '30px',
-            fontSize: '.85em',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-          },
-          cellStyle: { paddingLeft: '30px' },
-          editable: 'onAdd',
+          width: 100,
+          hidden: true,
           defaultSort: 'desc',
         },
         {
@@ -78,6 +92,7 @@ const ShopkeeperProfilPage = ({
             fontWeight: 700,
             textTransform: 'uppercase',
           },
+          width: 220,
           cellStyle: { paddingLeft: '30px' },
           editable: 'onAdd',
           defaultSort: 'desc',
@@ -90,24 +105,29 @@ const ShopkeeperProfilPage = ({
               autoComplete
               disableClearable
               onChange={(event, newValue) => {
-                props.onChange(newValue.name);
+                props.onChange(newValue.id);
                 const data = {
-                  ...props.rowData,
+                  ...categorySelect,
                   categoryId: newValue.id,
-                  category: newValue.name,
                 };
-                setCurrentRow({ ...data });
+                setCategorySelect({ ...data });
               }}
               includeInputInList
               getOptionLabel={(option) => option.name}
               renderInput={(params) => (
-                <TextField {...params} label={props.value} placeholder="Catégorie" fullWidth />
+                <TextField
+                  {...params}
+                  label="Catégorie"
+                  fullWidth
+                  error={props.value ? false : categoryError.error}
+                  helperText={props.value ? '' : categoryError.helperText}
+                />
               )}
             />
           ),
         },
         {
-          title: 'Article',
+          title: 'Produit',
           field: 'product',
           headerStyle: {
             fontSize: '.85em',
@@ -121,12 +141,13 @@ const ShopkeeperProfilPage = ({
               defaultValue={props.value}
               className={classes.textField}
               onBlur={(event) => {
-                setCurrentRow({ ...props.rowData, product: event.target.value });
+                setProductField({ ...productField, product: event.target.value });
               }}
               placeholder="Produit"
+              error={props.value ? false : productError.error}
+              helperText={props.value ? '' : productError.helperText}
               onChange={(event) => {
                 props.onChange(event.target.value);
-                // setCurrentRow({ ...props.rowData, product: event.target.value });
               }}
             />
           ),
@@ -139,6 +160,7 @@ const ShopkeeperProfilPage = ({
             fontSize: '.85em',
             textTransform: 'uppercase',
           },
+          editable: 'onAdd',
           editComponent: (props) => (
             <Autocomplete
               id="supplier"
@@ -147,18 +169,23 @@ const ShopkeeperProfilPage = ({
               autoComplete
               disableClearable
               onChange={(event, newValue) => {
-                props.onChange(newValue.name);
+                props.onChange(newValue.id);
                 const data = {
-                  ...props.rowData,
+                  ...supplierSelect,
                   supplierId: newValue.id,
-                  supplier: newValue.name,
                 };
-                setCurrentRow({ ...data });
+                setSupplierSelect({ ...data });
               }}
               includeInputInList
               getOptionLabel={(option) => option.name}
               renderInput={(params) => (
-                <TextField {...params} label={props.value} placeholder="Producteur" fullWidth />
+                <TextField
+                  {...params}
+                  label="Producteur"
+                  fullWidth
+                  error={props.value ? false : supplierError.error}
+                  helperText={props.value ? '' : supplierError.helperText}
+                />
               )}
             />
           ),
@@ -191,17 +218,25 @@ const ShopkeeperProfilPage = ({
   useEffect(() => {
     loadTable();
     setLoading(false);
-  }, [catalog]);
+  }, [suppliers]);
 
-  // print current page
-  function imprimer_page() {
-    window.print();
+  // ========== localSupplier Add Dialog
+  const handleToggle = () => {
+    setOpen(!open);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     handleSupplierSubmit();
     setOpen(false);
+  };
+
+  const handleChange = (event) => {
+    setFieldValue(event.target.name, event.target.value);
   };
 
   return (
@@ -224,19 +259,29 @@ const ShopkeeperProfilPage = ({
                   Add: (props) => (<Link {...props}>Ajouter</Link>),
                 }}
                 editable={{
-                  onRowAdd: (newData) => new Promise((resolve) => {
+                  onRowAdd: () => new Promise((resolve, reject) => {
                     setTimeout(() => {
-                      /* const data = this.state.data;
-                        data.push(newData);
-                        this.setState({ data }, () => resolve()); */
-                      console.log(newData);
+                      const { categoryId } = categorySelect;
+                      const { product } = productField;
+                      const { supplierId } = supplierSelect;
+                      if (categoryId === '' || product === '' || supplierId === '') {
+                        reject();
+                        return;
+                      }
+                      setLoading(true);
+                      addCatalogItem({ categoryId, product, supplierId });
                       resolve();
                     }, 600);
                   }),
-                  onRowUpdate: () => new Promise((resolve) => {
+                  onRowUpdate: (newData) => new Promise((resolve, reject) => {
                     setTimeout(() => {
+                      const { product } = productField;
+                      if (product === '') {
+                        reject();
+                        return;
+                      }
                       setLoading(true);
-                      updateCatalogItem(currentRow);
+                      updateCatalogItem(newData);
                       resolve();
                     }, 600);
                   }),
@@ -252,7 +297,7 @@ const ShopkeeperProfilPage = ({
                   Toolbar: (props) => (
                     <div className={classes.MToolbarWrapper}>
                       <MTableToolbar {...props} />
-                      <Link className={classes.MToolbarLink}>Ajouter un producteur à la liste ?</Link>
+                      <Link className={classes.MToolbarLink} onClick={handleToggle}>Ajouter un producteur à la liste ?</Link>
                     </div>
                   ),
                 }}
@@ -261,9 +306,6 @@ const ShopkeeperProfilPage = ({
                     backgroundColor: 'rgba(232, 232, 232, .45)',
                   },
                   addRowPosition: 'first',
-                  // filterCellStyle: {
-                  //   backgroundColor: 'rgba(232, 232, 232, .45)',
-                  // },
                   toolbarButtonAlignment: 'left',
                   showTitle: false,
                   sorting: true,
@@ -274,16 +316,6 @@ const ShopkeeperProfilPage = ({
                   filtering: true,
                   filterType: 'dropdown',
                   searchFieldAlignment: 'left',
-                  customFooter: (count, page, rowsPerPage, changeRowsPerPage, changePage, textLabels) => (
-                    <CustomFooter
-                      count={count}
-                      page={page}
-                      rowsPerPage={rowsPerPage}
-                      changeRowsPerPage={changeRowsPerPage}
-                      changePage={changePage}
-                      textLabels={textLabels}
-                    />
-                  ),
                 }}
                 actions={[
                   {
@@ -296,7 +328,6 @@ const ShopkeeperProfilPage = ({
                     onClick: () => window.print(),
                   },
                 ]}
-                // onRowClick={((evt, selectedRow) => this.setState({ selectedRow }))}
               />
             </Paper>
             {/* <Paper>
@@ -317,7 +348,7 @@ const ShopkeeperProfilPage = ({
                       value={siret}
                       onChange={handleChange}
                     />
-                    <FormControl variant="outlined" className={classes.formControl} error={regionError}>
+                    <FormControl variant="outlined" className={classes.formControl}>
                       <InputLabel id="search-region">Région</InputLabel>
                       <Select
                         className={classes.searchSelect}
@@ -325,8 +356,8 @@ const ShopkeeperProfilPage = ({
                         labelId="search-region"
                         id="search-region"
                         inputProps={{ name: 'region' }}
-                        value={regionSelect}
-                        onChange={handleChangeRegion}
+                        value={regions}
+                        onChange={handleChange}
                         MenuProps={MenuProps}
                       >
                         {regions.map((item) => (

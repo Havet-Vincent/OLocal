@@ -34,7 +34,7 @@ var OverlayLoading = function OverlayLoading(props) {
       display: 'table',
       width: '100%',
       height: '100%',
-      backgroundColor: (0, _colorManipulator.fade)(props.theme.palette.background.paper, 1)
+      backgroundColor: (0, _colorManipulator.fade)(props.theme.palette.background.paper, .98)
     }
   }, _react["default"].createElement("div", {
     style: {
