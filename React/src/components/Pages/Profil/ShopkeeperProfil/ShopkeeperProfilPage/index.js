@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import MaterialTable from 'material-table';
+// import MaterialTable from 'material-table';
 
 // == Import components
 import {
@@ -14,8 +14,10 @@ import {
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Loader from 'src/components/Loader';
 import NavbarShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil/NavbarShopkeeperProfil';
-import MTableToolbar from 'material-table/dist/components/m-table-toolbar';
 import CustomFooter from './MUITable/CustomFooter';
+// ====Material-table
+import MaterialTable from './MUITable';
+import MTableToolbar from './MUITable/components/m-table-toolbar';
 
 // == Import styles
 import shopkeeperProfilPageStyles from './shopkeeperProfilPageStyles';
@@ -203,7 +205,7 @@ const ShopkeeperProfilPage = ({
                 data={state.data}
                 isLoading={loading}
                 icons={{
-                  Add: props => <button>Ajouter</button>
+                  Add: (props) => (<Link {...props}>Ajouter</Link>),
                 }}
                 editable={{
                   onRowAdd: (newData) => new Promise((resolve) => {
