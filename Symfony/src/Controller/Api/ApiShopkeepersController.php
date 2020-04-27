@@ -110,7 +110,7 @@ class ApiShopkeepersController extends AbstractController
         $region = $regionRepository->find($regionId);
 
         // take email data from request and validation : wrong value ? already exist ?
-        $newEmail = filter_var($dataRequest->newEmail, FILTER_SANITIZE_EMAIL);
+        $newEmail = filter_var($dataRequest->email, FILTER_SANITIZE_EMAIL);
         if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
             return $this->json("Cette adresse n'est pas valide", 409);
         }
