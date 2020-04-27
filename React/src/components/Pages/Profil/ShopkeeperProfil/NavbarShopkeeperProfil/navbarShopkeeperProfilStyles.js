@@ -8,42 +8,22 @@ const navbarShopkeeperProfilStyles = makeStyles((theme) => ({
     width: '100%',
     background: 'none',
   },
-  navbarShopkeeberHome: {
-    position: 'absolute',
-    left: 0,
-  },
-  navbarButtonContainer: {
-    display: 'flex',
-    background: 'none',
-    '& > *': {
-      margin: theme.spacing(1),
-    },
+  navbarNavOl: {
     [theme.breakpoints.down('xs')]: {
-      marginTop: theme.spacing(6),
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   },
   navbarButton: {
-    border: '1px solid #b8baba',
-    width: 150,
-    textTransform: 'uppercase',
-    borderRadius: 5,
-    '&:hover': {
-      color: theme.palette.primary.light,
-      border: `1px solid ${theme.palette.primary.light}`,
-    },
+    textTransform: 'inherit',
+    fontSize: '1.2em',
     [theme.breakpoints.down('xs')]: {
-      fontSize: '.8em',
-      width: 120,
+      fontSize: '1em',
+      padding: 0,
     },
   },
-  navbarButtonSelected: {
-    border: `1px solid ${theme.palette.primary.light}`,
-    fontWeight: 500,
-    '& span': {
-      border: 'none',
-    },
-  },
-  selected: {},
 }));
 
 export default navbarShopkeeperProfilStyles;

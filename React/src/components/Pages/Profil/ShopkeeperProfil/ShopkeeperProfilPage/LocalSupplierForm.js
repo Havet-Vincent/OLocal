@@ -42,7 +42,7 @@ const LocalSupplierForm = ({
   const classes = shopkeeperProfilPageStyles();
   const [error, setError] = useState(true);
   const [regionError, setRegionError] = useState(false);
-  const [regionSelect, setRegionSelect] = useState('');
+  const [regionSelect, setRegionSelect] = useState(regions[0].id);
 
   // Responsive mobile
   const theme = useTheme();
@@ -97,7 +97,7 @@ const LocalSupplierForm = ({
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle id="alert-dialog-slide-title">Ajouter un producteur</DialogTitle>
+        <DialogTitle className={classes.formTitle} id="alert-dialog-slide-title">Ajouter un producteur</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             Entrer le N° de siret du producteur ainsi que sa région

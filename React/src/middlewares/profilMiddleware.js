@@ -67,20 +67,6 @@ const profilMiddleware = (store) => (next) => (action) => {
       break;
     }
 
-    case GET_PROFIL_PAGE: {
-      const { userRole } = store.getState().profil;
-      switch (userRole[0]) {
-        case 'ROLE_SHOPKEEPER':
-          store.dispatch(redirect('/commercant/profil/page'));
-          next(action);
-          break;
-        default:
-          next(action);
-      }
-      next(action);
-      break;
-    }
-
     case GET_USER_DATA: {
       const { userId, userRole } = store.getState().profil;
       switch (userRole[0]) {
@@ -157,6 +143,16 @@ const profilMiddleware = (store) => (next) => (action) => {
               store.dispatch(getUserData());
             })
             .catch((error) => {
+              console.log(error.response);
+
+              if (error.response.status === 409) {
+                // eslint-disable-next-line no-console
+                // console.warn(error);
+                // store.dispatch(setLoaderSupplierForm(false));
+                // store.dispatch(setSnackbar('error', 'Ce producteur (SIRET) existe déjà'));
+                // return;
+              }
+
               // eslint-disable-next-line no-console
               console.warn(error);
               store.dispatch(setSnackbar('error', 'Erreur interne : Echec enregistrement des informations'));

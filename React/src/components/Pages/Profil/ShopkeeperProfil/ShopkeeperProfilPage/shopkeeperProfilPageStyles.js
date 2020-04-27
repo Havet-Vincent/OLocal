@@ -54,7 +54,8 @@ const shopkeeperProfilPageStyles = makeStyles((theme) => ({
   addProduct: {
     backgroundColor: theme.palette.text.secondary,
     color: 'rgba(247, 249, 250, .8)',
-    padding: theme.spacing(0.3, 1.6, 0.3, 1),
+    letterSpacing: '.1em',
+    padding: theme.spacing(0.3, 2, 0.3, 1),
     '&:hover': {
       backgroundColor: 'rgba(81, 96, 81, .9)',
     },
@@ -63,7 +64,7 @@ const shopkeeperProfilPageStyles = makeStyles((theme) => ({
     fontSize: '.9em',
     color: theme.palette.text.secondary,
     fontWeight: 700,
-    textTransform: 'capitalize',
+    textTransform: 'inherit',
     textDecoration: 'underline',
     display: 'flex',
     flexFlow: 'row nowrap',
@@ -80,6 +81,9 @@ const shopkeeperProfilPageStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(2, 0, 3, 0),
     width: '100%',
+  },
+  formTitle: {
+    color: theme.palette.primary.main,
   },
   searchSelect: {
     width: '100%',

@@ -1,5 +1,4 @@
 import {
-  SET_ACTIVE_PAGE,
   SAVE_USER,
   SAVE_USER_DATA,
   SET_LOGO_PICTURE,
@@ -22,8 +21,6 @@ const initialState = {
   loaderUser: true,
   loaderProfil: true,
   loaderProfilPage: true,
-  // Current active page in profil
-  activePage: 'Informations',
   // API User Data
   userId: null,
   userRole: [],
@@ -41,12 +38,6 @@ const initialState = {
 
 const profilReducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case SET_ACTIVE_PAGE:
-      return {
-        ...state,
-        activePage: action.newValue,
-      };
-
     case SAVE_USER:
       return {
         ...state,

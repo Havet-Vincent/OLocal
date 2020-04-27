@@ -2,8 +2,6 @@
 export const FETCH_USER = 'FETCH_USER';
 export const SAVE_USER = 'SAVE_USER';
 export const GET_PROFIL = 'GET_PROFIL';
-export const GET_PROFIL_PAGE = 'GET_PROFIL_PAGE';
-export const SET_ACTIVE_PAGE = 'SET_ACTIVE_PAGE';
 export const GET_USER_DATA = 'GET_USER_DATA';
 export const SAVE_USER_DATA = 'SAVE_USER_DATA';
 export const SET_LOGO_PICTURE = 'SET_LOGO_PICTURE';
@@ -41,15 +39,6 @@ export const saveUser = (id, userRole) => ({
 
 export const getProfil = () => ({
   type: GET_PROFIL,
-});
-
-export const getProfilPage = () => ({
-  type: GET_PROFIL_PAGE,
-});
-
-export const setActivePage = (newValue) => ({
-  type: SET_ACTIVE_PAGE,
-  newValue,
 });
 
 export const getUserData = () => ({

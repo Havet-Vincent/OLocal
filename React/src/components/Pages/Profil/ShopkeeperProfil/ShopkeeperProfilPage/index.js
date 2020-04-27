@@ -13,8 +13,8 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Loader from 'src/components/Loader';
-import NavbarShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil/NavbarShopkeeperProfil';
 import LocalSupplierForm from 'src/containers/Profil/ShopkeeperProfil/ShopkeeperProfilPage/LocalSupplierForm';
+import NavbarShopkeeperProfil from '../NavbarShopkeeperProfil';
 
 // ====Material-table
 import MaterialTable from './MUITable';
@@ -226,13 +226,13 @@ const ShopkeeperProfilPage = ({
                   Add: React.forwardRef((props, ref) => (
                     <Button
                       component="a"
-                      aria-label="Ajouter un produit"
+                      aria-label="produit"
                       className={classes.addProduct}
                       ref={ref}
                       {...props}
                     >
                       <AddIcon />
-                      Ajouter produit
+                      produit
                     </Button>
                   )),
                 }}
@@ -295,6 +295,7 @@ const ShopkeeperProfilPage = ({
                   sorting: true,
                   exportButton: true,
                   pageSize: 10,
+                  maxBodyHeight: 750,
                   pageSizeOptions: [10, 20, 50, 100],
                   paginationType: 'stepped',
                   filtering: true,

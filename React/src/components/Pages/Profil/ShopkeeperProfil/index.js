@@ -25,8 +25,8 @@ import SaveRoundedIcon from '@material-ui/icons/SaveRounded';
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 import Loader from 'src/components/Loader';
 import Password from 'src/containers/Password';
-import NavbarShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil/NavbarShopkeeperProfil';
 import ShopkeeperProfilImage from 'src/components/Pages/Profil/ShopkeeperProfil/ShopkeeperProfilImage';
+import NavbarShopkeeperProfil from './NavbarShopkeeperProfil';
 import DeleteAccountAlert from '../DeleteAccountAlert';
 
 
