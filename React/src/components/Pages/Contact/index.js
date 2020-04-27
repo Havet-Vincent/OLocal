@@ -2,10 +2,19 @@
 import React from 'react';
 
 // == Import components
-import { Grid, Container, Typography } from '@material-ui/core';
-import AddIcCallOutlinedIcon from '@material-ui/icons/AddIcCallOutlined';
-import AddLocationOutlinedIcon from '@material-ui/icons/AddLocationOutlined';
+import {
+  Grid,
+  Container,
+  Typography,
+  Paper,
+  Box,
+  Link,
+  Tooltip,
+} from '@material-ui/core';
+import PhoneRoundedIcon from '@material-ui/icons/PhoneRounded';
+import RoomRoundedIcon from '@material-ui/icons/RoomRounded';
 import ContactMailOutlinedIcon from '@material-ui/icons/ContactMailOutlined';
+
 
 // == Import styles
 import contactStyles from './contactStyles';
@@ -13,45 +22,55 @@ import contactStyles from './contactStyles';
 // == Composant
 const Contact = () => {
   const classes = contactStyles();
+  const bull = <span className={classes.bullet}>•</span>;
   return (
-    <section className={classes.contact}>
-      <Container maxWidth="lg">
-        <Typography variant="h4" align="center" component="h1" gutterBottom>
-          Pour nous contacter, c'est simple !
-        </Typography>
-        <Grid container spacing={1}>
-          <Grid item xs={4}>
-            <AddIcCallOutlinedIcon />
-          </Grid>
-          <Grid item xs={4}>
-            <Typography variant="body2" component="p" gutterBottom>
-              (+33).6.06.06.06.06
-            </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <AddLocationOutlinedIcon />
-          </Grid>
-          <Grid item xs={4}>
-            <Typography>o'Local</Typography>
-            <Typography variant="body2" align="left" color="textSecondary" component="p" gutterBottom>
-              18, rue des imaginaires
-              <br />
-              75021 Paris France
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <ContactMailOutlinedIcon />
-          </Grid>
-          <Grid item xs={4}>
-            <Typography variant="body2" component="p" gutterBottom>
-              atlantis@oclock.io
-            </Typography>
-          </Grid>
-        </Grid>
+    <>
+      <Grid container className={classes.contactWrapper}>
+        <Container className={classes.container} maxWidth="lg">
+          <Paper elevation={0} className={classes.paper} >
+            <Typography variant="h4" align="center" component="h1" gutterBottom >
+              Pour nous contacter, c'est simple !
+          </Typography>
+          </Paper>
+          <Paper elevation={0} className={classes.paper}>
+            <Box>
+              <Typography variant="body1" color="textSecondary" component="h6" gutterBottom className={classes.contact}>
+                <RoomRoundedIcon className={classes.contactIcons} />
+                  18, rue des imaginaires
+                    <br />
+                    75021 Paris France
+              </Typography>
+            </Box>
+          </Paper>
 
-
-      </Container>
-    </section>
+          <Paper elevation={0} className={classes.paper}>
+            <Box>
+              <Tooltip title="Email" aria-label="Email" placement="top">
+                <Typography variant="body1" color="textSecondary" component="h6" gutterBottom className={classes.contact}>
+                  <ContactMailOutlinedIcon className={classes.contactIcons} />
+                  <Typography>
+                    <Link color="inherit" href="mailto:atlantis@oclock.io">atlantis@oclock.io</Link>
+                </Typography>
+                </Typography>
+              </Tooltip>
+            </Box>
+          </Paper>
+          <Paper elevation={0} className={classes.paper}>
+            <Box>
+              <Tooltip title="Téléphone" aria-label="Téléphone" placement="top">
+                <Typography variant="body1" color="textSecondary" component="h6" gutterBottom className={classes.contact}>
+                  <PhoneRoundedIcon className={classes.contactIcons} />
+                  <Typography>
+                  <Link  color="blue" href="phone:atlantis@oclock.io">(+33).6.06.06.06.06</Link>
+                    
+                </Typography>
+                </Typography>
+              </Tooltip>
+            </Box>
+          </Paper>
+        </Container>
+      </Grid >
+    </>
   );
 };
 
