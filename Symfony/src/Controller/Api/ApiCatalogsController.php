@@ -70,7 +70,7 @@ class ApiCatalogsController extends AbstractController
                 return $this->json("Données 'catégorie' non conformes", 409);
             }
             $product = new Product;
-            $product->setName($productName);
+            $product->setName(ucfirst($productName));
             $product->setCategory($category);
             $em=$this->getDoctrine()->getManager();
             $em->persist($product);
@@ -140,7 +140,7 @@ class ApiCatalogsController extends AbstractController
                 return $this->json("Données 'catégorie' non conformes", 409);
             }
             $product = new Product;
-            $product->setName($productName);
+            $product->setName(ucfirst($productName));
             $product->setCategory($category);
             $em=$this->getDoctrine()->getManager();
             $em->persist($product);
