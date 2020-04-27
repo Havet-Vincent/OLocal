@@ -24,6 +24,7 @@ const initialState = {
   userId: null,
   userRole: [],
   userData: {},
+  newEmail: '',
   logoPicture: '',
   catalog: [],
   suppliers: [],
@@ -71,6 +72,7 @@ const profilReducer = (state = initialState, action = {}) => {
           ...action.userData,
           password: '',
         },
+        newEmail: action.userData.email,
         logoPicture: `${server.url}:${server.port}${action.userData.logoPicture}`,
         loaderProfil: false,
         loaderProfilPage: false,
@@ -88,6 +90,12 @@ const profilReducer = (state = initialState, action = {}) => {
       };
 
     case SET_PROFIL_FIELD_VALUE: {
+      if (action.name === 'email') {
+        return {
+          ...state,
+          newEmail: action.value,
+        };
+      }
       return {
         ...state,
         userData: {

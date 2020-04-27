@@ -7,6 +7,7 @@ import {
   SET_LOGOUT,
   saveAuthentication,
   setUserAuth,
+  clearAuthData,
 } from '../actions/authentication';
 import { fetchUser, clearUserData } from '../actions/profil';
 import { redirect, setSnackbar } from '../actions/home';
@@ -72,9 +73,16 @@ const authMiddleware = (store) => (next) => (action) => {
             store.dispatch(fetchUser(username));
           })
           .catch((error) => {
+            if (error.response.status === 409) {
+              // eslint-disable-next-line no-console
+              console.warn(error);
+              store.dispatch(clearAuthData());
+              store.dispatch(clearUserData());
+              store.dispatch(redirect('/'));
+              return;
+            }
             // eslint-disable-next-line no-console
             console.warn(error);
-            store.dispatch(setSnackbar('error', 'Erreur interne : Echec vérification authentification'));
           })
           .finally(() => {
           });
@@ -85,6 +93,7 @@ const authMiddleware = (store) => (next) => (action) => {
 
     case SET_LOGOUT:
       store.dispatch(clearUserData());
+      store.dispatch(clearAuthData());
       store.dispatch(redirect('/'));
       store.dispatch(setSnackbar('info', 'Vous êtes déconnecté'));
       next(action);

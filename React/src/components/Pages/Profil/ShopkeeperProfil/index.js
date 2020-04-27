@@ -37,6 +37,7 @@ import shopkeeperProfilStyles from './shopkeeperProfilStyles';
 const ShopkeeperProfil = ({
   loader,
   userData,
+  email,
   logoPicture,
   getUserData,
   setFieldValue,
@@ -118,7 +119,7 @@ const ShopkeeperProfil = ({
                     autoComplete="email"
                     fullWidth
                     InputLabelProps={{ ...InputLabelProps, shrink: true }}
-                    value={userData.email}
+                    value={email}
                     onChange={handleChange}
                     InputProps={{
                       endAdornment: <InputAdornment position="end"><EditRoundedIcon /></InputAdornment>,
@@ -284,6 +285,7 @@ const ShopkeeperProfil = ({
 ShopkeeperProfil.propTypes = {
   loader: PropTypes.bool.isRequired,
   userData: PropTypes.object.isRequired,
+  email: PropTypes.string.isRequired,
   logoPicture: PropTypes.string.isRequired,
   getUserData: PropTypes.func.isRequired,
   setFieldValue: PropTypes.func.isRequired,

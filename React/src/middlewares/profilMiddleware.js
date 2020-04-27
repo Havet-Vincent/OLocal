@@ -3,7 +3,6 @@ import axios from 'axios';
 import {
   FETCH_USER,
   GET_PROFIL,
-  GET_PROFIL_PAGE,
   GET_USER_DATA,
   SET_LOGO_PICTURE_ERROR,
   UPDATE_USER_DATA,
@@ -15,7 +14,7 @@ import {
   getCatalog,
   getSuppliersByRegion,
 } from '../actions/profil';
-import { setLogout } from '../actions/authentication';
+import { clearAuthData } from '../actions/authentication';
 import { redirect, setSnackbar } from '../actions/home';
 
 // == Import API server config
@@ -40,6 +39,14 @@ const profilMiddleware = (store) => (next) => (action) => {
           store.dispatch(saveUser(id, userRole));
         })
         .catch((error) => {
+          if (error.response.status === 409) {
+            // eslint-disable-next-line no-console
+            console.warn(error);
+            store.dispatch(clearAuthData());
+            store.dispatch(clearUserData());
+            store.dispatch(redirect('/'));
+            return;
+          }
           // eslint-disable-next-line no-console
           console.warn(error);
         });
@@ -114,19 +121,21 @@ const profilMiddleware = (store) => (next) => (action) => {
             contact,
             firstname,
             lastname,
-            password,
             companyDescription,
             phone,
             website,
             logoPicture,
           } = store.getState().profil.userData;
+          const { newEmail } = store.getState().profil;
+          const { confirmPassword: password } = store.getState().authentication;
+
           axios({
             method: 'post',
             url: `${server.url}:${server.port}/api/shopkeepers/${userId}/edit`,
             headers: { Authorization: `Bearer ${token}` },
             data: {
               id: userId,
-              email,
+              email: newEmail,
               contact,
               firstname,
               lastname,
@@ -137,22 +146,28 @@ const profilMiddleware = (store) => (next) => (action) => {
               logoPicture,
             },
           })
-            .then((response) => {
-              console.log('success update userData : ', response.data);
+            .then(() => {
+              // console.log('success update userData : ', response.data);
+              if (password) {
+                store.dispatch(clearAuthData());
+                store.dispatch(clearUserData());
+                store.dispatch(redirect('/'));
+                store.dispatch(setSnackbar('success', 'Votre mot de passe a bien été modifié. Veuillez vous reconnecter avec vos nouveaux identifiants'));
+                next(action);
+                return;
+              }
+              if (email !== newEmail) {
+                store.dispatch(clearAuthData());
+                store.dispatch(clearUserData());
+                store.dispatch(redirect('/'));
+                store.dispatch(setSnackbar('success', 'Votre email a bien été modifié. Veuillez vous reconnecter avec vos nouveaux identifiants'));
+                next(action);
+                return;
+              }
               store.dispatch(setSnackbar('success', 'Vos modification sont enregistrées'));
               store.dispatch(getUserData());
             })
             .catch((error) => {
-              console.log(error.response);
-
-              if (error.response.status === 409) {
-                // eslint-disable-next-line no-console
-                // console.warn(error);
-                // store.dispatch(setLoaderSupplierForm(false));
-                // store.dispatch(setSnackbar('error', 'Ce producteur (SIRET) existe déjà'));
-                // return;
-              }
-
               // eslint-disable-next-line no-console
               console.warn(error);
               store.dispatch(setSnackbar('error', 'Erreur interne : Echec enregistrement des informations'));
@@ -161,6 +176,7 @@ const profilMiddleware = (store) => (next) => (action) => {
           next(action);
           break;
         }
+
         default:
           next(action);
       }
@@ -182,8 +198,9 @@ const profilMiddleware = (store) => (next) => (action) => {
             },
           })
             .then((response) => {
+              // eslint-disable-next-line no-console
               console.log('success delete userAccount : ', response.data);
-              store.dispatch(setLogout());
+              store.dispatch(clearAuthData());
               store.dispatch(clearUserData());
               store.dispatch(redirect('/'));
               store.dispatch(setSnackbar('info', 'Votre compte à bien été supprimé'));
