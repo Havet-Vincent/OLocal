@@ -222,9 +222,6 @@ class ApiShopkeepersController extends AbstractController
         if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
             return $this->json("Cette adresse n'est pas valide", 409);
         }
-        if ($userRepository->findOneBy(['email' => $newEmail]) !== null) {
-            return $this->json('Cette adresse email est déjà utilisée.', 409);
-        }
         if ($newEmail !== $userToEdit->getEmail()) {
             $userToEdit->setEmail($newEmail);
         }
