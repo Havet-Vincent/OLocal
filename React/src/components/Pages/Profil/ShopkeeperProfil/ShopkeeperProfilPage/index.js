@@ -1,29 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-// import MaterialTable from 'material-table';
 
 // == Import components
 import {
   Grid,
   Paper,
   Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
   Container,
-  Link,
-  TextField,
   Button,
-  FormControl,
-  MenuItem,
-  InputLabel,
-  Select,
+  TextField,
 } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Loader from 'src/components/Loader';
 import NavbarShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil/NavbarShopkeeperProfil';
+import LocalSupplierForm from 'src/containers/Profil/ShopkeeperProfil/ShopkeeperProfilPage/LocalSupplierForm';
 
 // ====Material-table
 import MaterialTable from './MUITable';
@@ -32,16 +23,12 @@ import MTableToolbar from './MUITable/components/m-table-toolbar';
 // == Import styles
 import shopkeeperProfilPageStyles from './shopkeeperProfilPageStyles';
 
-
 // == Composant
 const ShopkeeperProfilPage = ({
   loader,
   catalog,
   categories,
-  regions,
-  currentRegion,
   suppliers,
-  siret,
   //
   addCatalogItem,
   updateCatalogItem,
@@ -50,10 +37,9 @@ const ShopkeeperProfilPage = ({
   getUserData,
   getCategoriesData,
   getRegionsData,
-  handleSupplierSubmit,
+  setSupplierForm,
 }) => {
   const classes = shopkeeperProfilPageStyles();
-  const [open, setOpen] = useState(false);
   const [state, setState] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -220,25 +206,6 @@ const ShopkeeperProfilPage = ({
     setLoading(false);
   }, [suppliers]);
 
-  // ========== localSupplier Add Dialog
-  const handleToggle = () => {
-    setOpen(!open);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    handleSupplierSubmit();
-    setOpen(false);
-  };
-
-  const handleChange = (event) => {
-    setFieldValue(event.target.name, event.target.value);
-  };
-
   return (
     <>
       <Loader loader={loader} />
@@ -249,14 +216,25 @@ const ShopkeeperProfilPage = ({
             <Typography className={classes.shopkeeperProfilPageTitle} variant="h4" component="h1" align="center">
               Liste de mes produits par catégorie
             </Typography>
-            <Paper className={classes.shopkeeperProfilPageContainer} elevation={0}>
+            <Paper className={classes.shopkeeperProfilPageContainer} elevation={3}>
               <MaterialTable
                 title="Liste des produits par catégorie"
                 columns={state.columns}
                 data={state.data}
                 isLoading={loading}
                 icons={{
-                  Add: (props) => (<Link {...props}>Ajouter</Link>),
+                  Add: React.forwardRef((props, ref) => (
+                    <Button
+                      component="a"
+                      aria-label="Ajouter un produit"
+                      className={classes.addProduct}
+                      ref={ref}
+                      {...props}
+                    >
+                      <AddIcon />
+                      Ajouter produit
+                    </Button>
+                  )),
                 }}
                 editable={{
                   onRowAdd: () => new Promise((resolve, reject) => {
@@ -297,7 +275,13 @@ const ShopkeeperProfilPage = ({
                   Toolbar: (props) => (
                     <div className={classes.MToolbarWrapper}>
                       <MTableToolbar {...props} />
-                      <Link className={classes.MToolbarLink} onClick={handleToggle}>Ajouter un producteur à la liste ?</Link>
+                      <Button
+                        aria-label="Ajouter un producteur"
+                        className={classes.MToolbarLink}
+                        onClick={setSupplierForm}
+                      >
+                        Ajouter un nouveau producteur ?
+                      </Button>
                     </div>
                   ),
                 }}
@@ -330,53 +314,7 @@ const ShopkeeperProfilPage = ({
                 ]}
               />
             </Paper>
-            {/* <Paper>
-              <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Ajouter un producteur</DialogTitle>
-                <DialogContent>
-                  <DialogContentText>
-                    Entrer le N° de siret du producteur et la région
-                  </DialogContentText>
-                  <form onSubmit={handleSubmit}>
-                    <TextField
-                      autoFocus
-                      margin="dense"
-                      id="siret"
-                      label="N° de siret"
-                      fullWidth
-                      name="siret"
-                      value={siret}
-                      onChange={handleChange}
-                    />
-                    <FormControl variant="outlined" className={classes.formControl}>
-                      <InputLabel id="search-region">Région</InputLabel>
-                      <Select
-                        className={classes.searchSelect}
-                        label="Région"
-                        labelId="search-region"
-                        id="search-region"
-                        inputProps={{ name: 'region' }}
-                        value={regions}
-                        onChange={handleChange}
-                        MenuProps={MenuProps}
-                      >
-                        {regions.map((item) => (
-                          <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <DialogActions>
-                      <Button onClick={handleClose} color="primary">
-                        Abandonner
-                      </Button>
-                      <Button type="submit" color="primary">
-                        Ajouter
-                      </Button>
-                    </DialogActions>
-                  </form>
-                </DialogContent>
-              </Dialog>
-            </Paper> */}
+            <LocalSupplierForm />
           </Container>
         </Grid>
       )}
@@ -388,15 +326,14 @@ ShopkeeperProfilPage.propTypes = {
   loader: PropTypes.bool.isRequired,
   catalog: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,
-  currentRegion: PropTypes.array.isRequired,
   suppliers: PropTypes.array.isRequired,
-  siret: PropTypes.string.isRequired,
   addCatalogItem: PropTypes.func.isRequired,
   updateCatalogItem: PropTypes.func.isRequired,
   deleteCatalogItem: PropTypes.func.isRequired,
   getUserData: PropTypes.func.isRequired,
   getCategoriesData: PropTypes.func.isRequired,
-  handleSupplierSubmit: PropTypes.func.isRequired,
+  getRegionsData: PropTypes.func.isRequired,
+  setSupplierForm: PropTypes.func.isRequired,
 };
 
 // == Export

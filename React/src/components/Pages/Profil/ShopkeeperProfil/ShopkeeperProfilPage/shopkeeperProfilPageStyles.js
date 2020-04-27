@@ -41,17 +41,35 @@ const shopkeeperProfilPageStyles = makeStyles((theme) => ({
     flexFlow: 'row wrap',
     flexDirection: 'row reverse',
     justifyContent: 'space-between',
-    alignItems: 'baseline',
+    alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
   },
   MToolbar: {
     display: 'flex',
     flexFlow: 'column wrap',
   },
+  addProduct: {
+    backgroundColor: theme.palette.text.secondary,
+    color: 'rgba(247, 249, 250, .8)',
+    padding: theme.spacing(0.3, 1.6, 0.3, 1),
+    '&:hover': {
+      backgroundColor: 'rgba(81, 96, 81, .9)',
+    },
+  },
   MToolbarLink: {
+    fontSize: '.9em',
+    color: theme.palette.text.secondary,
+    fontWeight: 700,
+    textTransform: 'capitalize',
+    textDecoration: 'underline',
     display: 'flex',
     flexFlow: 'row nowrap',
     justifyContent: 'flex-start',
     alignItems: 'center',
+    marginRight: theme.spacing(2),
   },
   selectField: {
     fontSize: '.9em',
@@ -59,20 +77,12 @@ const shopkeeperProfilPageStyles = makeStyles((theme) => ({
   textField: {
     paddingTop: '1rem',
   },
-  listNav: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-
   formControl: {
-    margin: theme.spacing(0, 2),
-    [theme.breakpoints.down('sm')]: {
-      margin: theme.spacing(1, 0),
-    },
+    margin: theme.spacing(2, 0, 3, 0),
+    width: '100%',
   },
   searchSelect: {
-    width: 220,
+    width: '100%',
   },
 
 }));

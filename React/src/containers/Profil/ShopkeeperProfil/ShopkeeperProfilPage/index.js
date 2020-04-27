@@ -4,7 +4,7 @@ import {
   addCatalogItem,
   deleteCatalogItem,
   updateCatalogItem,
-  handleSupplierSubmit,
+  toogleSupplierForm,
 } from 'src/actions/profil';
 import { getCategoriesData, getRegionsData } from 'src/actions/home';
 
@@ -14,9 +14,6 @@ const mapStateToProps = (state) => ({
   loader: state.profil.loaderProfilPage,
   catalog: state.profil.catalog,
   categories: state.home.categories,
-  regions: state.home.regions,
-  currentRegion: state.profil.userData.length > 0 ? state.profil.userData.region : [],
-  siret: state.profil.siret,
   suppliers: state.profil.suppliers,
 });
 
@@ -39,11 +36,8 @@ const mapDispatchToProps = (dispatch) => ({
   updateCatalogItem: (data) => {
     dispatch(updateCatalogItem(data));
   },
-  setFieldValue: (name, value) => {
-    dispatch(setFieldValue(name, value));
-  },
-  handleSupplierSubmit: () => {
-    dispatch(handleSupplierSubmit());
+  setSupplierForm: () => {
+    dispatch(toogleSupplierForm());
   },
 });
 

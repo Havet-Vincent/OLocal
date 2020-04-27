@@ -11,6 +11,7 @@ export const SET_LOGO_PICTURE_ERROR = 'SET_LOGO_PICTURE_ERROR';
 export const UPDATE_USER_DATA = 'UPDATE_USER_DATA';
 export const DELETE_USER_ACCOUNT = 'DELETE_USER_ACCOUNT';
 export const SET_PROFIL_FIELD_VALUE = 'SET_PROFIL_FIELD_VALUE';
+export const SET_FIELD_VALUE = 'SET_FIELD_VALUE';
 export const SET_FIELD_ERROR = 'SET_FIELD_ERROR';
 export const CLEAR_USER_DATA = 'CLEAR_USER_DATA';
 
@@ -21,7 +22,9 @@ export const DELETE_CATALOG_ITEM = 'DELETE_CATALOG_ITEM';
 export const UPDATE_CATALOG_ITEM = 'UPDATE_CATALOG_ITEM';
 export const GET_SUPPLIERS_BY_REGION = 'GET_SUPPLIERS_BY_REGION';
 export const SAVE_SUPLIERS_BY_REGION = 'SAVE_SUPLIERS_BY_REGION';
-export const HANDLE_SUPPLIER_SUBMIT = 'HANDLE_SUPPLIER_SUBMIT';
+export const TOOGLE_SUPPLIER_FORM = 'TOOGLE_SUPPLIER_FORM';
+export const SET_LOADER_SUPPLIER_FORM = 'SET_LOADER_SUPPLIER_FORM';
+export const ADD_LOCAL_SUPPLIER = 'ADD_LOCAL_SUPPLIER';
 
 
 // action creators
@@ -73,12 +76,18 @@ export const updateUserData = (data) => ({
   data,
 });
 
+export const setFieldValue = (name, value) => ({
+  type: SET_FIELD_VALUE,
+  name,
+  value,
+});
+
 export const setFieldError = (value) => ({
   type: SET_FIELD_ERROR,
   value,
 });
 
-export const setFieldValue = (name, value) => ({
+export const setProfilFieldValue = (name, value) => ({
   type: SET_PROFIL_FIELD_VALUE,
   name,
   value,
@@ -122,6 +131,15 @@ export const saveSuppliersByRegion = (suppliers) => ({
   suppliers,
 });
 
-export const handleSupplierSubmit = () => ({
-  type: HANDLE_SUPPLIER_SUBMIT,
+export const toogleSupplierForm = () => ({
+  type: TOOGLE_SUPPLIER_FORM,
+});
+
+export const setLoaderSupplierForm = (value) => ({
+  type: SET_LOADER_SUPPLIER_FORM,
+  value,
+});
+
+export const AddLocalSupplier = () => ({
+  type: ADD_LOCAL_SUPPLIER,
 });

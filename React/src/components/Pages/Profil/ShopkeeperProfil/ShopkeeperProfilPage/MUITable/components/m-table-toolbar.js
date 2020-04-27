@@ -336,6 +336,10 @@ var styles = function styles(theme) {
       display: 'flex',
       flexFlow: 'row wrap',
       flexGrow: 1,
+      [theme.breakpoints.down('xs')]: {
+        flexDirection: 'column',
+        alignItems: 'center',
+      },
     },
     highlight: theme.palette.type === 'light' ? {
       color: theme.palette.secondary.main,
@@ -350,7 +354,10 @@ var styles = function styles(theme) {
     actions: {
       color: theme.palette.text.secondary,
       display: 'flex',
-      flexFlow: 'row nowrap'
+      flexFlow: 'row nowrap',
+      [theme.breakpoints.down('xs')]: {
+        paddingTop: theme.spacing(1)
+      },
     },
     title: {
       overflow: 'hidden'
