@@ -258,22 +258,23 @@ class ApiShopkeepersController extends AbstractController
         if ($data->logoPicture !== $userToEdit->getLogoPicture()) {
             $extension = explode('/', mime_content_type($data->logoPicture))[1];
             // image's extension validation
-            if ($extension !== 'jpg' || $extension !== 'jpeg' || $extension !== 'png') {
+            if ($extension == 'gif' || $extension == 'jpeg' || $extension == 'png') {
+                $newFilename = 'avatarId'.$userId.'.'.$extension;
+
+                $img = explode(',', $data->logoPicture)[1];
+
+                $newPicture = base64_decode($img);
+
+                // Move the file to the directory where avatars are stored
+                if ($newPicture) {
+                    file_put_contents('uploads/avatars/'.$newFilename, $newPicture);
+                } else {
+                    return $this->json("Erreur lors de l'envoi d'image.", 409);
+                }
+                $userToEdit->setLogoPicture('/uploads/avatars/'.$newFilename);
+            } else {
                 return $this->json("Format d'image non autorisée.", 409);
             }
-            $newFilename = 'avatarId'.$userId.'.'.$extension;
-
-            $img = explode(',', $data->logoPicture)[1];
-
-            $newPicture = base64_decode($img);
-
-            // Move the file to the directory where avatars are stored
-            if ($newPicture) {
-                file_put_contents('uploads/avatars/'.$newFilename, $newPicture);
-            } else {
-                return $this->json("Erreur lors de l'envoi d'image.", 409);
-            }
-            $userToEdit->setLogoPicture('/uploads/avatars/'.$newFilename);
         } elseif ($data->logoPicture == '') {
             $user->setLogoPicture('uploads/avatars/no-avatar.png');
         }
