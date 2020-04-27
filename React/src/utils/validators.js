@@ -34,3 +34,13 @@ export const verifySiret = (siret) => {
 export const validatePassword = (password) => (
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password)
 );
+
+
+/**
+* Validate Phone number field
+* @param {String} phone number
+* @return Bool true/false if valid phone number
+*/
+export const validatePhone = (phone) => (
+  /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(phone)
+);

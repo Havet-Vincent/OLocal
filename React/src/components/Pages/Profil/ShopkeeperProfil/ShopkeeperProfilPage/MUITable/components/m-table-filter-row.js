@@ -1,3 +1,4 @@
+/* eslint-disable */
 "use strict";
 
 var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
@@ -303,7 +304,7 @@ MTableFilterRow.defaultProps = {
   selection: false,
   hasActions: false,
   localization: {
-    filterTooltip: 'Filter'
+    filterTooltip: 'Filtrer la colonne'
   },
   hideFilterIcons: false
 };

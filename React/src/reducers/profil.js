@@ -132,7 +132,21 @@ const profilReducer = (state = initialState, action = {}) => {
     case CLEAR_USER_DATA:
       return {
         ...state,
-        initialState,
+        // Display Profil Loader
+        loaderProfil: true,
+        loaderProfilPage: true,
+        // API User Data
+        userId: null,
+        userRole: [],
+        userData: {},
+        logoPicture: '',
+        catalog: [],
+        suppliers: [],
+        // LocalSupplier add form
+        loaderAddSupplier: false,
+        openSupplierForm: false,
+        supplierRegion: null,
+        siret: '',
       };
 
 

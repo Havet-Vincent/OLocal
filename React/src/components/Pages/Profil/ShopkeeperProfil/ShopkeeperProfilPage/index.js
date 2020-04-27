@@ -9,6 +9,7 @@ import {
   Container,
   Button,
   TextField,
+  Tooltip,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -275,13 +276,15 @@ const ShopkeeperProfilPage = ({
                   Toolbar: (props) => (
                     <div className={classes.MToolbarWrapper}>
                       <MTableToolbar {...props} />
-                      <Button
-                        aria-label="Ajouter un producteur"
-                        className={classes.MToolbarLink}
-                        onClick={setSupplierForm}
-                      >
-                        Ajouter un nouveau producteur ?
-                      </Button>
+                      <Tooltip title="Ajouter un nouveau producteur" aria-label="Ajouter un nouveau producteur" placement="bottom">
+                        <Button
+                          aria-label="Ajouter un producteur"
+                          className={classes.MToolbarLink}
+                          onClick={setSupplierForm}
+                        >
+                          Ajouter un nouveau producteur ?
+                        </Button>
+                      </Tooltip>
                     </div>
                   ),
                 }}

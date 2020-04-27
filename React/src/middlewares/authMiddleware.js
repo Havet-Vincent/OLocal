@@ -9,7 +9,7 @@ import {
   setUserAuth,
 } from '../actions/authentication';
 import { fetchUser, clearUserData } from '../actions/profil';
-import { setSnackbar } from '../actions/home';
+import { redirect, setSnackbar } from '../actions/home';
 
 // == Import API server config
 const server = require('../api.config.json');
@@ -85,6 +85,7 @@ const authMiddleware = (store) => (next) => (action) => {
 
     case SET_LOGOUT:
       store.dispatch(clearUserData());
+      store.dispatch(redirect('/'));
       store.dispatch(setSnackbar('info', 'Vous êtes déconnecté'));
       next(action);
       break;

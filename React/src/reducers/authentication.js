@@ -98,7 +98,9 @@ const authenticationReducer = (state = initialState, action = {}) => {
       localStorage.clear();
       return {
         ...state,
-        initialState,
+        token: null,
+        refreshToken: null,
+        UserAuth: false,
       };
 
     default: return state;
