@@ -13,6 +13,7 @@ import ShopkeeperProfil from 'src/components/Pages/Profil/ShopkeeperProfil';
 const mapStateToProps = (state) => ({
   loader: state.profil.loaderProfil,
   userData: state.profil.userData,
+  email: state.profil.newEmail,
   logoPicture: state.profil.logoPicture,
 });
 

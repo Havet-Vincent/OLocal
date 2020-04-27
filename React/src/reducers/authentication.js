@@ -5,7 +5,7 @@ import {
   SAVE_AUTHENTICATION,
   FETCH_AUTHENTICATION,
   SET_USER_AUTH,
-  SET_LOGOUT,
+  CLEAR_AUTH_DATA,
 } from '../actions/authentication';
 
 const initialState = {
@@ -94,7 +94,7 @@ const authenticationReducer = (state = initialState, action = {}) => {
         UserAuth: true,
       };
 
-    case SET_LOGOUT:
+    case CLEAR_AUTH_DATA:
       localStorage.clear();
       return {
         ...state,

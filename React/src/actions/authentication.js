@@ -7,6 +7,7 @@ export const SAVE_AUTHENTICATION = 'SAVE_AUTHENTICATION';
 export const FETCH_AUTHENTICATION = 'FETCH_AUTHENTICATION';
 export const SET_USER_AUTH = 'SET_USER_AUTH';
 export const SET_LOGOUT = 'SET_LOGOUT';
+export const CLEAR_AUTH_DATA = 'CLEAR_AUTH_DATA';
 
 // action creators
 export const toggleSignInForm = () => ({
@@ -45,4 +46,8 @@ export const setUserAuth = (token, refreshToken) => ({
 
 export const setLogout = () => ({
   type: SET_LOGOUT,
+});
+
+export const clearAuthData = () => ({
+  type: CLEAR_AUTH_DATA,
 });
