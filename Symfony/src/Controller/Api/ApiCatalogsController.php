@@ -45,9 +45,15 @@ class ApiCatalogsController extends AbstractController
         // we get informations from Json and get its objects from DB
         $localSupplierId = filter_var($dataRequest->localSupplier, FILTER_SANITIZE_NUMBER_INT);
         $localSupplier = $localSupplierRepository->find($localSupplierId);
+        if (!$localSupplier) {
+            return $this->json("Données 'producteur local' non conformes", 409);
+        }
 
         $userId = filter_var($dataRequest->user, FILTER_SANITIZE_NUMBER_INT);
         $user = $userRepository->find($userId);
+        if (!$user) {
+            return $this->json("Données 'commerçant' non conformes", 409);
+        }
 
         $productName = filter_var($dataRequest->product, FILTER_SANITIZE_STRING);
 
@@ -60,6 +66,9 @@ class ApiCatalogsController extends AbstractController
             // else -> call add product function before adding it to Catalog
             $categoryId = filter_var($dataRequest->category, FILTER_SANITIZE_NUMBER_INT);
             $category = $categoryRepository->find($categoryId);
+            if (!$category) {
+                return $this->json("Données 'catégorie' non conformes", 409);
+            }
             $product = new Product;
             $product->setName($productName);
             $product->setCategory($category);
@@ -114,6 +123,9 @@ class ApiCatalogsController extends AbstractController
 
         $localSupplierId = filter_var($dataRequest->localSupplier, FILTER_SANITIZE_NUMBER_INT);
         $localSupplier = $localSupplierRepository->find($localSupplierId);
+        if (!$localSupplier) {
+            return $this->json("Données 'producteur local' non conformes", 409);
+        }
 
         $productName = filter_var($dataRequest->product, FILTER_SANITIZE_STRING);
         // if product already in DB
@@ -124,6 +136,9 @@ class ApiCatalogsController extends AbstractController
             // else -> call add product function before adding it to Catalog
             $categoryId = filter_var($dataRequest->category, FILTER_SANITIZE_NUMBER_INT);
             $category = $categoryRepository->find($categoryId);
+            if (!$category) {
+                return $this->json("Données 'catégorie' non conformes", 409);
+            }
             $product = new Product;
             $product->setName($productName);
             $product->setCategory($category);
