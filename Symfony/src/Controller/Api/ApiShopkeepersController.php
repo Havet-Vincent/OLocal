@@ -250,7 +250,7 @@ class ApiShopkeepersController extends AbstractController
             $userToEdit->setPassword($encoder->encodePassword($userToEdit, $data->password));
         }
 
-        $companyDescription = filter_var($data->companyDescription, FILTER_FLAG_NO_ENCODE_QUOTES);
+        $companyDescription = filter_var($data->companyDescription, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
         if ($companyDescription !== $userToEdit->getCompanyDescription()) {
             $userToEdit->setCompanyDescription($companyDescription);
         }
