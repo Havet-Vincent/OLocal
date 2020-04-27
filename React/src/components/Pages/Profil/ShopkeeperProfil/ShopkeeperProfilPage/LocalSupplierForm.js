@@ -50,6 +50,7 @@ const LocalSupplierForm = ({
 
   // Check Errors else display Send Button
   useEffect(() => {
+    setRegionSelect(supplierRegion);
     if (!regionError && siret !== '') {
       setError(false);
     }
@@ -97,7 +98,7 @@ const LocalSupplierForm = ({
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle id="alert-dialog-slide-title">Ajouter un producteur</DialogTitle>
+        <DialogTitle className={classes.formTitle} id="alert-dialog-slide-title">Ajouter un producteur</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             Entrer le N° de siret du producteur ainsi que sa région
@@ -116,24 +117,26 @@ const LocalSupplierForm = ({
               InputLabelProps={InputLabelProps}
               onChange={handleChange}
             />
-            <FormControl required className={classes.formControl} error={regionError}>
-              <InputLabel id="supplierRegion" {...InputLabelProps}>Région</InputLabel>
-              <Select
-                fullWidth
-                className={classes.searchSelect}
-                label="Région du Producteur"
-                labelId="supplierRegion"
-                id="supplierRegion"
-                inputProps={{ name: 'supplierRegion' }}
-                value={!supplierRegion ? regionSelect : supplierRegion}
-                onChange={handleChangeRegion}
-                MenuProps={MenuProps}
-              >
-                {regions.map((item) => (
-                  <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            {regions.length > 0 && (
+              <FormControl required className={classes.formControl} error={regionError}>
+                <InputLabel id="supplierRegion" {...InputLabelProps}>Région</InputLabel>
+                <Select
+                  fullWidth
+                  className={classes.searchSelect}
+                  label="Région du Producteur"
+                  labelId="supplierRegion"
+                  id="supplierRegion"
+                  inputProps={{ name: 'supplierRegion' }}
+                  value={regionSelect}
+                  onChange={handleChangeRegion}
+                  MenuProps={MenuProps}
+                >
+                  {regions.map((item) => (
+                    <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
           </form>
           {loaderAddSupplier && (
             <LinearProgress color="primary" className={classes.progress} />

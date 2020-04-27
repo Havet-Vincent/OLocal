@@ -1,3 +1,6 @@
+// == Import validators
+import { validatePassword } from 'src/utils/validators';
+
 // == Import npm
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -14,26 +17,20 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 // == Import styles
-import passwordStyles from './passwordStyles';
+import shopkeeperProfilStyles from './ShopkeeperProfil/shopkeeperProfilStyles';
 
 // == Composant
-const Password = ({
+const ProfilPassword = ({
   password,
   confirmPassword,
   setFieldValue,
-  pwdCheckError,
-  setPwdCheckError,
   checkPasswordConfirmation,
   passwordLength,
   passwordConfirmed,
-  handleFocus,
-  style,
-  fullwidth,
-  variante,
-  labelShrink,
   disabledField,
+  setError,
 }) => {
-  const classes = passwordStyles();
+  const classes = shopkeeperProfilStyles();
   const [showPassword, setShowPassword] = useState(false);
 
   // Responsive mobile
@@ -41,31 +38,29 @@ const Password = ({
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
   // ============= Password Check Display ==========
+  const [pwdError, setPwdError] = useState(false);
   const [errorPwdMsg, setPwdErrorMsg] = useState('');
 
-  // Min eight characters, at least one uppercase letter, one lowercase letter and one number:
-  const validatePassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password);
-
   const handlePwdErrors = () => {
-    if (!passwordConfirmed) {
+    if (!validatePassword(password)) {
       if (passwordLength === 0) {
-        return setPwdCheckError(false);
+        return setPwdError(false);
       }
-      if (passwordLength < 8 && !validatePassword) {
-        setPwdCheckError(true);
-        return setPwdErrorMsg('Minimum requis : 8 caractères / 1 Majuscule / 1 chiffre ');
-      }
-      setPwdCheckError(true);
+      setPwdError(true);
+      return setPwdErrorMsg('Minimum requis : 8 caractères / 1 Majuscule / 1 chiffre ');
+    }
+    if (!passwordConfirmed) {
+      setPwdError(true);
       return setPwdErrorMsg('Les mots de passe saisis ne sont pas identiques');
     }
-    return [setPwdCheckError(false), setPwdErrorMsg('')];
+    return [setPwdError(false), setPwdErrorMsg('')];
   };
 
   useEffect(() => {
     checkPasswordConfirmation();
     handlePwdErrors();
-    if (!pwdCheckError && passwordConfirmed) {
-      setPwdCheckError(false);
+    if (passwordConfirmed) {
+      setError(false);
     }
   });
   // ========================================
@@ -83,33 +78,28 @@ const Password = ({
     ? {
       className: classes.inputLabelField,
       shrink: fullScreen,
-    } : (labelShrink
-      ? {
-        className: classes.inputLabelField,
-        shrink: labelShrink,
-      } : {
-        className: classes.inputLabelField,
-      });
+    } : {
+      className: classes.inputLabelField,
+    };
 
   return (
     <>
       <TextField
         id="password"
-        label="Mot de passe (minimum 8 caractères)"
-        className={style}
+        label="Mot de passe"
+        className={classes.textField}
         name="password"
         type={showPassword ? 'text' : 'password'}
-        required
         disabled={disabledField}
-        fullWidth={fullwidth}
+        required
+        fullWidth
+        variant="outlined"
         autoComplete="current-password"
         margin="dense"
-        variant={variante}
         InputLabelProps={InputLabelProps}
         value={password}
-        onFocus={handleFocus}
         onChange={handleChange}
-        error={pwdCheckError}
+        error={pwdError}
         helperText={errorPwdMsg}
         InputProps={{
           endAdornment:
@@ -127,19 +117,19 @@ const Password = ({
       <TextField
         id="confirm-password"
         label="Confirmez le mot de passe"
-        className={style}
+        className={classes.textField}
         name="confirmPassword"
         type={showPassword ? 'text' : 'password'}
-        required
         disabled={disabledField}
-        fullWidth={fullwidth}
+        required
+        fullWidth
+        variant="outlined"
         autoComplete="current-password"
         margin="dense"
-        variant={variante}
         InputLabelProps={InputLabelProps}
         value={confirmPassword}
         onChange={handleChange}
-        error={pwdCheckError}
+        error={pwdError}
         helperText={errorPwdMsg}
         InputProps={{
           endAdornment:
@@ -158,31 +148,16 @@ const Password = ({
   );
 };
 
-Password.propTypes = {
+ProfilPassword.propTypes = {
   password: PropTypes.string.isRequired,
   confirmPassword: PropTypes.string.isRequired,
-  pwdCheckError: PropTypes.bool.isRequired,
-  setPwdCheckError: PropTypes.func.isRequired,
   setFieldValue: PropTypes.func.isRequired,
   checkPasswordConfirmation: PropTypes.func.isRequired,
   passwordLength: PropTypes.number.isRequired,
   passwordConfirmed: PropTypes.bool.isRequired,
-  handleFocus: PropTypes.func,
-  style: PropTypes.string,
-  fullwidth: PropTypes.bool,
-  variante: PropTypes.string,
-  labelShrink: PropTypes.bool,
-  disabledField: PropTypes.bool,
-};
-
-Password.defaultProps = {
-  handleFocus: null,
-  style: null,
-  fullwidth: false,
-  variante: 'standard',
-  labelShrink: false,
-  disabledField: false,
+  disabledField: PropTypes.bool.isRequired,
+  setError: PropTypes.func.isRequired,
 };
 
 // == Export
-export default Password;
+export default ProfilPassword;

@@ -21,3 +21,16 @@ export const verifySiret = (siret) => {
   }
   return false;
 };
+
+/**
+* Validate Password fields
+* @param {String} password
+* @return Bool true/false if valid password with conditions :
+* - Min eight characters
+* - at least one uppercase letter
+* - at least one lowercase letter
+* - at least one number
+*/
+export const validatePassword = (password) => (
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password)
+);

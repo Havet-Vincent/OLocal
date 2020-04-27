@@ -1,3 +1,6 @@
+// == Import validators
+import { validatePassword } from 'src/utils/validators';
+
 // == Import npm
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -38,11 +41,8 @@ const SignUpPassword = ({
   const [pwdError, setPwdError] = useState(false);
   const [errorPwdMsg, setPwdErrorMsg] = useState('');
 
-  // Min eight characters, at least one uppercase letter, one lowercase letter and one number:
-  const validatePassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password);
-
   const handlePwdErrors = () => {
-    if (!validatePassword) {
+    if (!validatePassword(password)) {
       if (passwordLength === 0) {
         return setPwdError(false);
       }

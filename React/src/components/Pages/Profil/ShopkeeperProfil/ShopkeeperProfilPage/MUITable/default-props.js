@@ -230,7 +230,7 @@ var defaultProps = {
         cancelTooltip: 'Annuler',
         deleteText: 'Etes-vous sûr de vouloir supprimer cette ligne ?'
       },
-      addTooltip: 'Ajouter',
+      addTooltip: 'Ajouter un produit',
       deleteTooltip: 'Supprimer',
       editTooltip: 'Modifier'
     }

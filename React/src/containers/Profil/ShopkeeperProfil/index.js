@@ -4,7 +4,6 @@ import {
   setProfilFieldValue,
   setLogoPicture,
   setLogoPictureError,
-  setFieldError,
   updateUserData,
   deleteUserAccount,
 } from 'src/actions/profil';
@@ -15,8 +14,6 @@ const mapStateToProps = (state) => ({
   loader: state.profil.loaderProfil,
   userData: state.profil.userData,
   logoPicture: state.profil.logoPicture,
-  fieldError: state.profil.fieldError,
-  pwdCheckError: state.authentication.pwdCheckError,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -31,9 +28,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getUserData: () => {
     dispatch(getUserData());
-  },
-  setFieldError: (value) => {
-    dispatch(setFieldError(value));
   },
   handleUpdateUserData: () => {
     dispatch(updateUserData());

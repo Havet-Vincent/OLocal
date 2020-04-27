@@ -2,8 +2,6 @@
 export const FETCH_USER = 'FETCH_USER';
 export const SAVE_USER = 'SAVE_USER';
 export const GET_PROFIL = 'GET_PROFIL';
-export const GET_PROFIL_PAGE = 'GET_PROFIL_PAGE';
-export const SET_ACTIVE_PAGE = 'SET_ACTIVE_PAGE';
 export const GET_USER_DATA = 'GET_USER_DATA';
 export const SAVE_USER_DATA = 'SAVE_USER_DATA';
 export const SET_LOGO_PICTURE = 'SET_LOGO_PICTURE';
@@ -12,7 +10,6 @@ export const UPDATE_USER_DATA = 'UPDATE_USER_DATA';
 export const DELETE_USER_ACCOUNT = 'DELETE_USER_ACCOUNT';
 export const SET_PROFIL_FIELD_VALUE = 'SET_PROFIL_FIELD_VALUE';
 export const SET_FIELD_VALUE = 'SET_FIELD_VALUE';
-export const SET_FIELD_ERROR = 'SET_FIELD_ERROR';
 export const CLEAR_USER_DATA = 'CLEAR_USER_DATA';
 
 // ====== Shopkeeper Profil Page
@@ -43,15 +40,6 @@ export const getProfil = () => ({
   type: GET_PROFIL,
 });
 
-export const getProfilPage = () => ({
-  type: GET_PROFIL_PAGE,
-});
-
-export const setActivePage = (newValue) => ({
-  type: SET_ACTIVE_PAGE,
-  newValue,
-});
-
 export const getUserData = () => ({
   type: GET_USER_DATA,
 });
@@ -79,11 +67,6 @@ export const updateUserData = (data) => ({
 export const setFieldValue = (name, value) => ({
   type: SET_FIELD_VALUE,
   name,
-  value,
-});
-
-export const setFieldError = (value) => ({
-  type: SET_FIELD_ERROR,
   value,
 });
 

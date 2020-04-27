@@ -168,6 +168,9 @@ const shopkeeperProfilStyles = makeStyles((theme) => ({
   passwordForm: {
     margin: theme.spacing(2, 0),
   },
+  tooglePasswordForm: {
+    marginBottom: theme.spacing(1),
+  },
 }));
 
 export default shopkeeperProfilStyles;

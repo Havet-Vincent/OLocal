@@ -70,13 +70,16 @@ const AuthMenu = ({ userRole, getProfil, setLogout }) => {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleProfil}>Mon Profil</MenuItem>
-        {userRole === 'ROLE_ADMIN' && (
-        <MenuItem>
-          <a href={`${server.url}/admin`} target="_blank" rel="noopener noreferrer">
-            Accès BackOffice Administration
-          </a>
-        </MenuItem>
+        {userRole === 'ROLE_ADMIN' ? (
+          <MenuItem>
+            <a href={`${server.url}/admin`} target="_blank" rel="noopener noreferrer">
+              Accès BackOffice Administration
+            </a>
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={handleProfil}>
+            Mon Profil
+          </MenuItem>
         )}
         <MenuItem onClick={handleLogout}>Se déconnecter</MenuItem>
       </Menu>
