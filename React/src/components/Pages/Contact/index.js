@@ -61,7 +61,7 @@ const Contact = () => {
                 <Typography variant="body1" color="textSecondary" component="h6" gutterBottom className={classes.contact}>
                   <PhoneRoundedIcon className={classes.contactIcons} />
                   <Typography>
-                  <Link  color="blue" href="phone:atlantis@oclock.io">(+33).6.06.06.06.06</Link>
+                  <Link color="inherit" href="phone:atlantis@oclock.io">(+33).6.06.06.06.06</Link>
                     
                 </Typography>
                 </Typography>
