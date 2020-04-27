@@ -1,295 +1,322 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
 
 // == Import components
 import {
+  Grid,
   Paper,
-  IconButton,
+  Typography,
   Container,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
   TextField,
-  FormControl,
-  MenuItem,
-  InputLabel,
-  Select,
 } from '@material-ui/core';
-import MaterialTable from 'material-table';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import AddIcon from '@material-ui/icons/Add';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import Loader from 'src/components/Loader';
 import NavbarShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil/NavbarShopkeeperProfil';
+import LocalSupplierForm from 'src/containers/Profil/ShopkeeperProfil/ShopkeeperProfilPage/LocalSupplierForm';
 
+// ====Material-table
+import MaterialTable from './MUITable';
+import MTableToolbar from './MUITable/components/m-table-toolbar';
 
 // == Import styles
 import shopkeeperProfilPageStyles from './shopkeeperProfilPageStyles';
-
-
-const onAdd = (data) => {
-  console.log('add ', data);
-};
 
 // == Composant
 const ShopkeeperProfilPage = ({
   loader,
   catalog,
+  categories,
+  suppliers,
+  //
+  addCatalogItem,
+  updateCatalogItem,
+  deleteCatalogItem,
+  //
   getUserData,
-  onDelete,
-  onUpdate,
+  getCategoriesData,
   getRegionsData,
-  regions,
-  setFieldValue,
-  siret,
-  handleSupplierSubmit,
+  setSupplierForm,
 }) => {
   const classes = shopkeeperProfilPageStyles();
-  const [error, setError] = useState(true);
-  const [open, setOpen] = useState(false);
   const [state, setState] = useState({});
-  const [regionSelect, setRegionSelect] = useState('');
-  const [regionError, setRegionError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // First render => get user catalog data
-  const handleToggle = () => {
-    setOpen(!open);
-  };
+  const [categorySelect, setCategorySelect] = useState({ categoryId: '' });
+  const [productField, setProductField] = useState({ product: '' });
+  const [supplierSelect, setSupplierSelect] = useState({ supplierId: '' });
+  const categoryError = { error: true, helperText: 'Obligatoire' };
+  const productError = { error: true, helperText: 'Obligatoire' };
+  const supplierError = { error: true, helperText: 'Obligatoire' };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  // First render => get user catalog data
+  // First render => get data
   useEffect(() => {
     getUserData();
+    getCategoriesData();
     getRegionsData();
-    if (regionError === false && siret !== '') {
-      setError(false);
-    }
   }, []);
 
-  // Local State
   const loadTable = () => {
     setState({
+      text: 'text',
+      currentRow: 0,
       columns: [
+        {
+          title: 'CatalogId',
+          field: 'catalogId',
+          width: 100,
+          hidden: true,
+          defaultSort: 'desc',
+        },
         {
           title: 'Catégorie',
           field: 'category',
-          headerStyle: { backgroundColor: '#039be5' },
-          cellStyle: { backgroundColor: '#03923d', color: '#FFF' },
+          headerStyle: {
+            paddingLeft: '30px',
+            fontSize: '.85em',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+          },
+          width: 220,
+          cellStyle: { paddingLeft: '30px' },
+          editable: 'onAdd',
+          defaultSort: 'desc',
+          // customSort: (term, rowData) => console.log(term),
+          editComponent: (props) => (
+            <Autocomplete
+              id="category"
+              options={categories}
+              size="small"
+              autoComplete
+              disableClearable
+              onChange={(event, newValue) => {
+                props.onChange(newValue.id);
+                const data = {
+                  ...categorySelect,
+                  categoryId: newValue.id,
+                };
+                setCategorySelect({ ...data });
+              }}
+              includeInputInList
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Catégorie"
+                  fullWidth
+                  error={props.value ? false : categoryError.error}
+                  helperText={props.value ? '' : categoryError.helperText}
+                />
+              )}
+            />
+          ),
         },
         {
-          title: 'Article',
+          title: 'Produit',
           field: 'product',
           headerStyle: {
-            backgroundColor: '#039be5',
+            fontSize: '.85em',
+            fontWeight: 700,
+            textTransform: 'uppercase',
           },
+          editComponent: (props) => (
+            <TextField
+              id="product"
+              size="small"
+              defaultValue={props.value}
+              className={classes.textField}
+              onBlur={(event) => {
+                setProductField({ ...productField, product: event.target.value });
+              }}
+              placeholder="Produit"
+              error={props.value ? false : productError.error}
+              helperText={props.value ? '' : productError.helperText}
+              onChange={(event) => {
+                props.onChange(event.target.value);
+              }}
+            />
+          ),
         },
         {
           title: 'Producteur',
           field: 'supplier',
           headerStyle: {
-            backgroundColor: '#039be5',
+            fontWeight: 700,
+            fontSize: '.85em',
+            textTransform: 'uppercase',
           },
+          editable: 'onAdd',
+          editComponent: (props) => (
+            <Autocomplete
+              id="supplier"
+              options={suppliers}
+              size="small"
+              autoComplete
+              disableClearable
+              onChange={(event, newValue) => {
+                props.onChange(newValue.id);
+                const data = {
+                  ...supplierSelect,
+                  supplierId: newValue.id,
+                };
+                setSupplierSelect({ ...data });
+              }}
+              includeInputInList
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Producteur"
+                  fullWidth
+                  error={props.value ? false : supplierError.error}
+                  helperText={props.value ? '' : supplierError.helperText}
+                />
+              )}
+            />
+          ),
         },
         {
           title: 'Localisation',
           field: 'city',
           headerStyle: {
-            backgroundColor: '#039be5',
+            fontWeight: 700,
+            fontSize: '.85em',
+            textTransform: 'uppercase',
           },
+          editable: 'never',
         },
         {
           title: 'Code Postal',
           field: 'postalCode',
           headerStyle: {
-            backgroundColor: '#039be5',
+            fontWeight: 700,
+            textTransform: 'uppercase',
           },
+          editable: 'never',
         },
       ],
       data: catalog,
     });
   };
 
-  // When catalog is updated => set data in local state
+  // When catalog is updated => load table
   useEffect(() => {
     loadTable();
-  }, [catalog]);
-
-  // print current page
-  function imprimer_page() {
-    window.print();
-  };
-
-  const handleChangeRegion = (event) => {
-    setRegionSelect(event.target.value);
-    const region = regions.find((reg) => reg.id === event.target.value);
-    setFieldValue(event.target.name, region.id);
-    setRegionError(false);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    handleSupplierSubmit();
-    setOpen(false);
-  };
-
-  const handleChange = (event) => {
-    setFieldValue(event.target.name, event.target.value);
-  };
-
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        // sub-menu size
-        maxHeight: 300,
-        maxWidth: 320,
-      },
-    },
-  };
+    setLoading(false);
+  }, [suppliers]);
 
   return (
     <>
       <Loader loader={loader} />
       {!loader && (
-        <Container className={classes.shopkeeperProfilContent} component="main" maxWidth="lg">
-          <Paper className={classes.root}>
-            <IconButton color="primary" component={RouterLink} to="/commercant/profil/informations">
-              <ArrowBackIcon fontSize="large" color="action" />
-            </IconButton>
+        <Grid container className={classes.shopkeeperProfilPageWrapper}>
+          <Container className={classes.shopkeeperProfilPageContent} component="main">
             <NavbarShopkeeperProfil />
-          </Paper>
-          <Paper>
-            <MaterialTable
-              title="Article par catégorie et Producteur"
-              columns={state.columns}
-              data={state.data}
-              editable={{
-                onRowAdd: (newData) =>
-                  // eslint-disable-next-line implicit-arrow-linebreak
-                  new Promise((resolve) => {
-                    setTimeout(() => {
-                      onAdd(newData);
-                      resolve();
-                      setState((prevState) => {
-                        const data = [...prevState.data];
-                        data.push(newData);
-                        return { ...prevState, data };
-                      });
-                    }, 600);
-                  }),
-                onRowUpdate: (newData, oldData) =>
-                  // eslint-disable-next-line implicit-arrow-linebreak
-                  new Promise((resolve) => {
-                    setTimeout(() => {
-                      onUpdate(newData);
-                      resolve();
-                      if (oldData) {
-                        setState((prevState) => {
-                          const data = [...prevState.data];
-                          data[data.indexOf(oldData)] = newData;
-                          return { ...prevState, data };
-                        });
-                      }
-                    }, 600);
-                  }),
-                onRowDelete: (oldData) =>
-                  // eslint-disable-next-line implicit-arrow-linebreak
-                  new Promise((resolve) => {
-                    setTimeout(() => {
-                      onDelete(oldData);
-                      resolve();
-                      setState((prevState) => {
-                        const data = [...prevState.data];
-                        data.splice(data.indexOf(oldData), 1);
-                        return { ...prevState, data };
-                      });
-                    }, 600);
-                  }),
-              }}
-              options={{
-                exportButton: true,
-                filtering: true,
-              }}
-              actions={[
-                {
-                  icon: 'local_printshop',
-                  iconProps: {
-                    color: 'action',
-                  },
-                  tooltip: 'Imprimer page en cours',
-                  isFreeAction: true,
-                  onClick: () => {
-                    imprimer_page()
-                  }
-                },
-                {
-                  icon: 'account_box',
-                  iconProps: {
-                    color: 'action',
-                  },
-                  tooltip: 'Ajout producteur',
-                  isFreeAction: true,
-                  onClick: (event, rowData) => {
-                    console.log('ajout producteur onClick')
-                    handleToggle()
-                  }
-                },
-
-              ]}
-            />
-          </Paper>
-          <Paper>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-              <DialogTitle id="form-dialog-title">Ajouter un producteur</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Entrer le N° de siret du producteur et la région
-                </DialogContentText>
-                <form onSubmit={handleSubmit}>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="siret"
-                    label="N° de siret"
-                    fullWidth
-                    name="siret"
-                    value={siret}
-                    onChange={handleChange}
-                  />
-                  <FormControl variant="outlined" className={classes.formControl} error={regionError}>
-                    <InputLabel id="search-region">Région</InputLabel>
-                    <Select
-                      className={classes.searchSelect}
-                      label="Région"
-                      labelId="search-region"
-                      id="search-region"
-                      inputProps={{ name: 'region' }}
-                      value={regionSelect}
-                      onChange={handleChangeRegion}
-                      MenuProps={MenuProps}
+            <Typography className={classes.shopkeeperProfilPageTitle} variant="h4" component="h1" align="center">
+              Liste de mes produits par catégorie
+            </Typography>
+            <Paper className={classes.shopkeeperProfilPageContainer} elevation={3}>
+              <MaterialTable
+                title="Liste des produits par catégorie"
+                columns={state.columns}
+                data={state.data}
+                isLoading={loading}
+                icons={{
+                  Add: React.forwardRef((props, ref) => (
+                    <Button
+                      component="a"
+                      aria-label="Ajouter un produit"
+                      className={classes.addProduct}
+                      ref={ref}
+                      {...props}
                     >
-                      {regions.map((item) => (
-                        <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                      Abandonner
+                      <AddIcon />
+                      Ajouter produit
                     </Button>
-                    <Button type="submit" color="primary">
-                      Ajouter
-                    </Button>
-                  </DialogActions>
-                   </form>
-              </DialogContent>
-            </Dialog>
-          </Paper>
-        </Container>
+                  )),
+                }}
+                editable={{
+                  onRowAdd: () => new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                      const { categoryId } = categorySelect;
+                      const { product } = productField;
+                      const { supplierId } = supplierSelect;
+                      if (categoryId === '' || product === '' || supplierId === '') {
+                        reject();
+                        return;
+                      }
+                      setLoading(true);
+                      addCatalogItem({ categoryId, product, supplierId });
+                      resolve();
+                    }, 600);
+                  }),
+                  onRowUpdate: (newData) => new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                      const { product } = productField;
+                      if (product === '') {
+                        reject();
+                        return;
+                      }
+                      setLoading(true);
+                      updateCatalogItem(newData);
+                      resolve();
+                    }, 600);
+                  }),
+                  onRowDelete: (oldData) => new Promise((resolve) => {
+                    setTimeout(() => {
+                      setLoading(true);
+                      deleteCatalogItem(oldData);
+                      resolve();
+                    }, 600);
+                  }),
+                }}
+                components={{
+                  Toolbar: (props) => (
+                    <div className={classes.MToolbarWrapper}>
+                      <MTableToolbar {...props} />
+                      <Button
+                        aria-label="Ajouter un producteur"
+                        className={classes.MToolbarLink}
+                        onClick={setSupplierForm}
+                      >
+                        Ajouter un nouveau producteur ?
+                      </Button>
+                    </div>
+                  ),
+                }}
+                options={{
+                  actionsCellStyle: {
+                    backgroundColor: 'rgba(232, 232, 232, .45)',
+                  },
+                  addRowPosition: 'first',
+                  toolbarButtonAlignment: 'left',
+                  showTitle: false,
+                  sorting: true,
+                  exportButton: true,
+                  pageSize: 10,
+                  pageSizeOptions: [10, 20, 50, 100],
+                  paginationType: 'stepped',
+                  filtering: true,
+                  filterType: 'dropdown',
+                  searchFieldAlignment: 'left',
+                }}
+                actions={[
+                  {
+                    icon: 'local_printshop',
+                    iconProps: {
+                      color: 'action',
+                    },
+                    tooltip: 'Imprimer page en cours',
+                    isFreeAction: true,
+                    onClick: () => window.print(),
+                  },
+                ]}
+              />
+            </Paper>
+            <LocalSupplierForm />
+          </Container>
+        </Grid>
       )}
     </>
   );
@@ -298,13 +325,15 @@ const ShopkeeperProfilPage = ({
 ShopkeeperProfilPage.propTypes = {
   loader: PropTypes.bool.isRequired,
   catalog: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
+  suppliers: PropTypes.array.isRequired,
+  addCatalogItem: PropTypes.func.isRequired,
+  updateCatalogItem: PropTypes.func.isRequired,
+  deleteCatalogItem: PropTypes.func.isRequired,
   getUserData: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
+  getCategoriesData: PropTypes.func.isRequired,
   getRegionsData: PropTypes.func.isRequired,
-  setFieldValue: PropTypes.func.isRequired,
-  setRegion: PropTypes.func.isRequired,
-  siret: PropTypes.string.isRequired,
+  setSupplierForm: PropTypes.func.isRequired,
 };
 
 // == Export

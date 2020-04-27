@@ -13,6 +13,7 @@ import {
   saveUser,
   saveUserData,
   getCatalog,
+  getSuppliersByRegion,
 } from '../actions/profil';
 import { setLogout } from '../actions/authentication';
 import { redirect, setSnackbar } from '../actions/home';
@@ -95,6 +96,7 @@ const profilMiddleware = (store) => (next) => (action) => {
               // console.log('success userData : ', response.data);
               store.dispatch(saveUserData(response.data));
               store.dispatch(getCatalog());
+              store.dispatch(getSuppliersByRegion());
             })
             .catch((error) => {
               // eslint-disable-next-line no-console
@@ -123,6 +125,7 @@ const profilMiddleware = (store) => (next) => (action) => {
         case 'ROLE_SHOPKEEPER': {
           const {
             email,
+            contact,
             firstname,
             lastname,
             password,
@@ -138,6 +141,7 @@ const profilMiddleware = (store) => (next) => (action) => {
             data: {
               id: userId,
               email,
+              contact,
               firstname,
               lastname,
               password,

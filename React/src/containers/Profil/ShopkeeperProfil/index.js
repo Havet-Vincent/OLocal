@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import {
   getUserData,
-  setFieldValue,
+  setProfilFieldValue,
   setLogoPicture,
   setLogoPictureError,
   setFieldError,
@@ -21,7 +21,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setFieldValue: (name, value) => {
-    dispatch(setFieldValue(name, value));
+    dispatch(setProfilFieldValue(name, value));
   },
   setLogoPicture: (newLogoPicture) => {
     dispatch(setLogoPicture(newLogoPicture));

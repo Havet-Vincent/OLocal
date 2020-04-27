@@ -4,9 +4,13 @@ import {
   SAVE_USER_DATA,
   SET_LOGO_PICTURE,
   SET_PROFIL_FIELD_VALUE,
+  SET_FIELD_VALUE,
   SET_FIELD_ERROR,
-  SET_REGION,
   GET_CATALOG,
+  SAVE_SUPLIERS_BY_REGION,
+  TOOGLE_SUPPLIER_FORM,
+  SET_LOADER_SUPPLIER_FORM,
+  ADD_LOCAL_SUPPLIER,
   CLEAR_USER_DATA,
 } from '../actions/profil';
 
@@ -14,7 +18,7 @@ import {
 const server = require('src/api.config.json');
 
 const initialState = {
-  // Display Loader
+  // Display Profil Loader
   loaderUser: true,
   loaderProfil: true,
   loaderProfilPage: true,
@@ -27,7 +31,11 @@ const initialState = {
   logoPicture: '',
   fieldError: true,
   catalog: [],
-  region: '',
+  suppliers: [],
+  // LocalSupplier add form
+  loaderAddSupplier: false,
+  openSupplierForm: false,
+  supplierRegion: null,
   siret: '',
 };
 
@@ -54,10 +62,10 @@ const profilReducer = (state = initialState, action = {}) => {
           categoryId: item.product.category.id,
           category: item.product.category.name,
           product: item.product.name,
-          supplierId: item.localSupplier.id,
-          supplier: item.localSupplier.name,
-          city: item.localSupplier.city,
-          postalCode: item.localSupplier.postalCode,
+          supplierId: item.localSupplier !== null ? item.localSupplier.id : '',
+          supplier: item.localSupplier !== null ? item.localSupplier.name : '',
+          city: item.localSupplier !== null ? item.localSupplier.city : '',
+          postalCode: item.localSupplier !== null ? item.localSupplier.postalCode : '',
         }
       ));
       return {
@@ -72,11 +80,15 @@ const profilReducer = (state = initialState, action = {}) => {
         ...state,
         userData: {
           ...action.userData,
+          // Provisoir !
+          contact: '',
+          // ====== !
           password: '',
         },
         logoPicture: `${server.url}:${server.port}${action.userData.logoPicture}`,
         loaderProfil: false,
         loaderProfilPage: false,
+        supplierRegion: action.userData.region.id,
       };
 
     case SET_LOGO_PICTURE:
@@ -113,10 +125,42 @@ const profilReducer = (state = initialState, action = {}) => {
       };
     }
 
+    case SET_FIELD_VALUE:
+      return {
+        ...state,
+        [action.name]: action.value,
+      };
+
     case SET_FIELD_ERROR:
       return {
         ...state,
         fieldError: action.value,
+      };
+
+    case SAVE_SUPLIERS_BY_REGION:
+      return {
+        ...state,
+        suppliers: action.suppliers,
+      };
+
+    case TOOGLE_SUPPLIER_FORM:
+      return {
+        ...state,
+        openSupplierForm: !state.openSupplierForm,
+        loaderAddSupplier: false,
+        siret: '',
+      };
+
+    case SET_LOADER_SUPPLIER_FORM:
+      return {
+        ...state,
+        loaderAddSupplier: action.value,
+      };
+
+    case ADD_LOCAL_SUPPLIER:
+      return {
+        ...state,
+        loaderAddSupplier: true,
       };
 
     case CLEAR_USER_DATA:
@@ -135,11 +179,6 @@ const profilReducer = (state = initialState, action = {}) => {
         siret: '',
       };
 
-    case SET_REGION:
-      return {
-        ...state,
-        region: action.value,
-      };
 
     default: return state;
   }
