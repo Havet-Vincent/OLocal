@@ -1,7 +1,6 @@
 import {
   TOGGLE_SIGNIN_FORM,
   SET_SIGNIN_FIELD_VALUE,
-  SET_PASSWORD_CHECK_ERROR,
   CHECK_PASSWORD_CONFIRMATION,
   SAVE_AUTHENTICATION,
   FETCH_AUTHENTICATION,
@@ -19,7 +18,6 @@ const initialState = {
   password: '',
   confirmPassword: '',
   // Password Confirmation
-  pwdCheckError: false,
   passwordLength: 0,
   passwordConfirmed: false,
   // User authentication
@@ -54,15 +52,9 @@ const authenticationReducer = (state = initialState, action = {}) => {
         [action.name]: action.value,
       };
 
-    case SET_PASSWORD_CHECK_ERROR:
-      return {
-        ...state,
-        pwdCheckError: action.value,
-      };
-
     case CHECK_PASSWORD_CONFIRMATION:
       // Password verification
-      if (state.password === state.confirmPassword) {
+      if (state.password === state.confirmPassword && state.passwordLength !== 0) {
         return {
           ...state,
           passwordConfirmed: true,
@@ -106,9 +98,7 @@ const authenticationReducer = (state = initialState, action = {}) => {
       localStorage.clear();
       return {
         ...state,
-        token: null,
-        refreshToken: null,
-        UserAuth: false,
+        initialState,
       };
 
     default: return state;

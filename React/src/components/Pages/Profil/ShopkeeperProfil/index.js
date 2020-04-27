@@ -24,7 +24,7 @@ import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import SaveRoundedIcon from '@material-ui/icons/SaveRounded';
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 import Loader from 'src/components/Loader';
-import Password from 'src/containers/Password';
+import ProfilPassword from 'src/containers/Profil/ProfilPassword';
 import ShopkeeperProfilImage from 'src/components/Pages/Profil/ShopkeeperProfil/ShopkeeperProfilImage';
 import NavbarShopkeeperProfil from './NavbarShopkeeperProfil';
 import DeleteAccountAlert from '../DeleteAccountAlert';
@@ -37,19 +37,17 @@ import shopkeeperProfilStyles from './shopkeeperProfilStyles';
 const ShopkeeperProfil = ({
   loader,
   userData,
+  logoPicture,
   getUserData,
   setFieldValue,
-  fieldError,
-  setFieldError,
-  handleUpdateUserData,
-  handleDeleteUserAccount,
-  logoPicture,
   setLogoPicture,
   setLogoPictureError,
-  pwdCheckError,
+  handleUpdateUserData,
+  handleDeleteUserAccount,
 }) => {
   const classes = shopkeeperProfilStyles();
   const [showPassword, setShowPassword] = useState(false);
+  const [pwdError, setPwdError] = useState(true);
   const [error, setError] = useState(true);
   const [openAlert, setOpenAlert] = useState(false);
 
@@ -64,16 +62,13 @@ const ShopkeeperProfil = ({
 
   // Disable update data button if errors
   useEffect(() => {
-    if (pwdCheckError) {
-      setError(true);
-      setFieldError(false);
-    }
-    if (!fieldError) {
+    if (!pwdError) {
       setError(false);
     }
   });
 
   const handleChange = (event) => {
+    setError(false);
     setFieldValue(event.target.name, event.target.value);
   };
 
@@ -134,16 +129,14 @@ const ShopkeeperProfil = ({
                       component="button"
                       variant="body2"
                       underline="always"
+                      className={classes.tooglePasswordForm}
                       onClick={() => setShowPassword(!showPassword)}
                     >
                       { showPassword ? 'Verrouiller les champs Mot de Passe' : 'Modifier votre mot de passe'}
                     </Link>
-                    <Password
-                      style={classes.passwordField}
-                      variante="outlined"
-                      fullwidth
-                      labelShrink
+                    <ProfilPassword
                       disabledField={!showPassword}
+                      setError={(value) => setPwdError(value)}
                     />
                   </Box>
                 </Paper>
@@ -294,13 +287,10 @@ ShopkeeperProfil.propTypes = {
   logoPicture: PropTypes.string.isRequired,
   getUserData: PropTypes.func.isRequired,
   setFieldValue: PropTypes.func.isRequired,
-  fieldError: PropTypes.bool.isRequired,
-  setFieldError: PropTypes.func.isRequired,
   handleUpdateUserData: PropTypes.func.isRequired,
   handleDeleteUserAccount: PropTypes.func.isRequired,
   setLogoPicture: PropTypes.func.isRequired,
   setLogoPictureError: PropTypes.func.isRequired,
-  pwdCheckError: PropTypes.bool.isRequired,
 };
 
 // == Export

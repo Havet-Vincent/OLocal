@@ -44,7 +44,7 @@ const registerReducer = (state = initialState, action = {}) => {
 
     case CHECK_PASSWORD_CONFIRMATION:
       // Password verification
-      if (state.password === state.confirmPassword) {
+      if (state.password === state.confirmPassword && state.passwordLength !== 0) {
         return {
           ...state,
           passwordConfirmed: true,

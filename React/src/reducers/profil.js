@@ -4,7 +4,6 @@ import {
   SET_LOGO_PICTURE,
   SET_PROFIL_FIELD_VALUE,
   SET_FIELD_VALUE,
-  SET_FIELD_ERROR,
   GET_CATALOG,
   SAVE_SUPLIERS_BY_REGION,
   TOOGLE_SUPPLIER_FORM,
@@ -26,7 +25,6 @@ const initialState = {
   userRole: [],
   userData: {},
   logoPicture: '',
-  fieldError: true,
   catalog: [],
   suppliers: [],
   // LocalSupplier add form
@@ -71,9 +69,6 @@ const profilReducer = (state = initialState, action = {}) => {
         ...state,
         userData: {
           ...action.userData,
-          // Provisoir !
-          contact: '',
-          // ====== !
           password: '',
         },
         logoPicture: `${server.url}:${server.port}${action.userData.logoPicture}`,
@@ -93,22 +88,8 @@ const profilReducer = (state = initialState, action = {}) => {
       };
 
     case SET_PROFIL_FIELD_VALUE: {
-      if (action.name === 'email') {
-        const emailValue = action.value;
-        if (emailValue === '') {
-          return {
-            ...state,
-            fieldError: true,
-            userData: {
-              ...state.userData,
-              email: emailValue,
-            },
-          };
-        }
-      }
       return {
         ...state,
-        fieldError: false,
         userData: {
           ...state.userData,
           [action.name]: action.value,
@@ -120,12 +101,6 @@ const profilReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         [action.name]: action.value,
-      };
-
-    case SET_FIELD_ERROR:
-      return {
-        ...state,
-        fieldError: action.value,
       };
 
     case SAVE_SUPLIERS_BY_REGION:
@@ -157,17 +132,7 @@ const profilReducer = (state = initialState, action = {}) => {
     case CLEAR_USER_DATA:
       return {
         ...state,
-        userId: null,
-        userRole: [],
-        userData: {},
-        logoPicture: '',
-        fieldError: true,
-        activePage: 'Informations',
-        loaderProfil: true,
-        loaderProfilPage: true,
-        catalog: [],
-        region: '',
-        siret: '',
+        initialState,
       };
 
 

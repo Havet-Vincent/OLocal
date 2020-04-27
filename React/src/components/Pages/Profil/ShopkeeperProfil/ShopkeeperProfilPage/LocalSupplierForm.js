@@ -42,7 +42,7 @@ const LocalSupplierForm = ({
   const classes = shopkeeperProfilPageStyles();
   const [error, setError] = useState(true);
   const [regionError, setRegionError] = useState(false);
-  const [regionSelect, setRegionSelect] = useState(regions[0].id);
+  const [regionSelect, setRegionSelect] = useState('');
 
   // Responsive mobile
   const theme = useTheme();
@@ -50,6 +50,7 @@ const LocalSupplierForm = ({
 
   // Check Errors else display Send Button
   useEffect(() => {
+    setRegionSelect(supplierRegion);
     if (!regionError && siret !== '') {
       setError(false);
     }
@@ -116,24 +117,26 @@ const LocalSupplierForm = ({
               InputLabelProps={InputLabelProps}
               onChange={handleChange}
             />
-            <FormControl required className={classes.formControl} error={regionError}>
-              <InputLabel id="supplierRegion" {...InputLabelProps}>Région</InputLabel>
-              <Select
-                fullWidth
-                className={classes.searchSelect}
-                label="Région du Producteur"
-                labelId="supplierRegion"
-                id="supplierRegion"
-                inputProps={{ name: 'supplierRegion' }}
-                value={!supplierRegion ? regionSelect : supplierRegion}
-                onChange={handleChangeRegion}
-                MenuProps={MenuProps}
-              >
-                {regions.map((item) => (
-                  <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            {regions.length > 0 && (
+              <FormControl required className={classes.formControl} error={regionError}>
+                <InputLabel id="supplierRegion" {...InputLabelProps}>Région</InputLabel>
+                <Select
+                  fullWidth
+                  className={classes.searchSelect}
+                  label="Région du Producteur"
+                  labelId="supplierRegion"
+                  id="supplierRegion"
+                  inputProps={{ name: 'supplierRegion' }}
+                  value={regionSelect}
+                  onChange={handleChangeRegion}
+                  MenuProps={MenuProps}
+                >
+                  {regions.map((item) => (
+                    <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
           </form>
           {loaderAddSupplier && (
             <LinearProgress color="primary" className={classes.progress} />
