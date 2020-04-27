@@ -129,7 +129,7 @@ class UserController extends EasyAdminController
             $em->persist($user);
             $em->flush();
             
-            return $user;
+            return $this->addFlash('success', 'Utilisateur ajouté');;
         }
 
         $newUser = new User;
@@ -179,7 +179,7 @@ class UserController extends EasyAdminController
         $em->persist($newUser);
         $em->flush();
             
-        return $newUser;
+        return $this->addFlash('success', 'Utilisateur ajouté');
     }
 
     /**
@@ -198,11 +198,9 @@ class UserController extends EasyAdminController
         if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
             throw new \Exception("Cette adresse n'est pas valide");
         }
-        if ($newEmail === $this->userRepository->findBy(['email' => $newEmail])) {
-            throw new \Exception('Email déjà utilisé');
-        }
-        if ($newEmail !== $user->getEmail()) {
-            $user->setEmail($newEmail);
+
+        if ($newEmail !== $user->getEmail()) {   
+            $user->setEmail($newEmail);     
         }
 
         if (array_key_exists(0, $entity->getUserRole())) {
@@ -222,7 +220,7 @@ class UserController extends EasyAdminController
         }
         $companyName = filter_var($entity->getCompanyName(), FILTER_SANITIZE_STRING);
         if ($companyName !== $user->getCompanyName()) {
-            $user->setCompany($companyName);
+            $user->setCompanyName($companyName);
         }
         $companyDescription = filter_var($entity->getCompanyDescription(), FILTER_SANITIZE_STRING);
         if ($companyDescription !== $user->getCompanyDescription()) {
@@ -236,7 +234,10 @@ class UserController extends EasyAdminController
         if ($repeatIndex !== $user->getRepeatIndex()) {
             $user->setRepeatIndex($repeatIndex);
         }
-        $wayNumber = filter_var($entity->getWayNumber(), FILTER_SANITIZE_STRING);
+        $wayNumber = filter_var($entity->getWayNumber(), FILTER_SANITIZE_NUMBER_INT);
+        if ($wayNumber === "") {
+            $wayNumber = null;
+        }
         if ($wayNumber !== $user->getWayNumber()) {
             $user->setWayNumber($wayNumber);
         }
@@ -249,6 +250,9 @@ class UserController extends EasyAdminController
             $user->setWayName($wayName);
         }
         $postalCode = filter_var($entity->getPostalCode(), FILTER_SANITIZE_NUMBER_INT);
+        if ($postalCode === "") {
+            $postalCode = null;
+        }
         if ($postalCode !== $user->getPostalCode()) {
             $user->setPostalCode($postalCode);
         }
@@ -272,6 +276,6 @@ class UserController extends EasyAdminController
         $em->persist($user);
         $em->flush();
 
-        return $user;
+        return $this->addFlash('success', 'Modifications appliquées');
     }
 }
