@@ -81,7 +81,7 @@ const ShopkeepersList = ({
                   </Typography>
                   <Typography variant="body2" color="textSecondary" component="p" className={classes.cardDescription}>
                     <EllipsisText
-                      text={item.companyDescription}
+                      text={item.companyDescription ? item.companyDescription : ''}
                       length={400}
                     />
                   </Typography>
