@@ -1,3 +1,6 @@
+// == Import validators
+import { verifySiret } from 'src/utils/validators';
+
 // == Import npm
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -50,6 +53,7 @@ const SignUpForm = ({
   const [regionError, setRegionError] = useState(false);
   const [regionFocus, setRegionFocus] = useState(false);
   const [regionSelect, setRegionSelect] = useState('');
+  const [siretError, setSiretError] = useState({ error: false, helperText: '' });
 
   useEffect(() => {
     getRegionsData();
@@ -61,7 +65,7 @@ const SignUpForm = ({
 
   // Check Errors else display Send Button
   useEffect(() => {
-    if (regionFocus && !regionError && email !== '' && siret !== '' && !pwdError) {
+    if (regionFocus && !regionError && email !== '' && verifySiret(siret) && !pwdError) {
       setError(false);
     }
     else {
@@ -78,6 +82,18 @@ const SignUpForm = ({
 
   const handleChange = (event) => {
     setFieldValue(event.target.name, event.target.value);
+    // Verif SIRET field
+    if (event.target.name === 'siret') {
+      const verifiedSiret = verifySiret(event.target.value);
+      if (!verifiedSiret) {
+        setSiretError({
+          error: true,
+          helperText: 'Le siret n\'est pas valide',
+        });
+        return;
+      }
+      setSiretError({ error: false, helperText: 'Siret valide' });
+    }
   };
 
   const handleChangeRegion = (event) => {
@@ -146,6 +162,7 @@ const SignUpForm = ({
               onChange={handleChange}
             />
             <TextField
+              error={siretError.error}
               id="siret"
               label="Numéro de SIRET de l'entreprise"
               className={classes.textField}
@@ -156,6 +173,7 @@ const SignUpForm = ({
               InputLabelProps={InputLabelProps}
               value={siret}
               onChange={handleChange}
+              helperText={siretError.helperText}
             />
             <FormControl required className={classes.formControl} error={regionError}>
               <InputLabel

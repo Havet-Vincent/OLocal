@@ -1,3 +1,6 @@
+// == Import validators
+import { verifySiret } from 'src/utils/validators';
+
 import axios from 'axios';
 
 import {
@@ -19,8 +22,9 @@ const registerMiddleware = (store) => (next) => (action) => {
         confirmPassword: password,
         passwordConfirmed,
       } = store.getState().register;
+      const verifiedSiret = verifySiret(siret);
 
-      if (siret !== '' && region !== '' && email !== '' && passwordConfirmed) {
+      if (verifiedSiret && region !== '' && email !== '' && passwordConfirmed) {
         axios({
           method: 'post',
           url: `${server.url}:${server.port}/api/shopkeepers/add`,
