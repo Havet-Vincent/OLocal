@@ -112,12 +112,15 @@ const shopkeeperProfilStyles = makeStyles((theme) => ({
     width: 'auto',
     backgroundColor: 'rgba(247, 249, 250, .8)',
     padding: theme.spacing(3),
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(1),
+    },
   },
   textAreaField: {
     color: '#37474f',
     minWidth: '100%',
     maxWidth: '100%',
-    fontSize: '1em',
+    fontSize: '1.05em',
     background: 'none',
     border: 'none',
     [theme.breakpoints.down('xs')]: {

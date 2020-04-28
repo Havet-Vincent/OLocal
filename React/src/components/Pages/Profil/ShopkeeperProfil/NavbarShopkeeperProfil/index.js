@@ -6,9 +6,7 @@ import {
   Paper,
   Button,
   Breadcrumbs,
-  useMediaQuery,
 } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 
 // == Import styles
@@ -26,14 +24,9 @@ const NavbarShopkeeperProfil = () => {
   };
   const currentPage = breadcrumbNameMap[pathname];
 
-  // Responsive mobile
-  const theme = useTheme();
-  const mobile = useMediaQuery(theme.breakpoints.down('xs'));
-
   return (
     <Paper elevation={0} className={classes.navbarShopkeeber}>
       <Breadcrumbs
-        separator={mobile ? '' : '/'}
         aria-label="profil-navigation"
         classes={{
           ol: classes.navbarNavOl,
@@ -45,7 +38,7 @@ const NavbarShopkeeperProfil = () => {
           className={classes.navbarButton}
           to="/"
         >
-          <HomeRoundedIcon color="action" />
+          <HomeRoundedIcon color="action" className={classes.navbarHome} />
         </Button>
         <Button
           size="small"

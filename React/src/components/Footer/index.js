@@ -10,7 +10,6 @@ import {
 // == Import styles
 import footerStyles from './footerStyles';
 
-
 // == Composant
 const Footer = () => {
   const classes = footerStyles();
@@ -43,9 +42,8 @@ const Footer = () => {
           </Typography>
         </Toolbar>
         <Typography variant="body2" color="textSecondary" align="center" className={classes.footerCopyright}>
-          {'o\'Local © '}
+          {'© o\'Local '}
           {new Date().getFullYear()}
-          {'.'}
         </Typography>
       </Container>
     </div>

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 // == Import npm
 import React from 'react';
 
@@ -19,7 +20,7 @@ import aboutStyles from './aboutStyles';
 // == Composant
 const About = () => {
   const classes = aboutStyles();
-  const [spacing, setSpacing] = React.useState(2);
+
   return (
     <>
       <CssBaseline />
@@ -32,12 +33,12 @@ const About = () => {
             Étudiants au sein de l’institut de formation O’Clock, nous mettons en place ce site web dans le cadre de notre projet de fin d’études.
             Nous avons fait le choix du projet O’Local car il correspond à notre éthique, aux enjeux économiques et aux défis environnementaux actuels. C’est pourquoi, nous avons voulu mettre à profit nos compétences fraîchement acquises dans un projet qui nous tient vraiment à coeur de mener à bien.
           </Typography>
-          <Typography className={classes.cardPos} variant="h5" align="center" component="p" gutterBottom>
+          <Typography className={classes.cardPosTitle} variant="h5" align="center" component="p" gutterBottom>
             Notre équipe :
           </Typography>
 
-          <Typography className={classes.cardPos} variant="h6" align="center" component="p"  color="textSecondary" gutterBottom>
-            Front-end 
+          <Typography className={classes.cardPos} variant="h6" align="center" component="p" color="textSecondary" gutterBottom>
+            Front-end
           </Typography>
           <Grid container className={classes.containerGrid}>
             <Card className={classes.cardGrid} variant="outlined" elevation={2}>
@@ -70,10 +71,10 @@ const About = () => {
             </Card>
           </Grid>
 
-          <Typography className={classes.cardPos} variant="h6" align="center" component="p"  color="textSecondary" gutterBottom>
+          <Typography className={classes.cardPos} variant="h6" align="center" component="p" color="textSecondary" gutterBottom>
             Back-end
           </Typography>
-          <Grid container className={classes.containerGrid}>
+          <Grid container className={classes.containerGrid2}>
             <Card className={classes.cardGrid} variant="outlined" elevation={2}>
               <CardHeader
                 title="Nicolas CHOPIN"
@@ -84,7 +85,7 @@ const About = () => {
               />
               <CardContent>
                 <Typography className={classes.cardPos} color="textPrimary" variant="body1" component="p">
-                Jardinier à ses heures perdues et grand ami des bêtes, Nicolas est l&apos;initiateur de ce projet.
+                  Jardinier à ses heures perdues et grand ami des bêtes, Nicolas est l&apos;initiateur de ce projet.
                 </Typography>
               </CardContent>
             </Card>
@@ -98,7 +99,7 @@ const About = () => {
               />
               <CardContent>
                 <Typography className={classes.cardPos} color="textPrimary">
-                Desperate Housewife overbookée, Leila est soucieuse de proposer à ses enfants une alimentation de qualité.
+                  Desperate Housewife overbookée, Leila est soucieuse de proposer à ses enfants une alimentation de qualité.
                 </Typography>
               </CardContent>
             </Card>

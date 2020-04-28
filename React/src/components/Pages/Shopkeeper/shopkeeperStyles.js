@@ -99,15 +99,6 @@ const shopkeeperStyles = makeStyles((theme) => ({
     width: '100%',
     padding: theme.spacing(3),
   },
-  chipContent: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 0,
-    '&:last-child': {
-      paddingBottom: 0,
-    },
-  },
   expansionPanel: {
     backgroundColor: 'rgba(109, 112, 112, .08)',
     '&:before': {
@@ -146,17 +137,49 @@ const shopkeeperStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
     marginTop: theme.spacing(1),
     background: 'none',
+    padding: theme.spacing(2, 0),
+    '&:hover': {
+      background: 'none',
+      textDecoration: 'underline',
+    },
+  },
+  chipLabel: {
+    overflow: 'inherit',
   },
   chipAdress: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
     background: 'none',
     marginTop: theme.spacing(2),
+  },
+  chipContent: {
     padding: 0,
+    '&:last-child': {
+      paddingBottom: 0,
+    },
+  },
+  chipAdressLink: {
+    display: 'flex',
+    color: '#37474f',
+    fontWeight: 500,
+    fontFamily: theme.typography.fontFamily,
+    fontSize: '.9em',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    '&:hover': {
+      textDecoration: 'underline',
+      cursor: 'pointer',
+    },
   },
   chipIconAdress: {
     color: '#37474f',
+    marginRight: theme.spacing(1),
+    [theme.breakpoints.down('xs')]: {
+      marginRight: theme.spacing(0.5),
+    },
   },
   chipIcon: {
-    marginTop: theme.spacing(1),
     color: theme.palette.primary.main,
   },
   localSupplierAddress: {
