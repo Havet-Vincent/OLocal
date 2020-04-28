@@ -8,9 +8,6 @@ import {
 } from '../actions/profil';
 import { setSnackbar } from '../actions/home';
 
-// == Import API server config
-const server = require('../api.config.json');
-
 const catalogMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
     case ADD_CATALOG_ITEM: {
@@ -23,7 +20,7 @@ const catalogMiddleware = (store) => (next) => (action) => {
       const token = localStorage.getItem('token');
       axios({
         method: 'post',
-        url: `${server.url}:${server.port}/api/catalogs/add`,
+        url: `${process.env.URL_API}/api/catalogs/add`,
         headers: { Authorization: `Bearer ${token}` },
         data: {
           user,
@@ -58,7 +55,7 @@ const catalogMiddleware = (store) => (next) => (action) => {
       const token = localStorage.getItem('token');
       axios({
         method: 'post',
-        url: `${server.url}:${server.port}/api/catalogs/${id}/edit`,
+        url: `${process.env.URL_API}/api/catalogs/${id}/edit`,
         headers: { Authorization: `Bearer ${token}` },
         data: {
           id,
@@ -86,7 +83,7 @@ const catalogMiddleware = (store) => (next) => (action) => {
       const token = localStorage.getItem('token');
       axios({
         method: 'delete',
-        url: `${server.url}:${server.port}/api/catalogs/${id}/delete`,
+        url: `${process.env.URL_API}/api/catalogs/${id}/delete`,
         headers: { Authorization: `Bearer ${token}` },
         data: {
           catalog: id,

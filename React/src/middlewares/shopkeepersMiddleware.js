@@ -2,16 +2,13 @@ import axios from 'axios';
 
 import { GET_SHOPKEEPER_DATA, saveShopkeeperData, setNotMatch } from '../actions/shopkeepers';
 
-// == Import API server config
-const server = require('../api.config.json');
-
 const shopkeepersMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
     case GET_SHOPKEEPER_DATA: {
       const id = Number(action.shopkeeperId);
       axios({
         method: 'post',
-        url: `${server.url}:${server.port}/api/shopkeepers/${id}`,
+        url: `${process.env.URL_API}/api/shopkeepers/${id}`,
         data: {
           id: Number(action.shopkeeperId),
         },

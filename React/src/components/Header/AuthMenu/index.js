@@ -13,9 +13,6 @@ import {
 // == Import styles
 import authMenuStyles from './authMenuStyles';
 
-// == Import API config for API base URL
-const server = require('src/api.config.json');
-
 // == Composant
 const AuthMenu = ({ userRole, getProfil, setLogout }) => {
   const classes = authMenuStyles();
@@ -72,7 +69,7 @@ const AuthMenu = ({ userRole, getProfil, setLogout }) => {
       >
         {userRole === 'ROLE_ADMIN' ? (
           <MenuItem>
-            <a href={`${server.url}/admin`} target="_blank" rel="noopener noreferrer">
+            <a href={`${process.env.URL_API}/admin`} target="_blank" rel="noopener noreferrer">
               Accès BackOffice Administration
             </a>
           </MenuItem>

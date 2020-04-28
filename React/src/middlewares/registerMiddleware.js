@@ -10,9 +10,6 @@ import {
 } from '../actions/register';
 import { setSnackbar } from '../actions/home';
 
-// == Import API server config
-const server = require('../api.config.json');
-
 const registerMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
     case SUBMIT_SIGNUP: {
@@ -29,7 +26,7 @@ const registerMiddleware = (store) => (next) => (action) => {
       if (verifiedSiret && region !== '' && validEmail && passwordConfirmed) {
         axios({
           method: 'post',
-          url: `${server.url}:${server.port}/api/shopkeepers/add`,
+          url: `${process.env.URL_API}/api/shopkeepers/add`,
           data: {
             siret,
             region,

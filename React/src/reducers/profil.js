@@ -12,9 +12,6 @@ import {
   CLEAR_USER_DATA,
 } from '../actions/profil';
 
-// == Import API config for pictures base URL
-const server = require('src/api.config.json');
-
 const initialState = {
   // Display Profil Loader
   loaderUser: true,
@@ -73,7 +70,7 @@ const profilReducer = (state = initialState, action = {}) => {
           password: '',
         },
         newEmail: action.userData.email,
-        logoPicture: `${server.url}:${server.port}${action.userData.logoPicture}`,
+        logoPicture: `${process.env.URL_API}${action.userData.logoPicture}`,
         loaderProfil: false,
         loaderProfilPage: false,
         supplierRegion: action.userData.region.id,

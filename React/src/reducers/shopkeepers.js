@@ -7,9 +7,6 @@ import {
   SET_NOT_MATCH,
 } from '../actions/shopkeepers';
 
-// == Import API config for pictures base URL
-const server = require('src/api.config.json');
-
 const initialState = {
   // Display Loader
   loader: true,
@@ -59,7 +56,7 @@ const shopkeepersReducer = (state = initialState, action = {}) => {
           notMatch: false,
           shopkeeper: {
             ...action.shopkeeper,
-            logoPicture: `${server.url}:${server.port}${action.shopkeeper.logoPicture}`,
+            logoPicture: `${process.env.URL_API}${action.shopkeeper.logoPicture}`,
           },
           products,
           uniqueCategories,
@@ -77,7 +74,7 @@ const shopkeepersReducer = (state = initialState, action = {}) => {
           notMatch: false,
           shopkeeper: {
             ...action.shopkeeper,
-            logoPicture: `${server.url}:${server.port}${action.shopkeeper.logoPicture}`,
+            logoPicture: `${process.env.URL_API}${action.shopkeeper.logoPicture}`,
           },
           products,
           productsCategoryId,
@@ -98,7 +95,7 @@ const shopkeepersReducer = (state = initialState, action = {}) => {
         notMatch: false,
         shopkeeper: {
           ...action.shopkeeper,
-          logoPicture: `${server.url}:${server.port}${action.shopkeeper.logoPicture}`,
+          logoPicture: `${process.env.URL_API}${action.shopkeeper.logoPicture}`,
         },
         products,
         productsCategoryId: productsInCategory.id,
