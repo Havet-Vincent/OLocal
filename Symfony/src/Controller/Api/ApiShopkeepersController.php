@@ -226,12 +226,12 @@ class ApiShopkeepersController extends AbstractController
             $userToEdit->setEmail($newEmail);
         }
 
-        $firstname = filter_var($data->firstname, FILTER_SANITIZE_STRING);
+        $firstname = filter_var($data->firstname, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
         if ($firstname !== $userToEdit->getFirstname()) {
             $userToEdit->setFirstname($firstname);
         }
 
-        $lastname = filter_var($data->lastname, FILTER_SANITIZE_STRING);
+        $lastname = filter_var($data->lastname, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
         if ($lastname !== $userToEdit->getLastname()) {
             $userToEdit->setLastname($lastname);
         }

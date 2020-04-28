@@ -55,7 +55,7 @@ class ApiCatalogsController extends AbstractController
             return $this->json("Données 'commerçant' non conformes", 409);
         }
 
-        $productName = filter_var($dataRequest->product, FILTER_SANITIZE_STRING);
+        $productName = filter_var($dataRequest->product, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
         // we check if product is already in Database
         if ($productRepository->findOneBy(['name'=>$productName])){
@@ -127,7 +127,7 @@ class ApiCatalogsController extends AbstractController
             return $this->json("Données 'producteur local' non conformes", 409);
         }
 
-        $productName = filter_var($dataRequest->product, FILTER_SANITIZE_STRING);
+        $productName = filter_var($dataRequest->product, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
         // if product already in DB
         if ($productRepository->findOneBy(['name' => $productName])) {
             // take its id with getId()

@@ -198,7 +198,6 @@ class UserController extends EasyAdminController
         if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
             throw new \Exception("Cette adresse n'est pas valide");
         }
-
         if ($newEmail !== $user->getEmail()) {   
             $user->setEmail($newEmail);     
         }
