@@ -73,7 +73,7 @@ const profilReducer = (state = initialState, action = {}) => {
           password: '',
         },
         newEmail: action.userData.email,
-        logoPicture: `${server.url}:${server.port}/${action.userData.logoPicture}`,
+        logoPicture: `${server.url}:${server.port}${action.userData.logoPicture}`,
         loaderProfil: false,
         loaderProfilPage: false,
         supplierRegion: action.userData.region.id,
