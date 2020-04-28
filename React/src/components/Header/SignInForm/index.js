@@ -1,5 +1,8 @@
+// == Import validators
+import { validateEmail } from 'src/utils/validators';
+
 // == Import npm
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // == Import components
@@ -35,14 +38,39 @@ const SignInForm = ({
   handleSignInSubmit,
 }) => {
   const classes = signInFormStyles();
+  const [error, setError] = useState(true);
+  const [emailError, setEmailError] = useState({ error: false, helperText: '' });
   const [pwdError, setPwdError] = useState(true);
 
   // Responsive mobile
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
+  // Check Errors else display Send Button
+  useEffect(() => {
+    // eslint-disable-next-line max-len
+    if (!pwdError && validateEmail(email)) {
+      setError(false);
+    }
+    else {
+      setError(true);
+    }
+  });
+
   const handleChange = (event) => {
     setFieldValue(event.target.name, event.target.value);
+    // Verif email field
+    if (event.target.name === 'email') {
+      const validEmail = validateEmail(event.target.value);
+      if (!validEmail) {
+        setEmailError({
+          error: true,
+          helperText: 'L\'email n\'est pas valide',
+        });
+        return;
+      }
+      setEmailError({ error: false, helperText: '' });
+    }
   };
 
   const handlesubmit = (event) => {
@@ -77,6 +105,7 @@ const SignInForm = ({
           <form onSubmit={handlesubmit} className={classes.formContent}>
             <TextField
               autoFocus
+              error={emailError.error}
               id="email"
               label="Email"
               className={classes.textField}
@@ -89,6 +118,7 @@ const SignInForm = ({
               InputLabelProps={InputLabelProps}
               value={email}
               onChange={handleChange}
+              helperText={emailError.helperText}
             />
             <SignInPassword
               setError={(value) => setPwdError(value)}
@@ -102,7 +132,7 @@ const SignInForm = ({
                 color="secondary"
                 endIcon={<Icon>send</Icon>}
                 type="submit"
-                disabled={pwdError}
+                disabled={error}
               >
                 Envoyer
               </Button>

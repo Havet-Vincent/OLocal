@@ -41,7 +41,7 @@ const profilMiddleware = (store) => (next) => (action) => {
         .catch((error) => {
           if (error.response.status === 409) {
             // eslint-disable-next-line no-console
-            console.warn(error);
+            // console.warn(error);
             store.dispatch(clearAuthData());
             store.dispatch(clearUserData());
             store.dispatch(redirect('/'));
@@ -86,7 +86,7 @@ const profilMiddleware = (store) => (next) => (action) => {
             },
           })
             .then((response) => {
-              console.log('success userData : ', response.data);
+              // console.log('success userData : ', response.data);
               store.dispatch(saveUserData(response.data));
               store.dispatch(getCatalog());
               store.dispatch(getSuppliersByRegion());
@@ -164,10 +164,16 @@ const profilMiddleware = (store) => (next) => (action) => {
                 next(action);
                 return;
               }
-              store.dispatch(setSnackbar('success', 'Vos modification sont enregistrées'));
+              store.dispatch(setSnackbar('success', 'Vos modifications sont enregistrées'));
               store.dispatch(getUserData());
             })
             .catch((error) => {
+              if (error.response.status === 409) {
+                // eslint-disable-next-line no-console
+                // console.warn(error);
+                store.dispatch(setSnackbar('error', 'L\'addresse email saisie n\'est pas valide'));
+                return;
+              }
               // eslint-disable-next-line no-console
               console.warn(error);
               store.dispatch(setSnackbar('error', 'Erreur interne : Echec enregistrement des informations'));

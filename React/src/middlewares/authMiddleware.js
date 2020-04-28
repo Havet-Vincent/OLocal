@@ -75,7 +75,7 @@ const authMiddleware = (store) => (next) => (action) => {
           .catch((error) => {
             if (error.response.status === 409) {
               // eslint-disable-next-line no-console
-              console.warn(error);
+              // console.warn(error);
               store.dispatch(clearAuthData());
               store.dispatch(clearUserData());
               store.dispatch(redirect('/'));
@@ -86,7 +86,12 @@ const authMiddleware = (store) => (next) => (action) => {
           })
           .finally(() => {
           });
+
+        next(action);
+        break;
       }
+
+      store.dispatch(redirect('/'));
       next(action);
       break;
     }

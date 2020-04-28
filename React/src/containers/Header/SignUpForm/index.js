@@ -12,6 +12,7 @@ const mapStateToProps = (state) => ({
   siret: state.register.siret,
   regions: state.home.regions,
   email: state.register.email,
+  passwordConfirmed: state.register.passwordConfirmed,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -23,6 +23,17 @@ export const verifySiret = (siret) => {
 };
 
 /**
+* Validate email field
+* @param {String} email
+* @return Bool true/false if valid email
+*/
+export const validateEmail = (email) => (
+  // eslint-disable-next-line no-useless-escape
+  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+);
+
+
+/**
 * Validate Password fields
 * @param {String} password
 * @return Bool true/false if valid password with conditions :
