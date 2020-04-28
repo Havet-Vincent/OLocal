@@ -16,7 +16,7 @@ import ShopkeepersList from 'src/containers/ShopkeepersList';
 import Shopkeeper from 'src/containers/Shopkeeper';
 import ShopkeeperProfil from 'src/containers/Profil/ShopkeeperProfil';
 import ShopkeeperProfilPage from 'src/containers/Profil/ShopkeeperProfil/ShopkeeperProfilPage';
-import PlanDuSite from 'src/components/Pages/PlanDuSite';
+import About from 'src/components/Pages/About';
 import LegalNotices from 'src/components/Pages/LegalNotices';
 import Contact from 'src/components/Pages/Contact';
 import NotFound from 'src/components/Pages/NotFound';
@@ -80,8 +80,8 @@ const Pages = ({
           <Route exact path="/commercant/:id">
             <Shopkeeper />
           </Route>
-          <Route path="/plan-du-site">
-            <PlanDuSite />
+          <Route path="/qui-sommes-nous">
+            <About />
           </Route>
           <Route path="/mentions-legales">
             <LegalNotices />
