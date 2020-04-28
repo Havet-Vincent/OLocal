@@ -301,7 +301,7 @@ class AppFixtures extends Fixture
         $custom->setSiret($faker->numberBetween(10000000000000, 99999999999999));
         $custom->setCompanyName('La boutique des tests');
         $custom->setCompanyDescription($faker->realText(400, 2));
-        $custom->setLogoPicture('uploads/frontoffice'.mt_rand(1, 30).'.jpg');
+        $custom->setLogoPicture('/uploads/frontoffice'.mt_rand(1, 30).'.jpg');
         $custom->setPhone($faker->serviceNumber());
         $custom->setWebsite('http://www.monsitewebtropbeau.com');
         $custom->setCreatedAt(new \DateTime());    
