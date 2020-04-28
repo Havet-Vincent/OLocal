@@ -86,7 +86,7 @@ const profilMiddleware = (store) => (next) => (action) => {
             },
           })
             .then((response) => {
-              // console.log('success userData : ', response.data);
+              console.log('success userData : ', response.data);
               store.dispatch(saveUserData(response.data));
               store.dispatch(getCatalog());
               store.dispatch(getSuppliersByRegion());
