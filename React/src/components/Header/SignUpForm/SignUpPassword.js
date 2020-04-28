@@ -28,7 +28,6 @@ const SignUpPassword = ({
   passwordLength,
   passwordConfirmed,
   handleFocus,
-  setError,
 }) => {
   const classes = signUpFormStyles();
   const [showPassword, setShowPassword] = useState(false);
@@ -59,9 +58,6 @@ const SignUpPassword = ({
   useEffect(() => {
     checkPasswordConfirmation();
     handlePwdErrors();
-    if (!pwdError && passwordConfirmed) {
-      setError(false);
-    }
   });
   // ========================================
 
@@ -153,7 +149,6 @@ SignUpPassword.propTypes = {
   passwordLength: PropTypes.number.isRequired,
   passwordConfirmed: PropTypes.bool.isRequired,
   handleFocus: PropTypes.func.isRequired,
-  setError: PropTypes.func.isRequired,
 };
 
 // == Export

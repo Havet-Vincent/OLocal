@@ -1,5 +1,5 @@
 // == Import validators
-import { verifySiret } from 'src/utils/validators';
+import { verifySiret, validateEmail } from 'src/utils/validators';
 
 // == Import npm
 import React, { useState, useEffect } from 'react';
@@ -45,12 +45,13 @@ const SignUpForm = ({
   siret,
   regions,
   email,
+  passwordConfirmed,
   setFieldValue,
   handleSignUpSubmit,
 }) => {
   const classes = signUpFormStyles();
   const [error, setError] = useState(true);
-  const [pwdError, setPwdError] = useState(false);
+  const [emailError, setEmailError] = useState({ error: false, helperText: '' });
   const [regionError, setRegionError] = useState({ error: false, helperText: '' });
   const [regionFocus, setRegionFocus] = useState(false);
   const [regionSelect, setRegionSelect] = useState('');
@@ -66,7 +67,8 @@ const SignUpForm = ({
 
   // Check Errors else display Send Button
   useEffect(() => {
-    if (regionFocus && !regionError && email !== '' && verifySiret(siret) && !pwdError) {
+    // eslint-disable-next-line max-len
+    if (regionFocus && !regionError.error && validateEmail(email) && verifySiret(siret) && passwordConfirmed) {
       setError(false);
     }
     else {
@@ -75,14 +77,26 @@ const SignUpForm = ({
   });
 
   const handleFocus = () => {
+    setRegionFocus(true);
     if (regionSelect === '') {
       setRegionError({ error: true, helperText: 'Selectionnez une région' });
     }
-    setRegionFocus(true);
   };
 
   const handleChange = (event) => {
     setFieldValue(event.target.name, event.target.value);
+    // Verif email field
+    if (event.target.name === 'email') {
+      const validEmail = validateEmail(event.target.value);
+      if (!validEmail) {
+        setEmailError({
+          error: true,
+          helperText: 'L\'email n\'est pas valide',
+        });
+        return;
+      }
+      setEmailError({ error: false, helperText: '' });
+    }
     // Verif SIRET field
     if (event.target.name === 'siret') {
       const verifiedSiret = verifySiret(event.target.value);
@@ -149,6 +163,7 @@ const SignUpForm = ({
           <form onSubmit={handlesubmit}>
             <TextField
               autoFocus
+              error={emailError.error}
               id="email"
               label="Email"
               className={classes.textField}
@@ -161,6 +176,7 @@ const SignUpForm = ({
               InputLabelProps={InputLabelProps}
               value={email}
               onChange={handleChange}
+              helperText={emailError.helperText}
             />
             <TextField
               error={siretError.error}
@@ -199,7 +215,6 @@ const SignUpForm = ({
               <FormHelperText>{regionError.helperText}</FormHelperText>
             </FormControl>
             <SignUpPassword
-              setError={(value) => setPwdError(value)}
               handleFocus={handleFocus}
             />
             <DialogActions>
@@ -226,6 +241,7 @@ const SignUpForm = ({
 
 SignUpForm.propTypes = {
   loaderCheckRegister: PropTypes.bool.isRequired,
+  passwordConfirmed: PropTypes.bool.isRequired,
   setSignUp: PropTypes.func.isRequired,
   getRegionsData: PropTypes.func.isRequired,
   siret: PropTypes.string.isRequired,
