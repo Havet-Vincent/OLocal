@@ -176,7 +176,7 @@ class ApiShopkeepersController extends AbstractController
 
         $user->setRegion($region);
 
-        $user->setLogoPicture('uploads/avatars/no-avatar.png');
+        $user->setLogoPicture('/uploads/avatars/no-avatar.png');
 
         $em=$this->getDoctrine()->getManager();
         $em->persist($user);
@@ -264,7 +264,7 @@ class ApiShopkeepersController extends AbstractController
 
                 // Move the file to the directory where avatars are stored
                 if ($newPicture) {
-                    file_put_contents('uploads/avatars/'.$newFilename, $newPicture);
+                    file_put_contents('/uploads/avatars/'.$newFilename, $newPicture);
                 } else {
                     return $this->json("Erreur lors de l'envoi d'image.", 409);
                 }
@@ -273,7 +273,7 @@ class ApiShopkeepersController extends AbstractController
                 return $this->json("Format d'image non autorisée.", 409);
             }
         } elseif ($data->logoPicture == '') {
-            $user->setLogoPicture('uploads/avatars/no-avatar.png');
+            $user->setLogoPicture('/uploads/avatars/no-avatar.png');
         }
 
         $phone = filter_var($data->phone, FILTER_SANITIZE_STRING);

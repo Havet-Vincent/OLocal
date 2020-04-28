@@ -123,7 +123,7 @@ class UserController extends EasyAdminController
 
             $user->setRegion($region);
 
-            $user->setLogoPicture('uploads/avatars/no-avatar.png');
+            $user->setLogoPicture('/uploads/avatars/no-avatar.png');
 
             $em=$this->getDoctrine()->getManager();
             $em->persist($user);
@@ -173,7 +173,7 @@ class UserController extends EasyAdminController
         }
         $newUser->setUserRole([$role]);
 
-        $newUser->setLogoPicture('uploads/avatars/no-avatar.png');
+        $newUser->setLogoPicture('/uploads/avatars/no-avatar.png');
 
         $em=$this->getDoctrine()->getManager();
         $em->persist($newUser);
@@ -260,7 +260,7 @@ class UserController extends EasyAdminController
             $user->setCity($city);
         }      
         if ($entity->getLogoPicture() == null) {
-            $user->setLogoPicture('uploads/avatars/no-avatar.png');
+            $user->setLogoPicture('/uploads/avatars/no-avatar.png');
         }
         $phone = filter_var($entity->getPhone(), FILTER_SANITIZE_STRING);
         if ($phone !== $user->getPhone()) {
