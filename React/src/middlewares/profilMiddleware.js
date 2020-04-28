@@ -17,15 +17,13 @@ import {
 import { clearAuthData } from '../actions/authentication';
 import { redirect, setSnackbar } from '../actions/home';
 
-// == Import API server config
-const server = require('../api.config.json');
 
 const profilMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
     case FETCH_USER: {
       axios({
         method: 'post',
-        url: `${server.url}:${server.port}/api/login_id`,
+        url: `${process.env.URL_API}/api/login_id`,
         data: {
           username: action.username,
         },
@@ -41,7 +39,7 @@ const profilMiddleware = (store) => (next) => (action) => {
         .catch((error) => {
           if (error.response.status === 409) {
             // eslint-disable-next-line no-console
-            console.warn(error);
+            // console.warn(error);
             store.dispatch(clearAuthData());
             store.dispatch(clearUserData());
             store.dispatch(redirect('/'));
@@ -63,7 +61,7 @@ const profilMiddleware = (store) => (next) => (action) => {
           break;
 
         case 'ROLE_ADMIN':
-          // store.dispatch(redirect(`${server.url}:${server.port}/admin`));
+          // store.dispatch(redirect(`${process.env.URL_API}/admin`));
           next(action);
           break;
 
@@ -80,13 +78,13 @@ const profilMiddleware = (store) => (next) => (action) => {
         case 'ROLE_SHOPKEEPER':
           axios({
             method: 'post',
-            url: `${server.url}:${server.port}/api/shopkeepers/${userId}`,
+            url: `${process.env.URL_API}/api/shopkeepers/${userId}`,
             data: {
               id: userId,
             },
           })
             .then((response) => {
-              console.log('success userData : ', response.data);
+              // console.log('success userData : ', response.data);
               store.dispatch(saveUserData(response.data));
               store.dispatch(getCatalog());
               store.dispatch(getSuppliersByRegion());
@@ -131,7 +129,7 @@ const profilMiddleware = (store) => (next) => (action) => {
 
           axios({
             method: 'post',
-            url: `${server.url}:${server.port}/api/shopkeepers/${userId}/edit`,
+            url: `${process.env.URL_API}/api/shopkeepers/${userId}/edit`,
             headers: { Authorization: `Bearer ${token}` },
             data: {
               id: userId,
@@ -164,10 +162,16 @@ const profilMiddleware = (store) => (next) => (action) => {
                 next(action);
                 return;
               }
-              store.dispatch(setSnackbar('success', 'Vos modification sont enregistrées'));
+              store.dispatch(setSnackbar('success', 'Vos modifications sont enregistrées'));
               store.dispatch(getUserData());
             })
             .catch((error) => {
+              if (error.response.status === 409) {
+                // eslint-disable-next-line no-console
+                // console.warn(error);
+                store.dispatch(setSnackbar('error', 'L\'addresse email saisie n\'est pas valide'));
+                return;
+              }
               // eslint-disable-next-line no-console
               console.warn(error);
               store.dispatch(setSnackbar('error', 'Erreur interne : Echec enregistrement des informations'));
@@ -191,7 +195,7 @@ const profilMiddleware = (store) => (next) => (action) => {
         case 'ROLE_SHOPKEEPER': {
           axios({
             method: 'delete',
-            url: `${server.url}:${server.port}/api/shopkeepers/${userId}/delete`,
+            url: `${process.env.URL_API}/api/shopkeepers/${userId}/delete`,
             headers: { Authorization: `Bearer ${token}` },
             data: {
               id: userId,

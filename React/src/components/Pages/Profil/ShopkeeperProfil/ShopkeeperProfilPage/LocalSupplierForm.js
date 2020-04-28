@@ -1,3 +1,6 @@
+// == Import validators
+import { verifySiret } from 'src/utils/validators';
+
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
@@ -43,6 +46,7 @@ const LocalSupplierForm = ({
   const [error, setError] = useState(true);
   const [regionError, setRegionError] = useState(false);
   const [regionSelect, setRegionSelect] = useState('');
+  const [siretError, setSiretError] = useState({ error: false, helperText: '' });
 
   // Responsive mobile
   const theme = useTheme();
@@ -51,7 +55,7 @@ const LocalSupplierForm = ({
   // Check Errors else display Send Button
   useEffect(() => {
     setRegionSelect(supplierRegion);
-    if (!regionError && siret !== '') {
+    if (!regionError && verifySiret(siret)) {
       setError(false);
     }
     else {
@@ -61,6 +65,18 @@ const LocalSupplierForm = ({
 
   const handleChange = (event) => {
     setFieldValue(event.target.name, event.target.value);
+    // Verif SIRET field
+    if (event.target.name === 'siret') {
+      const verifiedSiret = verifySiret(event.target.value);
+      if (!verifiedSiret) {
+        setSiretError({
+          error: true,
+          helperText: 'Le siret n\'est pas valide',
+        });
+        return;
+      }
+      setSiretError({ error: false, helperText: 'Siret valide' });
+    }
   };
 
   const handleChangeRegion = (event) => {
@@ -105,6 +121,7 @@ const LocalSupplierForm = ({
           </DialogContentText>
           <form>
             <TextField
+              error={siretError.error}
               autoFocus
               required
               className={classes.textField}
@@ -116,6 +133,7 @@ const LocalSupplierForm = ({
               value={siret}
               InputLabelProps={InputLabelProps}
               onChange={handleChange}
+              helperText={siretError.helperText}
             />
             {regions.length > 0 && (
               <FormControl required className={classes.formControl} error={regionError}>

@@ -6,14 +6,12 @@ import axios from 'axios';
 import {
   ADD_LOCAL_SUPPLIER,
   GET_SUPPLIERS_BY_REGION,
+  getUserData,
   saveSuppliersByRegion,
   toogleSupplierForm,
   setLoaderSupplierForm,
 } from '../actions/profil';
 import { setSnackbar } from '../actions/home';
-
-// == Import API server config
-const server = require('../api.config.json');
 
 const supplierMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
@@ -28,7 +26,7 @@ const supplierMiddleware = (store) => (next) => (action) => {
       if (verifiedSiret && region !== null) {
         axios({
           method: 'post',
-          url: `${server.url}:${server.port}/api/localsuppliers/add`,
+          url: `${process.env.URL_API}/api/localsuppliers/add`,
           headers: { Authorization: `Bearer ${token}` },
           data: {
             siret: verifiedSiret,
@@ -37,6 +35,7 @@ const supplierMiddleware = (store) => (next) => (action) => {
         })
           .then(() => {
             store.dispatch(toogleSupplierForm());
+            store.dispatch(getUserData());
             store.dispatch(setSnackbar('success', 'La producteur a été ajouté à la liste'));
           })
           .catch((error) => {
@@ -70,7 +69,7 @@ const supplierMiddleware = (store) => (next) => (action) => {
       const token = localStorage.getItem('token');
       axios({
         method: 'post',
-        url: `${server.url}:${server.port}/api/regions/${regionId}/localsuppliers`,
+        url: `${process.env.URL_API}/api/regions/${regionId}/localsuppliers`,
         headers: { Authorization: `Bearer ${token}` },
         data: {
           region: regionId,

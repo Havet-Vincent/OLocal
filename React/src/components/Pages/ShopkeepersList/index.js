@@ -23,9 +23,6 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 // == Import styles
 import shopkeepersListStyles from './shopkeepersListStyles';
 
-// == Import API config for pictures base URL
-const server = require('src/api.config.json');
-
 // == Composant
 const ShopkeepersList = ({
   currentCategory,
@@ -64,7 +61,7 @@ const ShopkeepersList = ({
               <Card key={item.id} className={classes.cardWrapper} elevation={3} component="li">
                 <CardMedia
                   className={classes.cardImg}
-                  image={`${server.url}:${server.port}${item.logoPicture}`}
+                  image={`${process.env.URL_API}${item.logoPicture}`}
                   title={`Image de présentation de ${item.companyName}`}
                 />
                 <CardContent className={classes.cardContent}>

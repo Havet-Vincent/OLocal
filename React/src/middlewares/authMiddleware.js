@@ -12,8 +12,6 @@ import {
 import { fetchUser, clearUserData } from '../actions/profil';
 import { redirect, setSnackbar } from '../actions/home';
 
-// == Import API server config
-const server = require('../api.config.json');
 
 const authMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
@@ -24,7 +22,7 @@ const authMiddleware = (store) => (next) => (action) => {
       } = store.getState().authentication;
       axios({
         method: 'post',
-        url: `${server.url}:${server.port}/api/login`,
+        url: `${process.env.URL_API}/api/login`,
         data: {
           username,
           password,
@@ -57,7 +55,7 @@ const authMiddleware = (store) => (next) => (action) => {
       if (refreshToken) {
         axios({
           method: 'post',
-          url: `${server.url}:${server.port}/api/token/refresh`,
+          url: `${process.env.URL_API}/api/token/refresh`,
           data: {
             refreshToken,
           },
@@ -75,7 +73,7 @@ const authMiddleware = (store) => (next) => (action) => {
           .catch((error) => {
             if (error.response.status === 409) {
               // eslint-disable-next-line no-console
-              console.warn(error);
+              // console.warn(error);
               store.dispatch(clearAuthData());
               store.dispatch(clearUserData());
               store.dispatch(redirect('/'));
@@ -86,7 +84,12 @@ const authMiddleware = (store) => (next) => (action) => {
           })
           .finally(() => {
           });
+
+        next(action);
+        break;
       }
+
+      store.dispatch(redirect('/'));
       next(action);
       break;
     }

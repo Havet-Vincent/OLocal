@@ -3,6 +3,7 @@ import {
   SET_SIGNUP_FIELD_VALUE,
   CHECK_PASSWORD_CONFIRMATION,
   SUBMIT_SIGNUP,
+  TOOGLE_REGISTER_LOADER,
   SET_REGISTER,
 } from '../actions/register';
 
@@ -60,6 +61,12 @@ const registerReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         loaderCheckRegister: true,
+      };
+
+    case TOOGLE_REGISTER_LOADER:
+      return {
+        ...state,
+        loaderCheckRegister: !state.loaderCheckRegister,
       };
 
     case SET_REGISTER:

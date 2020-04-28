@@ -50,6 +50,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.49",
     "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
     "jwt-decode": "^2.2.0",
     "material-table": "^1.57.2",
     "prop-types": "*",

@@ -1,3 +1,6 @@
+// == Import validators
+import { verifySiret, validateEmail } from 'src/utils/validators';
+
 // == Import npm
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -10,6 +13,7 @@ import {
   DialogContentText,
   DialogActions,
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
@@ -41,15 +45,17 @@ const SignUpForm = ({
   siret,
   regions,
   email,
+  passwordConfirmed,
   setFieldValue,
   handleSignUpSubmit,
 }) => {
   const classes = signUpFormStyles();
   const [error, setError] = useState(true);
-  const [pwdError, setPwdError] = useState(false);
-  const [regionError, setRegionError] = useState(false);
+  const [emailError, setEmailError] = useState({ error: false, helperText: '' });
+  const [regionError, setRegionError] = useState({ error: false, helperText: '' });
   const [regionFocus, setRegionFocus] = useState(false);
   const [regionSelect, setRegionSelect] = useState('');
+  const [siretError, setSiretError] = useState({ error: false, helperText: '' });
 
   useEffect(() => {
     getRegionsData();
@@ -61,7 +67,8 @@ const SignUpForm = ({
 
   // Check Errors else display Send Button
   useEffect(() => {
-    if (regionFocus && !regionError && email !== '' && siret !== '' && !pwdError) {
+    // eslint-disable-next-line max-len
+    if (regionFocus && !regionError.error && validateEmail(email) && verifySiret(siret) && passwordConfirmed) {
       setError(false);
     }
     else {
@@ -70,21 +77,45 @@ const SignUpForm = ({
   });
 
   const handleFocus = () => {
-    if (regionSelect === '') {
-      setRegionError(true);
-    }
     setRegionFocus(true);
+    if (regionSelect === '') {
+      setRegionError({ error: true, helperText: 'Selectionnez une région' });
+    }
   };
 
   const handleChange = (event) => {
     setFieldValue(event.target.name, event.target.value);
+    // Verif email field
+    if (event.target.name === 'email') {
+      const validEmail = validateEmail(event.target.value);
+      if (!validEmail) {
+        setEmailError({
+          error: true,
+          helperText: 'L\'email n\'est pas valide',
+        });
+        return;
+      }
+      setEmailError({ error: false, helperText: '' });
+    }
+    // Verif SIRET field
+    if (event.target.name === 'siret') {
+      const verifiedSiret = verifySiret(event.target.value);
+      if (!verifiedSiret) {
+        setSiretError({
+          error: true,
+          helperText: 'Le siret n\'est pas valide',
+        });
+        return;
+      }
+      setSiretError({ error: false, helperText: 'Siret valide' });
+    }
   };
 
   const handleChangeRegion = (event) => {
     setRegionSelect(event.target.value);
     const region = regions.find((reg) => reg.id === event.target.value);
     setFieldValue(event.target.name, region.id);
-    setRegionError(false);
+    setRegionError({ error: false, helperText: '' });
   };
 
   const handlesubmit = (event) => {
@@ -132,6 +163,7 @@ const SignUpForm = ({
           <form onSubmit={handlesubmit}>
             <TextField
               autoFocus
+              error={emailError.error}
               id="email"
               label="Email"
               className={classes.textField}
@@ -144,8 +176,10 @@ const SignUpForm = ({
               InputLabelProps={InputLabelProps}
               value={email}
               onChange={handleChange}
+              helperText={emailError.helperText}
             />
             <TextField
+              error={siretError.error}
               id="siret"
               label="Numéro de SIRET de l'entreprise"
               className={classes.textField}
@@ -156,8 +190,9 @@ const SignUpForm = ({
               InputLabelProps={InputLabelProps}
               value={siret}
               onChange={handleChange}
+              helperText={siretError.helperText}
             />
-            <FormControl required className={classes.formControl} error={regionError}>
+            <FormControl required className={classes.formControl} error={regionError.error}>
               <InputLabel
                 id="search-region"
                 {...InputLabelProps}
@@ -177,9 +212,9 @@ const SignUpForm = ({
                   <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
                 ))}
               </Select>
+              <FormHelperText>{regionError.helperText}</FormHelperText>
             </FormControl>
             <SignUpPassword
-              setError={(value) => setPwdError(value)}
               handleFocus={handleFocus}
             />
             <DialogActions>
@@ -206,6 +241,7 @@ const SignUpForm = ({
 
 SignUpForm.propTypes = {
   loaderCheckRegister: PropTypes.bool.isRequired,
+  passwordConfirmed: PropTypes.bool.isRequired,
   setSignUp: PropTypes.func.isRequired,
   getRegionsData: PropTypes.func.isRequired,
   siret: PropTypes.string.isRequired,

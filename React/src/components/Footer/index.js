@@ -10,6 +10,7 @@ import {
 // == Import styles
 import footerStyles from './footerStyles';
 
+
 // == Composant
 const Footer = () => {
   const classes = footerStyles();
