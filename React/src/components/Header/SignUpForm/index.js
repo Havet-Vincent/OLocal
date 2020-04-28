@@ -13,6 +13,7 @@ import {
   DialogContentText,
   DialogActions,
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
@@ -50,7 +51,7 @@ const SignUpForm = ({
   const classes = signUpFormStyles();
   const [error, setError] = useState(true);
   const [pwdError, setPwdError] = useState(false);
-  const [regionError, setRegionError] = useState(false);
+  const [regionError, setRegionError] = useState({ error: false, helperText: '' });
   const [regionFocus, setRegionFocus] = useState(false);
   const [regionSelect, setRegionSelect] = useState('');
   const [siretError, setSiretError] = useState({ error: false, helperText: '' });
@@ -75,7 +76,7 @@ const SignUpForm = ({
 
   const handleFocus = () => {
     if (regionSelect === '') {
-      setRegionError(true);
+      setRegionError({ error: true, helperText: 'Selectionnez une région' });
     }
     setRegionFocus(true);
   };
@@ -100,7 +101,7 @@ const SignUpForm = ({
     setRegionSelect(event.target.value);
     const region = regions.find((reg) => reg.id === event.target.value);
     setFieldValue(event.target.name, region.id);
-    setRegionError(false);
+    setRegionError({ error: false, helperText: '' });
   };
 
   const handlesubmit = (event) => {
@@ -175,7 +176,7 @@ const SignUpForm = ({
               onChange={handleChange}
               helperText={siretError.helperText}
             />
-            <FormControl required className={classes.formControl} error={regionError}>
+            <FormControl required className={classes.formControl} error={regionError.error}>
               <InputLabel
                 id="search-region"
                 {...InputLabelProps}
@@ -195,6 +196,7 @@ const SignUpForm = ({
                   <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
                 ))}
               </Select>
+              <FormHelperText>{regionError.helperText}</FormHelperText>
             </FormControl>
             <SignUpPassword
               setError={(value) => setPwdError(value)}
