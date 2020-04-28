@@ -17,15 +17,13 @@ import {
 import { clearAuthData } from '../actions/authentication';
 import { redirect, setSnackbar } from '../actions/home';
 
-// == Import API server config
-const server = require('../api.config.json');
 
 const profilMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
     case FETCH_USER: {
       axios({
         method: 'post',
-        url: `${server.url}:${server.port}/api/login_id`,
+        url: `${process.env.URL_API}/api/login_id`,
         data: {
           username: action.username,
         },
@@ -63,7 +61,7 @@ const profilMiddleware = (store) => (next) => (action) => {
           break;
 
         case 'ROLE_ADMIN':
-          // store.dispatch(redirect(`${server.url}:${server.port}/admin`));
+          // store.dispatch(redirect(`${process.env.URL_API}/admin`));
           next(action);
           break;
 
@@ -80,7 +78,7 @@ const profilMiddleware = (store) => (next) => (action) => {
         case 'ROLE_SHOPKEEPER':
           axios({
             method: 'post',
-            url: `${server.url}:${server.port}/api/shopkeepers/${userId}`,
+            url: `${process.env.URL_API}/api/shopkeepers/${userId}`,
             data: {
               id: userId,
             },
@@ -131,7 +129,7 @@ const profilMiddleware = (store) => (next) => (action) => {
 
           axios({
             method: 'post',
-            url: `${server.url}:${server.port}/api/shopkeepers/${userId}/edit`,
+            url: `${process.env.URL_API}/api/shopkeepers/${userId}/edit`,
             headers: { Authorization: `Bearer ${token}` },
             data: {
               id: userId,
@@ -197,7 +195,7 @@ const profilMiddleware = (store) => (next) => (action) => {
         case 'ROLE_SHOPKEEPER': {
           axios({
             method: 'delete',
-            url: `${server.url}:${server.port}/api/shopkeepers/${userId}/delete`,
+            url: `${process.env.URL_API}/api/shopkeepers/${userId}/delete`,
             headers: { Authorization: `Bearer ${token}` },
             data: {
               id: userId,

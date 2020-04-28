@@ -13,7 +13,7 @@ import footerStyles from './footerStyles';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'o\'Local © '}
+      {'© o\'Local'}
       {new Date().getFullYear()}
       {'.'}
     </Typography>

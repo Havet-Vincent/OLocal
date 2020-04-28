@@ -11,13 +11,10 @@ import {
 } from '../actions/home';
 import { saveSearchHomeData } from '../actions/shopkeepers';
 
-// == Import API server config
-const server = require('../api.config.json');
-
 const homeMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
     case GET_REGIONS_DATA:
-      axios.get(`${server.url}:${server.port}/api/regions`)
+      axios.get(`${process.env.URL_API}/api/regions`)
         .then((response) => {
           // console.log('success regions : ', response.data);
           store.dispatch(saveRegionsData(response.data));
@@ -31,7 +28,7 @@ const homeMiddleware = (store) => (next) => (action) => {
       break;
 
     case GET_CATEGORIES_DATA:
-      axios.get(`${server.url}:${server.port}/api/categories`)
+      axios.get(`${process.env.URL_API}/api/categories`)
         .then((response) => {
           // console.log('success categories : ', response.data);
           store.dispatch(saveCategoriesData(response.data));
@@ -48,7 +45,7 @@ const homeMiddleware = (store) => (next) => (action) => {
       const { region, category } = store.getState().home;
       axios({
         method: 'post',
-        url: `${server.url}:${server.port}/api/shopkeepers`,
+        url: `${process.env.URL_API}/api/shopkeepers`,
         data: {
           region: region.id,
           category: category.id,
