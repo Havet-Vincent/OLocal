@@ -35,6 +35,14 @@ const footerStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(2),
     },
   },
+  footerCopyright: {
+    fontSize: '.9em',
+    color: '#3a3a3a',
+    [theme.breakpoints.down('xs')]: {
+      display: 'block',
+      marginTop: theme.spacing(2),
+    },
+  },
 
 }));
 

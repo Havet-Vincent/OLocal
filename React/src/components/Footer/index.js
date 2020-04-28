@@ -10,15 +10,6 @@ import {
 // == Import styles
 import footerStyles from './footerStyles';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'© o\'Local'}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 // == Composant
 const Footer = () => {
@@ -29,9 +20,9 @@ const Footer = () => {
         <Toolbar className={classes.footerContent}>
           <Typography className={classes.root}>
             <Route>
-              <Tooltip title="plan du site" aria-label="plan-du-site" placement="top">
-                <Link component={RouterLink} to="/plan-du-site" className={classes.footerLink}>
-                  Plan du site
+              <Tooltip title="Qui sommes-nous?" aria-label="qui-sommes-nous" placement="top">
+                <Link component={RouterLink} to="/qui-sommes-nous" className={classes.footerLink}>
+                  Qui sommes-nous?
                 </Link>
               </Tooltip>
             </Route>
@@ -51,7 +42,11 @@ const Footer = () => {
             </Route>
           </Typography>
         </Toolbar>
-        <Copyright />
+        <Typography variant="body2" color="textSecondary" align="center" className={classes.footerCopyright}>
+          {'o\'Local © '}
+          {new Date().getFullYear()}
+          {'.'}
+        </Typography>
       </Container>
     </div>
   );
