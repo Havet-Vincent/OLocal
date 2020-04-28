@@ -4,7 +4,7 @@ const footerStyles = makeStyles((theme) => ({
   footerWrapper: {
     maxWidth: '100%',
     backgroundColor: '#6DA641',
-    padding: '1.5rem 0',
+    padding: '1.5rem 0 .5rem 1rem',
   },
   footerContent: {
     justifyContent: 'center',
@@ -35,7 +35,14 @@ const footerStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(2),
     },
   },
-
+  copyright: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: theme.spacing(1),
+    [theme.breakpoints.down('xs')]: {
+      marginTop: theme.spacing(3),
+    },
+  },
 }));
 
 export default footerStyles;

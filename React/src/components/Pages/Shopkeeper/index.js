@@ -4,6 +4,7 @@ import { Link as RouterLink, useParams } from 'react-router-dom';
 
 // == Import components
 import {
+  Tooltip,
   Link,
   Grid,
   Box,
@@ -84,6 +85,10 @@ const Shopkeeper = ({
     },
   };
 
+  // Google Map format address
+  // eslint-disable-next-line no-useless-concat
+  const shopkeeperMapAddress = 'https://maps.google.fr/maps?f=q&hl=fr&geocode=&q=' + `${shopkeeper.wayNumber} ${shopkeeper.repeatIndex} ${shopkeeper.wayName}+${shopkeeper.postalCode}+${shopkeeper.city}`;
+
   return (
     <>
       {!notMatch && (
@@ -114,47 +119,70 @@ const Shopkeeper = ({
                         />
                         <Paper className={classes.root} elevation={0}>
                           {shopkeeper.website && (
-                            <Link variant="body1" href={shopkeeper.website}>
+                            <Tooltip title="Site web commerçant" aria-label="site-web-commercant" placement="top">
                               <Chip
+                                classes={{
+                                  root: classes.chip,
+                                  label: classes.chipLabel,
+                                }}
                                 icon={<WebIcon className={classes.chipIcon} />}
+                                component="a"
+                                href={shopkeeper.website}
                                 label={shopkeeper.website ? shopkeeper.website.replace(/(^\w+:|^)\/\//, '') : ''}
-                                className={classes.chip}
+                                clickable
                               />
-                            </Link>
+                            </Tooltip>
                           )}
                           {shopkeeper.phone && (
-                            <Link variant="body1" href={`tel:${shopkeeper.phone}`}>
+                            <Tooltip title="Téléphone contact commerçant" aria-label="telephone-contact-commercant" placement="top">
                               <Chip
+                                classes={{
+                                  root: classes.chip,
+                                  label: classes.chipLabel,
+                                }}
                                 icon={<CallIcon className={classes.chipIcon} />}
+                                component="a"
+                                href={`tel:${shopkeeper.phone}`}
                                 label={shopkeeper.phone}
-                                className={classes.chip}
+                                clickable
                               />
-                            </Link>
+                            </Tooltip>
                           )}
-                          <Link variant="body1" href={`mailto:${shopkeeper.email}`}>
+                          <Tooltip title="Email contact commerçant" aria-label="email-contact-commercant" placement="top">
                             <Chip
+                              classes={{
+                                root: classes.chip,
+                                label: classes.chipLabel,
+                              }}
                               icon={<ContactMailIcon className={classes.chipIcon} />}
+                              component="a"
+                              href={`mailto:${shopkeeper.email}`}
                               label={shopkeeper.email}
-                              className={classes.chip}
+                              clickable
                             />
-                          </Link>
-                          <Card className={classes.chipAdress} elevation={0}>
-                            <CardContent className={classes.chipContent}>
-                              <IconButton aria-label="location" className={classes.chipIconAdress} size="medium">
-                                <RoomRoundedIcon />
-                              </IconButton>
-                              <Typography variant="subtitle2" component="p">
-                                {`
-                                  ${shopkeeper.wayNumber ? shopkeeper.wayNumber : ''}
-                                  ${shopkeeper.repeatIndex ? shopkeeper.repeatIndex : ''}
-                                  ${shopkeeper.wayName ? shopkeeper.wayName : ''}
-                                  ${shopkeeper.additionalAddress ? `- ${shopkeeper.additionalAddress}` : ''}
-                                  ${shopkeeper.postalCode ? `- ${shopkeeper.postalCode}` : ''}
-                                  ${shopkeeper.city ? shopkeeper.city.toUpperCase() : ''}
-                                `}
-                              </Typography>
-                            </CardContent>
-                          </Card>
+                          </Tooltip>
+                          <Tooltip title="Adresse commerçant" aria-label="adresse-commercant" placement="top">
+                            <Card className={classes.chipAdress} elevation={0}>
+                              <CardContent className={classes.chipContent}>
+                                <Link
+                                  href={shopkeeperMapAddress}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className={classes.chipAdressLink}
+                                >
+                                  <RoomRoundedIcon className={classes.chipIconAdress} />
+                                  {`
+                                    ${shopkeeper.wayNumber ? shopkeeper.wayNumber : ''}
+                                    ${shopkeeper.repeatIndex ? shopkeeper.repeatIndex : ''}
+                                    ${shopkeeper.wayName ? shopkeeper.wayName : ''}
+                                    ${shopkeeper.additionalAddress ? `- ${shopkeeper.additionalAddress}` : ''}
+                                    ${shopkeeper.postalCode ? `- ${shopkeeper.postalCode}` : ''}
+                                    ${shopkeeper.city ? shopkeeper.city.toUpperCase() : ''}
+                                  `}
+                                </Link>
+                              </CardContent>
+                            </Card>
+                          </Tooltip>
                         </Paper>
                       </Box>
                       <Paper className={classes.cardProducts} elevation={2}>

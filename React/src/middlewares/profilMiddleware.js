@@ -42,7 +42,6 @@ const profilMiddleware = (store) => (next) => (action) => {
             // console.warn(error);
             store.dispatch(clearAuthData());
             store.dispatch(clearUserData());
-            store.dispatch(redirect('/'));
             return;
           }
           // eslint-disable-next-line no-console

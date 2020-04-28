@@ -89,7 +89,6 @@ const authMiddleware = (store) => (next) => (action) => {
         break;
       }
 
-      store.dispatch(redirect('/'));
       next(action);
       break;
     }

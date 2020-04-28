@@ -7,11 +7,18 @@ const navbarShopkeeperProfilStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     width: '100%',
     background: 'none',
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: theme.spacing(1),
+    },
+  },
+  navbarHome: {
+    [theme.breakpoints.down('xs')]: {
+      margin: 0,
+    },
   },
   navbarNavOl: {
     [theme.breakpoints.down('xs')]: {
       display: 'flex',
-      flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
     },
@@ -22,6 +29,7 @@ const navbarShopkeeperProfilStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       fontSize: '1em',
       padding: 0,
+      minWidth: 0,
     },
   },
 }));

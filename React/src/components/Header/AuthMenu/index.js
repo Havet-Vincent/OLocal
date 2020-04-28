@@ -69,7 +69,7 @@ const AuthMenu = ({ userRole, getProfil, setLogout }) => {
       >
         {userRole === 'ROLE_ADMIN' ? (
           <MenuItem>
-            <a href={`${process.env.URL_API}/admin`} target="_blank" rel="noopener noreferrer">
+            <a href={`${process.env.URL_API}/admin`}>
               Accès BackOffice Administration
             </a>
           </MenuItem>
