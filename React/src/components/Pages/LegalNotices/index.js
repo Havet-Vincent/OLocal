@@ -11,8 +11,8 @@ import legalNoticesStyles from './legalNoticesStyles';
 const LegalNotices = () => {
   const classes = legalNoticesStyles();
   return (
-    <section className={classes.legalNotices}>
-      <Container maxWidth="lg">
+    <section className={classes.LegalNoticeWrapper}>
+      <Container className={classes.container} maxWidth="lg">
         <Typography variant="h4" align="center" component="h1" gutterBottom>
           Mentions légales
         </Typography>
