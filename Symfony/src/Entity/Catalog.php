@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -42,7 +43,7 @@ class Catalog
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime;
+        $this->createdAt = new DateTime();
     }
 
     public function __toString() {

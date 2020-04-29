@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -58,6 +59,7 @@ class Region
     {
         $this->localSuppliers = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->createdAt = new DateTime();
     }
 
     public function getId(): ?int
