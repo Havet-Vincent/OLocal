@@ -21,7 +21,7 @@ const Footer = () => {
             <Route>
               <Tooltip title="Qui sommes-nous?" aria-label="qui-sommes-nous" placement="top">
                 <Link component={RouterLink} to="/qui-sommes-nous" className={classes.footerLink}>
-                  Qui sommes-nous?
+                  Qui sommes-nous ?
                 </Link>
               </Tooltip>
             </Route>

@@ -27,7 +27,7 @@ const About = () => {
       <section className={classes.aboutWrapper}>
         <Container className={classes.container} maxWidth="lg">
           <Typography variant="h3" align="center" component="h1" gutterBottom>
-            Qui sommes nous !
+            Qui sommes-nous ?
           </Typography>
           <Typography variant="subtitle1" align="center" component="p" gutterBottom>
             Étudiants au sein de l’institut de formation O’Clock, nous mettons en place ce site web dans le cadre de notre projet de fin d’études.
