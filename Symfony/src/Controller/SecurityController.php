@@ -14,7 +14,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    private $homepage = 'http://olocal.dscloud.me/';
+    private $homepage = 'https://olocal.dscloud.me/';
     
     /**
      * @Route("/api/login_id", name="login_id", methods={"POST"})

@@ -256,14 +256,17 @@ class ApiShopkeepersController extends AbstractController
             $extension = explode('/', mime_content_type($data->logoPicture))[1];
             // image's extension validation
             if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png') {
-                $newFilename = 'avatarId'.$userId.'.'.$extension;
+                $newFilename = 'avatarId'.$userId.uniqid().'.'.$extension;
 
                 $img = explode(',', $data->logoPicture)[1];
 
                 $newPicture = base64_decode($img);
 
                 // Move the file to the directory where avatars are stored
-                if ($newPicture) {
+                if ($newPicture && $userToEdit->getLogoPicture() != '/uploads/avatars/no-avatar.png') {
+                    unlink(substr($userToEdit->getLogoPicture(), 1));
+                    file_put_contents('uploads/avatars/'.$newFilename, $newPicture);
+                } elseif ($userToEdit->getLogoPicture() == '/uploads/avatars/no-avatar.png') {
                     file_put_contents('uploads/avatars/'.$newFilename, $newPicture);
                 } else {
                     return $this->json("Erreur lors de l'envoi d'image.", 409);
