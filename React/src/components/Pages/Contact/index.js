@@ -49,7 +49,7 @@ const Contact = () => {
                 <Typography variant="body1" color="textSecondary" component="h6" gutterBottom className={classes.contact}>
                   <ContactMailOutlinedIcon className={classes.contactIcons} />
                   <Typography>
-                    <Link color="inherit" href="mailto:atlantis@oclock.io">atlantis@oclock.io</Link>
+                    <Link color="inherit" href="mailto:atlantis@oclock.io">olocal.mail@gmail.com</Link>
                 </Typography>
                 </Typography>
               </Tooltip>

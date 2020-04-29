@@ -44,7 +44,7 @@ const LegalNotices = () => {
         <Typography variant="body2" align="left" color="textSecondary" component="p" gutterBottom>
           L'édition du site olocal.com est assurée par la Société SARL O'Clock au capital de 15000 euros, 
           immatriculée au RCS de 818 614 588 sous le numéro 818 614 588 00023 dont le siège social est situé 
-          à 18, rue des imaginaires Paris 75021, adresse e-mail : atlantis@oclock.io.
+          à 18, rue des imaginaires Paris 75021, adresse e-mail : olocal.mail@gmail.com.
         </Typography>
 
         <Typography variant="body2" align="left" color="textSecondary" component="p" gutterBottom>
@@ -105,7 +105,7 @@ const LegalNotices = () => {
 
         <Typography variant="body2" align="left" color="textSecondary" component="p" gutterBottom>
           Toute utilisation, reproduction, diffusion, commercialisation, modification de toute ou partie 
-          du site olocal.com, sans autorisation de l’Éditeur est prohibée et pourra entraînée des actions 
+          du site olocal.com, sans autorisation de l’Éditeur est prohibée et pourra entraîner des actions 
           et poursuites judiciaires telles que notamment prévues par le Code de la propriété intellectuelle et le Code civil.
         </Typography>
       </Container>
