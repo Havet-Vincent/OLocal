@@ -266,6 +266,8 @@ class ApiShopkeepersController extends AbstractController
                 if ($newPicture && $userToEdit->getLogoPicture() != '/uploads/avatars/no-avatar.png') {
                     unlink(substr($userToEdit->getLogoPicture(), 1));
                     file_put_contents('uploads/avatars/'.$newFilename, $newPicture);
+                } elseif ($userToEdit->getLogoPicture() == '/uploads/avatars/no-avatar.png') {
+                    file_put_contents('uploads/avatars/'.$newFilename, $newPicture);
                 } else {
                     return $this->json("Erreur lors de l'envoi d'image.", 409);
                 }
