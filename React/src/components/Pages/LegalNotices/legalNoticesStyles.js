@@ -12,13 +12,20 @@ const legalNoticesStyles = makeStyles((theme) => ({
     height: '100%',
     width: '100%',
   },
-  container: {
-    backgroundColor: 'rgba(247, 249, 250, .85)',
-    ninHeight: '100%',
-    padding: theme.spacing(1, 2),
-    // paddingBottom: theme.spacing(5),
-    [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(2),
+  LegalNoticeContent: {
+    width: '60%',
+    backgroundColor: 'rgba(247, 249, 250, .95)',
+    margin: 0,
+    padding: theme.spacing(2, 4),
+    [theme.breakpoints.down('lg')]: {
+      width: '70%',
+    },
+    [theme.breakpoints.down('md')]: {
+      width: '80%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '95%',
+      padding: theme.spacing(1, 2),
     },
   },
 }));

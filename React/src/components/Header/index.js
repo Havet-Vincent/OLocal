@@ -5,7 +5,12 @@ import { Link as RouterLink } from 'react-router-dom';
 
 // == Import components
 import Logo from 'src/assets/img/logo.svg';
-import { Link, AppBar, Toolbar } from '@material-ui/core';
+import {
+  Link,
+  AppBar,
+  Toolbar,
+  Tooltip,
+} from '@material-ui/core';
 import SignUpForm from 'src/containers/Header/SignUpForm';
 import SignInForm from 'src/containers/Header/SignInForm';
 import AuthMenu from 'src/containers/Header/AuthMenu';
@@ -30,9 +35,11 @@ const Header = ({
       <AppBar position="fixed" className={classes.navbar} color="transparent">
         <Toolbar>
           <div className={classes.title}>
-            <Link component={RouterLink} to="/">
-              <img className={classes.logo} src={Logo} alt="O'local Logo" />
-            </Link>
+            <Tooltip title="Retour home" aria-label="retour-accueil" placement="bottom">
+              <Link component={RouterLink} to="/">
+                <img className={classes.logo} src={Logo} alt="O'local Logo" />
+              </Link>
+            </Tooltip>
           </div>
           {UserAuth ? (
             <AuthMenu />

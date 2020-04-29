@@ -11,7 +11,7 @@ import {
   IconButton,
   InputAdornment,
   useMediaQuery,
-  Button,
+  // Button,
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import Visibility from '@material-ui/icons/Visibility';
@@ -107,9 +107,9 @@ const SignInPassword = ({
             </InputAdornment>,
         }}
       />
-      <Button href="" disabled className={classes.lostLink}>
+      {/* <Button href="" disabled className={classes.lostLink}>
         Mot de Passe oublié ?
-      </Button>
+      </Button> */}
     </>
   );
 };

@@ -9,7 +9,7 @@ import {
   setUserAuth,
   clearAuthData,
 } from '../actions/authentication';
-import { fetchUser, clearUserData } from '../actions/profil';
+import { fetchUser, clearUserData, clearUserInfos } from '../actions/profil';
 import { redirect, setSnackbar } from '../actions/home';
 
 
@@ -89,6 +89,7 @@ const authMiddleware = (store) => (next) => (action) => {
         break;
       }
 
+      store.dispatch(clearUserInfos());
       next(action);
       break;
     }

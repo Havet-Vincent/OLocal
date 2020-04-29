@@ -43,6 +43,7 @@ const ShopkeeperProfil = ({
   setFieldValue,
   setLogoPicture,
   setLogoPictureError,
+  clearUserInfos,
   handleUpdateUserData,
   handleDeleteUserAccount,
 }) => {
@@ -76,6 +77,11 @@ const ShopkeeperProfil = ({
   const setPicture = (picture) => {
     setError(false);
     setLogoPicture(picture);
+  };
+
+  const handleUpdate = () => {
+    handleUpdateUserData();
+    clearUserInfos();
   };
 
   const InputLabelProps = fullScreen
@@ -251,7 +257,7 @@ const ShopkeeperProfil = ({
                   root: classes.fab,
                   label: classes.fabLabel,
                 }}
-                onClick={handleUpdateUserData}
+                onClick={handleUpdate}
               >
                 <SaveRoundedIcon className={classes.extendedIcon} />
                 Enregister les modifications
@@ -292,6 +298,7 @@ ShopkeeperProfil.propTypes = {
   setFieldValue: PropTypes.func.isRequired,
   handleUpdateUserData: PropTypes.func.isRequired,
   handleDeleteUserAccount: PropTypes.func.isRequired,
+  clearUserInfos: PropTypes.func.isRequired,
   setLogoPicture: PropTypes.func.isRequired,
   setLogoPictureError: PropTypes.func.isRequired,
 };

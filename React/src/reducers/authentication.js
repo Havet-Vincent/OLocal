@@ -95,8 +95,7 @@ const authenticationReducer = (state = initialState, action = {}) => {
       };
 
     case CLEAR_AUTH_DATA:
-      localStorage.removeItem('token');
-      localStorage.removeItem('refreshToken');
+      localStorage.clear();
       return {
         ...state,
         token: null,

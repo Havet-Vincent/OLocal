@@ -29,13 +29,13 @@ const contactStyles = makeStyles((theme) => ({
       marginTop: 250,
       width: '70%',
       height: 300,
-      paddingLeft: theme.spacing(9.5),
+      paddingLeft: theme.spacing(6),
     },
     [theme.breakpoints.down('sm')]: {
       width: '70%',
-      marginTop: 200,
+      marginTop: 250,
       padding: theme.spacing(1),
-      paddingLeft: theme.spacing(3.6),
+      paddingLeft: 0,
     },
   },
   paper: {
@@ -45,7 +45,7 @@ const contactStyles = makeStyles((theme) => ({
   },
   title: {
     fontWeight: 700,
-    padding: theme.spacing(0, 4, 1, 4),
+    padding: theme.spacing(0, 3, 1, 3),
     width: '100%',
     margin: '0 auto',
     [theme.breakpoints.down('lg')]: {
@@ -59,13 +59,13 @@ const contactStyles = makeStyles((theme) => ({
       width: '50%',
       fontSize: '1.55em',
       margin: '0 auto',
-      padding: theme.spacing(0, 2, 0, 4),
+      padding: theme.spacing(0, 2, 0, 2),
     },
     [theme.breakpoints.down('xs')]: {
-      width: '80%',
-      fontSize: '1.5em',
+      width: '90%',
+      fontSize: '1.4em',
       margin: '0 auto',
-      padding: theme.spacing(0, 0, 0, 1.2),
+      padding: theme.spacing(0),
     },
   },
   contact: {

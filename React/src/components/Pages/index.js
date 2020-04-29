@@ -65,12 +65,12 @@ const Pages = ({
 
   return (
     <>
+      {redirectTo && (
+        <Redirect to={redirectTo} push />
+      )}
       <Loader loader={loader} />
-      {!loader && (
+      {(!loader || redirectTo) && (
         <Switch>
-          {redirectTo && (
-            <Redirect to={redirectTo} push />
-          )}
           <Route exact path="/">
             <Home />
           </Route>

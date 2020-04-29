@@ -5,6 +5,7 @@ import {
   setLogoPicture,
   setLogoPictureError,
   updateUserData,
+  clearUserInfos,
   deleteUserAccount,
 } from 'src/actions/profil';
 
@@ -29,6 +30,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getUserData: () => {
     dispatch(getUserData());
+  },
+  clearUserInfos: () => {
+    dispatch(clearUserInfos());
   },
   handleUpdateUserData: () => {
     dispatch(updateUserData());

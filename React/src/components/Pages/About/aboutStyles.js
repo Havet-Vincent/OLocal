@@ -12,15 +12,20 @@ const aboutStyles = makeStyles((theme) => ({
     height: '100%',
     width: '100%',
   },
-  container: {
-    backgroundColor: 'rgba(247, 249, 250, .85)',
-    display: 'flex',
-    flexFlow: 'column wrap',
-    alignItems: 'center',
-    padding: theme.spacing(1, 2),
-    paddingBottom: theme.spacing(5),
-    [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(2),
+  aboutContent: {
+    width: '60%',
+    backgroundColor: 'rgba(247, 249, 250, .95)',
+    margin: 0,
+    padding: theme.spacing(2, 4),
+    [theme.breakpoints.down('lg')]: {
+      width: '70%',
+    },
+    [theme.breakpoints.down('md')]: {
+      width: '80%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '95%',
+      padding: theme.spacing(1, 2),
     },
   },
   containerGrid: {
@@ -28,25 +33,24 @@ const aboutStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     maxWidth: '100%',
     justifyContent: 'space-evenly',
-    borderBottom: `1px solid ${theme.palette.divider}`,
-    padding: theme.spacing(2, 0),
-  },
-  containerGrid2: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    maxWidth: '100%',
-    justifyContent: 'space-evenly',
-    padding: theme.spacing(2, 0),
+    padding: 0,
+    margin: theme.spacing(0, 1),
+    [theme.breakpoints.down('sm')]: {
+      margin: 0,
+    },
   },
   cardGrid: {
     height: 250,
     width: 250,
-    marginTop: '3px',
-    border: `1px solid ${theme.palette.divider}`,
-    marginBottom: theme.spacing(3),
+    [theme.breakpoints.down('md')]: {
+      margin: theme.spacing(1),
+    },
+    [theme.breakpoints.down('sm')]: {
+      margin: theme.spacing(2, 1),
+    },
   },
   cardHeader: {
-    backgroundColor: theme.palette.grey[200],
+    backgroundColor: theme.palette.grey[300],
   },
   cardPos: {
     marginBottom: 12,

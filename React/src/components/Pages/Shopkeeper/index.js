@@ -134,6 +134,8 @@ const Shopkeeper = ({
                                 href={shopkeeper.website}
                                 label={shopkeeper.website ? shopkeeper.website.replace(/(^\w+:|^)\/\//, '') : ''}
                                 clickable
+                                target="_blank"
+                                rel="noopener noreferrer"
                               />
                             </Tooltip>
                           )}
