@@ -13,7 +13,7 @@ const shopkeepersListStyles = makeStyles((theme) => ({
   shopkeepersListContent: {
     width: '60%',
     backgroundColor: 'rgba(247, 249, 250, .95)',
-    margin: theme.spacing(3, 0),
+    margin: 0,
     padding: theme.spacing(1, 3),
     [theme.breakpoints.down('lg')]: {
       width: '70%',

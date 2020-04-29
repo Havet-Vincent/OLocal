@@ -96,7 +96,6 @@ const authMiddleware = (store) => (next) => (action) => {
     case SET_LOGOUT:
       store.dispatch(clearUserData());
       store.dispatch(clearAuthData());
-      store.dispatch(redirect('/'));
       store.dispatch(setSnackbar('info', 'Vous êtes déconnecté'));
       next(action);
       break;

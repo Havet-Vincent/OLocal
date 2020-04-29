@@ -42,9 +42,11 @@ const shopkeeperProfilPageStyles = makeStyles((theme) => ({
     flexDirection: 'row reverse',
     justifyContent: 'space-between',
     alignItems: 'center',
+    padding: theme.spacing(1, 0),
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
       alignItems: 'center',
+      padding: theme.spacing(2, 0),
     },
   },
   MToolbar: {

@@ -18,9 +18,9 @@ yarn
 yarn start 
 ```
 
+- listening on : http://localhost:8080/
+
 ### Production Build :
 ```sh
 yarn build
 ```
-
-- listening on : http://localhost:8080/

@@ -150,13 +150,14 @@ const ShopkeeperProfil = ({
                   <Typography variant="subtitle2" component="p" className={classes.shopkeeperProfilAddress}>
                     <RoomRoundedIcon />
                     {`
-                        ${userData.wayNumber ? userData.wayNumber : ''}
-                        ${userData.repeatIndex ? userData.repeatIndex : ''}
-                        ${userData.wayName ? userData.wayName : ''}
-                        ${userData.additionalAddress ? `- ${userData.additionalAddress}` : ''}
-                        ${userData.postalCode ? `- ${userData.postalCode}` : ''}
-                        ${userData.city ? userData.city.toUpperCase() : ''}
-                      `}
+                      ${userData.wayNumber ? userData.wayNumber : ''}
+                      ${userData.repeatIndex ? userData.repeatIndex : ''}
+                      ${userData.wayType ? userData.wayType : ''}
+                      ${userData.wayName ? userData.wayName : ''}
+                      ${userData.additionalAddress ? `- ${userData.additionalAddress}` : ''}
+                      ${userData.postalCode ? `- ${userData.postalCode}` : ''}
+                      ${userData.city ? userData.city.toUpperCase() : ''}
+                    `}
                   </Typography>
                 </Box>
                 <FormControl className={classes.shopkeeperProfilCoordonates}>

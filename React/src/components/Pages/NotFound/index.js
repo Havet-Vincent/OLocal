@@ -10,6 +10,7 @@ import {
   Typography,
   Box,
   IconButton,
+  Tooltip,
 } from '@material-ui/core';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 
@@ -52,9 +53,11 @@ const NotFound = () => {
           <Typography color="textSecondary" className={classes.notFoundSubtitle} component="p">
             Vous pouvez rester contempler ce beau paysage ou bien retourner à la page d'acceuil en passant par la petite maison ...
           </Typography>
-          <IconButton component={RouterLink} to="/">
-            <HomeRoundedIcon className={classes.homeIcon} />
-          </IconButton>
+          <Tooltip title="Retour à l'accueil" aria-label="retour-accueil" placement="bottom">
+            <IconButton component={RouterLink} to="/">
+              <HomeRoundedIcon className={classes.homeIcon} />
+            </IconButton>
+          </Tooltip>
         </Paper>
       </Paper>
     </Grid>

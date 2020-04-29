@@ -6,6 +6,7 @@ import {
   Paper,
   Button,
   Breadcrumbs,
+  Tooltip,
 } from '@material-ui/core';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 
@@ -32,14 +33,16 @@ const NavbarShopkeeperProfil = () => {
           ol: classes.navbarNavOl,
         }}
       >
-        <Button
-          color="inherit"
-          component={RouterLink}
-          className={classes.navbarButton}
-          to="/"
-        >
-          <HomeRoundedIcon color="action" className={classes.navbarHome} />
-        </Button>
+        <Tooltip title="Retour à l'accueil" aria-label="retour-accueil" placement="top">
+          <Button
+            color="inherit"
+            component={RouterLink}
+            className={classes.navbarButton}
+            to="/"
+          >
+            <HomeRoundedIcon color="action" className={classes.navbarHome} />
+          </Button>
+        </Tooltip>
         <Button
           size="small"
           color={currentPage === 'Informations' ? 'primary' : 'inherit'}

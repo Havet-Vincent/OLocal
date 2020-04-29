@@ -14,10 +14,9 @@ const legalNoticesStyles = makeStyles((theme) => ({
   },
   container: {
     backgroundColor: 'rgba(247, 249, 250, .85)',
-    display: 'flex',
-    flexFlow: 'column wrap', 
+    ninHeight: '100%',
     padding: theme.spacing(1, 2),
-    paddingBottom: theme.spacing(5),
+    // paddingBottom: theme.spacing(5),
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(2),
     },

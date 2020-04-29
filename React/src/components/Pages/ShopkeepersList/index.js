@@ -15,6 +15,7 @@ import {
   Chip,
   Button,
   IconButton,
+  Tooltip,
 } from '@material-ui/core';
 import BusinessIcon from '@material-ui/icons/Business';
 import LocationSearchingRoundedIcon from '@material-ui/icons/LocationSearchingRounded';
@@ -41,9 +42,11 @@ const ShopkeepersList = ({
       <Grid container className={classes.shopkeepersListWrapper}>
         <Paper className={classes.shopkeepersListContent} elevation={2}>
           <div className={classes.shopkeepersListNav}>
-            <IconButton edge="start" color="primary" component={RouterLink} to="/">
-              <ArrowBackIcon fontSize="large" color="action" />
-            </IconButton>
+            <Tooltip title="Retour à l'accueil" aria-label="retour-accueil" placement="top">
+              <IconButton edge="start" color="primary" component={RouterLink} to="/">
+                <ArrowBackIcon fontSize="large" color="action" />
+              </IconButton>
+            </Tooltip>
             <Chip
               color="secondary"
               icon={<LocationSearchingRoundedIcon />}
@@ -82,16 +85,18 @@ const ShopkeepersList = ({
                       length={400}
                     />
                   </Typography>
-                  <Button
-                    className={classes.cardLink}
-                    variant="contained"
-                    size="small"
-                    color="primary"
-                    component={RouterLink}
-                    to={`/commercant/${item.id}`}
-                  >
-                    Voir plus
-                  </Button>
+                  <Tooltip title="Voir la page commercant" aria-label="page-commercant" placement="top">
+                    <Button
+                      className={classes.cardLink}
+                      variant="contained"
+                      size="small"
+                      color="primary"
+                      component={RouterLink}
+                      to={`/commercant/${item.id}`}
+                    >
+                      Voir plus
+                    </Button>
+                  </Tooltip>
                 </CardContent>
               </Card>
             ))}

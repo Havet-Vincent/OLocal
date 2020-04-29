@@ -87,7 +87,7 @@ const Shopkeeper = ({
 
   // Google Map format address
   // eslint-disable-next-line no-useless-concat
-  const shopkeeperMapAddress = 'https://maps.google.fr/maps?f=q&hl=fr&geocode=&q=' + `${shopkeeper.wayNumber} ${shopkeeper.repeatIndex} ${shopkeeper.wayName}+${shopkeeper.postalCode}+${shopkeeper.city}`;
+  const shopkeeperMapAddress = 'https://maps.google.fr/maps?f=q&hl=fr&geocode=&q=' + `${shopkeeper.wayNumber ? shopkeeper.wayNumber : ''} ${shopkeeper.repeatIndex ? shopkeeper.repeatIndex : ''}+${shopkeeper.wayType ? shopkeeper.wayType : ''} ${shopkeeper.wayName}+${shopkeeper.additionalAddress ? `${shopkeeper.additionalAddress}` : ''}+${shopkeeper.postalCode}+${shopkeeper.city}`;
 
   return (
     <>
@@ -99,12 +99,16 @@ const Shopkeeper = ({
               <Container className={classes.shopkeeperContent}>
                 <Paper className={classes.shopkeeperDescription} elevation={0}>
                   <Box className={classes.shopkeepersListNav}>
-                    <IconButton color="primary" component={RouterLink} to="/liste-commercants">
-                      <ArrowBackIcon fontSize="large" color="action" />
-                    </IconButton>
-                    <IconButton color="primary" component={RouterLink} to="/">
-                      <HomeRoundedIcon fontSize="large" color="action" />
-                    </IconButton>
+                    <Tooltip title="Revenir à la recherche" aria-label="retour-recherche" placement="top">
+                      <IconButton color="primary" component={RouterLink} to="/liste-commercants">
+                        <ArrowBackIcon fontSize="large" color="action" />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Retour à l'accueil" aria-label="retour-accueil" placement="top">
+                      <IconButton color="primary" component={RouterLink} to="/">
+                        <HomeRoundedIcon fontSize="large" color="action" />
+                      </IconButton>
+                    </Tooltip>
                   </Box>
                   <Card className={classes.cardWrapper} elevation={0}>
                     <Typography variant="h4" component="h1" className={classes.cardHeader} gutterBottom>
@@ -115,7 +119,7 @@ const Shopkeeper = ({
                         <CardMedia
                           className={classes.cardMedia}
                           image={shopkeeper.logoPicture}
-                          title="Image du commerce"
+                          title={`Image de ${shopkeeper.companyName}`}
                         />
                         <Paper className={classes.root} elevation={0}>
                           {shopkeeper.website && (
@@ -174,6 +178,7 @@ const Shopkeeper = ({
                                   {`
                                     ${shopkeeper.wayNumber ? shopkeeper.wayNumber : ''}
                                     ${shopkeeper.repeatIndex ? shopkeeper.repeatIndex : ''}
+                                    ${shopkeeper.wayType ? shopkeeper.wayType : ''}
                                     ${shopkeeper.wayName ? shopkeeper.wayName : ''}
                                     ${shopkeeper.additionalAddress ? `- ${shopkeeper.additionalAddress}` : ''}
                                     ${shopkeeper.postalCode ? `- ${shopkeeper.postalCode}` : ''}

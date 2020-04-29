@@ -12,7 +12,7 @@ const LegalNotices = () => {
   const classes = legalNoticesStyles();
   return (
     <section className={classes.LegalNoticeWrapper}>
-      <Container className={classes.container} maxWidth="lg">
+      <Container className={classes.container}>
         <Typography variant="h4" align="center" component="h1" gutterBottom>
           Mentions légales
         </Typography>
