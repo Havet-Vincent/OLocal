@@ -27,18 +27,18 @@ const Contact = () => {
     <>
       <Grid container className={classes.contactWrapper}>
         <Container className={classes.container} maxWidth="lg">
-          <Paper elevation={0} className={classes.paper} >
-            <Typography variant="h4" align="center" component="h1" gutterBottom >
-              Pour nous contacter, c'est simple !
-          </Typography>
+          <Paper elevation={0} className={classes.paper}>
+            <Typography variant="h4" color="textSecondary" align="center" component="h1" className={classes.title} gutterBottom>
+              Pour nous contacter, c'est simple
+            </Typography>
           </Paper>
           <Paper elevation={0} className={classes.paper}>
             <Box>
               <Typography variant="body1" color="textSecondary" component="h6" gutterBottom className={classes.contact}>
                 <RoomRoundedIcon className={classes.contactIcons} />
-                  18, rue des imaginaires
-                    <br />
-                    75021 Paris France
+                18, rue des imaginaires
+                <br />
+                75021 Paris France
               </Typography>
             </Box>
           </Paper>
@@ -49,8 +49,8 @@ const Contact = () => {
                 <Typography variant="body1" color="textSecondary" component="h6" gutterBottom className={classes.contact}>
                   <ContactMailOutlinedIcon className={classes.contactIcons} />
                   <Typography>
-                    <Link color="inherit" href="mailto:olocal.mail@gmail.com">olocal.mail@gmail.com</Link>
-                </Typography>
+                    <Link color="inherit" href="mailto:atlantis@oclock.io">olocal.mail@gmail.com</Link>
+                  </Typography>
                 </Typography>
               </Tooltip>
             </Box>
@@ -61,9 +61,8 @@ const Contact = () => {
                 <Typography variant="body1" color="textSecondary" component="h6" gutterBottom className={classes.contact}>
                   <PhoneRoundedIcon className={classes.contactIcons} />
                   <Typography>
-                  <Link color="inherit" href="phone:atlantis@oclock.io">(+33).6.06.06.06.06</Link>
-                    
-                </Typography>
+                    <Link color="inherit" href="phone:atlantis@oclock.io">(+33).6.06.06.06.06</Link>
+                  </Typography>
                 </Typography>
               </Tooltip>
             </Box>
