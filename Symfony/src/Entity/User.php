@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -202,7 +203,7 @@ class User implements UserInterface, \Serializable
     {
         $this->products = new ArrayCollection();
         $this->catalogs = new ArrayCollection();
-        $this->createdAt= new \DateTime();
+        $this->createdAt= new DateTime();
     }
 
     public function getId(): ?int
