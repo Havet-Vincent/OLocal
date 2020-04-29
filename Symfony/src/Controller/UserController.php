@@ -34,23 +34,23 @@ class UserController extends EasyAdminController
             $region = $this->regionRepository->find($regionId);
 
             $siret = filter_var($_POST["user"]['siret'], FILTER_SANITIZE_NUMBER_INT);
-            // we check the number of charters of the siret number
-            if(!strlen($siret) === 14) {
-                throw new \Exception('Entrez un numéro SIRET valide.');
+            // we check the number of characters of the siret number
+            if(strlen($siret) !== 14) {
+                return $this->addFlash('warning', 'Entrez un numéro SIRET valide.');
             }
 
             // we check if the siret number is already stored on the database
             if ($this->userRepository->findBy(['siret' => $siret])){
-                throw new \Exception('Ce numéro de SIRET est déjà utilisé.');
+                return $this->addFlash('warning','Ce numéro de SIRET est déjà utilisé.');
             }
 
             // take email data from request
             $newEmail = filter_var($_POST["user"]['email'], FILTER_SANITIZE_EMAIL);
             if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
-                throw new \Exception("Cette adresse n'est pas valide");
+                return $this->addFlash('warning', 'email non valide');
             }
             if ($this->userRepository->findBy(['email' => $newEmail])) {
-                throw new \Exception('Cet email est déjà utilisé.');
+                return $this->addFlash('warning', 'Cet email est déjà utilisé.');
             }
         
             // take external API data from SIRET number
@@ -67,7 +67,7 @@ class UserController extends EasyAdminController
             $lowercase = preg_match('@[a-z]@', $password);
             $number    = preg_match('@[0-9]@', $password);
             if(!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
-                throw new \Exception('Le mot de passe doit faire 8 caractères minimum et doit contenir au moins une majuscule et un chiffre.');
+                return $this->addFlash('warning', 'Le mot de passe doit faire 8 caractères minimum et doit contenir au moins une majuscule et un chiffre.');
             }            
             $user->setPassword($this->encoder->encodePassword($user, $password));
 
@@ -136,7 +136,7 @@ class UserController extends EasyAdminController
 
         $email = filter_var($_POST["user"]['email'], FILTER_SANITIZE_EMAIL);
         if ($this->userRepository->findBy(['email' => $email])) {
-                throw new \Exception('Email déjà utilisé');;
+            return $this->addFlash('warning', 'Email déjà utilisé');
             }
         $newUser->setEmail($email);
 
@@ -146,7 +146,7 @@ class UserController extends EasyAdminController
         $lowercase = preg_match('@[a-z]@', $password);
         $number    = preg_match('@[0-9]@', $password);
         if(!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
-            throw new \Exception('Le mot de passe doit faire 8 caractères minimum et doit contenir au moins une majuscule et un chiffre.');
+            return $this->addFlash('warning', 'Le mot de passe doit faire 8 caractères minimum et doit contenir au moins une majuscule et un chiffre.');
         }
         $newUser->setPassword($this->encoder->encodePassword($newUser, $password));  
         
@@ -196,7 +196,7 @@ class UserController extends EasyAdminController
 
         $newEmail = filter_var($entity->getEmail(), FILTER_SANITIZE_EMAIL);
         if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
-            throw new \Exception("Cette adresse n'est pas valide");
+            return $this->addFlash('warning', "Cette adresse n'est pas valide");
         }
         if ($newEmail !== $user->getEmail()) {   
             $user->setEmail($newEmail);     

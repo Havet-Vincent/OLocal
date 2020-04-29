@@ -31,13 +31,13 @@ class LocalSupplierController extends EasyAdminController
 
         $siret = filter_var($_POST["localsupplier"]['siret'], FILTER_SANITIZE_NUMBER_INT);
         // we check the number of charters of the siret number
-        if(!strlen($siret) === 14) {
-            throw new \Exception('Entrez un numéro SIRET valide.');
+        if(strlen($siret) !== 14) {
+            return $this->addFlash('warning', 'Entrez un numéro SIRET valide.');
         }
 
         // we check if the siret number is already stored on the database
         if ($this->localSupplierRepository->findBy(['siret' => $siret])){
-            throw new \Exception('Ce numéro de SIRET est déjà utilisé.');
+            return $this->addFlash('warning', 'Ce numéro de SIRET est déjà utilisé.');
         }
 
         $response=$this->apiSirene->getShopkeeperData($siret);        
