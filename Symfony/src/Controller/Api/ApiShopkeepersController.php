@@ -256,7 +256,7 @@ class ApiShopkeepersController extends AbstractController
             $extension = explode('/', mime_content_type($data->logoPicture))[1];
             // image's extension validation
             if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png') {
-                $newFilename = 'avatarId'.$userId.'.'.$extension;
+                $newFilename = 'avatarId'.$userId.uniqid().'.'.$extension;
 
                 $img = explode(',', $data->logoPicture)[1];
 
