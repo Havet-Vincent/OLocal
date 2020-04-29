@@ -9,7 +9,6 @@ import SignUpPassword from 'src/components/Header/SignUpForm/SignUpPassword';
 const mapStateToProps = (state) => ({
   password: state.register.password,
   confirmPassword: state.register.confirmPassword,
-  passwordLength: state.register.passwordLength,
   passwordConfirmed: state.register.passwordConfirmed,
 });
 

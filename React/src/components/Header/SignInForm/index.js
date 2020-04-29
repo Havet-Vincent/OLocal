@@ -48,7 +48,6 @@ const SignInForm = ({
 
   // Check Errors else display Send Button
   useEffect(() => {
-    // eslint-disable-next-line max-len
     if (!pwdError && validateEmail(email)) {
       setError(false);
     }

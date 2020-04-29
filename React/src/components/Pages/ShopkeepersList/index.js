@@ -40,7 +40,7 @@ const ShopkeepersList = ({
         <Redirect to="/" push />
       )}
       <Grid container className={classes.shopkeepersListWrapper}>
-        <Paper className={classes.shopkeepersListContent} elevation={2}>
+        <Paper className={classes.shopkeepersListContent} elevation={2} square>
           <div className={classes.shopkeepersListNav}>
             <Tooltip title="Retour à l'accueil" aria-label="retour-accueil" placement="top">
               <IconButton edge="start" color="primary" component={RouterLink} to="/">

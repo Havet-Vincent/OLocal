@@ -96,6 +96,7 @@ const profilMiddleware = (store) => (next) => (action) => {
 
           next(action);
           break;
+
         default:
           next(action);
       }
@@ -148,7 +149,6 @@ const profilMiddleware = (store) => (next) => (action) => {
               if (password) {
                 store.dispatch(clearAuthData());
                 store.dispatch(clearUserData());
-                store.dispatch(redirect('/'));
                 store.dispatch(setSnackbar('success', 'Votre mot de passe a bien été modifié. Veuillez vous reconnecter avec vos nouveaux identifiants'));
                 next(action);
                 return;
@@ -156,23 +156,25 @@ const profilMiddleware = (store) => (next) => (action) => {
               if (email !== newEmail) {
                 store.dispatch(clearAuthData());
                 store.dispatch(clearUserData());
-                store.dispatch(redirect('/'));
                 store.dispatch(setSnackbar('success', 'Votre email a bien été modifié. Veuillez vous reconnecter avec vos nouveaux identifiants'));
                 next(action);
                 return;
               }
-              store.dispatch(setSnackbar('success', 'Vos modifications sont enregistrées'));
+
               store.dispatch(getUserData());
+              store.dispatch(setSnackbar('success', 'Vos modifications sont enregistrées'));
             })
             .catch((error) => {
               if (error.response.status === 409) {
                 // eslint-disable-next-line no-console
                 // console.warn(error);
+                store.dispatch(getUserData());
                 store.dispatch(setSnackbar('error', 'L\'addresse email saisie n\'est pas valide'));
                 return;
               }
               // eslint-disable-next-line no-console
               console.warn(error);
+              store.dispatch(getUserData());
               store.dispatch(setSnackbar('error', 'Erreur interne : Echec enregistrement des informations'));
             });
 

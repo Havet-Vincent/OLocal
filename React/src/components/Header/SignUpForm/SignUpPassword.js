@@ -25,7 +25,6 @@ const SignUpPassword = ({
   confirmPassword,
   setFieldValue,
   checkPasswordConfirmation,
-  passwordLength,
   passwordConfirmed,
   handleFocus,
 }) => {
@@ -37,20 +36,23 @@ const SignUpPassword = ({
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
   // ============= Password Check Display ==========
+  const [focusPwd, setFocus] = useState(false);
   const [pwdError, setPwdError] = useState(false);
   const [errorPwdMsg, setPwdErrorMsg] = useState('');
 
   const handlePwdErrors = () => {
-    if (!validatePassword(password)) {
-      if (passwordLength === 0) {
-        return setPwdError(false);
+    if (focusPwd) {
+      if (!validatePassword(password)) {
+        if (passwordConfirmed) {
+          return setPwdError(false);
+        }
+        setPwdError(true);
+        return setPwdErrorMsg('Minimum requis : 8 caractères / 1 Majuscule / 1 chiffre ');
       }
-      setPwdError(true);
-      return setPwdErrorMsg('Minimum requis : 8 caractères / 1 Majuscule / 1 chiffre ');
-    }
-    if (!passwordConfirmed) {
-      setPwdError(true);
-      return setPwdErrorMsg('Les mots de passe saisis ne sont pas identiques');
+      if (!passwordConfirmed) {
+        setPwdError(true);
+        return setPwdErrorMsg('Les mots de passe saisis ne sont pas identiques');
+      }
     }
     return [setPwdError(false), setPwdErrorMsg('')];
   };
@@ -60,6 +62,11 @@ const SignUpPassword = ({
     handlePwdErrors();
   });
   // ========================================
+
+  const handleFocusPwd = () => {
+    handleFocus();
+    setFocus(true);
+  };
 
   const handleChange = (event) => {
     setFieldValue(event.target.name, event.target.value);
@@ -92,7 +99,7 @@ const SignUpPassword = ({
         margin="dense"
         InputLabelProps={InputLabelProps}
         value={password}
-        onFocus={handleFocus}
+        onFocus={handleFocusPwd}
         onChange={handleChange}
         error={pwdError}
         helperText={errorPwdMsg}
@@ -146,7 +153,6 @@ SignUpPassword.propTypes = {
   confirmPassword: PropTypes.string.isRequired,
   setFieldValue: PropTypes.func.isRequired,
   checkPasswordConfirmation: PropTypes.func.isRequired,
-  passwordLength: PropTypes.number.isRequired,
   passwordConfirmed: PropTypes.bool.isRequired,
   handleFocus: PropTypes.func.isRequired,
 };

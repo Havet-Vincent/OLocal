@@ -22,7 +22,6 @@ import contactStyles from './contactStyles';
 // == Composant
 const Contact = () => {
   const classes = contactStyles();
-  const bull = <span className={classes.bullet}>•</span>;
   return (
     <>
       <Grid container className={classes.contactWrapper}>
@@ -68,7 +67,7 @@ const Contact = () => {
             </Box>
           </Paper>
         </Container>
-      </Grid >
+      </Grid>
     </>
   );
 };

@@ -11,7 +11,7 @@ import {
   IconButton,
   InputAdornment,
   useMediaQuery,
-  Button,
+  // Button,
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import Visibility from '@material-ui/icons/Visibility';
@@ -23,7 +23,6 @@ import signInFormStyles from './signInFormStyles';
 // == Composant
 const SignInPassword = ({
   password,
-  passwordLength,
   setFieldValue,
   setError,
 }) => {
@@ -39,19 +38,16 @@ const SignInPassword = ({
   const [pwdError, setPwdError] = useState(false);
   const [errorPwdMsg, setPwdErrorMsg] = useState('');
 
+  // eslint-disable-next-line consistent-return
   const handlePwdErrors = () => {
-    if (!validatePassword(password)) {
-      if (passwordLength === 0 && !focus) {
-        if (focus) {
-          return setPwdError(true);
-        }
-        return setPwdError(false);
+    if (focus) {
+      if (validatePassword(password)) {
+        return [setPwdError(false), setPwdErrorMsg(''), setError(false)];
       }
       setPwdError(true);
-      return setPwdErrorMsg('Minimum requis : 8 caractères / 1 Majuscule / 1 chiffre ');
+      setError(true);
+      setPwdErrorMsg('Minimum requis : 8 caractères / 1 Majuscule / 1 chiffre ');
     }
-    setError(false);
-    return [setPwdError(false), setPwdErrorMsg('')];
   };
 
   useEffect(() => {
@@ -107,16 +103,15 @@ const SignInPassword = ({
             </InputAdornment>,
         }}
       />
-      <Button href="" disabled className={classes.lostLink}>
+      {/* <Button href="" disabled className={classes.lostLink}>
         Mot de Passe oublié ?
-      </Button>
+      </Button> */}
     </>
   );
 };
 
 SignInPassword.propTypes = {
   password: PropTypes.string.isRequired,
-  passwordLength: PropTypes.number.isRequired,
   setFieldValue: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
 };

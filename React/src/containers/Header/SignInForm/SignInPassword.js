@@ -8,7 +8,6 @@ import SignInPassword from 'src/components/Header/SignInForm/SignInPassword';
 
 const mapStateToProps = (state) => ({
   password: state.authentication.password,
-  passwordLength: state.authentication.passwordLength,
 });
 
 const mapDispatchToProps = (dispatch) => ({

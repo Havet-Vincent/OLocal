@@ -10,6 +10,7 @@ export const UPDATE_USER_DATA = 'UPDATE_USER_DATA';
 export const DELETE_USER_ACCOUNT = 'DELETE_USER_ACCOUNT';
 export const SET_PROFIL_FIELD_VALUE = 'SET_PROFIL_FIELD_VALUE';
 export const SET_FIELD_VALUE = 'SET_FIELD_VALUE';
+export const CLEAR_USER_INFOS = 'CLEAR_USER_INFOS';
 export const CLEAR_USER_DATA = 'CLEAR_USER_DATA';
 
 // ====== Shopkeeper Profil Page
@@ -74,6 +75,10 @@ export const setProfilFieldValue = (name, value) => ({
   type: SET_PROFIL_FIELD_VALUE,
   name,
   value,
+});
+
+export const clearUserInfos = () => ({
+  type: CLEAR_USER_INFOS,
 });
 
 export const clearUserData = () => ({

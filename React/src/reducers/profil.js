@@ -9,6 +9,7 @@ import {
   TOOGLE_SUPPLIER_FORM,
   SET_LOADER_SUPPLIER_FORM,
   ADD_LOCAL_SUPPLIER,
+  CLEAR_USER_INFOS,
   CLEAR_USER_DATA,
 } from '../actions/profil';
 
@@ -134,6 +135,18 @@ const profilReducer = (state = initialState, action = {}) => {
         loaderAddSupplier: true,
       };
 
+    case CLEAR_USER_INFOS:
+      return {
+        ...state,
+        userData: {},
+        newEmail: '',
+        logoPicture: '',
+        loaderUser: false,
+        loaderProfil: true,
+        loaderProfilPage: true,
+        supplierRegion: null,
+      };
+
     case CLEAR_USER_DATA:
       return {
         ...state,
@@ -144,6 +157,7 @@ const profilReducer = (state = initialState, action = {}) => {
         userId: null,
         userRole: [],
         userData: {},
+        newEmail: '',
         logoPicture: '',
         catalog: [],
         suppliers: [],
@@ -153,7 +167,6 @@ const profilReducer = (state = initialState, action = {}) => {
         supplierRegion: null,
         siret: '',
       };
-
 
     default: return state;
   }

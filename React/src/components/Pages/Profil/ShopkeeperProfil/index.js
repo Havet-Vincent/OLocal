@@ -1,3 +1,7 @@
+// == Import validators
+import { validateEmail } from 'src/utils/validators';
+
+// == Import npm
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
@@ -43,13 +47,15 @@ const ShopkeeperProfil = ({
   setFieldValue,
   setLogoPicture,
   setLogoPictureError,
+  clearUserInfos,
   handleUpdateUserData,
   handleDeleteUserAccount,
 }) => {
   const classes = shopkeeperProfilStyles();
   const [showPassword, setShowPassword] = useState(false);
-  const [pwdError, setPwdError] = useState(true);
   const [error, setError] = useState(true);
+  const [pwdError, setPwdError] = useState(true);
+  const [emailError, setEmailError] = useState({ error: false, helperText: '' });
   const [openAlert, setOpenAlert] = useState(false);
 
   // Responsive mobile
@@ -69,13 +75,32 @@ const ShopkeeperProfil = ({
   });
 
   const handleChange = (event) => {
-    setError(false);
     setFieldValue(event.target.name, event.target.value);
+    // Verif email field
+    if (event.target.name === 'email') {
+      const validEmail = validateEmail(event.target.value);
+      if (!validEmail) {
+        setEmailError({
+          error: true,
+          helperText: 'L\'email n\'est pas valide',
+        });
+        setError(true);
+        return;
+      }
+      setEmailError({ error: false, helperText: '' });
+    }
+    setError(false);
   };
 
   const setPicture = (picture) => {
     setError(false);
     setLogoPicture(picture);
+  };
+
+  const handleUpdate = () => {
+    handleUpdateUserData();
+    clearUserInfos();
+    setError(true);
   };
 
   const InputLabelProps = fullScreen
@@ -110,6 +135,7 @@ const ShopkeeperProfil = ({
                     Informations personnelles
                   </Typography>
                   <TextField
+                    error={emailError.error}
                     id="email"
                     label="Email"
                     className={classes.textField}
@@ -124,6 +150,7 @@ const ShopkeeperProfil = ({
                     InputProps={{
                       endAdornment: <InputAdornment position="end"><EditRoundedIcon /></InputAdornment>,
                     }}
+                    helperText={emailError.helperText}
                   />
                   <Box className={classes.passwordForm}>
                     <Link
@@ -251,7 +278,7 @@ const ShopkeeperProfil = ({
                   root: classes.fab,
                   label: classes.fabLabel,
                 }}
-                onClick={handleUpdateUserData}
+                onClick={handleUpdate}
               >
                 <SaveRoundedIcon className={classes.extendedIcon} />
                 Enregister les modifications
@@ -292,6 +319,7 @@ ShopkeeperProfil.propTypes = {
   setFieldValue: PropTypes.func.isRequired,
   handleUpdateUserData: PropTypes.func.isRequired,
   handleDeleteUserAccount: PropTypes.func.isRequired,
+  clearUserInfos: PropTypes.func.isRequired,
   setLogoPicture: PropTypes.func.isRequired,
   setLogoPictureError: PropTypes.func.isRequired,
 };
