@@ -1,3 +1,6 @@
+// == Import validators
+import { validatePassword } from 'src/utils/validators';
+
 import {
   TOGGLE_SIGNIN_FORM,
   SET_SIGNIN_FIELD_VALUE,
@@ -18,7 +21,6 @@ const initialState = {
   password: '',
   confirmPassword: '',
   // Password Confirmation
-  passwordLength: 0,
   passwordConfirmed: false,
   // User authentication
   token: null,
@@ -35,7 +37,6 @@ const authenticationReducer = (state = initialState, action = {}) => {
         email: '',
         password: '',
         confirmPassword: '',
-        passwordLength: 0,
         passwordConfirmed: false,
       };
 
@@ -44,7 +45,6 @@ const authenticationReducer = (state = initialState, action = {}) => {
         return {
           ...state,
           [action.name]: action.value,
-          passwordLength: state.password.length,
         };
       }
       return {
@@ -54,7 +54,7 @@ const authenticationReducer = (state = initialState, action = {}) => {
 
     case CHECK_PASSWORD_CONFIRMATION:
       // Password verification
-      if (state.password === state.confirmPassword && state.passwordLength !== 0) {
+      if (state.password === state.confirmPassword && validatePassword(state.password)) {
         return {
           ...state,
           passwordConfirmed: true,
@@ -62,7 +62,6 @@ const authenticationReducer = (state = initialState, action = {}) => {
       }
       return {
         ...state,
-        passwordLength: state.password.length,
         passwordConfirmed: false,
       };
 
@@ -73,7 +72,6 @@ const authenticationReducer = (state = initialState, action = {}) => {
         email: '',
         password: '',
         confirmPassword: '',
-        passwordLength: 0,
         passwordConfirmed: false,
         token: action.token,
         refreshToken: action.refreshToken,

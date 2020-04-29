@@ -25,7 +25,6 @@ const ProfilPassword = ({
   confirmPassword,
   setFieldValue,
   checkPasswordConfirmation,
-  passwordLength,
   passwordConfirmed,
   disabledField,
   setError,
@@ -38,20 +37,22 @@ const ProfilPassword = ({
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
   // ============= Password Check Display ==========
-  const [pwdError, setPwdError] = useState(false);
+  const [pwdError, setPwdError] = useState(true);
   const [errorPwdMsg, setPwdErrorMsg] = useState('');
 
   const handlePwdErrors = () => {
-    if (!validatePassword(password)) {
-      if (passwordLength === 0) {
-        return setPwdError(false);
+    if (!disabledField) {
+      if (!validatePassword(password)) {
+        if (passwordConfirmed) {
+          return setPwdError(false);
+        }
+        setPwdError(true);
+        return setPwdErrorMsg('Minimum requis : 8 caractères / 1 Majuscule / 1 chiffre ');
       }
-      setPwdError(true);
-      return setPwdErrorMsg('Minimum requis : 8 caractères / 1 Majuscule / 1 chiffre ');
-    }
-    if (!passwordConfirmed) {
-      setPwdError(true);
-      return setPwdErrorMsg('Les mots de passe saisis ne sont pas identiques');
+      if (!passwordConfirmed) {
+        setPwdError(true);
+        return setPwdErrorMsg('Les mots de passe saisis ne sont pas identiques');
+      }
     }
     return [setPwdError(false), setPwdErrorMsg('')];
   };
@@ -153,7 +154,6 @@ ProfilPassword.propTypes = {
   confirmPassword: PropTypes.string.isRequired,
   setFieldValue: PropTypes.func.isRequired,
   checkPasswordConfirmation: PropTypes.func.isRequired,
-  passwordLength: PropTypes.number.isRequired,
   passwordConfirmed: PropTypes.bool.isRequired,
   disabledField: PropTypes.bool.isRequired,
   setError: PropTypes.func.isRequired,

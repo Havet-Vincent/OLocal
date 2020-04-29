@@ -168,11 +168,13 @@ const profilMiddleware = (store) => (next) => (action) => {
               if (error.response.status === 409) {
                 // eslint-disable-next-line no-console
                 // console.warn(error);
+                store.dispatch(getUserData());
                 store.dispatch(setSnackbar('error', 'L\'addresse email saisie n\'est pas valide'));
                 return;
               }
               // eslint-disable-next-line no-console
               console.warn(error);
+              store.dispatch(getUserData());
               store.dispatch(setSnackbar('error', 'Erreur interne : Echec enregistrement des informations'));
             });
 

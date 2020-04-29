@@ -9,7 +9,6 @@ import ProfilPassword from 'src/components/Pages/Profil/ProfilPassword';
 const mapStateToProps = (state) => ({
   password: state.authentication.password,
   confirmPassword: state.authentication.confirmPassword,
-  passwordLength: state.authentication.passwordLength,
   passwordConfirmed: state.authentication.passwordConfirmed,
 });
 
