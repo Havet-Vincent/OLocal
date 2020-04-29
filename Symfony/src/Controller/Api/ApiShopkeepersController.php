@@ -263,8 +263,8 @@ class ApiShopkeepersController extends AbstractController
                 $newPicture = base64_decode($img);
 
                 // Move the file to the directory where avatars are stored
-                if ($newPicture) {
-                    unlink($userToEdit->getLogoPicture());
+                if ($newPicture && $userToEdit->getLogoPicture() == '/uploads/avatars/'.$newFilename) {
+                    unlink(explode('/', $userToEdit->getLogoPicture())[1]);
                     file_put_contents('uploads/avatars/'.$newFilename, $newPicture);
                 } else {
                     return $this->json("Erreur lors de l'envoi d'image.", 409);
