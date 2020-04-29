@@ -264,6 +264,7 @@ class ApiShopkeepersController extends AbstractController
 
                 // Move the file to the directory where avatars are stored
                 if ($newPicture) {
+                    unlink($userToEdit->getLogoPicture());
                     file_put_contents('uploads/avatars/'.$newFilename, $newPicture);
                 } else {
                     return $this->json("Erreur lors de l'envoi d'image.", 409);
