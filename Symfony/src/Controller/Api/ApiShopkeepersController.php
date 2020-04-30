@@ -290,7 +290,7 @@ class ApiShopkeepersController extends AbstractController
             if (isset($urlComponents["scheme"])) {
                 $userToEdit->setWebsite($website);
             } else {
-                $userToEdit->setWebsite('https://'.$website);
+                $userToEdit->setWebsite('http://'.$website);
             }   
         }
 
