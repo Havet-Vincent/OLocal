@@ -7,6 +7,7 @@ const TerserJSPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { BundleStatsWebpackPlugin } = require('bundle-stats-webpack-plugin');
 const DotenvPlugin = require('dotenv');
+const WebpackPwaManifest = require('webpack-pwa-manifest')
 
 // Récupération des variables stockées dans le fichier .env correspondant
 // à l'environnement courant.
@@ -33,6 +34,8 @@ module.exports = merge.smart(common, {
     new BundleStatsWebpackPlugin(),
     // .env
     new webpack.DefinePlugin(envKeys),
+    // Manifest
+    new WebpackPwaManifest(),
   ],
   module: {
     rules: [

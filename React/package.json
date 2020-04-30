@@ -43,7 +43,8 @@
     "webpack": "*",
     "webpack-cli": "*",
     "webpack-dev-server": "*",
-    "webpack-merge": "*"
+    "webpack-merge": "*",
+    "webpack-pwa-manifest": "^4.2.0"
   },
   "dependencies": {
     "@material-ui/core": "^4.9.9",

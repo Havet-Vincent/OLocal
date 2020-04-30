@@ -16,6 +16,8 @@
       background-color: #000;
       -webkit-transform: translateX(-50%) translateY(-50%);
       -ms-transform: translateX(-50%) translateY(-50%);
+      -moz-transform: translateX(-50%) translateY(-50%);
+      -o-transform: translateX(-50%) translateY(-50%);
       transform: translateX(-50%) translateY(-50%);
       -webkit-transition: background 0.5s steps(1, end);
       transition: background 0.5s steps(1, end);
@@ -31,17 +33,23 @@
           background-color: #000;
           -webkit-transform: translateY(-6px);
           -ms-transform: translateY(-6px);
+          -moz-transform: translateY(-6px);
+          -o-transform: translateY(-6px);
           transform: translateY(-6px);
           -webkit-transition: -webkit-transform 0.5s;
           transition: transform 0.5s;
           -webkit-transform-origin: 100% 50%;
           -ms-transform-origin: 100% 50%;
+          -moz-transform-origin: 100% 50%;
+          -o-transform-origin: 100% 50%;
           transform-origin: 100% 50%;
       }
 
       &::after {
           -webkit-transform: translateY(6px);
           -ms-transform: translateY(6px);
+          -moz-transform: translateY(6px);
+          -o-transform: translateY(6px);
           transform: translateY(6px);
       }
   }
@@ -49,12 +57,16 @@
   &:hover span::before {
       -webkit-transform: translateY(-8px);
       -ms-transform: translateY(-8px);
+      -moz-transform: translateY(-8px);
+      -o-transform: translateY(-8px);
       transform: translateY(-8px);
   }
 
   &:hover span::after {
       -webkit-transform: translateY(8px);
       -ms-transform: translateY(8px);
+      -moz-transform: translateY(8px);
+      -o-transform: translateY(8px);
       transform: translateY(8px);
   }
 
@@ -66,7 +78,7 @@
       stroke-dasharray: 22 230;
       -webkit-transition: stroke-dasharray 0.5s, stroke-dashoffset 0.5s,
           opacity 0.5s steps(1, end);
-          transition: stroke-dasharray 0.5s, stroke-dashoffset 0.5s,
+      transition: stroke-dasharray 0.5s, stroke-dashoffset 0.5s,
           opacity 0.5s steps(1, end);
   }
 
@@ -78,12 +90,16 @@
       &::before {
           -webkit-transform: translateX(-3px) translateY(-8px) rotate(-45deg);
           -ms-transform: translateX(-3px) translateY(-8px) rotate(-45deg);
+          -moz-transform: translateX(-3px) translateY(-8px) rotate(-45deg);
+          -o-transform: translateX(-3px) translateY(-8px) rotate(-45deg);
           transform: translateX(-3px) translateY(-8px) rotate(-45deg); 
       }
 
       &::after {
           -webkit-transform: translateX(-3px) translateY(8px) rotate(45deg);
           -ms-transform: translateX(-3px) translateY(8px) rotate(45deg);
+          -moz-transform: translateX(-3px) translateY(8px) rotate(45deg);
+          -o-transform: translateX(-3px) translateY(8px) rotate(45deg);
           transform: translateX(-3px) translateY(8px) rotate(45deg);  
       }
   }

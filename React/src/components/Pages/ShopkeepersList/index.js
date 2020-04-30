@@ -63,7 +63,7 @@ const ShopkeepersList = ({
               proposants des produits de la catégorie <span>{currentCategory.name}</span>
             </Typography>
           </Typography>
-          <ul>
+          <ul className={classes.cardListWrapper}>
             {searchResults.map((item) => (
               <Card key={item.id} className={classes.cardWrapper} elevation={3} component="li">
                 <CardMedia

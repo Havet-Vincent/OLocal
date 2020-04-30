@@ -1,0 +1,20 @@
+{
+  "filename": "manifest.webmanifest",
+  "name": "o'Local - Commerces de proximité & produits locaux",
+  "short_name": "o'Local",
+  "description": "o'Local met à disposition des consommateurs un moyen de connaître les commerçants de proximité proposant des produits issus de producteurs locaux",
+  "background_color": "#F7F9FA",
+  "inject": true,
+  "fingerprints": true,
+  "theme_color": "#F7F9FA",
+  "display": "standalone",
+  "start_url": ".",
+  "ios": true,
+  "includeDirectory": true,
+  "icons": [
+    {
+      "src": "src/assets/favicon.png",
+      "sizes": [96, 128, 192]
+    }
+  ]
+}

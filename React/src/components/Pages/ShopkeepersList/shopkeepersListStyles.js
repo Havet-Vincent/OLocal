@@ -51,6 +51,10 @@ const shopkeepersListStyles = makeStyles((theme) => ({
       color: theme.palette.secondary.main,
     },
   },
+  cardListWrapper: {
+    padding: 0,
+    margin: 0,
+  },
   cardWrapper: {
     display: 'flex',
     flexFlow: 'row nowrap',
