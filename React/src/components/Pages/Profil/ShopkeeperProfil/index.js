@@ -174,7 +174,7 @@ const ShopkeeperProfil = ({
                   <Typography variant="h6" component="h4" gutterBottom>
                     SIRET : {userData.siret}
                   </Typography>
-                  <Typography variant="subtitle2" component="p" className={classes.shopkeeperProfilAddress}>
+                  <Typography component="p" className={classes.shopkeeperProfilAddress}>
                     <RoomRoundedIcon />
                     {`
                       ${userData.wayNumber ? userData.wayNumber : ''}
@@ -201,13 +201,14 @@ const ShopkeeperProfil = ({
                           className={classes.gridField}
                           type="text"
                           name="website"
-                          placeholder="Copiez ici le lien de votre site web"
+                          placeholder="http://"
                           autoComplete="website"
                           value={userData.website ? userData.website : ''}
                           onChange={handleChange}
                           margin="dense"
                           InputLabelProps={{
                             className: classes.inputLabelField,
+                            shrink: true,
                           }}
                           InputProps={{
                             classes: {

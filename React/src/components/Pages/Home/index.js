@@ -23,6 +23,7 @@ const Home = ({
   useEffect(() => {
     getRegionsData();
     getCategoriesData();
+    document.title = 'o\'Local - Commerces de proximité & produits locaux';
   }, []);
 
   return (

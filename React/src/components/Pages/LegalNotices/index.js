@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 // == Import npm
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // == Import components
 import {
@@ -15,6 +15,11 @@ import legalNoticesStyles from './legalNoticesStyles';
 // == Composant
 const LegalNotices = () => {
   const classes = legalNoticesStyles();
+
+  useEffect(() => {
+    document.title = 'o\'Local - Mentions Légales';
+  }, []);
+
   return (
     <Grid container component="section" className={classes.LegalNoticeWrapper}>
       <Paper className={classes.LegalNoticeContent} elevation={2} square>
@@ -26,11 +31,11 @@ const LegalNotices = () => {
         </Typography>
 
         <Typography variant="body2" align="left" color="textSecondary" component="p" gutterBottom>
-          Conformément aux dispositions des Articles 6-III et 19 de la Loi n°2004-575 du 21 juin 2004 pour la Confiance dans l’économie numérique, dite L.C.E.N., il est porté à la connaissance des Utilisateurs du site olocal.com les présentes mentions légales.
+          Conformément aux dispositions des Articles 6-III et 19 de la Loi n°2004-575 du 21 juin 2004 pour la Confiance dans l&#x27;économie numérique, dite L.C.E.N., il est porté à la connaissance des Utilisateurs du site olocal.com les présentes mentions légales.
         </Typography>
 
         <Typography variant="body2" align="left" color="textSecondary" component="p" gutterBottom>
-          La connexion et la navigation sur le site (oLocal) par l’Utilisateur implique acceptation intégrale et sans réserve des présentes mentions légales.
+          La connexion et la navigation sur le site (oLocal) par l&#x27;Utilisateur implique acceptation intégrale et sans réserve des présentes mentions légales.
           Ces dernières sont accessibles sur le site à la rubrique « Mentions légales ».
         </Typography>
 
@@ -40,7 +45,7 @@ const LegalNotices = () => {
 
 
         <Typography variant="h5" align="left" component="h3">
-          ARTICLE 1 : L’éditeur
+          ARTICLE 1 : L&#x27;éditeur
         </Typography>
 
         <Typography variant="body2" align="left" color="textSecondary" component="p" gutterBottom>
@@ -52,7 +57,7 @@ const LegalNotices = () => {
         </Typography>
 
         <Typography variant="h5" align="left" component="h3">
-          ARTICLE 2 : L’hébergeur
+          ARTICLE 2 : L&#x27;hébergeur
         </Typography>
 
         <Typography variant="body2" align="left" color="textSecondary" component="p" gutterBottom>
@@ -64,7 +69,7 @@ const LegalNotices = () => {
         </Typography>
 
         <Typography variant="body2" align="left" color="textSecondary" component="p" gutterBottom>
-          Le site est accessible par tout endroit, 7j/7, 24h/24 sauf cas de force majeure, interruption programmée ou non et pouvant découlant d’une nécessité de maintenance.
+          Le site est accessible par tout endroit, 7j/7, 24h/24 sauf cas de force majeure, interruption programmée ou non et pouvant découlant d&#x27;une nécessité de maintenance.
         </Typography>
 
         <Typography variant="body2" align="left" color="textSecondary" component="p" gutterBottom>
@@ -84,13 +89,13 @@ const LegalNotices = () => {
         </Typography>
 
         <Typography variant="body2" align="left" color="textSecondary" component="p" gutterBottom>
-          L’Utilisateur est informé que lors de ses visites sur le site, un cookie peut s’installer automatiquement sur son logiciel de navigation.
+          L&#x27;Utilisateur est informé que lors de ses visites sur le site, un cookie peut s&#x27;installer automatiquement sur son logiciel de navigation.
         </Typography>
         <Typography variant="body2" align="left" color="textSecondary" component="p" gutterBottom>
           En naviguant sur le site, il les accepte.
         </Typography>
         <Typography variant="body2" align="left" color="textSecondary" component="p" gutterBottom>
-          Un cookie est un élément qui ne permet pas d’identifier l’Utilisateur mais sert à enregistrer des informations relatives à la navigation de celui-ci sur le site Internet. L’Utilisateur pourra désactiver ce cookie par l’intermédiaire des paramètres figurant au sein de son logiciel de navigation.
+          Un cookie est un élément qui ne permet pas d&#x27;identifier l&#x27;Utilisateur mais sert à enregistrer des informations relatives à la navigation de celui-ci sur le site Internet. L&#x27;Utilisateur pourra désactiver ce cookie par l&#x27;intermédiaire des paramètres figurant au sein de son logiciel de navigation.
         </Typography>
 
         <Typography variant="h5" align="left" component="h3">
@@ -98,7 +103,7 @@ const LegalNotices = () => {
         </Typography>
 
         <Typography variant="body2" align="left" color="textSecondary" component="p" gutterBottom>
-          Toute utilisation, reproduction, diffusion, commercialisation, modification de toute ou partie du site olocal.com, sans autorisation de l’Éditeur est prohibée et pourra entraîner des actions et poursuites judiciaires telles que notamment prévues par le Code de la propriété intellectuelle et le Code civil.
+          Toute utilisation, reproduction, diffusion, commercialisation, modification de toute ou partie du site olocal.com, sans autorisation de l&#x27;Éditeur est prohibée et pourra entraîner des actions et poursuites judiciaires telles que notamment prévues par le Code de la propriété intellectuelle et le Code civil.
         </Typography>
       </Paper>
     </Grid>

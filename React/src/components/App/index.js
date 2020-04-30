@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ThemeProvider } from '@material-ui/core/styles';
 
 // == Import components
-import Container from '@material-ui/core/Container';
+import { CssBaseline, Container } from '@material-ui/core';
 import Header from '../../containers/Header';
 import Pages from '../../containers/Pages';
 import Footer from '../Footer';
@@ -23,6 +23,7 @@ const App = ({ fetchAuth }) => {
 
   return (
     <ThemeProvider theme={appTheme}>
+      <CssBaseline />
       <Container className={classes.wrapper}>
         <Header />
         <Pages />

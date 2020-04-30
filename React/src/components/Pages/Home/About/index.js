@@ -23,17 +23,17 @@ const About = () => {
   return (
     <Container className={classes.aboutWrapper}>
       <Typography variant="h5" component="h1" className={classes.aboutTitle}>
-        A propos
+        Bienvenue  sur <span className={classes.aboutTitleSecondary}>o</span>&#x27;Local
       </Typography>
       <div className={classes.aboutIntro}>
         <Typography variant="body1" align="center" color="textSecondary" component="p">
-          Créé en 2020, O'Local a pour objectif de mettre à disposition des consommateurs un moyen de connaître les commerçants de proximité proposant des produits issus de producteurs locaux.
+          Créé en 2020, o&#x27;Local a pour objectif de mettre à disposition des consommateurs un moyen de connaître les commerçants de proximité proposant des produits issus de producteurs locaux.
         </Typography>
         <Typography variant="body1" align="center" color="textSecondary" component="p">
-          O'Local a pour but de réunir les différentes adresses des commerçants proche de chez vous, vous donnant la possibilité d'obtenir divers articles au même endroit. Ainsi, nous privilégions une réduction des déplacements nécessaires pour faire ses achats.
+          o&#x27;Local a pour but de réunir les différentes adresses des commerçants proche de chez vous, vous donnant la possibilité d&#x27;obtenir divers articles au même endroit. Ainsi, nous privilégions une réduction des déplacements nécessaires pour faire ses achats.
         </Typography>
         <Typography variant="body1" align="center" color="textSecondary" component="p">
-          Nous tenons à valoriser les produits de nos terroirs et à contribuer à une consommation plus saine, éco-responsable, tout en encourageant l'économie locale.
+          Nous tenons à valoriser les produits de nos terroirs et à contribuer à une consommation plus saine, éco-responsable, tout en encourageant l&#x27;économie locale.
         </Typography>
       </div>
       <Card className={classes.cardWrapper} elevation={0}>
@@ -44,7 +44,7 @@ const About = () => {
         />
         <CardContent className={classes.cardContent}>
           <Typography gutterBottom variant="h6" component="h2">
-            Hello ! Moi c'est Louise
+            Hello ! Moi c&#x27;est Louise
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             Je cherche des commerces dans ma région proposant des produits locaux.
