@@ -286,7 +286,12 @@ class ApiShopkeepersController extends AbstractController
 
         $website = filter_var($data->website, FILTER_SANITIZE_URL);
         if ($website !== $userToEdit->getWebsite()) {
-            $userToEdit->setWebsite($website);
+            $urlComponents = parse_url($website);
+            if (isset($urlComponents["scheme"])) {
+                $userToEdit->setWebsite($website);
+            } else {
+                $userToEdit->setWebsite('https://'.$website);
+            }   
         }
 
         $contact = filter_var($data->contact, FILTER_SANITIZE_EMAIL);
