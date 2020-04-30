@@ -1,5 +1,5 @@
 // == Import npm
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import EllipsisText from 'react-ellipsis-text';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
@@ -33,6 +33,10 @@ const ShopkeepersList = ({
   // console.log(currentCategory, currentRegion, searchResults);
   const classes = shopkeepersListStyles();
   const nbResults = searchResults.length;
+
+  useEffect(() => {
+    document.title = `o'Local - Recherche de ${currentCategory.name} en ${currentRegion.name}`;
+  }, []);
 
   return (
     <>

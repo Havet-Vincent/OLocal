@@ -11,6 +11,9 @@ const aboutStyles = makeStyles((theme) => ({
     textAlign: 'center',
     paddingBottom: theme.spacing(1),
   },
+  aboutTitleSecondary: {
+    color: '#ef5350',
+  },
   aboutIntro: {
     fontSize: '1em',
     margin: theme.spacing(1, 8, 2, 8),

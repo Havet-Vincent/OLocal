@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 
 // == Import components
@@ -24,6 +24,10 @@ const NavbarShopkeeperProfil = () => {
     '/commercant/profil/page': 'Mes produits',
   };
   const currentPage = breadcrumbNameMap[pathname];
+
+  useEffect(() => {
+    document.title = `o'Local - Profil / ${currentPage}`;
+  }, []);
 
   return (
     <Paper elevation={0} className={classes.navbarShopkeeber}>

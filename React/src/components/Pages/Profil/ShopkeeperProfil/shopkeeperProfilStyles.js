@@ -69,6 +69,9 @@ const shopkeeperProfilStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 0),
   },
   shopkeeperProfilAddress: {
+    fontWeight: 500,
+    fontFamily: theme.typography.fontFamily,
+    fontSize: '.9em',
     display: 'flex',
     flexFlow: 'row nowrap',
     alignItems: 'center',
@@ -107,13 +110,16 @@ const shopkeeperProfilStyles = makeStyles((theme) => ({
   shopkeeperProfilDetails: {
     marginTop: theme.spacing(3),
     background: 'none',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
   },
   textAreaFieldWrapper: {
     width: 'auto',
     backgroundColor: 'rgba(247, 249, 250, .8)',
     padding: theme.spacing(3),
-    [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(1),
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(2),
     },
   },
   textAreaField: {
@@ -123,7 +129,7 @@ const shopkeeperProfilStyles = makeStyles((theme) => ({
     fontSize: '1.05em',
     background: 'none',
     border: 'none',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       maxWidth: '100%',
     },
   },

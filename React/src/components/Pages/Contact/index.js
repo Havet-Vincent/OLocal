@@ -1,5 +1,5 @@
 // == Import npm
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // == Import components
 import {
@@ -22,6 +22,11 @@ import contactStyles from './contactStyles';
 // == Composant
 const Contact = () => {
   const classes = contactStyles();
+
+  useEffect(() => {
+    document.title = 'o\'Local - Nous contacter';
+  }, []);
+
   return (
     <>
       <Grid container className={classes.contactWrapper}>

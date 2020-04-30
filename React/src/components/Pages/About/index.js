@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 // == Import npm
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // == Import components
 import {
@@ -19,6 +19,10 @@ import aboutStyles from './aboutStyles';
 const About = () => {
   const classes = aboutStyles();
 
+  useEffect(() => {
+    document.title = 'o\'Local - Qui sommes-nous';
+  }, []);
+
   return (
     <Grid container component="section" className={classes.aboutWrapper}>
       <Paper className={classes.aboutContent} elevation={2} square>
@@ -26,8 +30,8 @@ const About = () => {
           Qui sommes-nous ?
         </Typography>
         <Typography color="textSecondary" variant="subtitle2" align="center" component="p" gutterBottom>
-          Étudiants au sein de l’institut de formation O’Clock, nous mettons en place ce site web dans le cadre de notre projet de fin d’études.
-          Nous avons fait le choix du projet O’Local car il correspond à notre éthique, aux enjeux économiques et aux défis environnementaux actuels. C’est pourquoi, nous avons voulu mettre à profit nos compétences fraîchement acquises dans un projet qui nous tient vraiment à coeur de mener à bien.
+          Étudiants au sein de l&#x27;institut de formation O&#x27;Clock, nous mettons en place ce site web dans le cadre de notre projet de fin d&#x27;études.
+          Nous avons fait le choix du projet o&#x27;Local car il correspond à notre éthique, aux enjeux économiques et aux défis environnementaux actuels. C&#x27;est pourquoi, nous avons voulu mettre à profit nos compétences fraîchement acquises dans un projet qui nous tient vraiment à coeur de mener à bien.
         </Typography>
         <Typography className={classes.cardPosTitle} variant="h5" align="center" component="p" gutterBottom>
           Notre équipe :
@@ -46,7 +50,7 @@ const About = () => {
             />
             <CardContent className={classes.cardContent}>
               <Typography className={classes.cardPos} color="textPrimary" variant="body1" component="p">
-                Originaire de Bourgogne, Olivier est sensible à la promotion des produits du terroir et pas que le vin, on est d&apos;accord!
+                Originaire de Bourgogne, Olivier est sensible à la promotion des produits du terroir et pas que le vin, on est d&#x27;accord!
               </Typography>
             </CardContent>
           </Card>

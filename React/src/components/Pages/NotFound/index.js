@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 // == Import npm
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 // == Import components
@@ -21,6 +21,11 @@ import './notFound.scss';
 // == Composant
 const NotFound = () => {
   const classes = notFoundStyles();
+
+  useEffect(() => {
+    document.title = 'o\'Local - Erreur 404 La page demandée n\'existe pas';
+  }, []);
+
   return (
     <Grid container className={classes.notFoundWrapper}>
       <Paper className={classes.clouds} elevation={0}>

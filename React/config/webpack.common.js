@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: [
     // SCSS
-    paths.src + '/styles/index.scss',
+    // paths.src + '/styles/index.scss',
     // JS
     paths.src + '/index.js',
   ],
@@ -28,7 +28,7 @@ module.exports = {
     ]),
 
     new HtmlWebpackPlugin({
-      favicon: paths.assets + '/favicon.ico',
+      favicon: paths.assets + '/favicon.png',
       template: paths.assets + '/index.html',
     }),
   ],
@@ -50,13 +50,13 @@ module.exports = {
       },
 
       // Fonts
-      {
-        test: /\.(woff2?|eot|ttf|otf)$/,
-        loader: 'file-loader',
-        options: {
-          outputPath: 'fonts/',
-        },
-      },
+      // {
+      //   test: /\.(woff2?|eot|ttf|otf)$/,
+      //   loader: 'file-loader',
+      //   options: {
+      //     outputPath: 'fonts/',
+      //   },
+      // },
 
       // Images
       {

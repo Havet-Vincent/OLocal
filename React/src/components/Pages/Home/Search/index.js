@@ -91,7 +91,7 @@ const Search = ({
               <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
             ))}
           </Select>
-          <FormHelperText className={classes.searchHelperText}>*Champ Requis</FormHelperText>
+          <FormHelperText className={classes.searchHelperText}>*champ requis</FormHelperText>
         </FormControl>
         <FormControl variant="outlined" className={classes.formControl} error={categoryError}>
           <InputLabel htmlFor="search-category">Catégorie de produits</InputLabel>
@@ -109,7 +109,7 @@ const Search = ({
               <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
             ))}
           </Select>
-          <FormHelperText className={classes.searchHelperText}>*Champ Requis</FormHelperText>
+          <FormHelperText className={classes.searchHelperText}>*champ requis</FormHelperText>
         </FormControl>
         <Button
           type="submit"

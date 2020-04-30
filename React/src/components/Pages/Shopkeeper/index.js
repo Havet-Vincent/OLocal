@@ -63,6 +63,12 @@ const Shopkeeper = ({
     getShopkeeperData(id);
   }, []);
 
+  useEffect(() => {
+    if (shopkeeper.companyName) {
+      document.title = `o'Local - ${shopkeeper.companyName}`;
+    }
+  }, [shopkeeper]);
+
   // When Unmounted => clear data
   useEffect(() => () => clearShopkeeperData(),
     []);
