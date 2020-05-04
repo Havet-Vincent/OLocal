@@ -8,6 +8,7 @@ import {
   Menu,
   MenuItem,
   Icon,
+  Link,
 } from '@material-ui/core';
 
 // == Import styles
@@ -69,9 +70,9 @@ const AuthMenu = ({ userRole, getProfil, setLogout }) => {
       >
         {userRole === 'ROLE_ADMIN' ? (
           <MenuItem>
-            <a href={`${process.env.URL_API}/admin`}>
+            <Link href={`${process.env.URL_API}/admin`} className={classes.backOfficeLink}>
               Accès BackOffice Administration
-            </a>
+            </Link>
           </MenuItem>
         ) : (
           <MenuItem onClick={handleProfil}>
