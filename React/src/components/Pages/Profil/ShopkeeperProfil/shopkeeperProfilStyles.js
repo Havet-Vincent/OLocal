@@ -5,8 +5,9 @@ const shopkeeperProfilStyles = makeStyles((theme) => ({
   shopkeeperProfilWrapper: {
     background: `url(${BackgroundImg})`,
     backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundSize: '100%',
+    backgroundPosition: 'top center',
+    backgroundColor: '#6DA641',
     flexGrow: 1,
     justifyContent: 'center',
     height: '100%',

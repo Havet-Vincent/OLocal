@@ -8,6 +8,12 @@ const authMenuStyles = makeStyles(() => ({
   accountIcon: {
     fontSize: 60,
   },
+  backOfficeLink: {
+    color: 'inherit',
+    '&:hover': {
+      textDecoration: 'none',
+    },
+  },
 }));
 
 export default authMenuStyles;
