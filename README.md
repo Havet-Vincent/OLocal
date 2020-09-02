@@ -6,7 +6,7 @@
 
 ![made-with-react](https://img.shields.io/badge/Made_with-React_/Redux-orange?style=flat)  ![made-with-symfony](https://img.shields.io/badge/Made_with-Symfony_5-blue?style=flat)  ![GitHub release](https://img.shields.io/badge/version-1.0.0-lightgrey?style=flat)  ![GitHub contributors](https://img.shields.io/badge/Contributors-4-success?style=flat)
 
-#### &middot; Live View : https://olocal.dscloud.me
+#### &middot; Live View : https://olocal.go.yj.fr/
 
 #### &middot; Présentation du projet (Vidéo démo Apothéose [O'clock](https://oclock.io/) Atlantis 04/05/2020) :
 
